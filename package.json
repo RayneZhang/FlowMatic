@@ -1,0 +1,33 @@
+{
+  "name": "vrbehavior",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start:dev": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RayneZhang/VRBehavior.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RayneZhang/VRBehavior/issues"
+  },
+  "homepage": "https://github.com/RayneZhang/VRBehavior#readme",
+  "dependencies": {
+    "aframe": "^0.8.2",
+    "three": "^0.96.0",
+    "ts-loader": "^5.2.0",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.0.3",
+    "webpack": "^4.19.1",
+    "webpack-dev-server": "^3.1.8"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.1"
+  }
+}

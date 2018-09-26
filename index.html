@@ -4,10 +4,14 @@
     </head>
     <body>
         <a-scene background="color: #ECECEC">
-            <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
-            <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E" shadow></a-sphere>
-            <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
-            <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+            <!-- Surrounding and floor. -->
+            <a-entity id="env" environment="preset: default"></a-entity>
+            <a-entity id="floor" position="0 0 -4" rotation="-90 0 0" geometry="primitive: plane; width: 400; height: 400" material="visible: false; color :#7BC8A4" static-body></a-entity>
+
+            <!-- Objects. -->
+            <a-entity id="box" position="-1 1.5 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" dynamic-body="sphereRadius: NaN"></a-entity>
+            <a-entity id="sphere" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" shadow></a-entity>
+            <a-entity id="cylinder" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
         </a-scene>
     </body>
 </html>

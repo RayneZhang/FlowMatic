@@ -9,9 +9,13 @@
             <a-entity id="floor" position="0 0 -4" rotation="-90 0 0" geometry="primitive: plane; width: 400; height: 400" material="visible: false; color :#7BC8A4" static-body></a-entity>
 
             <!-- Objects. -->
-            <a-entity id="box" position="-1 1.5 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" dynamic-body="sphereRadius: NaN"></a-entity>
-            <a-entity id="sphere" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" shadow></a-entity>
-            <a-entity id="cylinder" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
+            <a-entity id="box" class="movable" position="-1 1.5 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" dynamic-body="mass: 1" shadow></a-entity>
+            <a-entity id="sphere" class="movable" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" dynamic-body="mass: 5" shadow></a-entity>
+            <a-entity id="cylinder" class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" dynamic-body="mass: 10" shadow></a-entity>
+
+            <!-- Controllers. -->
+            <a-entity id="leftHand" laser-controls="hand: left"></a-entity>
+            <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: .clickable; far: 10"></a-entity>
         </a-scene>
     </body>
 </html>

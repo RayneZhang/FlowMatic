@@ -49,20 +49,18 @@ AFRAME.registerComponent('gripdown-listener', {
         // const gripping = this.data.gripping;
         // const followingEl = this.data.followingEl;
         if (gripping && followingEl) {
-            const oldPosition = this.oldPosition;
-            const currentPosition = this.el.object3D.position;
+            const oldPosition: any = this.oldPosition;
+            const currentPosition: any = this.el.object3D.position;
             this.oldPosition = currentPosition;
 
             const currentTargetPosition = this.data.followingEl.getAttribute('position');
-            const updatedX = currentTargetPosition.x + currentPosition.x - oldPosition.x;
-            const updatedY = currentTargetPosition.y + currentPosition.y - oldPosition.y;
-            const updatedZ = currentTargetPosition.z + currentPosition.z - oldPosition.z;
+            const updatedPosition: any = currentTargetPosition.add(currentPosition.sub(oldPosition));
 
-            followingEl.setAttribute('position', {x: updatedX, y: updatedY, z: updatedZ});
+            followingEl.setAttribute('position', {x: updatedPosition.x, y: updatedPosition.y, z: updatedPosition.z});
             // console.log('followingEl is: ' + this.data.followingEl.id);
+            console.log(typeof(oldPosition));
             console.log('Controller current position is: ' + currentPosition.x + ',' + currentPosition.y + ','+ currentPosition.z);
-            console.log('followingEl updated position is: ' + updatedX + ',' + updatedY + ','+ updatedZ);
-            //console.log('followingEl position is: ' + this.data.followingEl.object3D.position.x + ',' + this.data.followingEl.object3D.position.y + ','+ this.data.followingEl.object3D.position.z)
+            console.log('followingEl updated position is: ' + updatedPosition.x + ',' + updatedPosition.y + ','+ updatedPosition.z);
         }
     }
 

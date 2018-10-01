@@ -6,7 +6,7 @@ console.log(AFRAME);
 console.log(PHYSICS);
 console.log(ENVIRONMENT);
 
-declare var THREE:any;
+declare const THREE:any;
 
 AFRAME.registerComponent('gripdown-listener', {
     schema: {
@@ -14,17 +14,16 @@ AFRAME.registerComponent('gripdown-listener', {
         gripping: {type: 'boolean', default: 'false'}
     },
 
-    init: function() {
+    init: function(): void {
 
         this.oldPosition = new THREE.Vector3();
 
-        var self = this;
-        var el = this.el;
+        const el = this.el;
 
-        this.el.addEventListener('gripdown', function(event) {
+        this.el.addEventListener('gripdown', (event) => {
             el.setAttribute('gripdown-listener', 'gripping', 'true');
             
-            var intersectedEls = el.components.raycaster.intersectedEls;
+            const intersectedEls = el.components.raycaster.intersectedEls;
     
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
@@ -32,33 +31,34 @@ AFRAME.registerComponent('gripdown-listener', {
                 return;
             }
     
-            self.oldPosition = el.object3D.position;
+            this.oldPosition = el.object3D.position;
 
             // Set the intersected object as the following object.
-            var followingEl = intersectedEls[0];
+            const followingEl = intersectedEls[0];
             el.setAttribute('gripdown-listener', 'followingEl', followingEl);
             console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
-        this.el.addEventListener('gripup', function(event) {
+        this.el.addEventListener('gripup', (event) => {
             el.setAttribute('gripdown-listener', {followingEl: null, gripping: 'false'});
         });
     },
 
     tick: function(time, timeDelta) {
-        var gripping = this.data.gripping;
-        var followingEl = this.data.followingEl;
+        const { gripping, followingEl } = this.data;
+        // const gripping = this.data.gripping;
+        // const followingEl = this.data.followingEl;
         if (gripping && followingEl) {
-            var oldPosition = this.oldPosition;
-            var currentPosition = this.el.object3D.position;
+            const oldPosition = this.oldPosition;
+            const currentPosition = this.el.object3D.position;
             this.oldPosition = currentPosition;
 
-            var currentTargetPosition = this.data.followingEl.getAttribute('position');
-            var updatedX = currentTargetPosition.x + currentPosition.x - oldPosition.x;
-            var updatedY = currentTargetPosition.y + currentPosition.y - oldPosition.y;
-            var updatedZ = currentTargetPosition.z + currentPosition.z - oldPosition.z;
+            const currentTargetPosition = this.data.followingEl.getAttribute('position');
+            const updatedX = currentTargetPosition.x + currentPosition.x - oldPosition.x;
+            const updatedY = currentTargetPosition.y + currentPosition.y - oldPosition.y;
+            const updatedZ = currentTargetPosition.z + currentPosition.z - oldPosition.z;
 
-            this.data.followingEl.setAttribute('position', {x: updatedX, y: updatedY, z: updatedZ});
+            followingEl.setAttribute('position', {x: updatedX, y: updatedY, z: updatedZ});
             // console.log('followingEl is: ' + this.data.followingEl.id);
             console.log('Controller current position is: ' + currentPosition.x + ',' + currentPosition.y + ','+ currentPosition.z);
             console.log('followingEl updated position is: ' + updatedX + ',' + updatedY + ','+ updatedZ);

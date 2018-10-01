@@ -9,12 +9,61 @@ console.log(ENVIRONMENT);
 declare var THREE:any;
 
 AFRAME.registerComponent('gripdown-listener', {
+    schema: {
+        followingEl: {type: 'selector', default: null},
+        gripping: {type: 'boolean', default: false},
+        message: {type: 'string', default: "Here is the message"}
+    },
+
     init: function() {
+
         var el = this.el;
-        el.addEventListener('gripdown', function(event) {
-            console.log('Grip button is pressed!');
-        })
+        this.el.addEventListener('gripdown', function(event) {
+            el.setAttribute('gripping', 'true');
+            
+            var intersectedEls = el.components.raycaster.intersectedEls;
+    
+            // Check if there is intersected object.
+            if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
+                console.log('Nothing is intersected when gripping');
+                return;
+            }
+    
+            // Set the intersected object as the following object.
+            var followingEl = intersectedEls[0];
+            el.setAttribute('followingEl', followingEl);
+            console.log('When gripping, the first intersected object is: ' + followingEl.id);
+        });
+
+        this.el.addEventListener('gripup', function(event) {
+            el.setAttribute('followingEl', null);
+            el.setAttribute('gripping', 'false');
+        });
+    },
+
+    tick: function(time, timeDelta) {
+        var gripping = this.data.gripping;
+        var followingEl = this.data.followingEl;
+        if (gripping) {
+            console.log("You are gripping the object: " + followingEl.id);
+        }
     }
+
+    // gripdownListener: function(event) {
+    //     this.data.gripping = true;
+
+    //     var intersectedEls = this.el.components.raycaster.intersectedEls;
+
+    //     // Check if there is intersected object.
+    //     if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
+    //         console.log('Nothing is intersected when gripping');
+    //         return;
+    //     }
+
+    //     // Set the intersected object as the following object.
+    //     this.data.followingEl = intersectedEls[0];
+    //     console.log('When gripping, the first intersected object is: ' + this.data.followingEl.id);
+    // }
 });
 
 AFRAME.registerComponent('intersected-listener', {

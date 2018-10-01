@@ -16,6 +16,9 @@ AFRAME.registerComponent('gripdown-listener', {
 
     init: function() {
 
+        this.oldPosition = new THREE.Vector3();
+
+        var self = this;
         var el = this.el;
 
         this.el.addEventListener('gripdown', function(event) {
@@ -29,6 +32,8 @@ AFRAME.registerComponent('gripdown-listener', {
                 return;
             }
     
+            self.oldPosition = el.object3D.position;
+
             // Set the intersected object as the following object.
             var followingEl = intersectedEls[0];
             el.setAttribute('gripdown-listener', 'followingEl', followingEl);
@@ -44,7 +49,20 @@ AFRAME.registerComponent('gripdown-listener', {
         var gripping = this.data.gripping;
         var followingEl = this.data.followingEl;
         if (gripping && followingEl) {
-            console.log("You are gripping the object: " + followingEl.id);
+            var oldPosition = this.oldPosition;
+            var currentPosition = this.el.object3D.position;
+            this.oldPosition = currentPosition;
+
+            var currentTargetPosition = this.data.followingEl.getAttribute('position');
+            var updatedX = currentTargetPosition.x + currentPosition.x - oldPosition.x;
+            var updatedY = currentTargetPosition.y + currentPosition.y - oldPosition.y;
+            var updatedZ = currentTargetPosition.z + currentPosition.z - oldPosition.z;
+
+            this.data.followingEl.setAttribute('position', {x: updatedX, y: updatedY, z: updatedZ});
+            // console.log('followingEl is: ' + this.data.followingEl.id);
+            console.log('Controller current position is: ' + currentPosition.x + ',' + currentPosition.y + ','+ currentPosition.z);
+            console.log('followingEl updated position is: ' + updatedX + ',' + updatedY + ','+ updatedZ);
+            //console.log('followingEl position is: ' + this.data.followingEl.object3D.position.x + ',' + this.data.followingEl.object3D.position.y + ','+ this.data.followingEl.object3D.position.z)
         }
     }
 

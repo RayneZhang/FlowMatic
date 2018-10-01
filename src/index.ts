@@ -11,15 +11,15 @@ declare var THREE:any;
 AFRAME.registerComponent('gripdown-listener', {
     schema: {
         followingEl: {type: 'selector', default: null},
-        gripping: {type: 'boolean', default: false},
-        message: {type: 'string', default: "Here is the message"}
+        gripping: {type: 'boolean', default: 'false'}
     },
 
     init: function() {
 
         var el = this.el;
+
         this.el.addEventListener('gripdown', function(event) {
-            el.setAttribute('gripping', 'true');
+            el.setAttribute('gripdown-listener', 'gripping', 'true');
             
             var intersectedEls = el.components.raycaster.intersectedEls;
     
@@ -31,20 +31,19 @@ AFRAME.registerComponent('gripdown-listener', {
     
             // Set the intersected object as the following object.
             var followingEl = intersectedEls[0];
-            el.setAttribute('followingEl', followingEl);
+            el.setAttribute('gripdown-listener', 'followingEl', followingEl);
             console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
         this.el.addEventListener('gripup', function(event) {
-            el.setAttribute('followingEl', null);
-            el.setAttribute('gripping', 'false');
+            el.setAttribute('gripdown-listener', {followingEl: null, gripping: 'false'});
         });
     },
 
     tick: function(time, timeDelta) {
         var gripping = this.data.gripping;
         var followingEl = this.data.followingEl;
-        if (gripping) {
+        if (gripping && followingEl) {
             console.log("You are gripping the object: " + followingEl.id);
         }
     }

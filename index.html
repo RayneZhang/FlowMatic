@@ -14,7 +14,7 @@
             <a-entity id="cylinder" intersected-listener class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" dynamic-body="mass: 10" shadow></a-entity>
 
             <!-- Controllers. -->
-            <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .movable; far: 5"></a-entity>
+            <a-entity id="leftHand" intersection-listener laser-controls="hand: left" raycaster="objects: .movable; far: 5"></a-entity>
             <a-entity id="rightHand" gripdown-listener hand-controls="right"></a-entity>
         </a-scene>
     </body>

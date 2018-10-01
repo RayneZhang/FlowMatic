@@ -26,6 +26,17 @@ AFRAME.registerComponent('intersected-listener', {
     }
 });
 
+AFRAME.registerComponent('intersection-listener', {
+    init: function() {
+        var el = this.el;
+        el.addEventListener('raycaster-intersection', function(event) {
+            var els = event.detail.els;
+            console.log('Raycast intersection detected: ' + els);
+            console.log('The first element in the intersection is : ' + els[0].id);
+        })
+    }
+});
+
 // AFRAME.registerComponent('follow', {
 //     schema: {
 //         target: {type: 'selector'},

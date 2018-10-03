@@ -16,8 +16,6 @@ AFRAME.registerComponent('gripdown-listener', {
 
     init: function(): void {
 
-        this.oldPosition = new THREE.Vector3();
-
         const el = this.el;
 
         this.el.addEventListener('gripdown', (event) => {
@@ -72,7 +70,7 @@ AFRAME.registerComponent('gripdown-listener', {
 
 AFRAME.registerComponent('intersected-listener', {
     init: function() {
-        var el = this.el;
+        const el = this.el;
         el.addEventListener('raycaster-intersected', function(event) {
             console.log('Raycasted Object is me: ' + el.id);
         })
@@ -81,9 +79,9 @@ AFRAME.registerComponent('intersected-listener', {
 
 AFRAME.registerComponent('intersection-listener', {
     init: function() {
-        var el = this.el;
+        const el = this.el;
         el.addEventListener('raycaster-intersection', function(event) {
-            var els = event.detail.els;
+            const els = event.detail.els;
             console.log('Raycast intersection detected: ' + els);
             console.log('The first element in the intersection is : ' + els[0].id);
         })

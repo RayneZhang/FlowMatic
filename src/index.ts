@@ -8,7 +8,7 @@ console.log(ENVIRONMENT);
 
 declare const THREE:any;
 
-AFRAME.registerComponent('gripdown-listener', {
+AFRAME.registerComponent('grip-listener', {
     schema: {
         followingEl: {type: 'selector', default: null},
         gripping: {type: 'boolean', default: 'false'}
@@ -19,7 +19,7 @@ AFRAME.registerComponent('gripdown-listener', {
         const el = this.el;
 
         this.el.addEventListener('gripdown', (event) => {
-            el.setAttribute('gripdown-listener', 'gripping', 'true');
+            el.setAttribute('grip-listener', 'gripping', 'true');
             
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = el.components.raycaster.intersectedEls;
@@ -36,13 +36,13 @@ AFRAME.registerComponent('gripdown-listener', {
 
             // Set the intersected object as the following object.
             const followingEl = intersectedEls[0];
-            el.setAttribute('gripdown-listener', 'followingEl', followingEl);
+            el.setAttribute('grip-listener', 'followingEl', followingEl);
 
             // console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
         this.el.addEventListener('gripup', (event) => {
-            el.setAttribute('gripdown-listener', {followingEl: null, gripping: 'false'});
+            el.setAttribute('grip-listener', {followingEl: null, gripping: 'false'});
         });
     },
 
@@ -65,6 +65,52 @@ AFRAME.registerComponent('gripdown-listener', {
 
             // console.log('followingEl updated position is: ' + updatedTargetPosition.x + ',' + updatedTargetPosition.y + ','+ updatedTargetPosition.z);
         }
+    }
+});
+
+AFRAME.registerComponent('trigger-listener', {
+    schema: {
+        triggering: {type: 'boolean', default: 'false'},
+        createdEl: {type: 'selector', default: null}
+    },
+
+    init: function(): void {
+
+        const el = this.el;
+        const sceneEl = document.querySelector('a-scene');
+
+        this.el.addEventListener('triggerdown', (event) => {
+            
+            // Create an entity and append it to the scene.
+            let newEntity: any = document.createElement('a-entity');
+            sceneEl.appendChild(newEntity);
+
+            // Add geometry component to the entity.
+            newEntity.setAttribute('geometry', {
+                primitive: 'box',
+                height: 0.1,
+                width: 0.1,
+                depth: 0.1
+            }); 
+
+            // Add class component to the entity.
+            newEntity.setAttribute('class', 'movable');
+
+            // Add position component to the entity.
+            const controllerPos: any = el.object3D.position;
+            newEntity.object3D.position.set(controllerPos.x, controllerPos.y, controllerPos.z);
+
+            // Set the boolean 'triggering' and the createdEl.
+            el.setAttribute('trigger-listener', {createdEl: newEntity, triggering: 'true'});
+        });
+
+        this.el.addEventListener('triggerup', (event) => {
+            el.setAttribute('trigger-listener', {createdEl: null, triggering: 'false'});
+        });
+    },
+
+    tick: function(time, timeDelta): void {
+
     }
 });
 

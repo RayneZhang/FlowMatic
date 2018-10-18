@@ -8,15 +8,28 @@ const xbuttonListener = {
         let menuEntity: any = document.createElement('a-entity');
         el.appendChild(menuEntity);
 
-        // Add plane as geometry component to the entity.
+        // Add geometry component to the entity.
         menuEntity.setAttribute('geometry', {
             primitive: 'plane',
-            width: 0.2,
-            height: 0.2
+            width: 0.1,
+            height: 0.1
         }); 
 
-        // Set color of the menu entity.
+        // Add the material component of the menu entity.
         menuEntity.setAttribute('material', 'color', 'grey'); 
+
+        // Add text component to the entity.
+        menuEntity.setAttribute('text', {
+            value: 'menu',
+            align: 'center',
+            wrapCount: 6
+        }); 
+
+        // Set position of the menu
+        menuEntity.setAttribute('position', '0 0.13 -0.08');
+
+        // Add class for interaction.
+        menuEntity.setAttribute('class', 'clickable');
 
         // Set id of the menu entity.
         menuEntity.setAttribute('id', 'menu');
@@ -28,6 +41,16 @@ const xbuttonListener = {
         this.el.addEventListener('xbuttondown', (event) => {
             menuEntity.object3D.visible = !menuEntity.object3D.visible;
         });
+
+        // Event Listener on hovering over the menu.
+        menuEntity.addEventListener('raycaster-intersected', (event) => {
+            menuEntity.setAttribute('material', 'color', 'yellow'); 
+        })
+
+        // Event Listener on Leaving from hovering over the menu.
+        menuEntity.addEventListener('raycaster-intersected-cleared', (event) => {
+            menuEntity.setAttribute('material', 'color', 'grey'); 
+        })
     },
 
     tick: function(time, timeDelta): void {

@@ -22,13 +22,21 @@ const gripListener = {
                 return;
             }
     
+            // Fetch the intersected object.
+            const intersectedEl = intersectedEls[0];
+
+            // Check if the intersected object is movable.
+            if (!intersectedEl.classList.contains('movable')) {
+                console.log('The intersected object is not movable.');
+                return;
+            }
+
             // Set current position as lastPosition.
             this.lastPosition = new THREE.Vector3();
             this.lastPosition = el.object3D.position.clone();
 
             // Set the intersected object as the following object.
-            const followingEl = intersectedEls[0];
-            el.setAttribute('grip-listener', 'followingEl', followingEl);
+            el.setAttribute('grip-listener', 'followingEl', intersectedEl);
 
             // console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });

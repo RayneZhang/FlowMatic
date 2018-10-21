@@ -30,9 +30,6 @@ class Menu {
         // Set position of the menu
         menuEntity.setAttribute('position', '0 0.13 -0.08');
 
-        // Add class for interaction.
-        menuEntity.setAttribute('class', 'clickable');
-
         // Set id of the menu entity.
         menuEntity.setAttribute('id', 'menu');
 
@@ -42,6 +39,11 @@ class Menu {
         // Event Listener to open and close menu.
         ControllerEl.addEventListener('xbuttondown', (event) => {
             menuEntity.object3D.visible = !menuEntity.object3D.visible;
+
+            if (menuEntity.object3D.visible) // Add class for raycaster.
+                menuEntity.setAttribute('class', 'clickable');
+            else // Remove class for raycaster.
+                menuEntity.removeAttribute('class');
         });
 
         // Event Listener on hovering over the menu.

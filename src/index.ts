@@ -4,7 +4,7 @@ import gripListener from './grip-listener';
 import triggerListener from './trigger-listener';
 import intersectedListener from './intersected-listener';
 import intersectionListener from './intersection-listener';
-import xbuttonListener from './xbutton-listner';
+import xbuttonListener from './xbutton-listener';
 
 console.log(ENVIRONMENT);
 

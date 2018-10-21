@@ -8,13 +8,13 @@ class Menu {
         ControllerEl.appendChild(menuEntity);
 
         // Create Menu Img by calling this function.
-        this.createMenuImg(menuEntity);
+        // this.createMenuImg(menuEntity);
 
         // Add geometry component to the entity.
         menuEntity.setAttribute('geometry', {
-            primitive: 'plane',
-            width: 0.1,
-            height: 0.1
+            primitive: 'ring',
+            radiusInner: 0.1,
+            radiusOuter: 0.2
         }); 
 
         // Add the material component of the menu entity.
@@ -58,7 +58,7 @@ class Menu {
     }
 
     createMenuImg(menuEntity: any): void {
-        // Create elements in the menu.
+        // Create image primitive entity in the menu.
         const menuImg: any = document.createElement('a-image');
         menuEntity.appendChild(menuImg);
 

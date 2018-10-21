@@ -1,9 +1,10 @@
 import Menu from "./components/ui/menu";
 
 const xbuttonListener = {
+
     init: function(): void {
-        const el = this.el;
-        let menu = new Menu(el);
+        // Create a Menu class for x-button.
+        const menu = new Menu(this.el);
     },
 
     tick: function(time, timeDelta): void {

@@ -5,8 +5,11 @@ const xbuttonListener = {
         const sceneEl = document.querySelector('a-scene');
     
         // Create a menu entity and append it to the controller.
-        let menuEntity: any = document.createElement('a-entity');
+        const menuEntity: any = document.createElement('a-entity');
         el.appendChild(menuEntity);
+
+        // Create Menu Img by calling this function.
+        this.createMenuImg(menuEntity);
 
         // Add geometry component to the entity.
         menuEntity.setAttribute('geometry', {
@@ -55,6 +58,14 @@ const xbuttonListener = {
 
     tick: function(time, timeDelta): void {
 
+    },
+
+    createMenuImg: function(menuEntity): void {
+        // Create elements in the menu.
+        const menuImg: any = document.createElement('a-image');
+        menuEntity.appendChild(menuImg);
+
+        menuImg.setAttribute('src', '#uinormal');
     }
 }
 

@@ -8,7 +8,7 @@ class Menu {
         ControllerEl.appendChild(menuEntity);
 
         // Create Menu Img by calling this function.
-        // this.createMenuImg(menuEntity);
+        this.createMenuImg(menuEntity);
 
         // Add geometry component to the entity.
         menuEntity.setAttribute('geometry', {
@@ -22,9 +22,9 @@ class Menu {
 
         // Add text component to the entity.
         menuEntity.setAttribute('text', {
-            value: 'menu',
+            value: 'Menu',
             align: 'center',
-            wrapCount: 6
+            wrapCount: 24
         }); 
 
         // Set position of the menu
@@ -63,6 +63,11 @@ class Menu {
         menuEntity.appendChild(menuImg);
 
         menuImg.setAttribute('src', '#uinormal');
+
+        menuImg.setAttribute('height', '0.1');
+        menuImg.setAttribute('width', '0.1');
+
+        menuImg.setAttribute('position', '0.2 0 0');
     }
 }
 

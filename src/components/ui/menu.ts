@@ -1,9 +1,11 @@
 class Menu {
 
+    menuEl: any = undefined;
+
     constructor(ControllerEl: any) {
         const sceneEl = document.querySelector('a-scene');
         // Create a menu entity and append it to the controller.
-        const menuEntity: any = document.createElement('a-entity');
+        const menuEntity: any = this.menuEl = document.createElement('a-entity');
         ControllerEl.appendChild(menuEntity);
 
         // Create Menu Img by calling this function.
@@ -41,7 +43,7 @@ class Menu {
         // }); 
 
         // Event Listener to open and close menu.
-        ControllerEl.addEventListener('xbuttondown', this.onXButtonDown);
+        ControllerEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
 
         // Event Listener on hovering over the menu.
         // menuEntity.addEventListener('raycaster-intersected', (event) => {
@@ -52,10 +54,6 @@ class Menu {
         // menuEntity.addEventListener('raycaster-intersected-cleared', (event) => {
         //     menuEntity.setAttribute('material', 'color', 'grey'); 
         // })
-
-        
-
-
     }
 
     createMenuImg(menuEntity: any): void {
@@ -69,16 +67,40 @@ class Menu {
         menuImg.setAttribute('position', '0.2 0 0');
     }
 
+    // The listener when x-button is down.
     onXButtonDown(event): void {
-        const menuEntity: any = document.querySelector('#menu');
-        menuEntity.object3D.visible = !menuEntity.object3D.visible;
+        // const menuEntity: any = document.querySelector('#menu');
+        // menuEntity.object3D.visible = !menuEntity.object3D.visible;
 
-        if (menuEntity.object3D.visible) // Add class for raycaster.
-            menuEntity.setAttribute('class', 'clickable');
+        // if (menuEntity.object3D.visible) // Add class for raycaster.
+        //     menuEntity.setAttribute('class', 'clickable');
+        // else // Remove class for raycaster.
+        //     menuEntity.removeAttribute('class');
+
+        this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
+
+        if (this.menuEl.object3D.visible) // Add class for raycaster.
+            this.menuEl.setAttribute('class', 'clickable');
         else // Remove class for raycaster.
-            menuEntity.removeAttribute('class');
+            this.menuEl.removeAttribute('class');
     }
 
+    // The listener when the UI obj is loaded.
+    onModelLoaded(event): void{
+        const menuEntity: any = document.querySelector('#menu');
+        let model = menuEntity.getObject3D('mesh');
+        model = event.detail.model;
+
+        // Check the model format and whether it is empty.
+        if (event.detail.format !== 'obj' || !model.getObjectByName('brightnesscursor')) {return;}
+
+        const objects: any = {};
+        objects.brightnessCursor = model.getObjectByName('brightnesscursor');
+        objects.brightnessSlider = model.getObjectByName('brightness');
+        objects.brightnessSlider.geometry.computeBoundingBox();
+        
+
+    }
 }
 
 export default Menu;

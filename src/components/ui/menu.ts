@@ -162,7 +162,7 @@ class Menu {
           fragmentShader: fragmentShader
         });
         colorWheel.material = material;
-      }
+    }
 }
 
 export default Menu;

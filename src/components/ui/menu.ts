@@ -5,7 +5,7 @@ class Menu {
     // Assigned in constructor as menu entity. Will be referred by many functions.
     menuEl: any = undefined;
     // The UI objects/panels.
-    objects: any = {};
+    objects: any = [];
 
     // The cursor is centered in 0,0 to allow scale it easily.
     // This is the offset to put it back in its original position on the slider.
@@ -113,6 +113,8 @@ class Menu {
         
         this.initColorWheel();
         this.updateSizeSlider();
+
+        this.initHover();
     }
 
     updateSizeSlider(): void {
@@ -167,6 +169,16 @@ class Menu {
           fragmentShader: fragmentShader
         });
         colorWheel.material = material;
+    }
+
+    initHover(): void{
+        for(let obj in this.objects) {
+            console.log(obj);
+            // obj.object.addEventListener('raycaster-intersected',  (event) => {
+            //     console.log("Hover UI called successfully.");
+            //     obj.setAttribute('material', 'src', '#uihover');
+            // });
+        }
     }
 }
 

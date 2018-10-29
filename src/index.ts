@@ -1,5 +1,6 @@
 import * as AFRAME from 'aframe';
 import * as ENVIRONMENT from 'aframe-environment-component';
+
 import gripListener from './grip-listener';
 import triggerListener from './trigger-listener';
 import intersectedListener from './intersected-listener';

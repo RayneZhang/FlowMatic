@@ -7,6 +7,10 @@ class Menu {
     // The UI objects/panels.
     objects: any = {};
 
+    // The cursor is centered in 0,0 to allow scale it easily.
+    // This is the offset to put it back in its original position on the slider.
+    cursorOffset = new THREE.Vector3(0.06409, 0.01419, -0.10242);
+
     constructor(ControllerEl: any) {
         const sceneEl = document.querySelector('a-scene');
         // Create a menu entity and append it to the controller.
@@ -35,8 +39,8 @@ class Menu {
 
         menuEntity.setAttribute('id', 'menu');
         menuEntity.setAttribute('obj-model', 'obj:#uiobj');
-        menuEntity.setAttribute('position', '0 0.13 -0.08');
         menuEntity.setAttribute('rotation', '45 0 0');
+        menuEntity.setAttribute('position', '0 0.13 -0.08');
         // Set the visibility of the menu entity as false at the beginning.
         menuEntity.object3D.visible = false;
 
@@ -84,9 +88,9 @@ class Menu {
         // Check the model format and whether it is empty.
         if (event.detail.format !== 'obj' || !model.getObjectByName('brightnesscursor')) {return;}
 
-        this.objects.brightnessCursor = model.getObjectByName('brightnesscursor');
-        this.objects.brightnessSlider = model.getObjectByName('brightness');
-        this.objects.brightnessSlider.geometry.computeBoundingBox();
+        // this.objects.brightnessCursor = model.getObjectByName('brightnesscursor');
+        // this.objects.brightnessSlider = model.getObjectByName('brightness');
+        // this.objects.brightnessSlider.geometry.computeBoundingBox();
         this.objects.previousPage = model.getObjectByName('brushprev');
         this.objects.nextPage = model.getObjectByName('brushnext');
 
@@ -96,7 +100,7 @@ class Menu {
         const colorWheelSize = this.objects.hueWheel.geometry.boundingSphere.radius;
 
         this.objects.sizeCursor = model.getObjectByName('size');
-        this.objects.sizeCursor.position.copy(new THREE.Vector3(0.06409, 0.01419, -0.10242));
+        this.objects.sizeCursor.position.copy(this.cursorOffset);
 
         // this.objects.colorHistory = [];
         // for (let i = 0; i < 7; i++) {
@@ -114,11 +118,12 @@ class Menu {
     updateSizeSlider(): void {
         var slider = this.objects.sizeSlider;
         var sliderBoundingBox = slider.geometry.boundingBox;
-        var cursor = this.objects.sizeCursor;
-        var sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
-        var positionX = 0.5 * sliderWidth;
-        cursor.position.setX(positionX - 0.06409);
 
+        // Fetch cursor and set its X and scale.
+        const cursor = this.objects.sizeCursor;
+        const sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
+        const positionX = 0.5 * sliderWidth;
+        cursor.position.setX(positionX - this.cursorOffset.x);
         var scale = 0.5 + 0.3;
         cursor.scale.set(scale, 1, scale);
     }

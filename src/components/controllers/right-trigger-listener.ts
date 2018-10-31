@@ -1,3 +1,5 @@
+declare const THREE:any;
+
 const rightTriggerListener = {
     init: function(): void {
         // Handle trigger down.
@@ -27,14 +29,32 @@ const rightTriggerListener = {
                 return;
             }
 
-            // Fetch the intersection point of the first intersected object.
-            const {x, y, z} = intersections[0].point;
+            const id = intersectedEl.getAttribute('id');
+            switch(id) {
+                case 'hue': case 'huecursor': {
+                    // Fetch the intersection point of the first intersected object.
+                    const {x, y, z} = intersections[0].point;
+                    const WorldPos = new THREE.Vector3(x, y, z);
+                    this.onHueDown(WorldPos.clone());
+                }
+            }
         
         });
     },
 
     tick: function(time, timeDelta): void {
 
+    },
+
+    onHueDown: function(position: any) {
+        const hueWheel: any = document.querySelector('#hue');
+        const hueCursor: any = document.querySelector('#huecursor');
+
+        hueWheel.object3D.updateMatrixWorld();
+        const LocalPos = hueWheel.object3D.worldToLocal(position);
+
+        // console.log(LocalPos.x + ',' + LocalPos.y + ',' + LocalPos.z);       
+        hueCursor.object3D.position.copy(position);
     }
 }
 

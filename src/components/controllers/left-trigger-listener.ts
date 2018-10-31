@@ -31,11 +31,11 @@ const leftTriggerListener = {
             newEntity.object3D.position.set(controllerPos.x, controllerPos.y, controllerPos.z);
 
             // Set the boolean 'triggering' and the createdEl.
-            el.setAttribute('trigger-listener', {createdEl: newEntity, triggering: 'true'});
+            el.setAttribute('left-trigger-listener', {createdEl: newEntity, triggering: 'true'});
         });
 
         this.el.addEventListener('triggerup', (event) => {
-            el.setAttribute('trigger-listener', {createdEl: null, triggering: 'false'});
+            el.setAttribute('left-trigger-listener', {createdEl: null, triggering: 'false'});
         });
     },
 

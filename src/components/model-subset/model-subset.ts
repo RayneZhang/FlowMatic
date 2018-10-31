@@ -17,9 +17,14 @@ const modelSubset = {
             if (this.data.name === 'hue') {this.initColorWheel();}
         });
 
-        // Change material if raycast-intersected (hovered).
+        // Handle material when hover.
         this.el.addEventListener('raycaster-intersected', (event) => {
             this.el.setAttribute('material', 'src', '#uihover'); 
+        })
+
+        // Handle material when hover cleared.
+        this.el.addEventListener('raycaster-intersected-cleared', (event) => {
+            this.el.setAttribute('material', 'src', '#uinormal'); 
         })
     },
 

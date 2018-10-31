@@ -58,6 +58,7 @@ class Menu {
             const subMenuEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(subMenuEl);
             subMenuEl.setAttribute('id', subMenuName);
+            subMenuEl.setAttribute('class', 'ui');
             subMenuEl.setAttribute('model-subset', {
                 target: modelGroup,
                 name: subMenuName

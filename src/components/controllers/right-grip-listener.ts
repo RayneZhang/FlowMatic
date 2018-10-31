@@ -1,6 +1,6 @@
 declare const THREE:any;
 
-const gripListener = {
+const rightGripListener = {
     schema: {
         followingEl: {type: 'selector', default: null},
         gripping: {type: 'boolean', default: 'false'}
@@ -11,7 +11,7 @@ const gripListener = {
         const el = this.el;
 
         this.el.addEventListener('gripdown', (event) => {
-            el.setAttribute('grip-listener', 'gripping', 'true');
+            el.setAttribute('right-grip-listener', 'gripping', 'true');
             
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = el.components.raycaster.intersectedEls;
@@ -36,13 +36,13 @@ const gripListener = {
             this.lastPosition = el.object3D.position.clone();
 
             // Set the intersected object as the following object.
-            el.setAttribute('grip-listener', 'followingEl', intersectedEl);
+            el.setAttribute('right-grip-listener', 'followingEl', intersectedEl);
 
             // console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
         this.el.addEventListener('gripup', (event) => {
-            el.setAttribute('grip-listener', {followingEl: null, gripping: 'false'});
+            el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false'});
         });
     },
 
@@ -68,4 +68,4 @@ const gripListener = {
     }
 }
 
-export default gripListener;
+export default rightGripListener;

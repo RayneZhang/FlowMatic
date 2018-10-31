@@ -15,6 +15,11 @@ const modelSubset = {
             this.el.setObject3D('mesh', subset.clone());
 
             if (this.data.name === 'hue') {this.initColorWheel();}
+        });
+
+        // Change material if raycast-intersected (hovered).
+        this.el.addEventListener('raycaster-intersected', (event) => {
+            this.el.setAttribute('material', 'src', '#uihover'); 
         })
     },
 

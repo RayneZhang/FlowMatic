@@ -1,4 +1,4 @@
-const triggerListener = {
+const leftTriggerListener = {
     schema: {
         triggering: {type: 'boolean', default: 'false'},
         createdEl: {type: 'selector', default: null}
@@ -44,4 +44,4 @@ const triggerListener = {
     }
 }
 
-export default triggerListener;
+export default leftTriggerListener;

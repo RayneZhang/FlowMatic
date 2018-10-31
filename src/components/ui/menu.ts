@@ -84,8 +84,6 @@ class Menu {
             this.menuEl.removeAttribute('class');
     }
 
-    
-
     // updateSizeSlider(): void {
     //     var slider = this.objects.sizeSlider;
     //     var sliderBoundingBox = slider.geometry.boundingBox;

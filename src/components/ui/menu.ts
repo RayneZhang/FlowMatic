@@ -41,7 +41,9 @@ class Menu {
 
     // Load an entity just for importing 3D obj.
     loadModelGroup(): void {
+        const sceneEl = document.querySelector('a-scene');
         const modelGroup: any = document.createElement('a-entity');
+        sceneEl.appendChild(modelGroup);
         modelGroup.setAttribute('id', 'modelGroup');
         modelGroup.setAttribute('obj-model', 'obj:#uiobj');
         modelGroup.object3D.visible = false;
@@ -49,18 +51,16 @@ class Menu {
 
     // Create sub-menu entities based on the modelGroup. 
     createSubMenuEl(): void {
+        const modelGroup = document.querySelector('#modelGroup');
         for(const subMenuName of this.subMenuNames) {
-            console.log(subMenuName);
             // Create sub-menu entity.
             const subMenuEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(subMenuEl);
-
             subMenuEl.setAttribute('id', subMenuName);
             subMenuEl.setAttribute('model-subset', {
-                target: '#modelGroup',
+                target: modelGroup,
                 name: subMenuName
             });
-            console.log(subMenuEl.getAttribute('id'));
             // Add the same material component of the sub-menu entity.
             subMenuEl.setAttribute('material', {
                 color: '#ffffff',

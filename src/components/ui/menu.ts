@@ -9,7 +9,7 @@ class Menu {
 
     // The cursor is centered in 0,0 to allow scale it easily.
     // This is the offset to put it back in its original position on the slider.
-    cursorOffset = new THREE.Vector3(0.06409, 0.01419, -0.10242);
+    // cursorOffset = new THREE.Vector3(0.06409, 0.01419, -0.10242);
 
     constructor(ControllerEl: any) {
         // Create a menu entity and append it to the controller.
@@ -19,7 +19,6 @@ class Menu {
 
         this.loadModelGroup();
         this.createSubMenuEl();
-        this.initColorWheel();
         // this.updateSizeSlider();
 
         menuEntity.setAttribute('rotation', '45 0 0');
@@ -99,55 +98,6 @@ class Menu {
     //     var scale = 0.5 + 0.3;
     //     cursor.scale.set(scale, 1, scale);
     // }
-
-    initColorWheel(): void {
-        const colorWheel: any = document.querySelector('#hue');
-    
-        const vertexShader = '\
-          varying vec2 vUv;\
-          void main() {\
-            vUv = uv;\
-            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);\
-            gl_Position = projectionMatrix * mvPosition;\
-          }\
-          ';
-    
-        const fragmentShader = '\
-          #define M_PI2 6.28318530718\n \
-          uniform float brightness;\
-          varying vec2 vUv;\
-          vec3 hsb2rgb(in vec3 c){\
-              vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, \
-                               0.0, \
-                               1.0 );\
-              rgb = rgb * rgb * (3.0 - 2.0 * rgb);\
-              return c.z * mix( vec3(1.0), rgb, c.y);\
-          }\
-          \
-          void main() {\
-            vec2 toCenter = vec2(0.5) - vUv;\
-            float angle = atan(toCenter.y, toCenter.x);\
-            float radius = length(toCenter) * 2.0;\
-            vec3 color = hsb2rgb(vec3((angle / M_PI2) + 0.5, radius, brightness));\
-            gl_FragColor = vec4(color, 1.0);\
-          }\
-          ';
-    
-        const material = new THREE.ShaderMaterial({
-          uniforms: { brightness: { type: 'f', value: 1.0 } },
-          vertexShader: vertexShader,
-          fragmentShader: fragmentShader
-        });
-
-        colorWheel.addEventListener('raycaster-intersected', (event) =>{
-            const mesh = colorWheel.getObject3D('mesh');
-            console.log(mesh);
-            if (mesh) {
-                console.log(mesh.material);
-                mesh.material = material;
-            }
-        });
-    }
 }
 
 export default Menu;

@@ -1,7 +1,8 @@
 const leftTriggerListener = {
     schema: {
         triggering: {type: 'boolean', default: 'false'},
-        createdEl: {type: 'selector', default: null}
+        createdEl: {type: 'selector', default: null},
+        color: {type: 'string', default: ''}
     },
 
     init: function(): void {
@@ -22,6 +23,15 @@ const leftTriggerListener = {
                 width: 0.1,
                 depth: 0.1
             }); 
+
+            // Set the shading of the primitive.
+            newEntity.setAttribute('material', {
+                flatShading: true,
+                shader: 'flat',
+            }); 
+
+             // Set the color of the primitive.
+             newEntity.setAttribute('material', 'color', this.data.color);
 
             // Add class component to the entity.
             newEntity.setAttribute('class', 'movable');

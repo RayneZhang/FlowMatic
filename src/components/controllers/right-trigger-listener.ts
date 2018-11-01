@@ -82,8 +82,8 @@ const rightTriggerListener = {
         const rgb: any = this.hsv2rgb(hsv);
         const color = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
         
-        const box: any = document.querySelector('#box');
-        box.setAttribute('material', 'color', color);
+        const leftHand: any = document.querySelector('#leftHand');
+        leftHand.setAttribute('left-trigger-listener', 'color', color);
     },
 
     hsv2rgb: function(hsv) {

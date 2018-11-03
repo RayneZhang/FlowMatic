@@ -1,6 +1,6 @@
 import Menu from "./menu";
 
-const uiComponent = {
+const globalMenu = {
     init: function(): void {
         // Create a Menu class for the controller entity.
         const menu: any = new Menu(this.el);
@@ -11,4 +11,4 @@ const uiComponent = {
     }
 }
 
-export default uiComponent;
+export default globalMenu;

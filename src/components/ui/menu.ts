@@ -11,11 +11,11 @@ class Menu {
     // This is the offset to put it back in its original position on the slider.
     // cursorOffset = new THREE.Vector3(0.06409, 0.01419, -0.10242);
 
-    constructor(ControllerEl: any) {
+    constructor(AppendEl: any) {
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
-        ControllerEl.appendChild(menuEntity);
-        menuEntity.setAttribute('id', 'menu');
+        AppendEl.appendChild(menuEntity);
+        menuEntity.setAttribute('id', AppendEl.getAttribute('id') + 'menu'); 
 
         this.loadModelGroup();
         this.createSubMenuEl();
@@ -27,7 +27,7 @@ class Menu {
         menuEntity.object3D.visible = false;
 
         // Event Listener to open and close menu.
-        ControllerEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
+        AppendEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
 
         // Event Listener on hovering over the menu.
         // menuEntity.addEventListener('raycaster-intersected', (event) => {

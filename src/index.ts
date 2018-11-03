@@ -1,7 +1,6 @@
 import * as AFRAME from 'aframe';
 import * as ENVIRONMENT from 'aframe-environment-component';
 
-import intersectionListener from './intersection-listener';
 import uiComponent from './components/ui/uiComponent';
 import modelSubset from './components/model-subset/model-subset';
 import rightGripListener from './components/controllers/right-grip-listener';
@@ -12,7 +11,6 @@ console.log(ENVIRONMENT);
 
 declare const THREE:any;
 
-AFRAME.registerComponent('intersection-listener', intersectionListener);
 AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);

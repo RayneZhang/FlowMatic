@@ -1,6 +1,6 @@
 import Menu from "./Menu";
 
-const globalMenu = {
+const objAttrList = {
     init: function(): void {
         // Create a Menu class for the controller entity.
         const menu: any = new Menu(this.el);
@@ -11,4 +11,4 @@ const globalMenu = {
     }
 }
 
-export default globalMenu;
+export default objAttrList;

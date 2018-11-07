@@ -28,16 +28,6 @@ class Menu {
 
         // Event Listener to open and close menu.
         AppendEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
-
-        // Event Listener on hovering over the menu.
-        // menuEntity.addEventListener('raycaster-intersected', (event) => {
-        //     menuEntity.setAttribute('material', 'color', 'yellow'); 
-        // })
-
-        // Event Listener on Leaving from hovering over the menu.
-        // menuEntity.addEventListener('raycaster-intersected-cleared', (event) => {
-        //     menuEntity.setAttribute('material', 'color', 'grey'); 
-        // })
     }
 
     // Load an entity just for importing 3D obj.

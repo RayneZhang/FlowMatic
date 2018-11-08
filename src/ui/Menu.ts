@@ -61,7 +61,7 @@ class Menu {
                 transparent: true,
                 fog: false,
                 src: '#uinormal'
-            }); 
+            });
         }
     }
 

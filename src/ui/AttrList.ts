@@ -15,16 +15,35 @@ class AttrList {
             const curEntity: any = document.createElement('a-entity');
             ListEntity.appendChild(curEntity);
             curEntity.setAttribute('id', attrName);
+
             curEntity.setAttribute('geometry', {
                 primitive: 'plane',
                 width: 0.5,
                 height: 0.5
             });
 
+            curEntity.setAttribute('material', {
+                color: 'grey'
+            });
+
             curEntity.setAttribute('text', {
                 value: attrName
             });
-         }
+
+            // Add listeners for hovering over the list.
+            curEntity.addEventListener('raycaster-intersected', (event) => {
+                curEntity.setAttribute('material', 'color', 'yellow'); 
+            });
+            curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
+                curEntity.setAttribute('material', 'color', 'grey'); 
+            });
+
+
+        }
+    }
+
+    FollowCamera() {
+
     }
     
 }

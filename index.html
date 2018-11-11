@@ -16,9 +16,9 @@
             <a-entity id="floor" position="0 0 -4" rotation="-90 0 0" geometry="primitive: plane; width: 400; height: 400" material="visible: false; color :#7BC8A4"></a-entity>
 
             <!-- Objects. -->
-            <a-entity id="box" obj-attributes-list intersected-listener class="movable" position="-1 1 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
-            <a-entity id="sphere" intersected-listener class="movable" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" shadow></a-entity>
-            <a-entity id="cylinder" intersected-listener class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
+            <a-entity id="box" obj-attributes-list class="movable" position="-1 1 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
+            <a-entity id="sphere" class="movable" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" shadow></a-entity>
+            <a-entity id="cylinder" class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
 
             <!-- Controllers. -->
             <a-entity id="rightHand" right-trigger-listener right-grip-listener laser-controls="hand: right" raycaster="objects: .movable, .clickable; far: 5"></a-entity>

@@ -16,7 +16,7 @@ declare const THREE:any;
 AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);
-AFRAME.registerComponent('model-subset', modelSubset);
 
 AFRAME.registerComponent('global-menu', globalMenu);
+AFRAME.registerComponent('model-subset', modelSubset);
 AFRAME.registerComponent('obj-attributes-list', objAttrList);

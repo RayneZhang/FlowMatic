@@ -67,7 +67,9 @@ const rightTriggerListener = {
     },
 
     calRadius: function(hueWheel) {
+        // console.log(hueWheel.object3DMap);
         const mesh = hueWheel.getObject3D('mesh');
+        // console.log(mesh);
         if (!mesh) {return;}
 
         const box = new THREE.Box3().setFromObject(mesh);

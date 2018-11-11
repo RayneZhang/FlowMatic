@@ -7,17 +7,22 @@ const objAttrList = {
         
         // Create a menu entity and append it to the controller.
         const ListEntity: any = document.createElement('a-entity'); 
+
+        // layout offset of the attributes.
+        let offset: number = 0.2;
+        let currentY: number = 0;
          
         // Create list of attributes elements.
         for (const attrName of attrNames) {
            const curEntity: any = document.createElement('a-entity');
            ListEntity.appendChild(curEntity);
+
            curEntity.setAttribute('id', attrName);
 
            curEntity.setAttribute('geometry', {
                primitive: 'plane', 
-               width: 0.5,
-               height: 0.5
+               width: 0.25,
+               height: 0.15
            });
 
            // Initiate the panel color.
@@ -25,9 +30,16 @@ const objAttrList = {
                color: 'grey'
            });
 
+           // Initiate tht panel content.
            curEntity.setAttribute('text', {
-               value: attrName
+               value: attrName,
+               wrapCount: 10,
+               align: 'center'
            });
+
+           // Update the panel's position.
+           curEntity.object3D.position.set(0, currentY, 0);
+           currentY += offset;
 
            // Add listeners for hovering over the list.
            curEntity.addEventListener('raycaster-intersected', (event) => {
@@ -44,7 +56,7 @@ const objAttrList = {
             const radius: number = this.calRadius(this.el);
 
             this.el.appendChild(ListEntity);
-            ListEntity.object3D.position.set(radius, 0, 0);
+            ListEntity.object3D.position.set(radius + 0.25/2, 0, 0);
             ListEntity.setAttribute('id', this.el.getAttribute('id') + 'attributes');
         });
         

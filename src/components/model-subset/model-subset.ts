@@ -19,6 +19,7 @@ const modelSubset = {
 
         // Handle material when hover.
         this.el.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
             this.el.setAttribute('material', 'src', '#uihover'); 
         })
 

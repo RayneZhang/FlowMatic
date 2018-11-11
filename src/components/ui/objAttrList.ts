@@ -17,7 +17,7 @@ const objAttrList = {
            const curEntity: any = document.createElement('a-entity');
            ListEntity.appendChild(curEntity);
 
-           curEntity.setAttribute('id', attrName);
+           curEntity.setAttribute('id', this.el.getAttribute('id') + '_' + attrName);
 
            curEntity.setAttribute('geometry', {
                primitive: 'plane', 
@@ -48,6 +48,8 @@ const objAttrList = {
            curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
                curEntity.setAttribute('material', 'color', 'grey'); 
            });
+
+           this.createSlider(curEntity);
         }
 
         // We can only access the mesh after it is loaded.
@@ -57,9 +59,8 @@ const objAttrList = {
 
             this.el.appendChild(ListEntity);
             ListEntity.object3D.position.set(radius + 0.25/2, 0, 0);
-            ListEntity.setAttribute('id', this.el.getAttribute('id') + 'attributes');
+            ListEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
         });
-        
     },
 
     update: function(): void {
@@ -83,7 +84,33 @@ const objAttrList = {
         const radius = Math.sqrt(2) * extent;
         
         return radius;
-    }
+    },
+
+    createSlider(appendEl): void {
+        const sceneEl = document.querySelector('a-scene');
+        sceneEl.addEventListener('loaded', (event) => {
+            const modelGroup = document.querySelector('#modelGroup');
+        
+            const SliderEl: any = document.createElement('a-entity');
+            appendEl.appendChild(SliderEl);
+            SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider');
+            SliderEl.setAttribute('model-subset', {
+                target: modelGroup,
+                name: 'sizebg'
+            });
+            // Add the same material component of the sub-menu entity.
+            SliderEl.setAttribute('material', {
+                color: '#ffffff',
+                flatShading: true,
+                shader: 'flat',
+                transparent: true,
+                fog: false,
+                src: '#uinormal'
+            });
+
+            SliderEl.object3D.position.set(0.2, 0, 0.12);
+        });
+    }    
 }
 
 export default objAttrList;

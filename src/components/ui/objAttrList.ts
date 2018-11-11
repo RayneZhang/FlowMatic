@@ -4,7 +4,7 @@ const objAttrList = {
     init: function(): void {
 
         const attrNames: any = ['position', 'rotation', 'scale'];
-
+        
         // Create a menu entity and append it to the controller.
         const ListEntity: any = document.createElement('a-entity'); 
          
@@ -38,12 +38,20 @@ const objAttrList = {
            });
         }
 
-        // Set position of the listEntity.
-        const radius: number = this.calRadius(this.el);
+        // We can only access the mesh after it is loaded.
+        this.el.addEventListener('loaded', (event) => {
+            // Set position of the listEntity.
+            const radius: number = this.calRadius(this.el);
 
-        this.el.appendChild(ListEntity);
-        ListEntity.object3D.position.set(radius, 0, 0);
-        ListEntity.setAttribute('id', this.el.getAttribute('id') + 'attributes');
+            this.el.appendChild(ListEntity);
+            ListEntity.object3D.position.set(radius, 0, 0);
+            ListEntity.setAttribute('id', this.el.getAttribute('id') + 'attributes');
+        });
+        
+    },
+
+    update: function(): void {
+        
     },
 
     tick: function(time, timeDelta): void {

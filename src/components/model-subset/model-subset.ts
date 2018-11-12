@@ -15,6 +15,7 @@ const modelSubset = {
             this.el.setObject3D('mesh', subset.clone());
 
             if (this.data.name === 'hue') {this.initColorWheel();}
+            if (this.data.name === 'size') {}
         });
 
         // Handle material when hover.

@@ -89,19 +89,30 @@ const objAttrList = {
     createSlider(appendEl): void {
         const xyz: any = ['x', 'y', 'z'];
         let offset: number = 0.05;
-        let currentY: number = 0.06;
+        let currentY: number = 0;
         const sceneEl = document.querySelector('a-scene');
         sceneEl.addEventListener('loaded', (event) => {
             const modelGroup = document.querySelector('#modelGroup');
         
             for (const i of xyz) {
                 const SliderEl: any = document.createElement('a-entity');
+                const CursorEl: any = document.createElement('a-entity');
+
                 appendEl.appendChild(SliderEl);
+                SliderEl.appendChild(CursorEl);
+
                 SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider' + i);
+                CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor' + i);
+
                 SliderEl.setAttribute('model-subset', {
                     target: modelGroup,
                     name: 'sizebg'
                 });
+                CursorEl.setAttribute('model-subset', {
+                    target: modelGroup,
+                    name: 'size'
+                });
+
                 // Add the same material component of the sub-menu entity.
                 SliderEl.setAttribute('material', {
                     color: '#ffffff',
@@ -111,8 +122,19 @@ const objAttrList = {
                     fog: false,
                     src: '#uinormal'
                 });
+                CursorEl.setAttribute('material', {
+                    color: '#ffffff',
+                    flatShading: true,
+                    shader: 'flat',
+                    transparent: true,
+                    fog: false,
+                    alphaTest: 0.5,
+                    src: '#uinormal'
+                });
 
+                CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
                 SliderEl.object3D.position.set(0.2, currentY, 0.12);
+                SliderEl.object3D.rotation.set(45, 0, 0);
                 currentY -= offset;
             }
         });

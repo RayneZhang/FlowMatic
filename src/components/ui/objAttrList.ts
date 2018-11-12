@@ -113,7 +113,7 @@ const objAttrList = {
                     name: 'size'
                 });
 
-                // Add the same material component of the sub-menu entity.
+                // Attach the material component to the slider entity.
                 SliderEl.setAttribute('material', {
                     color: '#ffffff',
                     flatShading: true,
@@ -122,6 +122,7 @@ const objAttrList = {
                     fog: false,
                     src: '#uinormal'
                 });
+                // Attach the same material component to the cursor entity.
                 CursorEl.setAttribute('material', {
                     color: '#ffffff',
                     flatShading: true,
@@ -135,7 +136,10 @@ const objAttrList = {
                 SliderEl.setAttribute('class', 'ui');
                 CursorEl.setAttribute('class', 'ui');
 
+                // Adjust the position offset of the cursor entity.
                 CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
+
+                // Place the slider entity in the layout.
                 SliderEl.object3D.position.set(0.2, currentY, 0.12);
                 SliderEl.object3D.rotation.set(45, 0, 0);
                 currentY -= offset;

@@ -101,8 +101,8 @@ const objAttrList = {
                 appendEl.appendChild(SliderEl);
                 SliderEl.appendChild(CursorEl);
 
-                SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider' + i);
-                CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor' + i);
+                SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider' + '_' + i);
+                CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor' + '_' + i);
 
                 SliderEl.setAttribute('model-subset', {
                     target: modelGroup,
@@ -131,6 +131,9 @@ const objAttrList = {
                     alphaTest: 0.5,
                     src: '#uinormal'
                 });
+
+                SliderEl.setAttribute('class', 'ui');
+                CursorEl.setAttribute('class', 'ui');
 
                 CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
                 SliderEl.object3D.position.set(0.2, currentY, 0.12);

@@ -7,6 +7,7 @@ const rightTriggerListener = {
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
 
+            console.log(intersectedEls);
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
                 console.log('Nothing is intersected when triggering');

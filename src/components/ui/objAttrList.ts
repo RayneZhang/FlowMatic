@@ -87,28 +87,34 @@ const objAttrList = {
     },
 
     createSlider(appendEl): void {
+        const xyz: any = ['x', 'y', 'z'];
+        let offset: number = 0.05;
+        let currentY: number = 0.06;
         const sceneEl = document.querySelector('a-scene');
         sceneEl.addEventListener('loaded', (event) => {
             const modelGroup = document.querySelector('#modelGroup');
         
-            const SliderEl: any = document.createElement('a-entity');
-            appendEl.appendChild(SliderEl);
-            SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider');
-            SliderEl.setAttribute('model-subset', {
-                target: modelGroup,
-                name: 'sizebg'
-            });
-            // Add the same material component of the sub-menu entity.
-            SliderEl.setAttribute('material', {
-                color: '#ffffff',
-                flatShading: true,
-                shader: 'flat',
-                transparent: true,
-                fog: false,
-                src: '#uinormal'
-            });
+            for (const i of xyz) {
+                const SliderEl: any = document.createElement('a-entity');
+                appendEl.appendChild(SliderEl);
+                SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider' + i);
+                SliderEl.setAttribute('model-subset', {
+                    target: modelGroup,
+                    name: 'sizebg'
+                });
+                // Add the same material component of the sub-menu entity.
+                SliderEl.setAttribute('material', {
+                    color: '#ffffff',
+                    flatShading: true,
+                    shader: 'flat',
+                    transparent: true,
+                    fog: false,
+                    src: '#uinormal'
+                });
 
-            SliderEl.object3D.position.set(0.2, 0, 0.12);
+                SliderEl.object3D.position.set(0.2, currentY, 0.12);
+                currentY -= offset;
+            }
         });
     }    
 }

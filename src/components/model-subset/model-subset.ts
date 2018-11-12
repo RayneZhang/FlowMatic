@@ -25,6 +25,7 @@ const modelSubset = {
 
         // Handle material when hover cleared.
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
             this.el.setAttribute('material', 'src', '#uinormal'); 
         })
     },

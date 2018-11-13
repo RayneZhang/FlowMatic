@@ -9,6 +9,9 @@
                 <img id="uihover" src="assets/images/ui-hover.png" crossorigin="anonymous">
                 <img id="uipressed" src="assets/images/ui-pressed.png" crossorigin="anonymous">
                 <a-asset-item id="uiobj" src="assets/models/newui.obj"></a-asset-item>
+                <a-asset-item id="bottles-obj" src="assets/models/bottles.obj"></a-asset-item>
+                <a-asset-item id="bottles-mtl" src="assets/models/bottles.mtl"></a-asset-item>
+
             </a-assets>
 
             <!-- Surrounding and floor. -->
@@ -19,6 +22,7 @@
             <a-entity id="box" obj-attributes-list class="movable" position="-1 1 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
             <a-entity id="sphere" class="movable" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" shadow></a-entity>
             <a-entity id="cylinder" class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
+            <a-entity id="bottles" class="movable" position="-2.5 1 -2" obj-model="obj: #bottles-obj; mtl: #bottles-mtl" shadow></a-entity>>
 
             <!-- Controllers. -->
             <a-entity id="rightHand" right-trigger-listener right-grip-listener laser-controls="hand: right" raycaster="objects: .movable, .clickable; far: 5"></a-entity>

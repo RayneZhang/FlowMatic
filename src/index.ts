@@ -8,7 +8,10 @@ import rightTriggerListener from './components/controllers/right-trigger-listene
 import modelSubset from './components/model-subset/model-subset';
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
+
 import bottleDescription from './components/bottles/bottledescrip';
+import dataSource from './components/bottles/dataSource';
+import attributeUpdate from './components/bottles/attributeUpdate';
 
 console.log(ENVIRONMENT);
 
@@ -23,3 +26,5 @@ AFRAME.registerComponent('model-subset', modelSubset);
 AFRAME.registerComponent('obj-attributes-list', objAttrList);
 
 AFRAME.registerComponent('bottle-description', bottleDescription);
+AFRAME.registerComponent('data-source', dataSource);
+AFRAME.registerComponent('attr-update', attributeUpdate);

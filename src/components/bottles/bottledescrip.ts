@@ -1,18 +1,24 @@
+declare const THREE:any;
+
 const bottleDescription = {
     init: function(): void {
         this.el.addEventListener('model-loaded', (event) => {
             switch (this.el.id) {
                 case 'blue-bottle': 
-                    this.createPrompt("Random Number");
+                    const blueOffset = new THREE.Vector3(-0.450, 0.55, 0);
+                    this.createPrompt("Random Number", 'blue', blueOffset.clone());
                     break;
                 case 'green-bottle':
-                    this.createPrompt("Random color");
+                    const greenOffset = new THREE.Vector3(0.3, 0.55, 0);
+                    this.createPrompt("Random color", 'green', greenOffset.clone());
                     break;
                 case 'purple-bottle':
-                    this.createPrompt("Random Number");
+                    const purpleOffset = new THREE.Vector3(0.65, 0.55, 0);
+                    this.createPrompt("Random Number", 'purple', purpleOffset.clone());
                     break;
                 case 'red-bottle':
-                    this.createPrompt("Random color");
+                    const redOffset = new THREE.Vector3(-0.05, 0.55, 0);
+                    this.createPrompt("Random color", 'red', redOffset.clone());
                     break;
             }
         });
@@ -32,7 +38,7 @@ const bottleDescription = {
 
     },
 
-    createPrompt: function(prompt: string): void {
+    createPrompt: function(prompt: string, _color: string, position: any): void {
         const promptEntity: any = document.createElement('a-entity');
         this.el.appendChild(promptEntity);
 
@@ -46,7 +52,7 @@ const bottleDescription = {
 
         // Initiate the panel color.
         promptEntity.setAttribute('material', {
-            color: 'green',
+            color: _color,
             transparent: true,
             opacity: 0.5
         });
@@ -59,8 +65,9 @@ const bottleDescription = {
         });
 
         // Set the position related to the attached object.
-        promptEntity.object3D.position.set(0, 0.5, 0);
-        
+        promptEntity.object3D.position.copy(position);
+    
+        // Set visibility of the object.
         promptEntity.object3D.visible = false;
     }
 }

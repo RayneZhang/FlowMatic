@@ -9,7 +9,7 @@ import modelSubset from './components/model-subset/model-subset';
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
 
-import bottleDescription from './components/bottles/bottledescrip';
+import bottleDescription from './components/bottles/bottleDescrip';
 import dataSource from './components/bottles/dataSource';
 import attributeUpdate from './components/bottles/attributeUpdate';
 

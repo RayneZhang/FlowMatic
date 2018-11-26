@@ -42,14 +42,14 @@ const objAttrList = {
            currentY += offset;
 
            // Add listeners for hovering over the list.
-           curEntity.addEventListener('raycaster-intersected', (event) => {
-               curEntity.setAttribute('material', 'color', 'yellow'); 
-           });
-           curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
-               curEntity.setAttribute('material', 'color', 'grey'); 
-           });
+        //    curEntity.addEventListener('raycaster-intersected', (event) => {
+        //        curEntity.setAttribute('material', 'color', 'yellow'); 
+        //    });
+        //    curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
+        //        curEntity.setAttribute('material', 'color', 'grey'); 
+        //    });
 
-           this.createSlider(curEntity);
+           // this.createSlider(curEntity);
         }
 
         // We can only access the mesh after it is loaded.

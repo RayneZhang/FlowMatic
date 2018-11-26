@@ -45,17 +45,17 @@ const bottleDescription = {
     // Initiate dots for connection
     initDots: function(): void {
         const posOffset = new THREE.Vector3(0.17, 0, 0);
-        this.createDotEntity('left', posOffset.clone());
-        this.createDotEntity('right', posOffset.clone());
+        const promptEntity: any = document.querySelector('#' + this.el.getAttribute('id') + '-prompt');
+        this.createDotEntity(promptEntity, 'left', posOffset.clone());
+        this.createDotEntity(promptEntity, 'right', posOffset.clone());
     },
 
-    createDotEntity: function(lr: string, offset: any): void {
+    createDotEntity: function(appendEntity: any, lr: string, offset: any): void {
         if (lr != 'left' && lr != 'right') {return;}
 
         // Create dot entity and append it to the prompt of the bottle.
         const curDot: any = document.createElement('a-entity');
-        const promptEntity: any = document.querySelector('#' + this.el.getAttribute('id') + '-prompt');
-        promptEntity.appendChild(curDot);
+        appendEntity.appendChild(curDot);
         curDot.setAttribute('id', this.el.getAttribute('id') + '-' + lr + '-dot');
 
         // Set geometry of the dot - sphere.

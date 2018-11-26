@@ -41,19 +41,20 @@ const objAttrList = {
             curEntity.object3D.position.set(0, currentY, 0);
             currentY += offset;
 
+            // Creat dots for each obj attr.
             const posOffset = new THREE.Vector3(0.17, 0, 0);
             this.createDotEntity(curEntity, 'left', posOffset.clone());
             this.createDotEntity(curEntity, 'right', posOffset.clone());
 
-           // Add listeners for hovering over the list.
-        //    curEntity.addEventListener('raycaster-intersected', (event) => {
-        //        curEntity.setAttribute('material', 'color', 'yellow'); 
-        //    });
-        //    curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
-        //        curEntity.setAttribute('material', 'color', 'grey'); 
-        //    });
+            // Add listeners for hovering over the list.
+            // curEntity.addEventListener('raycaster-intersected', (event) => {
+            //     curEntity.setAttribute('material', 'color', 'yellow'); 
+            // });
+            // curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
+            //     curEntity.setAttribute('material', 'color', 'grey'); 
+            // });
 
-           // this.createSlider(curEntity);
+            // this.createSlider(curEntity);
         }
 
         // We can only access the mesh after it is loaded.

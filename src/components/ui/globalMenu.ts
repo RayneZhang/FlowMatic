@@ -1,4 +1,4 @@
-import Menu from "../../ui/Menu";
+import Menu from "../../modules/Menu";
 
 const globalMenu = {
     init: function(): void {

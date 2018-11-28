@@ -12,6 +12,7 @@ import objAttrList from './components/ui/objAttrList';
 import bottleDescription from './components/bottles/bottleDescrip';
 import dataSource from './components/bottles/dataSource';
 import attributeUpdate from './components/bottles/attributeUpdate';
+import drawLine from './components/lines/drawLine';
 
 console.log(ENVIRONMENT);
 
@@ -28,3 +29,4 @@ AFRAME.registerComponent('obj-attributes-list', objAttrList);
 AFRAME.registerComponent('bottle-description', bottleDescription);
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('attr-update', attributeUpdate);
+AFRAME.registerComponent('draw-line', drawLine);

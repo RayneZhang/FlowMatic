@@ -27,6 +27,14 @@ const drawLine = {
         line.computeLineDistances();
         line.scale.set( 1, 1, 1 );
         this.el.setObject3D('mesh', line); 
+
+        console.log(line.geometry);
+        console.log(line.geometry.maxInstancedCount);
+        console.log(line.geometry.attributes.instanceStart.data.needsUpdate);
+
+        positions[4] = 2;
+        geometry.setPositions(positions);
+        // geometry.attributes.instanceEnd.data.needsUpdate = true;
     },
 
     tick: function(time, timeDelta): void {

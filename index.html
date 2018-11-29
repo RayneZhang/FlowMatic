@@ -4,9 +4,7 @@
         <script src='./node_modules/three/examples/js/lines/LineSegmentsGeometry.js'></script>
 		<script src='./node_modules/three/examples/js/lines/LineGeometry.js'></script>
 		<script src='./node_modules/three/examples/js/lines/WireframeGeometry2.js'></script>
-
 		<script src='./node_modules/three/examples/js/lines/LineMaterial.js'></script>
-
 		<script src='./node_modules/three/examples/js/lines/LineSegments2.js'></script>
 		<script src='./node_modules/three/examples/js/lines/Line2.js'></script>
 		<script src='./node_modules/three/examples/js/lines/Wireframe.js'></script>
@@ -43,7 +41,7 @@
             <a-entity attr-update id="cylinder" class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
             <a-entity attr-update id="table" class="movable" position="-2.5 1 -2" obj-model="obj: #table-obj; mtl: #table-mtl" shadow>
                 <a-entity bottle-description id="blue-bottle" obj-model="obj: #blue-obj; mtl: #blue-mtl" shadow></a-entity>
-                <a-entity bottle-description id="green-bottle" obj-model="obj: #green-obj; mtl: #green-mtl" shadow></a-entity>
+                <a-entity data-source bottle-description id="green-bottle" obj-model="obj: #green-obj; mtl: #green-mtl" shadow></a-entity>
                 <!-- <a-entity bottle-description id="purple-bottle" obj-model="obj: #purple-obj; mtl: #purple-mtl" shadow></a-entity>
                 <a-entity data-source bottle-description id="red-bottle" obj-model="obj: #red-obj; mtl: #red-mtl" shadow></a-entity> -->
             </a-entity>

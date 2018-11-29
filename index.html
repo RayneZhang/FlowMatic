@@ -1,6 +1,15 @@
 <html>
     <head>
         <script src="built/main.js"></script>
+        <script src='./node_modules/three/examples/js/lines/LineSegmentsGeometry.js'></script>
+		<script src='./node_modules/three/examples/js/lines/LineGeometry.js'></script>
+		<script src='./node_modules/three/examples/js/lines/WireframeGeometry2.js'></script>
+
+		<script src='./node_modules/three/examples/js/lines/LineMaterial.js'></script>
+
+		<script src='./node_modules/three/examples/js/lines/LineSegments2.js'></script>
+		<script src='./node_modules/three/examples/js/lines/Line2.js'></script>
+		<script src='./node_modules/three/examples/js/lines/Wireframe.js'></script>
     </head>
     <body>
         <a-scene background="color: #ECECEC">
@@ -29,9 +38,9 @@
             <!-- <a-entity light="type: directional; color: #EEE; intensity: 1.0; castShadow: true" position="-1 1 0"></a-entity> -->
 
             <!-- Objects. -->
-            <!-- <a-entity attr-update id="box" obj-attributes-list class="movable" position="-1 1 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
+            <a-entity attr-update id="box" obj-attributes-list class="movable" position="-1 1 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
             <a-entity attr-update id="sphere" class="movable" position="0 1.25 -5" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E" shadow></a-entity>
-            <a-entity attr-update id="cylinder" class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity> -->
+            <a-entity attr-update id="cylinder" class="movable" position="1 0.75 -3" geometry="primitive: cylinder; radius: 0.5; height: 1.5" material="color: #FFC65D" shadow></a-entity>
             <a-entity attr-update id="table" class="movable" position="-2.5 1 -2" obj-model="obj: #table-obj; mtl: #table-mtl" shadow>
                 <a-entity bottle-description id="blue-bottle" obj-model="obj: #blue-obj; mtl: #blue-mtl" shadow></a-entity>
                 <a-entity bottle-description id="green-bottle" obj-model="obj: #green-obj; mtl: #green-mtl" shadow></a-entity>

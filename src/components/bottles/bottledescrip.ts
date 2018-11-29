@@ -27,15 +27,15 @@ const bottleDescription = {
             }
         });
 
-        // this.el.addEventListener('raycaster-intersected', (event) => {
-        //     const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-        //     promptEntity.object3D.visible = true;
-        // });
+        this.el.addEventListener('raycaster-intersected', (event) => {
+            const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
+            promptEntity.object3D.visible = true;
+        });
 
-        // this.el.addEventListener('raycaster-intersected-cleared', (event) => {
-        //     const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-        //     promptEntity.object3D.visible = false;
-        // });
+        this.el.addEventListener('raycaster-intersected-cleared', (event) => {
+            const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
+            promptEntity.object3D.visible = false;
+        });
     },
 
     tick: function(time, timeDelta): void {

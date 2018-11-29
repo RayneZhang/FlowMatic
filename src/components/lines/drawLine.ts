@@ -12,7 +12,6 @@ const drawLine = {
         var positions = this.positions = [];
         var colors = this.colors = [];
 
-        console.log(this.data.startPoint);
         positions.push(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         positions.push(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
         colors.push(0, 0, 0);

@@ -46,14 +46,6 @@ const objAttrList = {
             this.createDotEntity(curEntity, 'left', posOffset.clone());
             this.createDotEntity(curEntity, 'right', posOffset.clone());
 
-            // Add listeners for hovering over the list.
-            // curEntity.addEventListener('raycaster-intersected', (event) => {
-            //     curEntity.setAttribute('material', 'color', 'yellow'); 
-            // });
-            // curEntity.addEventListener('raycaster-intersected-cleared', (event) => {
-            //     curEntity.setAttribute('material', 'color', 'grey'); 
-            // });
-
             // this.createSlider(curEntity);
         }
 
@@ -65,6 +57,15 @@ const objAttrList = {
             this.el.appendChild(ListEntity);
             ListEntity.object3D.position.set(radius + 0.25/2, 0, 0);
             ListEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
+        });
+
+        // Set visible of the attribute list when (not) intersected.
+        this.el.addEventListener('raycaster-intersected', (event) => {
+            ListEntity.object3D.visible = true;
+        });
+
+        this.el.addEventListener('raycaster-intersected-cleared', (event) => {
+            ListEntity.object3D.visible = false;
         });
     },
 

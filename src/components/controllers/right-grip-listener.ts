@@ -65,6 +65,12 @@ const rightGripListener = {
 
             // console.log('followingEl updated position is: ' + updatedTargetPosition.x + ',' + updatedTargetPosition.y + ','+ updatedTargetPosition.z);
         }
+
+        if (gripping) {
+            const lineEntity: any = document.querySelector('#line');
+            const CP = {x: this.el.object3D.position.x, y: this.el.object3D.position.y, z: this.el.object3D.position.z};
+            lineEntity.setAttribute('draw-line', 'endPoint', CP);
+        }
     }
 }
 

@@ -8,6 +8,9 @@ const dataSource = {
     },
 
     init: function(): void {
+        // Add to the entity's class list.
+        this.el.classList.add("data-source");
+
         this.colorSet = ['white', 'blue', 'yellow', 'green', 'black', 'purple'];
         // The delta time for updating color (milliseconds).
         this.timeOffset = 2000;

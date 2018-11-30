@@ -17,7 +17,7 @@ const rightAButtonListener = {
             const intersectedEl = intersectedEls[0];
 
             // Check if the intersected object is ui.
-            if (!(intersectedEl.Attributes.Contains("obj-attributes-list") || intersectedEl.Attributes.Contains("data-source"))) {
+            if (!(intersectedEl.classList.contains("obj-attr-list") || intersectedEl.classList.contains("data-source"))) {
                 console.log('The intersected object has no description.');
                 return;
             }

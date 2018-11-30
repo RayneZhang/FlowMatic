@@ -3,6 +3,9 @@ declare const THREE:any;
 const objAttrList = {
     init: function(): void {
 
+        // Add to the entity's class list.
+        this.el.classList.add("obj-attr-list");
+
         const attrNames: any = ['position', 'rotation', 'scale', 'color'];
         
         // Create a menu entity and append it to the controller.

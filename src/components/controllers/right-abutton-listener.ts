@@ -21,9 +21,16 @@ const rightAButtonListener = {
                 console.log('The intersected object has no description.');
                 return;
             }
-            
-            console.log("The object should be freezed!");
-            
+
+            // Handle object attributes.
+            if (intersectedEl.classList.contains("obj-attr-list")) {
+                intersectedEl.setAttribute("obj-attributes-list", "freeze", !intersectedEl.getAttribute("obj-attributes-list").freeze);
+            }
+            // Handle bottle description.
+            if (intersectedEl.classList.contains("data-source")) {
+                intersectedEl.setAttribute("bottle-description", "freeze", !intersectedEl.getAttribute("bottle-description").freeze);
+            }
+
         });
     },
 

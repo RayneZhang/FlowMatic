@@ -1,6 +1,10 @@
 declare const THREE:any;
 
 const bottleDescription = {
+    schema: {
+        freeze: {type: "boolean", default: false}
+    },
+
     init: function(): void {
         this.el.addEventListener('model-loaded', (event) => {
             switch (this.el.id) {
@@ -33,8 +37,10 @@ const bottleDescription = {
         });
 
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
-            const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-            promptEntity.object3D.visible = false;
+            if(!this.data.freeze) {
+                const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
+                promptEntity.object3D.visible = false;
+            }
         });
     },
 
@@ -61,7 +67,7 @@ const bottleDescription = {
         // Set geometry of the dot - sphere.
         curDot.setAttribute('geometry', {
             primitive: 'sphere',
-            radius: 0.03
+            radius: 0.025
         });
 
         // Set color of the sphere to white.

@@ -1,8 +1,11 @@
 declare const THREE:any;
 
 const objAttrList = {
-    init: function(): void {
+    schema: {
+        freeze: {type: "boolean", default: false}
+    },
 
+    init: function(): void {
         // Add to the entity's class list.
         this.el.classList.add("obj-attr-list");
 
@@ -68,7 +71,8 @@ const objAttrList = {
         });
 
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
-            ListEntity.object3D.visible = false;
+            if(!this.data.freeze)
+                ListEntity.object3D.visible = false;
         });
     },
 
@@ -91,7 +95,7 @@ const objAttrList = {
         // Set geometry of the dot - sphere.
         curDot.setAttribute('geometry', {
             primitive: 'sphere',
-            radius: 0.03
+            radius: 0.025
         });
 
         // Set color of the sphere to white.

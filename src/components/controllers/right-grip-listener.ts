@@ -91,10 +91,6 @@ const rightGripListener = {
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
             if (intersectedEl.classList.contains('connectable')) {
-                const {x, y, z} = intersectedEl.object3D.position;
-                const Pos = new THREE.Vector3(x, y, z);
-                intersectedEl.object3D.updateMatrixWorld();
-                intersectedEl.object3D.localToWorld(Pos);
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 lineEntity.setAttribute('draw-line', 'endPoint', EP);
                 this.lined = true;

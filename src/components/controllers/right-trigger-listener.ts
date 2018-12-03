@@ -52,6 +52,10 @@ const rightTriggerListener = {
                 return;
             }
             
+            // Check if we're about to draw a line.
+            if (intersectedEl.classList.contains('connectable')) {
+
+            }
             
         });
     },

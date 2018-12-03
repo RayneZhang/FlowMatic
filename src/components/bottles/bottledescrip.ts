@@ -63,6 +63,7 @@ const bottleDescription = {
         const curDot: any = document.createElement('a-entity');
         appendEntity.appendChild(curDot);
         curDot.setAttribute('id', this.el.getAttribute('id') + '-' + lr + '-dot');
+        curDot.classList.add('connectable');
 
         // Set geometry of the dot - sphere.
         curDot.setAttribute('geometry', {

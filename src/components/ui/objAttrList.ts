@@ -96,7 +96,7 @@ const objAttrList = {
         // Set geometry of the dot - sphere.
         curDot.setAttribute('geometry', {
             primitive: 'sphere',
-            radius: 0.025
+            radius: 0.03
         });
 
         // Set color of the sphere to white.

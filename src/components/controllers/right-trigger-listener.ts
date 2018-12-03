@@ -17,12 +17,6 @@ const rightTriggerListener = {
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
 
-            // Check if the intersected object is ui.
-            if (!intersectedEl.classList.contains('ui')) {
-                console.log('The intersected object is not ui.');
-                return;
-            }
-            
             // Retrieve all intersections through raycaster.
             const intersections = this.el.components.raycaster.intersections;
             if (!Array.isArray(intersections) || !intersections.length) {
@@ -30,29 +24,35 @@ const rightTriggerListener = {
                 return;
             }
 
-            const id = intersectedEl.getAttribute('id');
-            switch(id) {
-                case 'hue': case 'huecursor': {
-                    // Fetch the intersection point of the first intersected object.
-                    const {x, y, z} = intersections[0].point;
-                    const WorldPos = new THREE.Vector3(x, y, z);
-                    this.onHueDown(WorldPos.clone());
-                    break;
+            // Check if the intersected object is ui.
+            if (intersectedEl.classList.contains('ui')) {
+                console.log('The intersected object is ui.');
+                const id = intersectedEl.getAttribute('id');
+                switch(id) {
+                    case 'hue': case 'huecursor': {
+                        // Fetch the intersection point of the first intersected object.
+                        const {x, y, z} = intersections[0].point;
+                        const WorldPos = new THREE.Vector3(x, y, z);
+                        this.onHueDown(WorldPos.clone());
+                        break;
+                    }
+                    case 'box_position_slider_x': case 'box_position_cursor_x': {
+                        const {x, y, z} = intersections[0].point;
+                        const WorldPos = new THREE.Vector3(x, y, z);
+                        this.onPosXCursorDown(WorldPos.clone());
+                        break;
+                    }
+                    case 'box_position_slider_y': case 'box_position_cursor_y': {
+                        const {x, y, z} = intersections[0].point;
+                        const WorldPos = new THREE.Vector3(x, y, z);
+                        this.onPosYCursorDown(WorldPos.clone());
+                        break;
+                    }
                 }
-                case 'box_position_slider_x': case 'box_position_cursor_x': {
-                    const {x, y, z} = intersections[0].point;
-                    const WorldPos = new THREE.Vector3(x, y, z);
-                    this.onPosXCursorDown(WorldPos.clone());
-                    break;
-                }
-                case 'box_position_slider_y': case 'box_position_cursor_y': {
-                    const {x, y, z} = intersections[0].point;
-                    const WorldPos = new THREE.Vector3(x, y, z);
-                    this.onPosYCursorDown(WorldPos.clone());
-                    break;
-                }
+                return;
             }
-        
+            
+            
         });
     },
 

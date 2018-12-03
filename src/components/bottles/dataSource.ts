@@ -15,8 +15,6 @@ const dataSource = {
         // The delta time for updating color (milliseconds).
         this.timeOffset = 2000;
         this.globalTimeDelta = 0;
-
-        this.data.targetEntities.push('box');
     },
 
     tick: function(time, timeDelta): void {

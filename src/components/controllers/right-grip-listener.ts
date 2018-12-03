@@ -9,6 +9,7 @@ const rightGripListener = {
     init(): void {
 
         const el = this.el;
+        this.lined = false;
 
         this.el.addEventListener('gripdown', (event) => {
             el.setAttribute('right-grip-listener', 'gripping', 'true');
@@ -66,10 +67,44 @@ const rightGripListener = {
             // console.log('followingEl updated position is: ' + updatedTargetPosition.x + ',' + updatedTargetPosition.y + ','+ updatedTargetPosition.z);
         }
 
-        if (gripping) {
-            const lineEntity: any = document.querySelector('#line');
+        if (gripping && !this.lined) {
+            const lineEntity: any = document.querySelector('#lines');
             const CP = {x: this.el.object3D.position.x, y: this.el.object3D.position.y, z: this.el.object3D.position.z};
             lineEntity.setAttribute('draw-line', 'endPoint', CP);
+
+            // Retrieve all intersected Elements through raycaster.
+            const intersectedEls = this.el.components.raycaster.intersectedEls;
+
+            // Check if there is intersected object.
+            if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
+                console.log('Nothing is intersected when drawing lines');
+                return;
+            }
+
+            // Retrieve all intersections through raycaster.
+            const intersections = this.el.components.raycaster.intersections;
+            if (!Array.isArray(intersections) || !intersections.length) {
+                console.log('There is NO intersections when triggering');
+                return;
+            }
+
+            // Fetch the intersected object.
+            const intersectedEl = intersectedEls[0];
+            if (intersectedEl.classList.contains('connectable')) {
+                const {x, y, z} = intersectedEl.object3D.position;
+                const Pos = new THREE.Vector3(x, y, z);
+                intersectedEl.object3D.updateMatrixWorld();
+                intersectedEl.object3D.localToWorld(Pos);
+                const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
+                lineEntity.setAttribute('draw-line', 'endPoint', EP);
+                this.lined = true;
+
+                // Push the id into target.
+                const dataSource: any = document.querySelector("#green-bottle");
+                const targetEntities: any = ['box'];
+                //targetEntities.push('box');
+                dataSource.setAttribute('data-source', 'targetEntities', targetEntities);
+            }
         }
     }
 }

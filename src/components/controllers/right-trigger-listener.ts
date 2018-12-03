@@ -7,7 +7,6 @@ const rightTriggerListener = {
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
 
-            console.log(intersectedEls);
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
                 console.log('Nothing is intersected when triggering');
@@ -54,7 +53,20 @@ const rightTriggerListener = {
             
             // Check if we're about to draw a line.
             if (intersectedEl.classList.contains('connectable')) {
+                const theLine: any = document.querySelector("#lines");
+                const theHand: any = document.querySelector("#rightHand");
+                const {x, y, z} = intersectedEl.object3D.position;
+                const Pos = new THREE.Vector3(x, y, z);
+                intersectedEl.object3D.updateMatrixWorld();
+                intersectedEl.object3D.localToWorld(Pos);
+                const SP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
+                const EP = {x: theHand.object3D.position.x, y: theHand.object3D.position.y, z: theHand.object3D.position.z};
+                console.log(SP);
+                console.log(EP);
 
+                const {nx, ny, nz} = intersections[0].point;
+                theLine.setAttribute('draw-line', 'startPoint', SP);
+                theLine.setAttribute('draw-line', 'endPoint', EP);
             }
             
         });

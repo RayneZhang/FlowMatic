@@ -1,3 +1,5 @@
+import Line from "../../modules/Line";
+
 declare const THREE:any;
 
 const rightTriggerListener = {
@@ -58,11 +60,11 @@ const rightTriggerListener = {
             
             // Check if we're about to draw a line.
             if (intersectedEl.classList.contains('connectable')) {
+                const curLine: any = new Line();
                 const theLine: any = document.querySelector("#lines");
                 const theHand: any = document.querySelector("#rightHand");
                 const SP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 const EP = {x: theHand.object3D.position.x, y: theHand.object3D.position.y, z: theHand.object3D.position.z};
-
                 theLine.setAttribute('draw-line', 'startPoint', SP);
                 theLine.setAttribute('draw-line', 'endPoint', EP);
             }

@@ -5,7 +5,6 @@ declare const THREE:any;
 const rightTriggerListener = {
     init: function(): void {
         this.triggering = false;
-        this.lined = false;
 
         // Handle trigger down.
         this.el.addEventListener('triggerdown', (event) => {
@@ -60,7 +59,7 @@ const rightTriggerListener = {
             
             // Check if we're about to draw a line.
             if (intersectedEl.classList.contains('connectable')) {
-                const curLine: any = new Line();
+                this.curLine = new Line();
                 const theLine: any = document.querySelector("#lines");
                 const theHand: any = document.querySelector("#rightHand");
                 const SP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
@@ -80,6 +79,10 @@ const rightTriggerListener = {
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
                 console.log('Nothing is intersected when drawing lines');
+                if(this.curLine) {
+                    this.curLine.destroyLine();
+                    this.curLine = null;
+                }
                 return;
             }
 
@@ -87,6 +90,10 @@ const rightTriggerListener = {
             const intersections = this.el.components.raycaster.intersections;
             if (!Array.isArray(intersections) || !intersections.length) {
                 console.log('There is NO intersections when triggering');
+                if(this.curLine) {
+                    this.curLine.destroyLine();
+                    this.curLine = null;
+                }
                 return;
             }
 
@@ -97,7 +104,6 @@ const rightTriggerListener = {
             if (intersectedEl.classList.contains('connectable')) {
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 lineEntity.setAttribute('draw-line', 'endPoint', EP);
-                this.lined = true;
 
                 // Push the id into target.
                 const dataSource: any = document.querySelector("#green-bottle");
@@ -105,28 +111,31 @@ const rightTriggerListener = {
                 //targetEntities.push('box');
                 dataSource.setAttribute('data-source', 'targetEntities', targetEntities);
             }
+            else {
+                if (this.curLine) {
+                    this.curLine.destroyLine();
+                    this.curLine = null;
+                }
+            }
         });
     },
 
     tick: function(time, timeDelta): void {
-        if (this.triggering && !this.lined) {
+        if (this.triggering) {
             const lineEntity: any = document.querySelector('#lines');
             const CP = {x: this.el.object3D.position.x, y: this.el.object3D.position.y, z: this.el.object3D.position.z};
             lineEntity.setAttribute('draw-line', 'endPoint', CP);
 
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
-
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                console.log('Nothing is intersected when drawing lines');
                 return;
             }
 
             // Retrieve all intersections through raycaster.
             const intersections = this.el.components.raycaster.intersections;
             if (!Array.isArray(intersections) || !intersections.length) {
-                console.log('There is NO intersections when triggering');
                 return;
             }
 

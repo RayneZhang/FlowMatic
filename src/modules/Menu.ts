@@ -36,7 +36,7 @@ class Menu {
         const modelGroup: any = document.createElement('a-entity');
         sceneEl.appendChild(modelGroup);
         modelGroup.setAttribute('id', 'modelGroup');
-        modelGroup.setAttribute('obj-model', 'obj:#uiobj');
+        modelGroup.setAttribute('obj-model', 'obj:#menu-obj');
         modelGroup.object3D.visible = false;
     }
 

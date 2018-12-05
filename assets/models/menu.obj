@@ -1,6 +1,6 @@
 # Blender v2.79 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib newui.mtl
+mtllib menu.mtl
 o brush5bg
 v -0.113310 -0.004451 -0.021269
 v -0.086758 -0.010067 -0.048255

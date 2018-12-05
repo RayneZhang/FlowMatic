@@ -10,6 +10,7 @@ class Line {
         this.LinesEntity.setAttribute('draw-line', 'currentLine', this.curLineEntity);
     }
 
+    // Destroy current line.
     destroyLine() {
         this.LinesEntity.setAttribute('draw-line', 'currentLine', null);
         this.curLineEntity.parentNode.removeChild(this.curLineEntity);

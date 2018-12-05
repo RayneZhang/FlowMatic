@@ -73,9 +73,9 @@ const rightTriggerListener = {
         this.el.addEventListener('triggerup', (event) => {
             this.triggering = false;
 
+            // Conditions when the intersected target is not connectable.
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
-
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
                 console.log('Nothing is intersected when drawing lines');
@@ -97,18 +97,16 @@ const rightTriggerListener = {
                 return;
             }
 
-            const lineEntity: any = document.querySelector('#lines');
-
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
             if (intersectedEl.classList.contains('connectable')) {
+                const lineEntity: any = document.querySelector('#lines');
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 lineEntity.setAttribute('draw-line', 'endPoint', EP);
 
                 // Push the id into target.
                 const dataSource: any = document.querySelector("#green-bottle");
                 const targetEntities: any = ['box'];
-                //targetEntities.push('box');
                 dataSource.setAttribute('data-source', 'targetEntities', targetEntities);
             }
             else {
@@ -123,16 +121,18 @@ const rightTriggerListener = {
     tick: function(time, timeDelta): void {
         if (this.triggering) {
             const lineEntity: any = document.querySelector('#lines');
-            const CP = {x: this.el.object3D.position.x, y: this.el.object3D.position.y, z: this.el.object3D.position.z};
-            lineEntity.setAttribute('draw-line', 'endPoint', CP);
 
+            // Update line end point to controller position.
+            const ControllerPos = {x: this.el.object3D.position.x, y: this.el.object3D.position.y, z: this.el.object3D.position.z};
+            lineEntity.setAttribute('draw-line', 'endPoint', ControllerPos);
+
+            // Check if there is another dot to connect.
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
                 return;
             }
-
             // Retrieve all intersections through raycaster.
             const intersections = this.el.components.raycaster.intersections;
             if (!Array.isArray(intersections) || !intersections.length) {

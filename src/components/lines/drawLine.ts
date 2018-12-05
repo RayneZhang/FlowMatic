@@ -3,6 +3,7 @@ declare const THREE:any;
 const drawLine = {
     schema: {
         currentLine: {type: 'selector', default: null},
+        currentSource: {type: 'selector', default: null},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}}
     },

@@ -60,12 +60,14 @@ const rightTriggerListener = {
             // Check if we're about to draw a line.
             if (intersectedEl.classList.contains('connectable')) {
                 this.curLine = new Line();
-                const theLine: any = document.querySelector("#lines");
+                const LinesEntity: any = document.querySelector("#lines");
                 const theHand: any = document.querySelector("#rightHand");
                 const SP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 const EP = {x: theHand.object3D.position.x, y: theHand.object3D.position.y, z: theHand.object3D.position.z};
-                theLine.setAttribute('draw-line', 'startPoint', SP);
-                theLine.setAttribute('draw-line', 'endPoint', EP);
+                LinesEntity.setAttribute('draw-line', 'startPoint', SP);
+                LinesEntity.setAttribute('draw-line', 'endPoint', EP);
+                // Dot -> prompt -> bottle.
+                LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
             }
             
         });
@@ -100,14 +102,14 @@ const rightTriggerListener = {
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
             if (intersectedEl.classList.contains('connectable')) {
-                const lineEntity: any = document.querySelector('#lines');
+                const linesEntity: any = document.querySelector('#lines');
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
-                lineEntity.setAttribute('draw-line', 'endPoint', EP);
+                linesEntity.setAttribute('draw-line', 'endPoint', EP);
 
                 // Push the id into target.
-                const dataSource: any = document.querySelector("#green-bottle");
+                const dataBottle: any = linesEntity.getAttribute('draw-line').currentSource;
                 const targetEntities: any = ['box'];
-                dataSource.setAttribute('data-source', 'targetEntities', targetEntities);
+                dataBottle.setAttribute('data-source', 'targetEntities', targetEntities);
             }
             else {
                 if (this.curLine) {

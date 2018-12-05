@@ -6,7 +6,7 @@ const drawLine = {
         currentSource: {type: 'selector', default: null},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
-        divisions: {type: 'number', default: 5}
+        divisions: {type: 'number', default: 20}
     },
 
     init: function(): void {
@@ -69,6 +69,7 @@ const drawLine = {
         }
     },
 
+    // Set curve points using built-in THREE.CatmullRomCurve3.
     getCurvePoints: function(): Array<number> {
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);

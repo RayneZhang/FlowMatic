@@ -43,7 +43,7 @@ class Menu {
     // Create sub-menu entities based on the modelGroup. 
     createSubMenuEl(): void {
         const modelGroup = document.querySelector('#modelGroup');
-        for(const subMenuName of this.subMenuNames) {
+        for (const subMenuName of this.subMenuNames) {
             // Create sub-menu entity.
             const subMenuEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(subMenuEl);

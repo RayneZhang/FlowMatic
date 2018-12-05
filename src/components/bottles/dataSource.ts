@@ -33,10 +33,11 @@ const dataSource = {
                 return;
             }
 
-            const curId: string = this.data.targetEntities[0];
-            const curTarget: any = document.querySelector('#' + curId);
-            if (curTarget) {
-                curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
+            for (const curId of this.data.targetEntities) {
+                const curTarget: any = document.querySelector('#' + curId);
+                if (curTarget) {
+                    curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
+                }
             }
         }
     }

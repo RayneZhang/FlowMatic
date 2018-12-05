@@ -108,7 +108,14 @@ const rightTriggerListener = {
 
                 // Push the id into target.
                 const dataBottle: any = linesEntity.getAttribute('draw-line').currentSource;
-                const targetEntities: any = ['box'];
+                const targetEntity: any = intersectedEl.parentNode.parentNode.parentNode;
+                let targetEntities: any = dataBottle.getAttribute('data-source').targetEntities;
+                // If the targetEntities is null, we need to reset the type.
+                if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                    targetEntities = [];
+                }
+                targetEntities.push(targetEntity.getAttribute('id'));
+                console.log(targetEntities);
                 dataBottle.setAttribute('data-source', 'targetEntities', targetEntities);
             }
             else {

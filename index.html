@@ -27,13 +27,16 @@
                 <a-asset-item id="purple-mtl" src="assets/models/bottles/objs/purple_bottle.mtl"></a-asset-item>
                 <a-asset-item id="red-obj" src="assets/models/bottles/objs/red_bottle.obj"></a-asset-item>
                 <a-asset-item id="red-mtl" src="assets/models/bottles/objs/red_bottle.mtl"></a-asset-item>
+
+                <a-asset-item id="street-obj" src="assets/models/StreetScene/StreetScene2.obj"></a-asset-item>
             </a-assets>
 
             <!-- Surrounding and floor. -->
-            <a-entity id="env" environment="preset: forest"></a-entity>
+            <a-entity id="env" environment="preset: default; ground: none"></a-entity>
             <a-entity id="floor" position="0 0 -4" rotation="-90 0 0" geometry="primitive: plane; width: 400; height: 400" material="visible: false; color :#7BC8A4"></a-entity>
             <a-entity light="type: ambient; intensity: 0.2;"></a-entity>
             <!-- <a-entity light="type: directional; color: #EEE; intensity: 1.0; castShadow: true" position="-1 1 0"></a-entity> -->
+            <a-entity id="street" obj-model="obj: #street-obj" shadow></a-entity>
 
             <!-- Objects. -->
             <a-entity attr-update id="box" obj-attributes-list class="movable" position="-1 1 -3" rotation="0 45 0" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>

@@ -6,6 +6,9 @@ class Line {
 
     constructor() {
         this.curLineEntity = document.createElement('a-entity');
+        this.curLineEntity.setAttribute('line-properties');
+
+        // Append current Line Entity to the Lines Entity.
         this.LinesEntity.appendChild(this.curLineEntity);
         this.LinesEntity.setAttribute('draw-line', 'currentLine', this.curLineEntity);
     }

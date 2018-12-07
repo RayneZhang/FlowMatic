@@ -106,17 +106,22 @@ const rightTriggerListener = {
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 linesEntity.setAttribute('draw-line', 'endPoint', EP);
 
-                // Push the id into target.
-                const dataBottle: any = linesEntity.getAttribute('draw-line').currentSource;
+                // Push the id into target entities.
+                const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
+                // Dot->Description->ListEntity->Object
                 const targetEntity: any = intersectedEl.parentNode.parentNode.parentNode;
-                let targetEntities: any = dataBottle.getAttribute('data-source').targetEntities;
+                let targetEntities: any = sourceEntity.getAttribute('data-source').targetEntities;
                 // If the targetEntities is null, we need to reset the type.
                 if (!Array.isArray(targetEntities) || !targetEntities.length) {
                     targetEntities = [];
                 }
                 targetEntities.push(targetEntity.getAttribute('id'));
-                console.log(targetEntities);
-                dataBottle.setAttribute('data-source', 'targetEntities', targetEntities);
+                sourceEntity.setAttribute('data-source', 'targetEntities', targetEntities);
+
+                // Set the connected two entities in the current line entity.
+                const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;
+                currentLineEntity.setAttribute('line-properties', 'targetEntity', targetEntity);
+                currentLineEntity.setAttribute('line-properties', 'sourceEntity', sourceEntity);
             }
             else {
                 if (this.curLine) {

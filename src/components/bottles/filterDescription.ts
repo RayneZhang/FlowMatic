@@ -8,7 +8,7 @@ const filterDescription = {
     },
 
     init: function(): void {
-        const offset = new THREE.Vector3(0, 0, 0);
+        const offset = new THREE.Vector3(-0.25, 0, 0);
         this.createPrompt("Darkness", 'blue', offset.clone());
         this.initDots();
 
@@ -64,9 +64,10 @@ const filterDescription = {
             align: 'center'
         });
 
+        promptEntity.object3D.rotation.z += THREE.Math.degToRad(90);
         // Set the position related to the attached object.
         promptEntity.object3D.position.copy(position);
-    
+
         // Set visibility of the object.
         // promptEntity.object3D.visible = false;
     }

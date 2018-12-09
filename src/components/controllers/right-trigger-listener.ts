@@ -15,7 +15,7 @@ const rightTriggerListener = {
 
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                console.log('Nothing is intersected when triggering');
+                // console.log('Nothing is intersected when triggering');
                 return;
             }
 
@@ -80,7 +80,7 @@ const rightTriggerListener = {
             const intersectedEls = this.el.components.raycaster.intersectedEls;
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                console.log('Nothing is intersected when drawing lines');
+                // console.log('Nothing is intersected when drawing lines');
                 if(this.curLine) {
                     this.curLine.destroyLine();
                     this.curLine = null;
@@ -138,6 +138,8 @@ const rightTriggerListener = {
                 const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;
                 currentLineEntity.setAttribute('line-properties', 'targetEntity', targetEntity);
                 currentLineEntity.setAttribute('line-properties', 'sourceEntity', sourceEntity);
+                linesEntity.setAttribute('draw-line', 'currentLine', null);
+                this.curLine = null;
             }
             else {
                 if (this.curLine) {

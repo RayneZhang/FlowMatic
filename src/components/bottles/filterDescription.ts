@@ -10,6 +10,7 @@ const filterDescription = {
     init: function(): void {
         const offset = new THREE.Vector3(-0.25, 0, 0);
         this.createPrompt("Darkness", 'blue', offset.clone());
+        this.createSlider(this.el);
         this.initDots();
 
         this.el.addEventListener('raycaster-intersected', (event) => {
@@ -70,7 +71,64 @@ const filterDescription = {
 
         // Set visibility of the object.
         // promptEntity.object3D.visible = false;
-    }
+    },
+
+    // Create the sliders of x,y,z of the attribute.
+    createSlider(appendEl): void {
+        const sceneEl = document.querySelector('a-scene');
+        sceneEl.addEventListener('loaded', (event) => {
+            const modelGroup = document.querySelector('#modelGroup');
+            
+            const SliderEl: any = document.createElement('a-entity');
+            const CursorEl: any = document.createElement('a-entity');
+
+            appendEl.appendChild(SliderEl);
+            SliderEl.appendChild(CursorEl);
+
+            SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider');
+            CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor');
+
+            SliderEl.setAttribute('model-subset', {
+                target: modelGroup,
+                name: 'sizebg'
+            });
+            CursorEl.setAttribute('model-subset', {
+                target: modelGroup,
+                name: 'size'
+            });
+
+            // Attach the material component to the slider entity.
+            SliderEl.setAttribute('material', {
+                color: '#ffffff',
+                flatShading: true,
+                shader: 'flat',
+                transparent: true,
+                fog: false,
+                src: '#uinormal'
+            });
+
+            // Attach the same material component to the cursor entity.
+            CursorEl.setAttribute('material', {
+                color: '#ffffff',
+                flatShading: true,
+                shader: 'flat',
+                transparent: true,
+                fog: false,
+                alphaTest: 0.5,
+                src: '#uinormal'
+            });
+
+            SliderEl.setAttribute('class', 'ui');
+            CursorEl.setAttribute('class', 'ui');
+
+            // Adjust the position offset of the cursor entity.
+            CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
+
+            // Place the slider entity in the layout.
+            SliderEl.object3D.position.set(0, 0.12, 0);
+            SliderEl.object3D.rotation.set(45, 0, 0);
+        });
+    }  
 }
 
 export default filterDescription;

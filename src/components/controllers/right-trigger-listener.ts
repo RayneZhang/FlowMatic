@@ -109,14 +109,30 @@ const rightTriggerListener = {
                 // Push the id into target entities.
                 const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
                 // Dot->Description->ListEntity->Object
-                const targetEntity: any = intersectedEl.parentNode.parentNode.parentNode;
-                let targetEntities: any = sourceEntity.getAttribute('data-source').targetEntities;
-                // If the targetEntities is null, we need to reset the type.
-                if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                    targetEntities = [];
+                let targetEntity: any = intersectedEl.parentNode.parentNode.parentNode;
+                if (intersectedEl.parentNode.parentNode.classList.contains('data-filter')) {
+                    targetEntity = intersectedEl.parentNode.parentNode;
                 }
-                targetEntities.push(targetEntity.getAttribute('id'));
-                sourceEntity.setAttribute('data-source', 'targetEntities', targetEntities);
+
+                if (sourceEntity.classList.contains('data-source')){
+                    let targetEntities: any = sourceEntity.getAttribute('data-source').targetEntities;
+                    // If the targetEntities is null, we need to reset the type.
+                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                        targetEntities = [];
+                    }
+                    targetEntities.push(targetEntity.getAttribute('id'));
+                    sourceEntity.setAttribute('data-source', 'targetEntities', targetEntities);
+                }
+                if (sourceEntity.classList.contains('data-filter')){
+                    let targetEntities: any = sourceEntity.getAttribute('data-filter').targetEntities;
+                    // If the targetEntities is null, we need to reset the type.
+                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                        targetEntities = [];
+                    }
+                    targetEntities.push(targetEntity.getAttribute('id'));
+                    sourceEntity.setAttribute('data-filter', 'targetEntities', targetEntities);
+                }
+                
 
                 // Set the connected two entities in the current line entity.
                 const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;

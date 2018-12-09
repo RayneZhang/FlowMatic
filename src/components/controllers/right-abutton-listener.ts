@@ -16,21 +16,26 @@ const rightAButtonListener = {
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
 
-            // Check if the intersected object is ui.
-            if (!(intersectedEl.classList.contains("obj-attr-list") || intersectedEl.classList.contains("data-source"))) {
-                console.log('The intersected object has no description.');
-                return;
-            }
-
             // Handle object attributes.
             if (intersectedEl.classList.contains("obj-attr-list")) {
                 intersectedEl.setAttribute("obj-attributes-list", "freeze", !intersectedEl.getAttribute("obj-attributes-list").freeze);
+                return;
             }
             // Handle bottle description.
             if (intersectedEl.classList.contains("data-source")) {
                 intersectedEl.setAttribute("bottle-description", "freeze", !intersectedEl.getAttribute("bottle-description").freeze);
+                return;
+            }
+            // Handle filter description.
+            if (intersectedEl.classList.contains("data-filter")) {
+                intersectedEl.setAttribute("filter-description", "freeze", !intersectedEl.getAttribute("filter-description").freeze);
+                return;
             }
 
+            console.log('The intersected object has no description.');
+            return;
+
+            
         });
     },
 

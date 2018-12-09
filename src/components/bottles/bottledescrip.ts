@@ -1,3 +1,5 @@
+import Dot from "../../modules/Dot";
+
 declare const THREE:any;
 
 const bottleDescription = {
@@ -52,41 +54,8 @@ const bottleDescription = {
     initDots: function(): void {
         const posOffset = new THREE.Vector3(0.17, 0, 0);
         const promptEntity: any = document.querySelector('#' + this.el.getAttribute('id') + '-prompt');
-        this.createDotEntity(promptEntity, 'left', posOffset.clone());
-        this.createDotEntity(promptEntity, 'right', posOffset.clone());
-    },
-
-    createDotEntity: function(appendEntity: any, lr: string, offset: any): void {
-        if (lr != 'left' && lr != 'right') {return;}
-
-        // Create dot entity and append it to the prompt of the bottle.
-        const curDot: any = document.createElement('a-entity');
-        appendEntity.appendChild(curDot);
-        curDot.setAttribute('id', this.el.getAttribute('id') + '-' + lr + '-dot');
-        curDot.classList.add('connectable');
-
-        // Set geometry of the dot - sphere.
-        curDot.setAttribute('geometry', {
-            primitive: 'sphere',
-            radius: 0.03
-        });
-
-        // Set color of the sphere to white.
-        curDot.setAttribute('material', 'color', 'white');
-
-        // Set the dot position according to the left or right.
-        if (lr === 'left')
-            curDot.object3D.position.x -= offset.x;
-        if (lr === 'right')
-            curDot.object3D.position.x += offset.x;
-
-        curDot.addEventListener('raycaster-intersected', (event) => {
-            curDot.setAttribute('material', 'color', 'yellow');
-        });
-
-        curDot.addEventListener('raycaster-intersected-cleared', (event) => {
-            curDot.setAttribute('material', 'color', 'white');
-        });
+        const leftDot: any = new Dot(promptEntity, 'left', posOffset.clone());
+        const rightDot: any = new Dot(promptEntity, 'right', posOffset.clone());
     },
 
     // Create prompts of the function of the bottle.

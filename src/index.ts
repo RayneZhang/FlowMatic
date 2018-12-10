@@ -12,10 +12,10 @@ import objAttrList from './components/ui/objAttrList';
 
 import bottleDescription from './components/bottles/bottleDescrip';
 import dataSource from './components/bottles/dataSource';
-import attributeUpdate from './components/bottles/attributeUpdate';
+import dataFilter from './components/bottles/dataFilter';
+import dataReceiver from './components/bottles/dataReceiver';
 import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';
-import dataFilter from './components/bottles/dataFilter';
 import filterDescription from './components/bottles/filterDescription';
 
 console.log(ENVIRONMENT);
@@ -35,6 +35,6 @@ AFRAME.registerComponent('bottle-description', bottleDescription);
 AFRAME.registerComponent('filter-description', filterDescription);
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
-AFRAME.registerComponent('attr-update', attributeUpdate);
+AFRAME.registerComponent('data-receiver', dataReceiver);
 AFRAME.registerComponent('draw-line', drawLine);
 AFRAME.registerComponent('line-properties', lineProperties);

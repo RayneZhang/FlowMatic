@@ -1,6 +1,6 @@
 declare const THREE:any;
 
-const attributeUpdate = {
+const dataReceiver = {
     init: function(): void {
         this.el.addEventListener('attribute-update', (event) => {
             const sourceName: string = event.detail.sourceName;
@@ -16,4 +16,4 @@ const attributeUpdate = {
     }
 }
 
-export default attributeUpdate;
+export default dataReceiver;

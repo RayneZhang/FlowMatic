@@ -2,8 +2,10 @@ declare const THREE:any;
 
 const dataFilter = {
     schema: {
-        sourceName: {type: 'string', default:'color'},
+        sourceName: {type: 'string', default: 'color'},
         sourceValue: {type: 'string', default: 'red'},
+        filterName: {type: 'string', default: 'darkness'},
+        filterValue: {type: 'number', default: 1},
         targetEntities: {type: 'array', default: []}
     },
 
@@ -18,8 +20,15 @@ const dataFilter = {
             const sourceName: string = event.detail.sourceName;
             const sourceValue: any = event.detail.sourceValue;
             if (sourceName === 'color') {
-                this.data.sourceValue = sourceValue;
+                const color = new THREE.Color(sourceValue);
+                color.multiplyScalar(this.data.filterValue);
+                this.data.sourceValue = color;
             }
+        });
+
+        this.el.addEventListener('filter-update', (event) => {
+            const filterValue: any = event.detail.filterValue;
+            this.data.filterValue = (filterValue + 0.06409)/(0.06409 * 2);
         });
     },
 

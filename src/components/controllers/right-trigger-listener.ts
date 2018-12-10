@@ -53,6 +53,12 @@ const rightTriggerListener = {
                         this.onPosYCursorDown(WorldPos.clone());
                         break;
                     }
+                    case 'filter_slider': case 'filter_cursor': {
+                        const {x, y, z} = intersections[0].point;
+                        const WorldPos = new THREE.Vector3(x, y, z);
+                        this.onFilterCursorDown(WorldPos.clone());
+                        break;
+                    }
                 }
                 return;
             }
@@ -180,7 +186,20 @@ const rightTriggerListener = {
         }
     },
 
-    onPosYCursorDown: function(position:any) {
+    onFilterCursorDown: function(intersectedPoint: any) {
+        const filter: any = document.querySelector('#filter');
+        const cursor: any = document.querySelector('#filter_cursor');
+        const slider: any = document.querySelector('#filter_slider');
+        // const sliderBoundingBox = slider.geometry.boundingBox;
+        // const sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
+        slider.object3D.updateMatrixWorld();
+        slider.object3D.worldToLocal(intersectedPoint);
+
+        cursor.object3D.position.x = intersectedPoint.x;
+        filter.emit('filter-update', {filterValue: intersectedPoint.x}, false);
+    },
+
+    onPosYCursorDown: function(position: any) {
         const box: any = document.querySelector('#box');
         const cursor: any = document.querySelector('#box_position_cursor_y');
         const slider: any = document.querySelector('#box_position_slider_y');
@@ -194,7 +213,7 @@ const rightTriggerListener = {
         box.object3D.position.y += distance;
     },
 
-    onPosXCursorDown: function(position:any) {
+    onPosXCursorDown: function(position: any) {
         const box: any = document.querySelector('#box');
         const cursor: any = document.querySelector('#box_position_cursor_x');
         const slider: any = document.querySelector('#box_position_slider_x');

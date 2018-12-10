@@ -125,7 +125,7 @@ const filterDescription = {
             CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
 
             // Place the slider entity in the layout.
-            SliderEl.object3D.position.set(0, 0.12, 0);
+            SliderEl.object3D.position.set(0, 0.1, 0);
             SliderEl.object3D.rotation.set(45, 0, 0);
         });
     }  

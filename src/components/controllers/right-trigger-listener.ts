@@ -195,7 +195,7 @@ const rightTriggerListener = {
         slider.object3D.updateMatrixWorld();
         slider.object3D.worldToLocal(intersectedPoint);
 
-        cursor.object3D.position.x = intersectedPoint.x;
+        cursor.object3D.position.x = THREE.Math.clamp(intersectedPoint.x, -0.06409, 0.06409);
         filter.emit('filter-update', {filterValue: intersectedPoint.x}, false);
     },
 

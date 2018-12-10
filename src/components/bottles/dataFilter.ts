@@ -29,30 +29,29 @@ const dataFilter = {
         this.el.addEventListener('filter-update', (event) => {
             const filterValue: any = event.detail.filterValue;
             this.data.filterValue = (filterValue + 0.06409)/(0.06409 * 2);
+            const color = new THREE.Color(this.data.sourceValue);
+            color.multiplyScalar(this.data.filterValue);
+            this.data.sourceValue = color;
         });
     },
 
     tick: function(time, timeDelta): void {
-        this.globalTimeDelta += timeDelta;
-        if (this.globalTimeDelta < this.timeOffset) {
+        const targetEntities = this.data.targetEntities;
+        // Check if there is target object.
+        if (!Array.isArray(targetEntities) || !targetEntities.length) {
             return;
         }
-        else {
-            this.globalTimeDelta = 0;
 
-            const targetEntities = this.data.targetEntities;
-            // Check if there is target object.
-            if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                return;
-            }
-
-            for (const curId of this.data.targetEntities) {
-                const curTarget: any = document.querySelector('#' + curId);
-                if (curTarget) {
-                    curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
-                }
+        for (const curId of this.data.targetEntities) {
+            const curTarget: any = document.querySelector('#' + curId);
+            if (curTarget) {
+                curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
             }
         }
+    },
+
+    update: function (oldDate): void {
+        
     }
 }
 

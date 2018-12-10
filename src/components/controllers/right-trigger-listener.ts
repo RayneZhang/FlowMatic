@@ -31,7 +31,7 @@ const rightTriggerListener = {
 
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
-                console.log('The intersected object is ui.');
+                // console.log('The intersected object is ui.');
                 const id = intersectedEl.getAttribute('id');
                 switch(id) {
                     case 'hue': case 'huecursor': {
@@ -74,6 +74,9 @@ const rightTriggerListener = {
                 LinesEntity.setAttribute('draw-line', 'endPoint', EP);
                 // Dot -> prompt -> bottle.
                 LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
+                if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
+                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
+                }
             }
             
         });
@@ -137,6 +140,15 @@ const rightTriggerListener = {
                     }
                     targetEntities.push(targetEntity.getAttribute('id'));
                     sourceEntity.setAttribute('data-filter', 'targetEntities', targetEntities);
+                }
+                if (sourceEntity.classList.contains('data-receiver')){
+                    let targetEntities: any = sourceEntity.getAttribute('data-receiver').targetEntities;
+                    // If the targetEntities is null, we need to reset the type.
+                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                        targetEntities = [];
+                    }
+                    targetEntities.push(targetEntity.getAttribute('id'));
+                    sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
                 }
                 
 

@@ -21,7 +21,6 @@ class Menu {
         this.createSubMenuEl();
         // We can only access the mesh after it is loaded.
         this.menuEl.addEventListener('loaded', (event) => {
-            // Set position of the listEntity.
             this.loadThumbnail();
         });
         // this.updateSizeSlider();
@@ -83,32 +82,15 @@ class Menu {
     loadThumbnail(): void {
         console.log("before url.");
 
-        const thumbnailUrl: string = "assets/images/line_gradient.png";
-        var texture = new THREE.TextureLoader().load(thumbnailUrl);
-        // immediately use the texture for material creation
-        var material = new THREE.MeshBasicMaterial( { map: texture } );
+        // const thumbnailUrl: string = "assets/images/line_gradient.png";
+        // var texture = new THREE.TextureLoader().load(thumbnailUrl);
+        // // immediately use the texture for material creation
+        // var material = new THREE.MeshBasicMaterial( { map: texture } );
         const brush: any = document.querySelector('#brush0');
-        // We can only access the mesh after it is loaded.
-        brush.addEventListener('loaded', (event) => {
-            // Set position of the listEntity.
-            console.log("brush loaded.");
-            brush.getObject3D('mesh').material = material;
-        });
         
+        // brush.getObject3D('mesh').material = material;
+        brush.setAttribute('material', 'src', '#brush');
     }
-
-    // updateSizeSlider(): void {
-    //     var slider = this.objects.sizeSlider;
-    //     var sliderBoundingBox = slider.geometry.boundingBox;
-
-    //     // Fetch cursor and set its X and scale.
-    //     const cursor = this.objects.sizeCursor;
-    //     const sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
-    //     const positionX = 0.5 * sliderWidth;
-    //     cursor.position.setX(positionX - this.cursorOffset.x);
-    //     var scale = 0.5 + 0.3;
-    //     cursor.scale.set(scale, 1, scale);
-    // }
 }
 
 export default Menu;

@@ -5,7 +5,7 @@ class Menu {
     // Assigned in constructor as menu entity. Will be referred by many functions.
     menuEl: any = undefined;
     // The sub-menu elements' names in the 3D obj.
-    subMenuNames: any = ['brushprev', 'brushnext', 'huecursor', 'hue', 'sizebg'];
+    subMenuNames: any = ['brushprev', 'brushnext', 'huecursor', 'hue', 'sizebg', 'brush0', 'brush0fg', 'brush0bg'];
 
     // The cursor is centered in 0,0 to allow scale it easily.
     // This is the offset to put it back in its original position on the slider.
@@ -19,6 +19,11 @@ class Menu {
 
         this.loadModelGroup();
         this.createSubMenuEl();
+        // We can only access the mesh after it is loaded.
+        this.menuEl.addEventListener('loaded', (event) => {
+            // Set position of the listEntity.
+            this.loadThumbnail();
+        });
         // this.updateSizeSlider();
 
         menuEntity.setAttribute('rotation', '45 0 0');
@@ -73,6 +78,23 @@ class Menu {
             this.menuEl.setAttribute('class', 'clickable');
         else // Remove class for raycaster.
             this.menuEl.removeAttribute('class');
+    }
+
+    loadThumbnail(): void {
+        console.log("before url.");
+
+        const thumbnailUrl: string = "assets/images/line_gradient.png";
+        var texture = new THREE.TextureLoader().load(thumbnailUrl);
+        // immediately use the texture for material creation
+        var material = new THREE.MeshBasicMaterial( { map: texture } );
+        const brush: any = document.querySelector('#brush0');
+        // We can only access the mesh after it is loaded.
+        brush.addEventListener('loaded', (event) => {
+            // Set position of the listEntity.
+            console.log("brush loaded.");
+            brush.getObject3D('mesh').material = material;
+        });
+        
     }
 
     // updateSizeSlider(): void {

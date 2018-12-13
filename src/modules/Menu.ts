@@ -76,6 +76,7 @@ class Menu {
             this.menuEl.removeAttribute('class');
     }
 
+    // Load the thumbnails of the buttons to chose from.
     loadButtonThumbnail(buttonNum: number): void {
         const modelGroup = document.querySelector('#modelGroup');
         modelGroup.addEventListener('model-loaded', (event: any) => {
@@ -105,8 +106,28 @@ class Menu {
                     fog: false
                     // src: '#brush'
                 });
+
+                this.loadModelThumbnail(ButtonEl);
             }
         });
+    }
+
+    loadModelThumbnail(appendEl: any): void {
+        const modelThumbnailEntity: any = document.createElement('a-entity');
+        appendEl.appendChild(modelThumbnailEntity);
+        modelThumbnailEntity.classList.add('ui', 'thumbnail');
+        modelThumbnailEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
+        modelThumbnailEntity.setAttribute('material', {
+            color: '#87ceeb',
+            flatShading: true,
+            shader: 'flat',
+            transparent: true,
+            fog: false,
+            opacity: 0.7
+        });
+        modelThumbnailEntity.object3D.position.set(-0.155, 0.015, -0.064736);
+        modelThumbnailEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+        modelThumbnailEntity.object3D.scale.set(0.05, 0.05, 0.05);
     }
 }
 

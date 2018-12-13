@@ -28,6 +28,8 @@
                 <a-asset-item id="purple-mtl" src="assets/models/bottles/objs/purple_bottle.mtl"></a-asset-item>
                 <a-asset-item id="red-obj" src="assets/models/bottles/objs/red_bottle.obj"></a-asset-item>
                 <a-asset-item id="red-mtl" src="assets/models/bottles/objs/red_bottle.mtl"></a-asset-item>
+                <a-asset-item id="bottle-thumbnail" src="assets/models/bottles/objs/bottle_thumbnail.obj"></a-asset-item>
+
 
                 <a-asset-item id="street-obj" src="assets/models/StreetScene/StreetScene.obj"></a-asset-item>
                 <a-asset-item id="bench-obj" src="assets/models/Bench/Bench.obj"></a-asset-item>
@@ -45,7 +47,7 @@
             <a-entity id="box" data-receiver obj-attributes-list class="movable" position="-1 1 -3" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
             <a-entity id="sphere" data-receiver obj-attributes-list class="movable" position="1 1.25 -3" geometry="primitive: sphere; radius: 0.5" material="color: #EF2D5E" shadow></a-entity>
             <a-entity id="table" class="movable" position="-2.5 1 -2" obj-model="obj: #table-obj; mtl: #table-mtl" shadow>
-                <a-entity id="blue-bottle" bottle-description obj-model="obj: #blue-obj; mtl: #blue-mtl" shadow></a-entity>
+                <a-entity id="blue-bottle" data-source bottle-description obj-model="obj: #blue-obj; mtl: #blue-mtl" shadow></a-entity>
                 <a-entity id="green-bottle" data-source bottle-description obj-model="obj: #green-obj; mtl: #green-mtl" shadow></a-entity>
             </a-entity>
             <a-entity id="filter" data-filter filter-description class="movable" position="0 1 -1" rotation="0 0 270" geometry="primitive: cone; height: 0.2; radiusBottom: 0.1; radiusTop: 0.05" shadow></a-entity>

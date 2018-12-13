@@ -94,7 +94,7 @@ class Menu {
                 const subset_fg = model.getObjectByName("brush"+i.toString()+"fg");
                 const subset_bg = model.getObjectByName("brush"+i.toString()+"bg");
                 ButtonEl.setObject3D('mesh', subset.clone());
-                ButtonEl.setObject3D('mesh_fg', subset_fg.clone());
+                // ButtonEl.setObject3D('mesh_fg', subset_fg.clone());
                 ButtonEl.setObject3D('mesh_bg', subset_bg.clone());
 
                 // Add the same material component of the sub-menu entity.
@@ -107,12 +107,25 @@ class Menu {
                     // src: '#brush'
                 });
 
-                this.loadModelThumbnail(ButtonEl);
+                // Handle material when hover.
+                ButtonEl.addEventListener('raycaster-intersected', (event) => {
+                    event.stopPropagation();
+                    ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
+                })
+
+                // Handle material when hover cleared.
+                ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                    event.stopPropagation();
+                    ButtonEl.setAttribute('material', 'color', '#000000'); 
+                })
+
+                this.loadModelThumbnail(ButtonEl, i);
             }
         });
     }
 
-    loadModelThumbnail(appendEl: any): void {
+    loadModelThumbnail(appendEl: any, iteration: number): void {
+        if (iteration > 0) return;
         const modelThumbnailEntity: any = document.createElement('a-entity');
         appendEl.appendChild(modelThumbnailEntity);
         modelThumbnailEntity.classList.add('ui', 'thumbnail');

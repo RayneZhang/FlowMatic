@@ -95,7 +95,7 @@ class Menu {
                 const subset_bg = model.getObjectByName("brush"+i.toString()+"bg");
                 ButtonEl.setObject3D('mesh', subset.clone());
                 // ButtonEl.setObject3D('mesh_fg', subset_fg.clone());
-                ButtonEl.setObject3D('mesh_bg', subset_bg.clone());
+                // ButtonEl.setObject3D('mesh_bg', subset_bg.clone());
 
                 // Add the same material component of the sub-menu entity.
                 ButtonEl.setAttribute('material', {

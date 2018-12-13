@@ -5,6 +5,7 @@ declare const THREE:any;
 const rightTriggerListener = {
     init: function(): void {
         this.triggering = false;
+        this.hueDown = false;
 
         // Handle trigger down.
         this.el.addEventListener('triggerdown', (event) => {
@@ -25,7 +26,7 @@ const rightTriggerListener = {
             // Retrieve all intersections through raycaster.
             const intersections = this.el.components.raycaster.intersections;
             if (!Array.isArray(intersections) || !intersections.length) {
-                console.log('There is NO intersections when triggering');
+                // console.log('There is NO intersections when triggering');
                 return;
             }
 
@@ -35,6 +36,7 @@ const rightTriggerListener = {
                 const id = intersectedEl.getAttribute('id');
                 switch(id) {
                     case 'hue': case 'huecursor': {
+                        this.hueDown = true;
                         // Fetch the intersection point of the first intersected object.
                         const {x, y, z} = intersections[0].point;
                         const WorldPos = new THREE.Vector3(x, y, z);
@@ -170,6 +172,39 @@ const rightTriggerListener = {
 
     tick: function(time, timeDelta): void {
         if (this.triggering) {
+            if (this.hueDown) {
+                // Retrieve all intersected Elements through raycaster.
+                const intersectedEls = this.el.components.raycaster.intersectedEls;
+
+                // Check if there is intersected object.
+                if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
+                    this.hueDown = false;
+                    return;
+                }
+
+                // Fetch the intersected object.
+                const intersectedEl = intersectedEls[0];
+
+                // Retrieve all intersections through raycaster.
+                const intersections = this.el.components.raycaster.intersections;
+                if (!Array.isArray(intersections) || !intersections.length) {
+                    this.hueDown = false;
+                    return;
+                }
+
+                const id = intersectedEl.getAttribute('id');
+                if (id == "hue" || id == "huecursor") {
+                    // Fetch the intersection point of the first intersected object.
+                    const {x, y, z} = intersections[0].point;
+                    const WorldPos = new THREE.Vector3(x, y, z);
+                    this.onHueDown(WorldPos.clone());
+                }
+                else {
+                    this.hueDown = false;
+                }
+                return;
+            }
+
             const lineEntity: any = document.querySelector('#lines');
 
             // Update line end point to controller position.
@@ -242,13 +277,19 @@ const rightTriggerListener = {
     onHueDown: function(position: any) {
         const hueWheel: any = document.querySelector('#hue');
         const hueCursor: any = document.querySelector('#huecursor');
+
+        if (!hueWheel.getAttribute('model-subset').raycasted) {
+            return;
+        }
+            
+
         const radius: number = this.calRadius(hueWheel);
 
         hueWheel.object3D.updateMatrixWorld();
         const LocalPos = hueWheel.object3D.worldToLocal(position);
 
         // console.log(LocalPos.x + ',' + LocalPos.y + ',' + LocalPos.z);       
-        hueCursor.object3D.position.copy(position);
+        hueCursor.object3D.position.set(position.x, hueCursor.object3D.position.y, position.z);
 
         const polarPosition = {
             r: Math.sqrt(position.x * position.x + position.z * position.z),

@@ -3,7 +3,8 @@ declare const THREE:any;
 const modelSubset = {
     schema: {
         target: {type: 'selector', default: null},
-        name: {type: 'string', default: ''}
+        name: {type: 'string', default: ''},
+        raycasted: {type: 'boolean', default: false}
     },
 
     init: function() {
@@ -20,12 +21,14 @@ const modelSubset = {
         // Handle material when hover.
         this.el.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
+            this.data.raycasted = true;
             this.el.setAttribute('material', 'src', '#uihover'); 
         })
 
         // Handle material when hover cleared.
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
+            this.data.raycasted = false;
             this.el.setAttribute('material', 'src', '#uinormal'); 
         })
     },

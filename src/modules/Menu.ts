@@ -98,12 +98,12 @@ class Menu {
 
                 // Add the same material component of the sub-menu entity.
                 ButtonEl.setAttribute('material', {
-                    color: '#ffffff',
+                    color: '#000000',
                     flatShading: true,
                     shader: 'flat',
-                    transparent: true,
-                    fog: false,
-                    src: '#brush'
+                    transparent: false,
+                    fog: false
+                    // src: '#brush'
                 });
             }
         });

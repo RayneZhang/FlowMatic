@@ -5,7 +5,7 @@ class Menu {
     // Assigned in constructor as menu entity. Will be referred by many functions.
     menuEl: any = undefined;
     // The sub-menu elements' names in the 3D obj.
-    subMenuNames: any = ['brushprev', 'brushnext', 'huecursor', 'hue', 'sizebg', 'brush0', 'brush0fg', 'brush0bg'];
+    subMenuNames: any = ['brushprev', 'brushnext', 'huecursor', 'hue', 'sizebg'];
 
     // The cursor is centered in 0,0 to allow scale it easily.
     // This is the offset to put it back in its original position on the slider.
@@ -19,10 +19,7 @@ class Menu {
 
         this.loadModelGroup();
         this.createSubMenuEl();
-        // We can only access the mesh after it is loaded.
-        this.menuEl.addEventListener('loaded', (event) => {
-            this.loadThumbnail();
-        });
+        this.loadButtonThumbnail(2);
         // this.updateSizeSlider();
 
         menuEntity.setAttribute('rotation', '45 0 0');
@@ -79,17 +76,37 @@ class Menu {
             this.menuEl.removeAttribute('class');
     }
 
-    loadThumbnail(): void {
-        console.log("before url.");
+    loadButtonThumbnail(buttonNum: number): void {
+        const modelGroup = document.querySelector('#modelGroup');
+        modelGroup.addEventListener('model-loaded', (event: any) => {
+            for (let i=0; i<buttonNum; i++) {
+                // Create sub-menu entity.
+                const ButtonEl: any = document.createElement('a-entity');
+                this.menuEl.appendChild(ButtonEl);
+                ButtonEl.setAttribute('id', "brush"+i.toString());
+                ButtonEl.setAttribute('class', 'ui');
 
-        // const thumbnailUrl: string = "assets/images/line_gradient.png";
-        // var texture = new THREE.TextureLoader().load(thumbnailUrl);
-        // // immediately use the texture for material creation
-        // var material = new THREE.MeshBasicMaterial( { map: texture } );
-        const brush: any = document.querySelector('#brush0');
-        
-        // brush.getObject3D('mesh').material = material;
-        brush.setAttribute('material', 'src', '#brush');
+                const model = event.detail.model;
+                // Check the model format and whether it is empty.
+                if (event.detail.format !== 'obj' || !model.getObjectByName('huecursor')) {return;}
+                const subset = model.getObjectByName("brush"+i.toString());
+                const subset_fg = model.getObjectByName("brush"+i.toString()+"fg");
+                const subset_bg = model.getObjectByName("brush"+i.toString()+"bg");
+                ButtonEl.setObject3D('mesh', subset.clone());
+                ButtonEl.setObject3D('mesh_fg', subset_fg.clone());
+                ButtonEl.setObject3D('mesh_bg', subset_bg.clone());
+
+                // Add the same material component of the sub-menu entity.
+                ButtonEl.setAttribute('material', {
+                    color: '#ffffff',
+                    flatShading: true,
+                    shader: 'flat',
+                    transparent: true,
+                    fog: false,
+                    src: '#brush'
+                });
+            }
+        });
     }
 }
 

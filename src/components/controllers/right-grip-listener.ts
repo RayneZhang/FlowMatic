@@ -3,7 +3,7 @@ declare const THREE:any;
 const rightGripListener = {
     schema: {
         followingEl: {type: 'selector', default: null},
-        gripping: {type: 'boolean', default: 'false'}
+        gripping: {type: 'boolean', default: false}
     },
 
     init(): void {

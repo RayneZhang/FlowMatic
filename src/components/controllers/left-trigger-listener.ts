@@ -1,6 +1,6 @@
 const leftTriggerListener = {
     schema: {
-        triggering: {type: 'boolean', default: 'false'},
+        triggering: {type: 'boolean', default: false},
         createdEl: {type: 'selector', default: null},
         color: {type: 'string', default: ''}
     },

@@ -32,7 +32,11 @@ const rightTriggerListener = {
 
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
-                // console.log('The intersected object is ui.');
+                if (intersectedEl.classList.contains('thumbnail')) {
+                    const leftHand: any = document.querySelector('leftHand');
+                    leftHand.setAttribute('left-trigger-listener', 'targetModel', 'bottle');
+                }
+
                 const id = intersectedEl.getAttribute('id');
                 switch(id) {
                     case 'hue': case 'huecursor': {

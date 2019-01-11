@@ -1,6 +1,7 @@
 const leftTriggerListener = {
     schema: {
         triggering: {type: 'boolean', default: false},
+        targetModel: {type: 'string', defualt: ''},
         createdEl: {type: 'selector', default: null},
         color: {type: 'string', default: ''}
     },
@@ -16,22 +17,33 @@ const leftTriggerListener = {
             let newEntity: any = document.createElement('a-entity');
             sceneEl.appendChild(newEntity);
 
-            // Add geometry component to the entity.
-            newEntity.setAttribute('geometry', {
-                primitive: 'box',
-                height: 0.1,
-                width: 0.1,
-                depth: 0.1
-            }); 
+            if (this.data.targetModel == "") {
+                // Add geometry component to the entity.
+                newEntity.setAttribute('geometry', {
+                    primitive: 'box',
+                    height: 0.1,
+                    width: 0.1,
+                    depth: 0.1
+                }); 
 
-            // Set the shading of the primitive.
-            newEntity.setAttribute('material', {
-                flatShading: true,
-                shader: 'flat',
-            }); 
+                // Set the shading of the primitive.
+                newEntity.setAttribute('material', {
+                    flatShading: true,
+                    shader: 'flat',
+                }); 
 
-             // Set the color of the primitive.
-             newEntity.setAttribute('material', 'color', this.data.color);
+                // Set the color of the primitive.
+                newEntity.setAttribute('material', 'color', this.data.color);
+            }
+
+            if (this.data.targetModel == "bottle") {
+                newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
+                newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
+                newEntity.setAttribute('data-source');
+                newEntity.setAttribute('bottle-description');
+            }
+
+            
 
             // Add class component to the entity.
             newEntity.setAttribute('class', 'movable');

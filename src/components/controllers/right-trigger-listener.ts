@@ -33,8 +33,15 @@ const rightTriggerListener = {
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
                 if (intersectedEl.classList.contains('thumbnail')) {
-                    const leftHand: any = document.querySelector('leftHand');
+                    const leftHand: any = document.querySelector('#leftHand');
                     leftHand.setAttribute('left-trigger-listener', 'targetModel', 'bottle');
+
+                    const ButtonEl: any = document.querySelector('#brush0');
+                    // Handle material when hover cleared.
+                    ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                        event.stopPropagation();
+                        ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
+                    })
                 }
 
                 const id = intersectedEl.getAttribute('id');

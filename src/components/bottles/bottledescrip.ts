@@ -30,6 +30,11 @@ const bottleDescription = {
                     this.createPrompt("Random color", 'red', redOffset.clone());
                     this.initDots();
                     break;
+                default:
+                    const defaultOffset = new THREE.Vector3(-0.450, 0.55, 0);
+                    this.createPrompt("Random Number", 'blue', defaultOffset.clone());
+                    this.initDots();
+                    break;
             }
         });
 

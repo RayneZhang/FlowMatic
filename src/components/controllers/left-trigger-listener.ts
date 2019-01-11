@@ -39,11 +39,9 @@ const leftTriggerListener = {
             if (this.data.targetModel == "bottle") {
                 newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                 newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
-                newEntity.setAttribute('data-source');
-                newEntity.setAttribute('bottle-description');
+                newEntity.setAttribute('data-source', 'targetEntities', []);
+                newEntity.setAttribute('bottle-description', 'freeze', false);
             }
-
-            
 
             // Add class component to the entity.
             newEntity.setAttribute('class', 'movable');

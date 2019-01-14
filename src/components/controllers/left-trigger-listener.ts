@@ -7,7 +7,7 @@ const leftTriggerListener = {
     },
 
     init: function(): void {
-
+        this.id = 0;
         const el = this.el;
         const sceneEl = document.querySelector('a-scene');
 
@@ -37,8 +37,10 @@ const leftTriggerListener = {
             }
 
             if (this.data.targetModel == "bottle") {
+                newEntity.setAttribute('id', 'bottle' + this.id);
                 newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                 newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
+                
                 newEntity.setAttribute('data-source', 'targetEntities', []);
                 newEntity.setAttribute('bottle-description', 'freeze', false);
             }

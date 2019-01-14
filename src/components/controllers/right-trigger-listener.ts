@@ -36,11 +36,10 @@ const rightTriggerListener = {
                     const leftHand: any = document.querySelector('#leftHand');
                     leftHand.setAttribute('left-trigger-listener', 'targetModel', 'bottle');
 
-                    const ButtonEl: any = document.querySelector('#brush0');
                     // Handle material when hover cleared.
-                    ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                    intersectedEl.addEventListener('raycaster-intersected-cleared', (event) => {
                         event.stopPropagation();
-                        ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
+                        intersectedEl.setAttribute('material', 'color', '#FF69B4'); 
                     })
                 }
 

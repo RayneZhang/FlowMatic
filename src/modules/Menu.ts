@@ -5,7 +5,7 @@ class Menu {
     // Assigned in constructor as menu entity. Will be referred by many functions.
     menuEl: any = undefined;
     // The sub-menu elements' names in the 3D obj.
-    subMenuNames: any = ['brushprev', 'brushnext', 'huecursor', 'hue', 'sizebg'];
+    subMenuNames: any = ['brushprev', 'brushnext', 'huecursor', 'hue'];
 
     // The cursor is centered in 0,0 to allow scale it easily.
     // This is the offset to put it back in its original position on the slider.
@@ -19,11 +19,11 @@ class Menu {
 
         this.loadModelGroup();
         this.createSubMenuEl();
-        this.loadButtonThumbnail(2);
+        this.loadButtonThumbnail(4);
         // this.updateSizeSlider();
 
-        menuEntity.setAttribute('rotation', '45 0 0');
-        menuEntity.setAttribute('position', '0 0.13 -0.08');
+        // menuEntity.setAttribute('rotation', '45 0 0');
+        menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
         menuEntity.object3D.visible = false;
 
@@ -70,58 +70,55 @@ class Menu {
     onXButtonDown(event): void {
         this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
 
-        if (this.menuEl.object3D.visible) // Add class for raycaster.
-            this.menuEl.setAttribute('class', 'clickable');
-        else // Remove class for raycaster.
-            this.menuEl.removeAttribute('class');
+        // if (this.menuEl.object3D.visible) // Add class for raycaster.
+        //     this.menuEl.setAttribute('class', 'clickable');
+        // else // Remove class for raycaster.
+        //     this.menuEl.removeAttribute('class');
     }
 
     // Load the thumbnails of the buttons to chose from.
     loadButtonThumbnail(buttonNum: number): void {
-        const modelGroup = document.querySelector('#modelGroup');
-        modelGroup.addEventListener('model-loaded', (event: any) => {
-            for (let i=0; i<buttonNum; i++) {
-                // Create sub-menu entity.
-                const ButtonEl: any = document.createElement('a-entity');
-                this.menuEl.appendChild(ButtonEl);
-                ButtonEl.setAttribute('id', "brush"+i.toString());
-                ButtonEl.setAttribute('class', 'ui');
+        const xOffset: number = 0.05;
+        const yOffset: number = -0.005;
+        const zOffset: number = 0.05;
+        for (let i=0; i<buttonNum; i++) {
+            // Create sub-menu entity.
+            const ButtonEl: any = document.createElement('a-entity');
+            this.menuEl.appendChild(ButtonEl);
+            ButtonEl.setAttribute('id', "button"+i.toString());
+            ButtonEl.setAttribute('class', 'ui');
 
-                const model = event.detail.model;
-                // Check the model format and whether it is empty.
-                if (event.detail.format !== 'obj' || !model.getObjectByName('huecursor')) {return;}
-                const subset = model.getObjectByName("brush"+i.toString());
-                const subset_fg = model.getObjectByName("brush"+i.toString()+"fg");
-                const subset_bg = model.getObjectByName("brush"+i.toString()+"bg");
-                ButtonEl.setObject3D('mesh', subset.clone());
-                // ButtonEl.setObject3D('mesh_fg', subset_fg.clone());
-                // ButtonEl.setObject3D('mesh_bg', subset_bg.clone());
+            // Add geometry component to the entity.
+            ButtonEl.setAttribute('geometry', {
+                primitive: 'sphere',
+                radius: 0.02
+            }); 
 
-                // Add the same material component of the sub-menu entity.
-                ButtonEl.setAttribute('material', {
-                    color: '#000000',
-                    flatShading: true,
-                    shader: 'flat',
-                    transparent: false,
-                    fog: false
-                    // src: '#brush'
-                });
+            // Add the same material component of the sub-menu entity.
+            ButtonEl.setAttribute('material', {
+                color: '#B0B0B0',
+                flatShading: true,
+                shader: 'flat',
+                transparent: true,
+                opacity: 0.3,
+                fog: false
+            });
 
-                // Handle material when hover.
-                ButtonEl.addEventListener('raycaster-intersected', (event) => {
-                    event.stopPropagation();
-                    ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
-                })
+            // Handle material when hover.
+            ButtonEl.addEventListener('raycaster-intersected', (event) => {
+                event.stopPropagation();
+                ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
+            })
 
-                // Handle material when hover cleared.
-                ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                    event.stopPropagation();
-                    ButtonEl.setAttribute('material', 'color', '#000000'); 
-                })
+            // Handle material when hover cleared.
+            ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                event.stopPropagation();
+                ButtonEl.setAttribute('material', 'color', '#B0B0B0'); 
+            })
 
-                this.loadModelThumbnail(ButtonEl, i);
-            }
-        });
+            ButtonEl.object3D.position.set(-0.155 + xOffset*(i%2), 0.015 + yOffset*(i%2), -0.065 + zOffset*Math.floor(i/2));
+            this.loadModelThumbnail(ButtonEl, i);
+        }
     }
 
     // Load the thumbnails of the models to display in buttons.
@@ -139,7 +136,6 @@ class Menu {
             fog: false,
             opacity: 0.7
         });
-        modelThumbnailEntity.object3D.position.set(-0.155, 0.015, -0.064736);
         modelThumbnailEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
         modelThumbnailEntity.object3D.scale.set(0.05, 0.05, 0.05);
     }

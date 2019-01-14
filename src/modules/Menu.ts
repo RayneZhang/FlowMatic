@@ -124,6 +124,7 @@ class Menu {
         });
     }
 
+    // Load the thumbnails of the models to display in buttons.
     loadModelThumbnail(appendEl: any, iteration: number): void {
         if (iteration > 0) return;
         const modelThumbnailEntity: any = document.createElement('a-entity');

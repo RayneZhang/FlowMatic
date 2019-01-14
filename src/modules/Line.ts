@@ -6,6 +6,7 @@ class Line {
 
     constructor() {
         this.curLineEntity = document.createElement('a-entity');
+        // this.curLineEntity.setAttribute('id', 'currentLine');
         this.curLineEntity.setAttribute('line-properties');
 
         // Append current Line Entity to the Lines Entity.
@@ -16,6 +17,7 @@ class Line {
     // Destroy current line.
     destroyLine() {
         this.LinesEntity.setAttribute('draw-line', 'currentLine', null);
+        // this.LinesEntity.setObject3D('mesh', null); 
         this.curLineEntity.parentNode.removeChild(this.curLineEntity);
     }
 }

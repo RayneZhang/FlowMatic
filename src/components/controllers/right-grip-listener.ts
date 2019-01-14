@@ -27,6 +27,7 @@ const rightGripListener = {
 
             // Check if the intersected object is movable.
             if (!intersectedEl.classList.contains('movable')) {
+                console.log(intersectedEl);
                 console.log('The intersected object is not movable.');
                 return;
             }

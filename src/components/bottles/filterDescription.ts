@@ -105,7 +105,7 @@ const filterDescription = {
         CursorEl.classList.add('ui', 'slider_cursor');
 
         // Adjust the position offset of the cursor entity.
-        CursorEl.object3D.position.set(0, 0.075, 0);
+        CursorEl.object3D.position.set(0, 0.1, 0);
 
         // Place the slider entity in the layout.
         SliderEl.object3D.position.set(0, 0.15, 0);

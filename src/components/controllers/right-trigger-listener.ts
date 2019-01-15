@@ -224,8 +224,8 @@ const rightTriggerListener = {
             }
 
             if (this.sliding && this.slidingEl) {
-                const lastPosition: any = this.lastPosition;
-                const currentPosition: any = this.el.object3D.position;
+                const lastPosition: any = this.lastPosition.clone();
+                const currentPosition: any = this.el.object3D.position.clone();
 
                 // Store this frame's position in oldPosition.
                 this.lastPosition = currentPosition.clone();
@@ -235,7 +235,7 @@ const rightTriggerListener = {
                 const updatedTargetPosition: any = currentTargetPosition.add(currentPosition.sub(lastPosition));
 
                 // Modify position at three.js level for better performance. (Better than setAttribute)
-                this.slidingEl.object3D.position.set(0, THREE.Math.clamp(updatedTargetPosition.y, -0.075, 0.075), 0);
+                this.slidingEl.object3D.position.set(0, THREE.Math.clamp(updatedTargetPosition.y, -0.1, 0.1), 0);
                 this.onFilterCursorDown();
                 return;
             }

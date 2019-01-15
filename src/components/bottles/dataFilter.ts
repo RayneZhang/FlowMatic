@@ -15,7 +15,7 @@ const dataFilter = {
         
         this.timeOffset = 2000;
         this.globalTimeDelta = 0;
-        this.maxValue = 0.075;
+        this.maxValue = 0.1;
         this.initSourceValue = this.data.sourceValue;
 
         this.el.addEventListener('attribute-update', (event) => {

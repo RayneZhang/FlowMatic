@@ -76,7 +76,7 @@ const filterDescription = {
     // Create the sliders of x,y,z of the attribute.
     createSlider(appendEl): void {
         const sceneEl = document.querySelector('a-scene');
-        sceneEl.addEventListener('loaded', (event) => {
+        //sceneEl.addEventListener('loaded', (event) => {
             const modelGroup = document.querySelector('#modelGroup');
             
             const SliderEl: any = document.createElement('a-entity');
@@ -127,7 +127,7 @@ const filterDescription = {
             // Place the slider entity in the layout.
             SliderEl.object3D.position.set(0, 0.1, 0);
             SliderEl.object3D.rotation.set(45, 0, 0);
-        });
+        //});
     }  
 }
 

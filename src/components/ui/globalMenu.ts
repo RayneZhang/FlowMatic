@@ -198,7 +198,7 @@ const globalMenu = {
         currentSelectedButton.setAttribute('material', 'color', '#FF69B4');
 
         const leftHand: any = document.querySelector('#leftHand');
-        leftHand.setAttribute('left-trigger-listener', 'targetModel', 'bottle');
+        leftHand.setAttribute('left-trigger-listener', 'targetModel', _id);
     }
 }
 

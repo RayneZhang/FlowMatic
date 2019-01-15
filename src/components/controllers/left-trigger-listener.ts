@@ -1,3 +1,5 @@
+declare const THREE:any;
+
 const leftTriggerListener = {
     schema: {
         triggering: {type: 'boolean', default: false},
@@ -17,34 +19,51 @@ const leftTriggerListener = {
             let newEntity: any = document.createElement('a-entity');
             sceneEl.appendChild(newEntity);
 
-            if (this.data.targetModel == "") {
-                // Add geometry component to the entity.
-                newEntity.setAttribute('geometry', {
-                    primitive: 'box',
-                    height: 0.1,
-                    width: 0.1,
-                    depth: 0.1
-                }); 
+            switch (this.data.targetModel) {
+                case 'button0': {
+                    newEntity.setAttribute('id', 'bottle' + this.id);
+                    newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
+                    newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
+                    
+                    newEntity.setAttribute('data-source', 'targetEntities', []);
+                    newEntity.setAttribute('bottle-description', 'freeze', false);
+                    this.id++;
+                    break;
+                }
+                case 'button1': default: {
+                    // Add geometry component to the entity.
+                    newEntity.setAttribute('geometry', {
+                        primitive: 'box',
+                        height: 0.1,
+                        width: 0.1,
+                        depth: 0.1
+                    }); 
 
-                // Set the shading of the primitive.
-                newEntity.setAttribute('material', {
-                    flatShading: true,
-                    shader: 'flat',
-                }); 
+                    // Set the color of the primitive.
+                    newEntity.setAttribute('material', 'color', this.data.color);
+                    break;
+                }
+                case 'button2': {
+                    // Add geometry component to the entity.
+                    newEntity.setAttribute('geometry', {
+                        primitive: 'cone',
+                        height: 0.2,
+                        radiusBottom: 0.1,
+                        radiusTop: 0.05
+                    }); 
 
-                // Set the color of the primitive.
-                newEntity.setAttribute('material', 'color', this.data.color);
+                    // Set the color of the primitive.
+                    newEntity.setAttribute('material', 'color', this.data.color);
+                    newEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'filter' + this.id);
+                    newEntity.setAttribute('data-filter', 'targetEntities', []);
+                    newEntity.setAttribute('filter-description', 'freeze', false);
+                    this.id++;
+                    break;
+                }
             }
-
-            if (this.data.targetModel == "bottle") {
-                newEntity.setAttribute('id', 'bottle' + this.id);
-                newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
-                newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
-                
-                newEntity.setAttribute('data-source', 'targetEntities', []);
-                newEntity.setAttribute('bottle-description', 'freeze', false);
-            }
-
             // Add class component to the entity.
             newEntity.setAttribute('class', 'movable');
 

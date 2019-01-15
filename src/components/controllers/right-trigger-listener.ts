@@ -32,18 +32,14 @@ const rightTriggerListener = {
 
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
-                if (intersectedEl.classList.contains('thumbnail')) {
-                    const leftHand: any = document.querySelector('#leftHand');
-                    leftHand.setAttribute('left-trigger-listener', 'targetModel', 'bottle');
-
-                    // Handle material when hover cleared.
-                    intersectedEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                        event.stopPropagation();
-                        intersectedEl.setAttribute('material', 'color', '#FF69B4'); 
-                    })
-                }
-
                 const id = intersectedEl.getAttribute('id');
+
+                if (intersectedEl.classList.contains('thumbnail')) {
+                    const globalMenu: any = document.querySelector('[global-menu]');
+                    const globalMenuComponent = globalMenu.components['global-menu'];
+                    globalMenuComponent.setSelectedButtonId(id);
+                }
+                
                 switch(id) {
                     case 'hue': case 'huecursor': {
                         this.hueDown = true;

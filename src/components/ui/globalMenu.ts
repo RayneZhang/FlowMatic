@@ -14,7 +14,7 @@ const globalMenu = {
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
         this.el.appendChild(menuEntity);
-        menuEntity.setAttribute('id', this.el.getAttribute('id') + 'menu'); 
+        menuEntity.setAttribute('id', 'global_menu'); 
 
         this.loadModelGroup();
         this.createSubMenuEl();
@@ -97,9 +97,9 @@ const globalMenu = {
                 radius: 0.02
             }); 
 
-            // Add the same material component of the sub-menu entity.
+            // Add the s2ame material component of the sub-menu entity.
             ButtonEl.setAttribute('material', {
-                color: '#B0B0B0',
+                color: '#FFFFFF',
                 flatShading: true,
                 shader: 'flat',
                 transparent: true,
@@ -117,12 +117,14 @@ const globalMenu = {
             ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
                 if (ButtonEl.getAttribute('id') != this.selectedButtonId)
-                    ButtonEl.setAttribute('material', 'color', '#B0B0B0'); 
+                    ButtonEl.setAttribute('material', 'color', '#FFFFFF'); 
             })
 
             ButtonEl.object3D.position.set(-0.155 + xOffset*(i%2), 0.015 + yOffset*(i%2), -0.065 + zOffset*Math.floor(i/2));
             this.loadModelThumbnail(ButtonEl, i);
         }
+
+        this.setSelectedButtonId('button1');
     },
 
     // Load the thumbnails of the models to display in buttons.
@@ -141,6 +143,21 @@ const globalMenu = {
         });
         modelThumbnailEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
         modelThumbnailEntity.object3D.scale.set(0.05, 0.05, 0.05);
+    },
+
+    // Set the selected button id.
+    setSelectedButtonId: function(_id: string): void {
+        if (this.selectedButtonId) {
+            const lastSelectedButton: any = document.querySelector('#' + this.selectedButtonId);
+            lastSelectedButton.setAttribute('material', 'color', '#FFFFFF');
+        }
+
+        this.selectedButtonId = _id;
+        const currentSelectedButton: any = document.querySelector('#' + this.selectedButtonId);
+        currentSelectedButton.setAttribute('material', 'color', '#FF69B4');
+
+        const leftHand: any = document.querySelector('#leftHand');
+        leftHand.setAttribute('left-trigger-listener', 'targetModel', 'bottle');
     }
 }
 

@@ -4,7 +4,8 @@ declare const THREE:any;
 
 const filterDescription = {
     schema: {
-        freeze: {type: "boolean", default: false}
+        freeze: {type: "boolean", default: false},
+        sliding: {type: "boolean", default: false}
     },
 
     init: function(): void {
@@ -120,6 +121,8 @@ const filterDescription = {
         // Handle material when hover cleared.
         CursorEl.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
+            if (this.data.sliding)
+                return;
             CursorEl.setAttribute('material', 'color', this.el.getAttribute("material").color); 
         })
     }  

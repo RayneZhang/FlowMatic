@@ -50,6 +50,7 @@ const rightTriggerListener = {
                     // Set the intersected object as the following object.
                     this.slidingEl = intersectedEl;
                     this.sliding = true;
+                    this.slidingEl.parentNode.parentNode.setAttribute('filter-description', 'sliding', true);
 
                     // Leave it to tick.
                 }
@@ -101,6 +102,10 @@ const rightTriggerListener = {
             this.triggering = false;
             this.hueDown = false;
             this.sliding = false;
+            if (this.slidingEl) {
+                this.slidingEl.parentNode.parentNode.setAttribute('filter-description', 'sliding', false);
+                this.slidingEl.emit('raycaster-intersected-cleared');
+            }
 
             // Conditions when the intersected target is not connectable.
             // Retrieve all intersected Elements through raycaster.

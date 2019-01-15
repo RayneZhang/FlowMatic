@@ -4,6 +4,8 @@ const globalMenu = {
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
         this.subMenuNames = ['brushprev', 'brushnext', 'huecursor', 'hue'];
+        // The corresponding model thumbnails in the buttons.
+        this.modelThumbnails = ['bottle', 'box', 'cone'];
         // The selected button id.
         this.selectedButtonId = 'button1';
 
@@ -18,7 +20,7 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubMenuEl();
-        this.loadButtonThumbnail(3);
+        this.loadButtonThumbnail(this.modelThumbnails.length);
         // this.updateSizeSlider();
 
         // menuEntity.setAttribute('rotation', '45 0 0');
@@ -103,7 +105,7 @@ const globalMenu = {
                 flatShading: true,
                 shader: 'flat',
                 transparent: true,
-                opacity: 0.3,
+                opacity: 0.4,
                 fog: false
             });
 
@@ -128,21 +130,60 @@ const globalMenu = {
     },
 
     // Load the thumbnails of the models to display in buttons.
-    loadModelThumbnail(appendEl: any, iteration: number): void {
-        if (iteration > 0) return;
+    loadModelThumbnail(appendEl: any, buttonNum: number): void {
         const modelThumbnailEntity: any = document.createElement('a-entity');
         appendEl.appendChild(modelThumbnailEntity);
-        modelThumbnailEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
+
+        switch (buttonNum) {
+            case 0: {
+                modelThumbnailEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
+                
+                modelThumbnailEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                modelThumbnailEntity.object3D.scale.set(0.05, 0.05, 0.05);
+                break;
+            }
+            case 1: {
+                modelThumbnailEntity.setAttribute('geometry', {
+                    primitive: 'box',
+                    width: 0.015,
+                    height: 0.015,
+                    depth: 0.015
+                });
+                break;
+            }
+            case 2: {
+                modelThumbnailEntity.setAttribute('geometry', {
+                    primitive: 'cone',
+                    height: 0.015,
+                    radiusBottom: 0.01,
+                    radiusTop: 0.005
+                });
+                modelThumbnailEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+                break;
+            }
+        }
+        
         modelThumbnailEntity.setAttribute('material', {
             color: '#87ceeb',
-            flatShading: true,
-            shader: 'flat',
             transparent: true,
             fog: false,
-            opacity: 0.7
+            opacity: 0.8
         });
-        modelThumbnailEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
-        modelThumbnailEntity.object3D.scale.set(0.05, 0.05, 0.05);
+    },
+
+    // Calculate the radius of the object.
+    calRadius(obj): number {
+        const mesh = obj.getObject3D('mesh');
+        if (!mesh) {
+            return 0;
+        }
+
+        const box = new THREE.Box3().setFromObject(mesh);
+        const size = box.getSize();
+        const extent = Math.max(size.x, size.y, size.z) / 2;
+        const radius = Math.sqrt(2) * extent;
+        
+        return radius;
     },
 
     // Set the selected button id.

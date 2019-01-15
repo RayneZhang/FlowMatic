@@ -15,11 +15,14 @@ const dataFilter = {
         
         this.timeOffset = 2000;
         this.globalTimeDelta = 0;
+        this.maxValue = 0.075;
+        this.initSourceValue = this.data.sourceValue;
 
         this.el.addEventListener('attribute-update', (event) => {
             const sourceName: string = event.detail.sourceName;
             const sourceValue: any = event.detail.sourceValue;
             if (sourceName === 'color') {
+                this.initSourceValue = sourceValue;
                 const color = new THREE.Color(sourceValue);
                 color.multiplyScalar(this.data.filterValue);
                 this.data.sourceValue = color;
@@ -28,8 +31,8 @@ const dataFilter = {
 
         this.el.addEventListener('filter-update', (event) => {
             const filterValue: any = event.detail.filterValue;
-            this.data.filterValue = (filterValue + 0.06409)/(0.06409 * 2);
-            const color = new THREE.Color(this.data.sourceValue);
+            this.data.filterValue = (filterValue + this.maxValue)/(this.maxValue * 2);
+            const color = new THREE.Color(this.initSourceValue);
             color.multiplyScalar(this.data.filterValue);
             this.data.sourceValue = color;
         });

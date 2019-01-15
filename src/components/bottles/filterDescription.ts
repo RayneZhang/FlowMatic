@@ -75,59 +75,53 @@ const filterDescription = {
 
     // Create the sliders of x,y,z of the attribute.
     createSlider(appendEl): void {
-        const sceneEl = document.querySelector('a-scene');
-        //sceneEl.addEventListener('loaded', (event) => {
-            const modelGroup = document.querySelector('#modelGroup');
-            
-            const SliderEl: any = document.createElement('a-entity');
-            const CursorEl: any = document.createElement('a-entity');
+        const SliderEl: any = document.createElement('a-entity');
+        const CursorEl: any = document.createElement('a-entity');
 
-            appendEl.appendChild(SliderEl);
-            SliderEl.appendChild(CursorEl);
+        appendEl.appendChild(SliderEl);
+        SliderEl.appendChild(CursorEl);
 
-            SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider');
-            CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor');
+        SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider');
+        CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor');
 
-            SliderEl.setAttribute('model-subset', {
-                target: modelGroup,
-                name: 'sizebg'
-            });
-            CursorEl.setAttribute('model-subset', {
-                target: modelGroup,
-                name: 'size'
-            });
+        SliderEl.setAttribute('geometry', {
+            primitive: 'cone',
+            height: 0.2,
+            radiusBottom: 0.018,
+            radiusTop: 0
+        });
+        CursorEl.setAttribute('geometry', {
+            primitive: 'sphere',
+            radius: 0.025
+        });
 
-            // Attach the material component to the slider entity.
-            SliderEl.setAttribute('material', {
-                color: '#ffffff',
-                flatShading: true,
-                shader: 'flat',
-                transparent: true,
-                fog: false,
-                src: '#uinormal'
-            });
+        // Attach the material component to the slider entity.
+        SliderEl.setAttribute('material', 'color', this.el.getAttribute("material").color);
 
-            // Attach the same material component to the cursor entity.
-            CursorEl.setAttribute('material', {
-                color: '#ffffff',
-                flatShading: true,
-                shader: 'flat',
-                transparent: true,
-                fog: false,
-                alphaTest: 0.5,
-                src: '#uinormal'
-            });
+        // Attach the same material component to the cursor entity.
+        CursorEl.setAttribute('material', 'color', this.el.getAttribute("material").color);
 
-            SliderEl.setAttribute('class', 'ui');
-            CursorEl.setAttribute('class', 'ui');
+        SliderEl.classList.add('ui');
+        CursorEl.classList.add('ui', 'slider_cursor');
 
-            // Adjust the position offset of the cursor entity.
-            CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
+        // Adjust the position offset of the cursor entity.
+        CursorEl.object3D.position.set(0, 0.075, 0);
 
-            // Place the slider entity in the layout.
-            SliderEl.object3D.position.set(0, 0.1, 0);
-            SliderEl.object3D.rotation.set(45, 0, 0);
-        //});
+        // Place the slider entity in the layout.
+        SliderEl.object3D.position.set(0, 0.15, 0);
+        SliderEl.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+
+        // Handle material when hover.
+        CursorEl.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
+            CursorEl.setAttribute('material', 'color', 'pink'); 
+        })
+
+        // Handle material when hover cleared.
+        CursorEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
+            CursorEl.setAttribute('material', 'color', this.el.getAttribute("material").color); 
+        })
     }  
 }
 

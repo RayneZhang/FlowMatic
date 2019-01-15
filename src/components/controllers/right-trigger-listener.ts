@@ -6,6 +6,8 @@ const rightTriggerListener = {
     init: function(): void {
         this.triggering = false;
         this.hueDown = false;
+        this.sliding = false;
+        this.slidingEl = null;
 
         // Handle trigger down.
         this.el.addEventListener('triggerdown', (event) => {
@@ -39,6 +41,18 @@ const rightTriggerListener = {
                     const globalMenuComponent = globalMenu.components['global-menu'];
                     globalMenuComponent.setSelectedButtonId(id);
                 }
+
+                if (intersectedEl.classList.contains('slider_cursor')) {
+                    // Set current position as lastPosition.
+                    this.lastPosition = new THREE.Vector3();
+                    this.lastPosition = this.el.object3D.position.clone();
+
+                    // Set the intersected object as the following object.
+                    this.slidingEl = intersectedEl;
+                    this.sliding = true;
+
+                    // Leave it to tick.
+                }
                 
                 switch(id) {
                     case 'hue': case 'huecursor': {
@@ -59,12 +73,6 @@ const rightTriggerListener = {
                         const {x, y, z} = intersections[0].point;
                         const WorldPos = new THREE.Vector3(x, y, z);
                         this.onPosYCursorDown(WorldPos.clone());
-                        break;
-                    }
-                    case 'filter_slider': case 'filter_cursor': {
-                        const {x, y, z} = intersections[0].point;
-                        const WorldPos = new THREE.Vector3(x, y, z);
-                        this.onFilterCursorDown(WorldPos.clone());
                         break;
                     }
                 }
@@ -91,6 +99,8 @@ const rightTriggerListener = {
 
         this.el.addEventListener('triggerup', (event) => {
             this.triggering = false;
+            this.hueDown = false;
+            this.sliding = false;
 
             // Conditions when the intersected target is not connectable.
             // Retrieve all intersected Elements through raycaster.
@@ -178,6 +188,8 @@ const rightTriggerListener = {
 
     tick: function(time, timeDelta): void {
         if (this.triggering) {
+
+            // Process hue cursor and then return.
             if (this.hueDown) {
                 // Retrieve all intersected Elements through raycaster.
                 const intersectedEls = this.el.components.raycaster.intersectedEls;
@@ -211,6 +223,23 @@ const rightTriggerListener = {
                 return;
             }
 
+            if (this.sliding && this.slidingEl) {
+                const lastPosition: any = this.lastPosition;
+                const currentPosition: any = this.el.object3D.position;
+
+                // Store this frame's position in oldPosition.
+                this.lastPosition = currentPosition.clone();
+
+                // Calculate target object's position.
+                const currentTargetPosition = this.slidingEl.getAttribute('position');
+                const updatedTargetPosition: any = currentTargetPosition.add(currentPosition.sub(lastPosition));
+
+                // Modify position at three.js level for better performance. (Better than setAttribute)
+                this.slidingEl.object3D.position.set(0, THREE.Math.clamp(updatedTargetPosition.y, -0.075, 0.075), 0);
+                this.onFilterCursorDown();
+                return;
+            }
+
             const lineEntity: any = document.querySelector('#lines');
 
             // Update line end point to controller position.
@@ -232,6 +261,7 @@ const rightTriggerListener = {
 
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
+
             if (intersectedEl.classList.contains('connectable')) {
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 lineEntity.setAttribute('draw-line', 'endPoint', EP);
@@ -239,17 +269,17 @@ const rightTriggerListener = {
         }
     },
 
-    onFilterCursorDown: function(intersectedPoint: any) {
-        const filter: any = document.querySelector('#filter');
-        const cursor: any = document.querySelector('#filter_cursor');
-        const slider: any = document.querySelector('#filter_slider');
-        // const sliderBoundingBox = slider.geometry.boundingBox;
-        // const sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
-        slider.object3D.updateMatrixWorld();
-        slider.object3D.worldToLocal(intersectedPoint);
+    onFilterCursorDown: function() {
+        if (!this.slidingEl) {
+            console.warn("The sliding element is null when onFilterCursorDown() is called!");
+            return;
+        }
+        const cursor: any = this.slidingEl;
+        const slider: any = this.slidingEl.parentNode;
+        const filter: any = this.slidingEl.parentNode.parentNode;
 
-        cursor.object3D.position.x = THREE.Math.clamp(intersectedPoint.x, -0.06409, 0.06409);
-        filter.emit('filter-update', {filterValue: intersectedPoint.x}, false);
+        const intersectedPoint: any = cursor.object3D.position.clone();
+        filter.emit('filter-update', {filterValue: intersectedPoint.y}, false);
     },
 
     onPosYCursorDown: function(position: any) {

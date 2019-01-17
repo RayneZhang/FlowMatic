@@ -5,7 +5,7 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subMenuNames = ['brushprev', 'brushnext', 'huecursor', 'hue'];
         // The corresponding model thumbnails in the buttons.
-        this.modelThumbnails = ['bottle', 'box', 'cone'];
+        this.modelThumbnails = ['bottle', 'box', 'cone', 'sphere'];
         // The selected button id.
         this.selectedButtonId = 'button1';
 
@@ -159,6 +159,13 @@ const globalMenu = {
                     radiusTop: 0.005
                 });
                 modelThumbnailEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+                break;
+            }
+            case 3: {
+                modelThumbnailEntity.setAttribute('geometry', {
+                    primitive: 'sphere',
+                    radius: 0.01
+                });
                 break;
             }
         }

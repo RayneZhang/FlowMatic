@@ -63,6 +63,17 @@ const leftTriggerListener = {
                     this.id++;
                     break;
                 }
+                case 'button3': {
+                    // Add geometry component to the entity.
+                    newEntity.setAttribute('geometry', {
+                        primitive: 'sphere',
+                        radius: 0.1
+                    }); 
+
+                    // Set the color of the primitive.
+                    newEntity.setAttribute('material', 'color', this.data.color);
+                    break;
+                }
             }
             // Add class component to the entity.
             newEntity.setAttribute('class', 'movable');

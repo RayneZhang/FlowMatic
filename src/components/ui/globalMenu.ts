@@ -5,7 +5,7 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subMenuNames = ['brushprev', 'brushnext', 'huecursor', 'hue'];
         // The corresponding model thumbnails in the buttons.
-        this.modelThumbnails = ['bottle', 'box', 'cone', 'sphere'];
+        this.modelThumbnails = ['data source', 'box', 'data filter', 'sphere'];
         // The selected button id.
         this.selectedButtonId = 'button1';
 
@@ -20,6 +20,7 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubMenuEl();
+        this.loadThumbnailDescription();
         this.loadButtonThumbnail(this.modelThumbnails.length);
         // this.updateSizeSlider();
 
@@ -71,14 +72,49 @@ const globalMenu = {
         }
     },
 
-    // The listener when x-button is down.
-    onXButtonDown(event): void {
-        this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
+    // Load description of thumbnails panel.
+    loadThumbnailDescription(): void {
+        // Create thumbnail description entity.
+        const thumbDescripEl: any = document.createElement('a-entity');
+        this.menuEl.appendChild(thumbDescripEl);
+        thumbDescripEl.setAttribute('id', this.menuEl.getAttribute('id') + '-prompt');
 
-        // if (this.menuEl.object3D.visible) // Add class for raycaster.
-        //     this.menuEl.setAttribute('class', 'clickable');
-        // else // Remove class for raycaster.
-        //     this.menuEl.removeAttribute('class');
+        thumbDescripEl.setAttribute('geometry', {
+            primitive: 'plane', 
+            width: 0.08,
+            height: 0.05
+        });
+
+        // Initiate the panel color.
+        thumbDescripEl.setAttribute('material', {
+            color: 'skyblue',
+            transparent: true,
+            opacity: 0.7
+        });
+
+        // Initiate tht panel content.
+        thumbDescripEl.setAttribute('text', {
+            value: '',
+            wrapCount: 10,
+            align: 'center'
+        });
+
+        // Set the description rotation.
+        thumbDescripEl.object3D.rotation.x += THREE.Math.degToRad(-90);
+        // Set the description position.
+        thumbDescripEl.object3D.position.set(-0.13, 0.0125, -0.12);
+
+        // Set the value of the description.
+        this.setThumbnailDescription(this.selectedButtonId);
+    },
+
+    // Set description of the panel.
+    setThumbnailDescription(_buttonId: string): void {
+        const id: string = _buttonId.substr(-1, 1);
+        const idNum: number = Number(id);
+
+        const thumbDescripEl: any = document.querySelector('#' + this.menuEl.getAttribute('id') + '-prompt');
+        thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[idNum]);
     },
 
     // Load the thumbnails of the buttons to chose from.
@@ -109,17 +145,20 @@ const globalMenu = {
                 fog: false
             });
 
-            // Handle material when hover.
+            // Handle material&description when hover.
             ButtonEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
                 ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
+                this.setThumbnailDescription(ButtonEl.getAttribute('id'));
             })
 
-            // Handle material when hover cleared.
+            // Handle material&description when hover cleared.
             ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
-                if (ButtonEl.getAttribute('id') != this.selectedButtonId)
+                if (ButtonEl.getAttribute('id') != this.selectedButtonId) {
                     ButtonEl.setAttribute('material', 'color', '#FFFFFF'); 
+                    this.setThumbnailDescription(this.selectedButtonId);
+                }
             })
 
             ButtonEl.object3D.position.set(-0.155 + xOffset*(i%2), 0.015 + yOffset*(i%2), -0.065 + zOffset*Math.floor(i/2));
@@ -178,6 +217,11 @@ const globalMenu = {
         });
     },
 
+    // The listener when x-button is down.
+    onXButtonDown(event): void {
+        this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
+    },
+
     // Calculate the radius of the object.
     calRadius(obj): number {
         const mesh = obj.getObject3D('mesh');
@@ -204,6 +248,7 @@ const globalMenu = {
         const currentSelectedButton: any = document.querySelector('#' + this.selectedButtonId);
         currentSelectedButton.setAttribute('material', 'color', '#FF69B4');
 
+        // Pass the id for left hand to create the corresponding object.
         const leftHand: any = document.querySelector('#leftHand');
         leftHand.setAttribute('left-trigger-listener', 'targetModel', _id);
     }

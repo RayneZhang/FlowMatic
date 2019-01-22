@@ -361,6 +361,10 @@ const rightTriggerListener = {
         
         const leftHand: any = document.querySelector('#leftHand');
         leftHand.setAttribute('left-trigger-listener', 'color', color);
+
+        const globalMenu: any = document.querySelector('[global-menu]');
+        const globalMenuComponent = globalMenu.components['global-menu'];
+        globalMenuComponent.setCurrentColor(color);
     },
 
     hsv2rgb: function(hsv) {

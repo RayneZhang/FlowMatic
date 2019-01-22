@@ -3,7 +3,7 @@ declare const THREE:any;
 const globalMenu = {
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
-        this.subMenuNames = ['brushprev', 'brushnext', 'huecursor', 'hue'];
+        this.subMenuNames = ['brushprev', 'brushnext', 'huecursor', 'hue', 'currentcolor'];
         // The corresponding model thumbnails in the buttons.
         this.modelThumbnails = ['data source', 'box', 'data filter', 'sphere'];
         // The selected button id.
@@ -61,14 +61,26 @@ const globalMenu = {
                 name: subMenuName
             });
             // Add the same material component of the sub-menu entity.
-            subMenuEl.setAttribute('material', {
-                color: '#ffffff',
-                flatShading: true,
-                shader: 'flat',
-                transparent: true,
-                fog: false,
-                src: '#uinormal'
-            });
+            if (subMenuName != "currentcolor" && subMenuName != "hue") {
+                subMenuEl.setAttribute('material', {
+                    color: '#ffffff',
+                    flatShading: true,
+                    shader: 'flat',
+                    transparent: true,
+                    fog: false,
+                    src: '#uinormal'
+                });
+            }
+
+            // Set a different material component for currentcolor.
+            if (subMenuName == "currentcolor") {
+                subMenuEl.setAttribute('material', {
+                    color: '#ffffff',
+                    flatShading: true,
+                    shader: 'flat',
+                    transparent: false
+                });
+            }
         }
     },
 
@@ -251,6 +263,12 @@ const globalMenu = {
         // Pass the id for left hand to create the corresponding object.
         const leftHand: any = document.querySelector('#leftHand');
         leftHand.setAttribute('left-trigger-listener', 'targetModel', _id);
+    },
+
+    // Set current color for reference.
+    setCurrentColor(_color: string): void {
+        const currentColor: any = document.querySelector('#currentcolor');
+        currentColor.setAttribute('material', 'color', _color);
     }
 }
 

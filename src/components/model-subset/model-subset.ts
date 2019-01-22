@@ -18,18 +18,20 @@ const modelSubset = {
             if (this.data.name === 'hue') {this.initColorWheel();}
         });
 
-        // Handle material when hover.
+        // Handle material when hover. 
         this.el.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
             this.data.raycasted = true;
-            this.el.setAttribute('material', 'src', '#uihover'); 
+            if (this.data.name != 'hue' && this.data.name != 'currentcolor') 
+                this.el.setAttribute('material', 'src', '#uihover'); 
         })
 
         // Handle material when hover cleared.
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
             this.data.raycasted = false;
-            this.el.setAttribute('material', 'src', '#uinormal'); 
+            if (this.data.name != 'hue' && this.data.name != 'currentcolor') 
+                this.el.setAttribute('material', 'src', '#uinormal'); 
         })
     },
 

@@ -19,6 +19,8 @@ import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';
 import filterDescription from './components/bottles/filterDescription';
 
+import EntityFollow from './components/Utils/EntityFollow';
+
 console.log(ENVIRONMENT);
 
 declare const THREE:any;
@@ -41,3 +43,5 @@ AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);
 AFRAME.registerComponent('draw-line', drawLine);
 AFRAME.registerComponent('line-properties', lineProperties);
+
+AFRAME.registerComponent('entity-follow', EntityFollow);

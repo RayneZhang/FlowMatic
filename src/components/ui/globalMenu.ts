@@ -261,7 +261,7 @@ const globalMenu = {
         currentSelectedButton.setAttribute('material', 'color', '#FF69B4');
 
         // Pass the id for left hand to create the corresponding object.
-        const leftHand: any = document.querySelector('#leftHand');
+        const leftHand: any = document.querySelector('#leftHandInfo');
         leftHand.setAttribute('left-trigger-listener', 'targetModel', _id);
     },
 

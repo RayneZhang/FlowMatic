@@ -42,16 +42,14 @@
             <!-- Objects. -->
             <a-entity id="box" data-receiver obj-attributes-list class="movable" position="-1 1 -3" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
             <a-entity id="sphere" data-receiver obj-attributes-list class="movable" position="1 1.25 -3" geometry="primitive: sphere; radius: 0.5" material="color: #EF2D5E" shadow></a-entity>
-            <!-- <a-entity id="table" class="movable" position="-2.5 1 -2" obj-model="obj: #table-obj; mtl: #table-mtl" shadow>
-                <a-entity id="blue-bottle" data-source bottle-description obj-model="obj: #blue-obj; mtl: #blue-mtl" shadow></a-entity>
-                <a-entity id="green-bottle" data-source bottle-description obj-model="obj: #green-obj; mtl: #green-mtl" shadow></a-entity>
-            </a-entity> -->
-            <!-- <a-entity id="filter" data-filter filter-description class="movable" position="0 1 -1" rotation="0 0 270" geometry="primitive: cone; height: 0.2; radiusBottom: 0.1; radiusTop: 0.05" material="color: blue" shadow></a-entity> -->
+            
             <a-entity id="lines" draw-line></a-entity>
 
-            <a-box color="red" class="movable" position="-1 1 0" shadow collision-listener></a-box>
+            <a-box color="red" class="movable" position="-1 1 0" shadow></a-box>
+
             <!-- Controllers. -->
-            <a-entity id="rightHand" aabb-collider="objects: .movable" collision-listener right-trigger-listener right-grip-listener right-abutton-listener laser-controls="hand: right" raycaster="objects: .movable, .ui; far: 10">
+            <a-entity id="rightHand" oculus-touch-controls="hand: right" aabb-collider="objects: .movable" collision-listener></a-entity>
+            <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener raycaster="origin: 0.008, -0.004, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui; far: 10">
                 <a-entity class="oculus-tooltips" visible="true">
                     <!-- <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.009 0.0 -0.002; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
                         position="-0.066 0.013 0.013">
@@ -70,8 +68,9 @@
                     </a-entity>
                 </a-entity>
             </a-entity>
-            <a-entity id="leftHand" global-menu left-trigger-listener>
-                <a-entity hand-controls="left" aabb-collider="objects: .movable; debug: true" collision-listener></a-entity>
+
+            <a-entity id="leftHand" oculus-touch-controls="hand: left" aabb-collider="objects: .movable" collision-listener></a-entity>
+            <a-entity id="leftHandInfo" entity-follow="targetEntity: #leftHand" global-menu left-trigger-listener>
                 <a-entity class="oculus-tooltips" visible="true">
                     <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
                             position="0.066 0.013 0.013">

@@ -285,17 +285,36 @@ const rightTriggerListener = {
         const mesh: any = targetObj.getObject3D('mesh');
         if (!mesh) {
             console.log("The mesh of the selected object is null!");
+            return;
         }
         
-        const geometry: any = mesh.geometry;
-        if (!geometry) {
-            console.log("The geometry of the selected object is null");
-        }
+        if (mesh.type == "Mesh") {
+            const geometry: any = mesh.geometry;
+            if (!geometry) {
+                console.log("The geometry of the selected object is null");
+                return;
+            }
 
-        const wireframe: any = new THREE.WireframeGeometry(geometry);
-        const line = new THREE.LineSegments(wireframe);
-        line.material.depthTest = false;
-        mesh.add(line);
+            const wireframe: any = new THREE.WireframeGeometry(geometry);
+            const line = new THREE.LineSegments(wireframe);
+            line.material.depthTest = false;
+            mesh.add(line);
+        }
+        
+        if (mesh.type == "Group") {
+            for (const child of mesh.children) {
+                const geometry: any = child.geometry;
+                if (!geometry) {
+                    console.log("The geometry of the selected object is null");
+                    continue;
+                }
+                else {
+                    const wireframe: any = new THREE.EdgesGeometry(geometry);
+                    const line = new THREE.LineSegments(wireframe);
+                    mesh.add(line);
+                }
+            }
+        }
     },
 
     onFilterCursorDown: function() {

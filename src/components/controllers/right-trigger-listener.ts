@@ -9,8 +9,9 @@ const rightTriggerListener = {
         this.sliding = false;
         this.slidingEl = null;
 
+        const listeningEl = document.querySelector('#rightHand');
         // Handle trigger down.
-        this.el.addEventListener('triggerdown', (event) => {
+        listeningEl.addEventListener('triggerdown', (event) => {
             this.triggering = true;
 
             // Retrieve all intersected Elements through raycaster.
@@ -98,7 +99,7 @@ const rightTriggerListener = {
             
         });
 
-        this.el.addEventListener('triggerup', (event) => {
+        listeningEl.addEventListener('triggerup', (event) => {
             this.triggering = false;
             this.hueDown = false;
             this.sliding = false;
@@ -359,8 +360,8 @@ const rightTriggerListener = {
         const rgb: any = this.hsv2rgb(hsv);
         const color = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
         
-        const leftHand: any = document.querySelector('#leftHand');
-        leftHand.setAttribute('left-trigger-listener', 'color', color);
+        const leftHandInfo: any = document.querySelector('#leftHandInfo');
+        leftHandInfo.setAttribute('left-trigger-listener', 'color', color);
 
         const globalMenu: any = document.querySelector('[global-menu]');
         const globalMenuComponent = globalMenu.components['global-menu'];

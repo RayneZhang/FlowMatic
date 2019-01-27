@@ -12,9 +12,9 @@ const leftTriggerListener = {
         this.id = 0;
         const el = this.el;
         const sceneEl = document.querySelector('a-scene');
+        const listeningEl = document.querySelector('#leftHand');
 
-        this.el.addEventListener('triggerdown', (event) => {
-            
+        listeningEl.addEventListener('triggerdown', (event) => {  
             // Create an entity and append it to the scene.
             let newEntity: any = document.createElement('a-entity');
             sceneEl.appendChild(newEntity);
@@ -86,7 +86,7 @@ const leftTriggerListener = {
             el.setAttribute('left-trigger-listener', {createdEl: newEntity, triggering: 'true'});
         });
 
-        this.el.addEventListener('triggerup', (event) => {
+        listeningEl.addEventListener('triggerup', (event) => {
             el.setAttribute('left-trigger-listener', {createdEl: null, triggering: 'false'});
         });
     },

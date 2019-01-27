@@ -30,7 +30,8 @@ const globalMenu = {
         menuEntity.object3D.visible = false;
 
         // Event Listener to open and close menu.
-        this.el.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
+        const listeningEl = document.querySelector('#leftHand');
+        listeningEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
     },
 
     tick: function(time, timeDelta): void {

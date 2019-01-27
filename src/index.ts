@@ -5,6 +5,7 @@ import rightGripListener from './components/controllers/right-grip-listener';
 import leftTriggerListener from './components/controllers/left-trigger-listener';
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import rightAButtonListener from './components/controllers/right-abutton-listener';
+import collisionListener from './components/controllers/collision-listener';
 
 import modelSubset from './components/model-subset/model-subset';
 import globalMenu from './components/ui/globalMenu';
@@ -26,6 +27,8 @@ AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);
 AFRAME.registerComponent('right-abutton-listener', rightAButtonListener);
+AFRAME.registerComponent('collision-listener', collisionListener);
+
 
 AFRAME.registerComponent('global-menu', globalMenu);
 AFRAME.registerComponent('model-subset', modelSubset);

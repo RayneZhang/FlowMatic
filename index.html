@@ -70,7 +70,8 @@
                     </a-entity>
                 </a-entity>
             </a-entity>
-            <a-entity id="leftHand" aabb-collider="objects: .movable" collision-listener global-menu left-trigger-listener hand-controls="left">
+            <a-entity id="leftHand" global-menu left-trigger-listener>
+                <a-entity hand-controls="left" aabb-collider="objects: .movable; debug: true" collision-listener></a-entity>
                 <a-entity class="oculus-tooltips" visible="true">
                     <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
                             position="0.066 0.013 0.013">

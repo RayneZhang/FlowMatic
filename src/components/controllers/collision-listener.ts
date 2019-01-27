@@ -5,7 +5,7 @@ const collisionListener = {
         console.log("Init collision listener.");
 
         this.el.addEventListener('hitstart', (event) => {
-            console.log("Hitstart!");
+            console.log(this.el.getAttribute("id") + "Hitstart!");
         });
 
         this.el.addEventListener('hit', (event) => {

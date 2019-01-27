@@ -78,6 +78,7 @@ const rightTriggerListener = {
                         break;
                     }
                 }
+
                 return;
             }
             
@@ -95,6 +96,11 @@ const rightTriggerListener = {
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                 }
+            }
+
+            // Check if the intersected object is a movable object.
+            if (intersectedEl.classList.contains('movable')) {
+                this.showWireframe(intersectedEl);
             }
             
         });
@@ -273,6 +279,23 @@ const rightTriggerListener = {
                 lineEntity.setAttribute('draw-line', 'endPoint', EP);
             }
         }
+    },
+
+    showWireframe: function(targetObj: any) {
+        const mesh: any = targetObj.getObject3D('mesh');
+        if (!mesh) {
+            console.log("The mesh of the selected object is null!");
+        }
+        
+        const geometry: any = mesh.geometry;
+        if (!geometry) {
+            console.log("The geometry of the selected object is null");
+        }
+
+        const wireframe: any = new THREE.WireframeGeometry(geometry);
+        const line = new THREE.LineSegments(wireframe);
+        line.material.depthTest = false;
+        mesh.add(line);
     },
 
     onFilterCursorDown: function() {

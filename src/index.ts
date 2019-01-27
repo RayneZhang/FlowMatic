@@ -20,6 +20,7 @@ import lineProperties from './components/lines/lineProperties';
 import filterDescription from './components/bottles/filterDescription';
 
 import EntityFollow from './components/Utils/EntityFollow';
+import rotationController from './components/controllers/rotation-controller';
 
 console.log(ENVIRONMENT);
 
@@ -30,6 +31,7 @@ AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);
 AFRAME.registerComponent('right-abutton-listener', rightAButtonListener);
 AFRAME.registerComponent('collision-listener', collisionListener);
+AFRAME.registerComponent('rotation-controller', rotationController);
 
 
 AFRAME.registerComponent('global-menu', globalMenu);

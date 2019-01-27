@@ -3,6 +3,10 @@ import Line from "../../modules/Line";
 declare const THREE:any;
 
 const rightTriggerListener = {
+    schema: {
+        selectedEl: {type: 'selector', default: null}
+    },
+
     init: function(): void {
         this.triggering = false;
         this.hueDown = false;
@@ -101,6 +105,7 @@ const rightTriggerListener = {
             // Check if the intersected object is a movable object.
             if (intersectedEl.classList.contains('movable')) {
                 this.showWireframe(intersectedEl);
+                this.data.selectedEl = intersectedEl;
             }
             
         });

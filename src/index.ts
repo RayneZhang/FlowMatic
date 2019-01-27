@@ -21,6 +21,7 @@ import filterDescription from './components/bottles/filterDescription';
 
 import EntityFollow from './components/Utils/EntityFollow';
 import rotationController from './components/controllers/rotation-controller';
+import scaleController from './components/controllers/scale-controller';
 
 console.log(ENVIRONMENT);
 
@@ -32,6 +33,7 @@ AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);
 AFRAME.registerComponent('right-abutton-listener', rightAButtonListener);
 AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
+AFRAME.registerComponent('scale-controller', scaleController);
 
 
 AFRAME.registerComponent('global-menu', globalMenu);

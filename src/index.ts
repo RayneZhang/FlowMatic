@@ -7,7 +7,7 @@ import rightTriggerListener from './components/controllers/right-trigger-listene
 import rightAButtonListener from './components/controllers/right-abutton-listener';
 import collisionListener from './components/controllers/collision-listener';
 
-import modelSubset from './components/model-subset/model-subset';
+import modelSubset from './components/Utils/model-subset';
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
 

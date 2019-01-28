@@ -12,7 +12,7 @@ const dataReceiver = {
         this.el.classList.add("data-receiver");
 
         this.sourceInitPos = null;
-        let i: number = 0;
+        this.objInitPos = null;
 
         this.el.addEventListener('attribute-update', (event) => {
             const sourceName: string = event.detail.sourceName;
@@ -22,20 +22,18 @@ const dataReceiver = {
                 this.el.setAttribute('material', 'color', sourceValue);
             }
             if (sourceName === 'position') {
-                const sourcePos = new THREE.Vector3();
-                sourcePos.copy(sourceValue);
-                if (!this.sourceInitPos)
-                    this.sourceInitPos = sourcePos.clone();
-
                 const currentPos = new THREE.Vector3();
                 currentPos.copy(this.el.object3D.position);
 
-                if (i > 3) {return;}
-                //i++;
-                console.log(sourcePos);
-                console.log(this.sourceInitPos);
+                const sourcePos = new THREE.Vector3();
+                sourcePos.copy(sourceValue);
+                if (!this.sourceInitPos) {
+                    this.sourceInitPos = sourcePos.clone();
+                    this.objInitPos = currentPos.clone();
+                }
+                
                 // Calculate the new position of this object.
-                const updatedPos = sourcePos.add(currentPos.sub(this.sourceInitPos));
+                const updatedPos = sourcePos.add(this.objInitPos.clone().sub(this.sourceInitPos));
                 this.el.object3D.position.copy(updatedPos);
             }
         });

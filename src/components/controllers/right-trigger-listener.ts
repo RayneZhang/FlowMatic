@@ -100,6 +100,9 @@ const rightTriggerListener = {
                 LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
+                    const attrNameEntity: any = intersectedEl.parentNode;
+                    const dataType: string = attrNameEntity.getAttribute('text').value;
+                    LinesEntity.setAttribute('draw-line', 'dataType', dataType);
                 }
             }
 
@@ -155,12 +158,31 @@ const rightTriggerListener = {
 
                 // Push the id into target entities.
                 const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
-                // Dot->Description->ListEntity->Object
-                let targetEntity: any = intersectedEl.parentNode.parentNode.parentNode;
+                
+                let targetEntity: any = null;
+                // Dot->Prompt->Object
                 if (intersectedEl.parentNode.parentNode.classList.contains('data-filter')) {
                     targetEntity = intersectedEl.parentNode.parentNode;
                 }
+                // Dot->Description->ListEntity->Object
+                else {
+                    targetEntity = intersectedEl.parentNode.parentNode.parentNode;
 
+                    const attrNameEntity: any = intersectedEl.parentNode;
+                    const targetDataType: string = attrNameEntity.getAttribute('text').value;
+                    const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
+                    if (targetDataType != sourceDataType) {
+                        // console.log(targetDataType);
+                        // console.log(sourceDataType);
+                        if (this.curLine) {
+                            this.curLine.destroyLine();
+                            this.curLine = null;
+                        }
+                        return;
+                    }
+                }
+
+                // Set target objects.
                 if (sourceEntity.classList.contains('data-source')){
                     let targetEntities: any = sourceEntity.getAttribute('data-source').targetEntities;
                     // If the targetEntities is null, we need to reset the type.

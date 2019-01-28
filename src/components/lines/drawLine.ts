@@ -4,6 +4,7 @@ const drawLine = {
     schema: {
         currentLine: {type: 'selector', default: null},
         currentSource: {type: 'selector', default: null},
+        dataType: {type: 'string', default: ""},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
         divisions: {type: 'number', default: 20}

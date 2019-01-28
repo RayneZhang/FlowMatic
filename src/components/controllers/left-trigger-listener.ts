@@ -41,6 +41,8 @@ const leftTriggerListener = {
 
                     // Set the color of the primitive.
                     newEntity.setAttribute('material', 'color', this.data.color);
+                    newEntity.setAttribute('id', 'box' + this.id);
+                    this.id++;
                     break;
                 }
                 case 'button2': {
@@ -57,7 +59,7 @@ const leftTriggerListener = {
                     newEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
 
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', 'filter' + this.id);
+                    newEntity.setAttribute('id', 'color-filter' + this.id);
                     newEntity.setAttribute('data-filter', 'targetEntities', []);
                     newEntity.setAttribute('filter-description', 'freeze', false);
                     this.id++;
@@ -72,6 +74,28 @@ const leftTriggerListener = {
 
                     // Set the color of the primitive.
                     newEntity.setAttribute('material', 'color', this.data.color);
+                    newEntity.setAttribute('id', 'sphere' + this.id);
+                    this.id++;
+                    break;
+                }
+                case 'button4': {
+                    // Add geometry component to the entity.
+                    newEntity.setAttribute('geometry', {
+                        primitive: 'cone',
+                        height: 0.2,
+                        radiusBottom: 0.1,
+                        radiusTop: 0.05
+                    }); 
+
+                    // Set the color of the primitive.
+                    newEntity.setAttribute('material', 'color', this.data.color);
+                    newEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'position-filter' + this.id);
+                    // newEntity.setAttribute('data-filter', 'targetEntities', []);
+                    // newEntity.setAttribute('filter-description', 'freeze', false);
+                    this.id++;
                     break;
                 }
             }

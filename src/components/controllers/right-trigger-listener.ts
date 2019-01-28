@@ -158,8 +158,9 @@ const rightTriggerListener = {
 
                 // Push the id into target entities.
                 const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
-                
                 let targetEntity: any = null;
+                let dataType: string = null;
+
                 // Dot->Prompt->Object
                 if (intersectedEl.parentNode.parentNode.classList.contains('data-filter')) {
                     targetEntity = intersectedEl.parentNode.parentNode;
@@ -180,6 +181,7 @@ const rightTriggerListener = {
                         }
                         return;
                     }
+                    dataType = targetDataType;
                 }
 
                 // Set target objects.
@@ -209,6 +211,7 @@ const rightTriggerListener = {
                     }
                     targetEntities.push(targetEntity.getAttribute('id'));
                     sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
+                    sourceEntity.setAttribute('data-receiver', 'sourceName', dataType);
                 }
                 
 

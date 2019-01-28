@@ -11,12 +11,32 @@ const dataReceiver = {
         // Add to the entity's class list.
         this.el.classList.add("data-receiver");
 
+        this.sourceInitPos = null;
+        let i: number = 0;
+
         this.el.addEventListener('attribute-update', (event) => {
             const sourceName: string = event.detail.sourceName;
-            const sourceValue: any = event.detail.sourceValue;
+            const sourceValue: string = event.detail.sourceValue;
             if (sourceName === 'color') {
                 this.data.sourceValue = sourceValue;
                 this.el.setAttribute('material', 'color', sourceValue);
+            }
+            if (sourceName === 'position') {
+                const sourcePos = new THREE.Vector3();
+                sourcePos.copy(sourceValue);
+                if (!this.sourceInitPos)
+                    this.sourceInitPos = sourcePos.clone();
+
+                const currentPos = new THREE.Vector3();
+                currentPos.copy(this.el.object3D.position);
+
+                if (i > 3) {return;}
+                //i++;
+                console.log(sourcePos);
+                console.log(this.sourceInitPos);
+                // Calculate the new position of this object.
+                const updatedPos = sourcePos.add(currentPos.sub(this.sourceInitPos));
+                this.el.object3D.position.copy(updatedPos);
             }
         });
     },
@@ -27,6 +47,16 @@ const dataReceiver = {
         // Check if there is target object.
         if (!Array.isArray(targetEntities) || !targetEntities.length) {
             return;
+        }
+
+        switch (this.data.sourceName) {
+            case "color": default: {
+
+            }
+            case "position": {
+                const val: string = this.el.object3D.position as string;
+                this.data.sourceValue = val;
+            }
         }
 
         for (const curId of this.data.targetEntities) {

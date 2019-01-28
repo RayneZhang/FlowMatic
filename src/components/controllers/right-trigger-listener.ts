@@ -12,6 +12,7 @@ const rightTriggerListener = {
         this.hueDown = false;
         this.sliding = false;
         this.slidingEl = null;
+        this.line = null;
 
         const listeningEl = document.querySelector('#rightHand');
         // Handle trigger down.
@@ -104,8 +105,10 @@ const rightTriggerListener = {
 
             // Check if the intersected object is a movable object.
             if (intersectedEl.classList.contains('movable')) {
-                this.showWireframe(intersectedEl);
+                if (this.data.selectedEl)
+                    this.showOrHideWireframe(this.data.selectedEl, false);
                 this.data.selectedEl = intersectedEl;
+                this.showOrHideWireframe(intersectedEl, true);
             }
             
         });
@@ -286,38 +289,53 @@ const rightTriggerListener = {
         }
     },
 
-    showWireframe: function(targetObj: any) {
-        const mesh: any = targetObj.getObject3D('mesh');
+    showOrHideWireframe: function(_targetObj: any, _show: boolean) {
+        const mesh: any = _targetObj.getObject3D('mesh');
         if (!mesh) {
             console.log("The mesh of the selected object is null!");
             return;
         }
         
         if (mesh.type == "Mesh") {
-            const geometry: any = mesh.geometry;
-            if (!geometry) {
-                console.log("The geometry of the selected object is null");
-                return;
+            if (_show) {
+                const geometry: any = mesh.geometry;
+                if (!geometry) {
+                    console.log("The geometry of the selected object is null");
+                    return;
+                }
+    
+                const wireframe: any = new THREE.WireframeGeometry(geometry);
+                this.line = new THREE.LineSegments(wireframe);
+                this.line.material.depthTest = false;
+                mesh.add(this.line);
             }
-
-            const wireframe: any = new THREE.WireframeGeometry(geometry);
-            const line = new THREE.LineSegments(wireframe);
-            line.material.depthTest = false;
-            mesh.add(line);
+            else {
+                mesh.remove(this.line);
+            }
         }
         
         if (mesh.type == "Group") {
-            for (const child of mesh.children) {
-                const geometry: any = child.geometry;
-                if (!geometry) {
-                    console.log("The geometry of the selected object is null");
-                    continue;
+            if (_show) {
+                this.line = new THREE.LineSegments();
+                for (const child of mesh.children) {
+                    const geometry: any = child.geometry;
+                    if (!geometry) {
+                        console.log("The geometry of the selected object is null");
+                        continue;
+                    }
+                    else {
+                        if (geometry.type != "BufferGeometry")
+                            continue;
+                        const wireframe: any = new THREE.EdgesGeometry(geometry);
+                        const line = new THREE.LineSegments(wireframe);
+                        //mesh.add(line);
+                        this.line.add(line);
+                    }
                 }
-                else {
-                    const wireframe: any = new THREE.EdgesGeometry(geometry);
-                    const line = new THREE.LineSegments(wireframe);
-                    mesh.add(line);
-                }
+                mesh.add(this.line);
+            }
+            else {
+                mesh.remove(this.line);
             }
         }
     },

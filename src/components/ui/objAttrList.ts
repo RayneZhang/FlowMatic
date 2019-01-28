@@ -9,7 +9,7 @@ const objAttrList = {
         // Add to the entity's class list.
         this.el.classList.add("obj-attr-list");
 
-        const attrNames: any = ['position', 'rotation', 'scale', 'color'];
+        const attrNames: any = ["color", "position"];
         
         // Create a menu entity and append it to the controller.
         const ListEntity: any = document.createElement('a-entity'); 
@@ -58,10 +58,9 @@ const objAttrList = {
         // We can only access the mesh after it is loaded.
         this.el.addEventListener('loaded', (event) => {
             // Set position of the listEntity.
-            const radius: number = this.calRadius(this.el);
-
+            const height: number = this.calHeight(this.el);
             this.el.appendChild(ListEntity);
-            ListEntity.object3D.position.set(radius + 0.25/2, 0, 0);
+            ListEntity.object3D.position.set(0, height/2 + offset, 0);
             ListEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
         });
 
@@ -117,8 +116,8 @@ const objAttrList = {
         });
     },
 
-    // Calculate the radius of the object.
-    calRadius(obj): number {
+    // Calculate the height of the object.
+    calHeight(obj): number {
         const mesh = obj.getObject3D('mesh');
         if (!mesh) {
             return 0;
@@ -126,10 +125,9 @@ const objAttrList = {
 
         const box = new THREE.Box3().setFromObject(mesh);
         const size = box.getSize();
-        const extent = Math.max(size.x, size.y, size.z) / 2;
-        const radius = Math.sqrt(2) * extent;
+        const height = size.y;
         
-        return radius;
+        return height;
     },
 
     // Create the sliders of x,y,z of the attribute.

@@ -27,6 +27,9 @@ const dataFilter = {
                 color.multiplyScalar(this.data.filterValue);
                 this.data.sourceValue = color;
             }
+            if (sourceName === 'position') {
+                
+            }
         });
 
         this.el.addEventListener('filter-update', (event) => {

@@ -10,7 +10,8 @@ const filterDescription = {
 
     init: function(): void {
         const offset = new THREE.Vector3(-0.25, 0, 0);
-        this.createPrompt("Darkness", 'blue', offset.clone());
+        const filterName = this.el.getAttribute('data-filter').filterName;
+        this.createPrompt(filterName, 'blue', offset.clone());
         this.createSlider(this.el);
         this.initDots();
 

@@ -42,6 +42,8 @@ const leftTriggerListener = {
                     // Set the color of the primitive.
                     newEntity.setAttribute('material', 'color', this.data.color);
                     newEntity.setAttribute('id', 'box' + this.id);
+                    newEntity.setAttribute('data-receiver', 'targetEntities', []);
+                    newEntity.setAttribute('obj-attributes-list', 'freeze', false);
                     this.id++;
                     break;
                 }
@@ -60,7 +62,7 @@ const leftTriggerListener = {
 
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'color-filter' + this.id);
-                    newEntity.setAttribute('data-filter', 'targetEntities', []);
+                    newEntity.setAttribute('data-filter', 'filterName', "darkness");
                     newEntity.setAttribute('filter-description', 'freeze', false);
                     this.id++;
                     break;
@@ -75,6 +77,8 @@ const leftTriggerListener = {
                     // Set the color of the primitive.
                     newEntity.setAttribute('material', 'color', this.data.color);
                     newEntity.setAttribute('id', 'sphere' + this.id);
+                    newEntity.setAttribute('data-receiver', 'targetEntities', []);
+                    newEntity.setAttribute('obj-attributes-list', 'freeze', false);
                     this.id++;
                     break;
                 }
@@ -93,8 +97,8 @@ const leftTriggerListener = {
 
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'position-filter' + this.id);
-                    // newEntity.setAttribute('data-filter', 'targetEntities', []);
-                    // newEntity.setAttribute('filter-description', 'freeze', false);
+                    newEntity.setAttribute('data-filter', 'filterName', "a");
+                    newEntity.setAttribute('filter-description', 'freeze', false);
                     this.id++;
                     break;
                 }

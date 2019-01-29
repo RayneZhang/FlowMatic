@@ -172,7 +172,7 @@ const rightTriggerListener = {
                     const attrNameEntity: any = intersectedEl.parentNode;
                     const targetDataType: string = attrNameEntity.getAttribute('text').value;
                     const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
-                    if (targetDataType != sourceDataType) {
+                    if (sourceDataType && targetDataType != sourceDataType) {
                         // console.log(targetDataType);
                         // console.log(sourceDataType);
                         if (this.curLine) {

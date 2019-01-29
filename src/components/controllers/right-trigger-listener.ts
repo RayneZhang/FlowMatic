@@ -164,6 +164,7 @@ const rightTriggerListener = {
                 // Dot->Prompt->Object
                 if (intersectedEl.parentNode.parentNode.classList.contains('data-filter')) {
                     targetEntity = intersectedEl.parentNode.parentNode;
+                    dataType = linesEntity.getAttribute('draw-line').dataType;
                 }
                 // Dot->Description->ListEntity->Object
                 else {

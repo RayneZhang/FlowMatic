@@ -5,13 +5,14 @@ declare const THREE:any;
 const filterDescription = {
     schema: {
         freeze: {type: "boolean", default: false},
-        sliding: {type: "boolean", default: false}
+        sliding: {type: "boolean", default: false},
+        filterName: {type: 'string', default: ""}
     },
 
     init: function(): void {
         const offset = new THREE.Vector3(-0.25, 0, 0);
-        const filterName = this.el.getAttribute('data-filter').filterName;
-        this.createPrompt(filterName, 'blue', offset.clone());
+        this.data.filterName = this.el.getAttribute('data-filter').filterName;
+        this.createPrompt(this.data.filterName, 'blue', offset.clone());
         this.createSlider(this.el);
         this.initDots();
 
@@ -107,7 +108,8 @@ const filterDescription = {
         CursorEl.classList.add('ui', 'slider_cursor');
 
         // Adjust the position offset of the cursor entity.
-        CursorEl.object3D.position.set(0, 0.1, 0);
+        if (this.data.filterName === "darkness")
+            CursorEl.object3D.position.set(0, 0.1, 0);
 
         // Place the slider entity in the layout.
         SliderEl.object3D.position.set(0, 0.15, 0);

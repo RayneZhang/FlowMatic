@@ -49,11 +49,12 @@ const dataReceiver = {
 
         switch (this.data.sourceName) {
             case "color": default: {
-
+                break;
             }
             case "position": {
                 const val: string = this.el.object3D.position as string;
                 this.data.sourceValue = val;
+                break;
             }
         }
 

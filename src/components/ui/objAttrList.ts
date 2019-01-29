@@ -15,7 +15,7 @@ const objAttrList = {
         const ListEntity: any = document.createElement('a-entity'); 
 
         // layout offset of the attributes.
-        let offset: number = 0.2;
+        let offset: number = 0.4;
         let currentY: number = 0;
          
         // Create list of attributes elements.
@@ -27,8 +27,8 @@ const objAttrList = {
 
             curEntity.setAttribute('geometry', {
                 primitive: 'plane', 
-                width: 0.25,
-                height: 0.15
+                width: 0.5,
+                height: 0.3
             });
 
             // Initiate the panel color.
@@ -48,7 +48,7 @@ const objAttrList = {
             currentY += offset;
 
             // Creat dots for each obj attr.
-            const posOffset = new THREE.Vector3(0.17, 0, 0);
+            const posOffset = new THREE.Vector3(0.35, 0, 0);
             this.createDotEntity(curEntity, 'left', posOffset.clone());
             this.createDotEntity(curEntity, 'right', posOffset.clone());
 
@@ -60,7 +60,8 @@ const objAttrList = {
             // Set position of the listEntity.
             const height: number = this.calHeight(this.el);
             this.el.appendChild(ListEntity);
-            ListEntity.object3D.position.set(0, height/2 + offset, 0);
+            ListEntity.object3D.scale.set(height, height, height);
+            ListEntity.object3D.position.set(0, height/2 + offset*height, 0);
             ListEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
         });
 
@@ -95,7 +96,7 @@ const objAttrList = {
         // Set geometry of the dot - sphere.
         curDot.setAttribute('geometry', {
             primitive: 'sphere',
-            radius: 0.03
+            radius: 0.04
         });
 
         // Set color of the sphere to white.

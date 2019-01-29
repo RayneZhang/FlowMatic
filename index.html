@@ -41,12 +41,11 @@
             <a-entity id="bench" class="movable" data-receiver obj-attributes-list obj-model="obj: #bench-obj" material="color: grey" position="-5 0.5 -3" rotation="0 90 0" shadow></a-entity>
 
             <!-- Objects. -->
-            <a-entity id="box" data-receiver obj-attributes-list class="movable" position="-1 1 -3" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
-            <a-entity id="sphere" data-receiver obj-attributes-list class="movable" position="1 1.25 -3" geometry="primitive: sphere; radius: 0.5" material="color: #EF2D5E" shadow></a-entity>
-            
-            <a-entity id="lines" draw-line></a-entity>
-
+            <!-- <a-entity id="box" data-receiver obj-attributes-list class="movable" position="-1 1 -3" geometry="primitive: box; width: 1; depth: 1; height: 1" material="color: #4CC3D9" shadow></a-entity>
+            <a-entity id="sphere" data-receiver obj-attributes-list class="movable" position="1 1.25 -3" geometry="primitive: sphere; radius: 0.5" material="color: #EF2D5E" shadow></a-entity> -->
             <a-box color="red" class="movable" position="-1.25 1 0" shadow></a-box>
+
+            <a-entity id="lines" draw-line></a-entity>
 
             <!-- Controllers. -->
             <a-entity id="rightHand" oculus-touch-controls="hand: right" thumb-controls="hand: right" aabb-collider="objects: .movable" collision-listener></a-entity>

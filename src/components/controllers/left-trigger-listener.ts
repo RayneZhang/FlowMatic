@@ -97,7 +97,27 @@ const leftTriggerListener = {
 
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'position-filter' + this.id);
-                    newEntity.setAttribute('data-filter', 'filterName', "a");
+                    newEntity.setAttribute('data-filter', 'filterName', "acceleration");
+                    newEntity.setAttribute('filter-description', 'freeze', false);
+                    this.id++;
+                    break;
+                }
+                case 'button5': {
+                    // Add geometry component to the entity.
+                    newEntity.setAttribute('geometry', {
+                        primitive: 'cone',
+                        height: 0.2,
+                        radiusBottom: 0.1,
+                        radiusTop: 0.05
+                    }); 
+
+                    // Set the color of the primitive.
+                    newEntity.setAttribute('material', 'color', this.data.color);
+                    newEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'position-filter' + this.id);
+                    newEntity.setAttribute('data-filter', 'filterName', "velocity");
                     newEntity.setAttribute('filter-description', 'freeze', false);
                     this.id++;
                     break;

@@ -3,11 +3,17 @@ declare const THREE:any;
 const collisionListener = {
     init: function(): void {
         this.el.addEventListener('hitstart', (event) => {
-            console.log(this.el.getAttribute("id") + "Hitstart!");
+            this.el.setAttribute('material', {
+                transparent: true,
+                opacity: 0.5
+            });
         });
 
         this.el.addEventListener('hitend', (event) => {
-            console.log("Hitend!");
+            this.el.setAttribute('material', {
+                transparent: false,
+                opacity: 1
+            });
         });        
     },
 

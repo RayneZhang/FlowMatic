@@ -18,10 +18,13 @@ const dataFilter = {
         this.maxValue = 0.1;
 
         this.initColorValue = this.data.sourceValue;
+
         this.velocity = 0;
         this.maxVelocity = 1;
         this.acceleration = 0;
         this.maxAcceleration = 0.5;
+        this.vDistance = 0;
+        this.aDistance = 0;
 
         this.el.addEventListener('attribute-update', (event) => {
             const sourceName: string = event.detail.sourceName;
@@ -35,6 +38,8 @@ const dataFilter = {
             if (sourceName === 'position') {
                 this.data.sourceName = sourceName;
                 this.data.sourceValue = sourceValue;
+                this.vDistance = event.detail.vDistance;
+                this.aDistance = event.detail.aDistance;
             }
         });
 
@@ -73,8 +78,8 @@ const dataFilter = {
                     curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
                 if (this.data.sourceName === "position") {
                     const secondsDelta = timeDelta/1000;
-                    const vDistance: number = this.velocity * secondsDelta;
-                    const aDistance: number = 1/2 * this.acceleration * secondsDelta * secondsDelta;
+                    const vDistance: number = this.velocity * secondsDelta + this.vDistance;
+                    const aDistance: number = 1/2 * this.acceleration * secondsDelta * secondsDelta + this.aDistance;
                     this.velocity += this.acceleration * secondsDelta;
                     curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue, vDistance: vDistance, aDistance: aDistance}, false);
                 }

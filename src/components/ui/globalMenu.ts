@@ -20,8 +20,8 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubMenuEl();
-        //this.loadThumbnailDescription();
-        //this.loadButtonThumbnail(this.modelThumbnails.length);
+        this.loadThumbnailDescription();
+        this.loadButtonThumbnail(this.modelThumbnails.length);
 
         // menuEntity.setAttribute('rotation', '45 0 0');
         menuEntity.setAttribute('position', '0 0 -0.15');
@@ -60,6 +60,7 @@ const globalMenu = {
                 target: modelGroup,
                 name: subMenuName
             });
+
             // Add the same material component of the sub-menu entity.
             if (subMenuName != "currentcolor" && subMenuName != "hue") {
                 subMenuEl.setAttribute('material', {
@@ -87,34 +88,35 @@ const globalMenu = {
     // Load description of thumbnails panel.
     loadThumbnailDescription(): void {
         // Create thumbnail description entity.
-        const thumbDescripEl: any = document.createElement('a-entity');
-        this.menuEl.appendChild(thumbDescripEl);
-        thumbDescripEl.setAttribute('id', this.menuEl.getAttribute('id') + '-prompt');
+        const descripText: any = document.createElement('a-entity');
+        const descripEl: any = document.querySelector("#description");
+        descripEl.appendChild(descripText);
+        descripText.setAttribute('id', "description_text");
 
-        thumbDescripEl.setAttribute('geometry', {
-            primitive: 'plane', 
-            width: 0.08,
-            height: 0.05
-        });
+        // descripText.setAttribute('geometry', {
+        //     primitive: 'plane', 
+        //     width: 0.08,
+        //     height: 0.05
+        // });
 
-        // Initiate the panel color.
-        thumbDescripEl.setAttribute('material', {
-            color: 'skyblue',
-            transparent: true,
-            opacity: 0.7
-        });
+        // // Initiate the panel color.
+        // descripText.setAttribute('material', {
+        //     color: 'skyblue',
+        //     transparent: true,
+        //     opacity: 0
+        // });
 
         // Initiate tht panel content.
-        thumbDescripEl.setAttribute('text', {
+        descripText.setAttribute('text', {
             value: '',
-            wrapCount: 10,
+            wrapCount: 200,
             align: 'center'
         });
 
         // Set the description rotation.
-        thumbDescripEl.object3D.rotation.x += THREE.Math.degToRad(-90);
+        descripText.object3D.rotation.x += THREE.Math.degToRad(-90);
         // Set the description position.
-        thumbDescripEl.object3D.position.set(-0.13, 0.0125, -0.12);
+        descripText.object3D.position.set(-0.1, 0, -0.055);
 
         // Set the value of the description.
         this.setThumbnailDescription(this.selectedButtonId);
@@ -125,26 +127,26 @@ const globalMenu = {
         const id: string = _buttonId.substr(-1, 1);
         const idNum: number = Number(id);
 
-        const thumbDescripEl: any = document.querySelector('#' + this.menuEl.getAttribute('id') + '-prompt');
+        const thumbDescripEl: any = document.querySelector('#description_text');
         thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[idNum]);
     },
 
     // Load the thumbnails of the buttons to chose from.
     loadButtonThumbnail(buttonNum: number): void {
-        const xOffset: number = 0.05;
-        const yOffset: number = -0.005;
-        const zOffset: number = 0.05;
+        const xOffset: number = 0.03;
+        const yOffset: number = 0;
+        const zOffset: number = 0.03;
         for (let i=0; i<buttonNum; i++) {
             // Create sub-menu entity.
             const ButtonEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(ButtonEl);
-            ButtonEl.setAttribute('id', "button"+i.toString());
+            ButtonEl.setAttribute('id', "container"+i.toString());
             ButtonEl.classList.add('ui', 'thumbnail');
 
             // Add geometry component to the entity.
             ButtonEl.setAttribute('geometry', {
                 primitive: 'sphere',
-                radius: 0.02
+                radius: 0.015
             }); 
 
             // Add the s2ame material component of the sub-menu entity.
@@ -153,7 +155,7 @@ const globalMenu = {
                 flatShading: true,
                 shader: 'flat',
                 transparent: true,
-                opacity: 0.4,
+                opacity: 0.05,
                 fog: false
             });
 
@@ -173,7 +175,7 @@ const globalMenu = {
                 }
             })
 
-            ButtonEl.object3D.position.set(-0.155 + xOffset*(i%2), 0.015 + yOffset*(i%2), -0.065 + zOffset*Math.floor(i/2));
+            ButtonEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
             this.loadModelThumbnail(ButtonEl, i);
         }
 

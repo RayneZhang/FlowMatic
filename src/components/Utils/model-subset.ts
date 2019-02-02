@@ -8,6 +8,8 @@ const modelSubset = {
     },
 
     init: function() {
+        const NotReactUI: Array<string> = ["hue", "currentcolor", "menu"];
+
         this.data.target.addEventListener('model-loaded', (event) => {
             const model = event.detail.model;
             // Check the model format and whether it is empty.
@@ -22,7 +24,7 @@ const modelSubset = {
         this.el.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
             this.data.raycasted = true;
-            if (this.data.name != 'hue' && this.data.name != 'currentcolor') 
+            if (NotReactUI.indexOf(this.data.name) === -1) 
                 this.el.setAttribute('material', 'src', '#uihover'); 
         })
 
@@ -30,7 +32,7 @@ const modelSubset = {
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
             this.data.raycasted = false;
-            if (this.data.name != 'hue' && this.data.name != 'currentcolor') 
+            if (NotReactUI.indexOf(this.data.name) === -1) 
                 this.el.setAttribute('material', 'src', '#uinormal'); 
         })
     },

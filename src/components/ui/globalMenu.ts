@@ -3,7 +3,7 @@ declare const THREE:any;
 const globalMenu = {
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
-        this.subMenuNames = ['huecursor', 'hue', 'currentcolor'];
+        this.subMenuNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9'];
         // The corresponding model thumbnails in the buttons.
         this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter'];
         // The selected button id.
@@ -20,9 +20,8 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubMenuEl();
-        this.loadThumbnailDescription();
-        this.loadButtonThumbnail(this.modelThumbnails.length);
-        // this.updateSizeSlider();
+        //this.loadThumbnailDescription();
+        //this.loadButtonThumbnail(this.modelThumbnails.length);
 
         // menuEntity.setAttribute('rotation', '45 0 0');
         menuEntity.setAttribute('position', '0 0 -0.15');

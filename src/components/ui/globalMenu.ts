@@ -3,7 +3,7 @@ declare const THREE:any;
 const globalMenu = {
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
-        this.subMenuNames = ['brushprev', 'brushnext', 'huecursor', 'hue', 'currentcolor'];
+        this.subMenuNames = ['huecursor', 'hue', 'currentcolor'];
         // The corresponding model thumbnails in the buttons.
         this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter'];
         // The selected button id.

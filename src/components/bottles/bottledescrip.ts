@@ -12,7 +12,7 @@ const bottleDescription = {
             switch (this.el.id) {
                 case 'blue-bottle': 
                     const blueOffset = new THREE.Vector3(-0.450, 0.55, 0);
-                    this.createPrompt("Random Number", 'blue', blueOffset.clone());
+                    this.createPrompt("Random Color", 'blue', blueOffset.clone());
                     this.initDots();
                     break;
                 case 'green-bottle':
@@ -22,7 +22,7 @@ const bottleDescription = {
                     break;
                 case 'purple-bottle':
                     const purpleOffset = new THREE.Vector3(0.65, 0.55, 0);
-                    this.createPrompt("Random Number", 'purple', purpleOffset.clone());
+                    this.createPrompt("Random Color", 'purple', purpleOffset.clone());
                     this.initDots();
                     break;
                 case 'red-bottle':
@@ -32,7 +32,7 @@ const bottleDescription = {
                     break;
                 default:
                     const defaultOffset = new THREE.Vector3(-0.450, 0.55, 0);
-                    this.createPrompt("Random Number", 'blue', defaultOffset.clone());
+                    this.createPrompt("Random Color", 'blue', defaultOffset.clone());
                     this.initDots();
                     break;
             }

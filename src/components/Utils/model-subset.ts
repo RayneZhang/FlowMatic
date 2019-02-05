@@ -8,7 +8,7 @@ const modelSubset = {
     },
 
     init: function() {
-        const NotReactUI: Array<string> = ["hue", "currentcolor", "menu"];
+        const NotReactUI: Array<string> = ["hue", "currentcolor", "menu", "description"];
 
         this.data.target.addEventListener('model-loaded', (event) => {
             const model = event.detail.model;
@@ -18,6 +18,7 @@ const modelSubset = {
             this.el.setObject3D('mesh', subset.clone());
 
             if (this.data.name === 'hue') {this.initColorWheel();}
+            if (this.data.name.indexOf("submenu") != -1) this.initSubmenu();
         });
 
         // Handle material when hover. 
@@ -35,6 +36,31 @@ const modelSubset = {
             if (NotReactUI.indexOf(this.data.name) === -1) 
                 this.el.setAttribute('material', 'src', '#uinormal'); 
         })
+    },
+
+    initSubmenu(): void {
+        const imgEl: any = document.createElement('a-image');
+        imgEl.setAttribute('height', 0.012);
+        imgEl.setAttribute('width', 0.012);
+        this.el.appendChild(imgEl);
+        switch (this.data.name) {
+            case "submenu1" : {
+                imgEl.setAttribute('src', '#bottle_icon');
+                imgEl.object3D.position.set(-0.155, 0.001, -0.055);
+                break;
+            }
+            case "submenu2" : {
+                imgEl.setAttribute('src', '#filter_icon');
+                imgEl.object3D.position.set(-0.155, 0.001, -0.035);
+                break;
+            }
+            case "submenu3" : {
+                imgEl.setAttribute('src', '#cube_icon');
+                imgEl.object3D.position.set(-0.155, 0.001, -0.015);
+                break;
+            }
+        }
+        imgEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
     },
 
     initColorWheel(): void {

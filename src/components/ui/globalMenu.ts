@@ -5,7 +5,7 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subMenuNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9'];
         // The corresponding model thumbnails in the buttons.
-        this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter'];
+        this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector'];
         // The selected button id.
         this.selectedButtonId = 'button1';
 
@@ -92,19 +92,6 @@ const globalMenu = {
         const descripEl: any = document.querySelector("#description");
         descripEl.appendChild(descripText);
         descripText.setAttribute('id', "description_text");
-
-        // descripText.setAttribute('geometry', {
-        //     primitive: 'plane', 
-        //     width: 0.08,
-        //     height: 0.05
-        // });
-
-        // // Initiate the panel color.
-        // descripText.setAttribute('material', {
-        //     color: 'skyblue',
-        //     transparent: true,
-        //     opacity: 0
-        // });
 
         // Initiate tht panel content.
         descripText.setAttribute('text', {
@@ -240,6 +227,9 @@ const globalMenu = {
                 });
                 modelThumbnailEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
                 break;
+            }
+            case 6: {
+                
             }
         }
         

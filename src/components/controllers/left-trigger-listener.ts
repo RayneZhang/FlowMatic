@@ -20,7 +20,7 @@ const leftTriggerListener = {
             sceneEl.appendChild(newEntity);
 
             switch (this.data.targetModel) {
-                case 'button0': {
+                case 'container0': {
                     newEntity.setAttribute('id', 'bottle' + this.id);
                     newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                     newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
@@ -30,7 +30,7 @@ const leftTriggerListener = {
                     this.id++;
                     break;
                 }
-                case 'button1': default: {
+                case 'container1': default: {
                     // Add geometry component to the entity.
                     newEntity.setAttribute('geometry', {
                         primitive: 'box',
@@ -47,7 +47,7 @@ const leftTriggerListener = {
                     this.id++;
                     break;
                 }
-                case 'button2': {
+                case 'container2': {
                     // Add geometry component to the entity.
                     newEntity.setAttribute('geometry', {
                         primitive: 'cone',
@@ -67,7 +67,7 @@ const leftTriggerListener = {
                     this.id++;
                     break;
                 }
-                case 'button3': {
+                case 'container3': {
                     // Add geometry component to the entity.
                     newEntity.setAttribute('geometry', {
                         primitive: 'sphere',
@@ -82,7 +82,7 @@ const leftTriggerListener = {
                     this.id++;
                     break;
                 }
-                case 'button4': {
+                case 'container4': {
                     // Add geometry component to the entity.
                     newEntity.setAttribute('geometry', {
                         primitive: 'cone',
@@ -102,7 +102,7 @@ const leftTriggerListener = {
                     this.id++;
                     break;
                 }
-                case 'button5': {
+                case 'container5': {
                     // Add geometry component to the entity.
                     newEntity.setAttribute('geometry', {
                         primitive: 'cone',

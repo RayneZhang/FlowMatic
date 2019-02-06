@@ -1,13 +1,15 @@
 declare const THREE:any;
 
 const globalMenu = {
+    schema: {
+        selectedContainerId: {type: 'string', default: "container1"}
+    },
+
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
         this.subMenuNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9'];
         // The corresponding model thumbnails in the buttons.
         this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector'];
-        // The selected button id.
-        this.selectedButtonId = 'button1';
 
         // The cursor is centered in 0,0 to allow scale it easily.
         // This is the offset to put it back in its original position on the slider.
@@ -106,7 +108,7 @@ const globalMenu = {
         descripText.object3D.position.set(-0.1, 0, -0.055);
 
         // Set the value of the description.
-        this.setThumbnailDescription(this.selectedButtonId);
+        this.setThumbnailDescription(this.data.selectedContainerId);
     },
 
     // Set description of the panel.
@@ -156,9 +158,9 @@ const globalMenu = {
             // Handle material&description when hover cleared.
             ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
-                if (ButtonEl.getAttribute('id') != this.selectedButtonId) {
+                if (ButtonEl.getAttribute('id') != this.data.selectedContainerId) {
                     ButtonEl.setAttribute('material', 'color', '#FFFFFF'); 
-                    this.setThumbnailDescription(this.selectedButtonId);
+                    this.setThumbnailDescription(this.data.selectedContainerId);
                 }
             })
 
@@ -166,7 +168,7 @@ const globalMenu = {
             this.loadModelThumbnail(ButtonEl, i);
         }
 
-        this.setSelectedButtonId('button1');
+        this.setSelectedButtonId('container1');
     },
 
     // Load the thumbnails of the models to display in buttons.
@@ -263,13 +265,21 @@ const globalMenu = {
 
     // Set the selected button id.
     setSelectedButtonId: function(_id: string): void {
-        if (this.selectedButtonId) {
-            const lastSelectedButton: any = document.querySelector('#' + this.selectedButtonId);
-            lastSelectedButton.setAttribute('material', 'color', '#FFFFFF');
+        if (this.data.selectedContainerId) {
+            const lastSelectedContainer: any = document.querySelector('#' + this.data.selectedContainerId);
+            lastSelectedContainer.setAttribute('material', 'color', '#FFFFFF');
+
+            const id: string = this.data.selectedContainerId.substr(-1, 1);
+            const idNum: number = Number(id);
+            const lastSelectedButton: any = document.querySelector('#Button' + String(idNum+1));
+
+            this.data.selectedContainerId = _id;
+            
+            lastSelectedButton.emit('raycaster-intersected-cleared');
         }
 
-        this.selectedButtonId = _id;
-        const currentSelectedButton: any = document.querySelector('#' + this.selectedButtonId);
+        this.data.selectedContainerId = _id;
+        const currentSelectedButton: any = document.querySelector('#' + this.data.selectedContainerId);
         currentSelectedButton.setAttribute('material', 'color', '#FF69B4');
 
         // Pass the id for left hand to create the corresponding object.

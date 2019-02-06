@@ -33,7 +33,11 @@ const modelSubset = {
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
             this.data.raycasted = false;
-            if (NotReactUI.indexOf(this.data.name) === -1) 
+            const leftHandInfo: any = document.querySelector("#leftHandInfo");
+            const selectedContainerId: string = leftHandInfo.getAttribute('global-menu').selectedContainerId;
+            const id: string = selectedContainerId.substr(-1, 1);
+            const idNum: number = Number(id);
+            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id').indexOf(String(idNum+1)) === -1) 
                 this.el.setAttribute('material', 'src', '#uinormal'); 
         })
     },

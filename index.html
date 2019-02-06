@@ -50,15 +50,15 @@
             <a-entity id="lines" draw-line></a-entity>
 
             <!-- Controllers. -->
-            <a-entity id="rightHand" oculus-touch-controls="hand: right" thumb-controls="hand: right" aabb-collider="objects: .movable" collision-listener></a-entity>
+            <a-entity id="rightHand" oculus-touch-controls="hand: right" thumb-controls="hand: right" aabb-collider="objects: .movable" tooltip-listener collision-listener></a-entity>
             <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener 
             raycaster="origin: 0.008, -0.004, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui; far: 10" 
             rotation-controller="hand: right">
-                <a-entity class="oculus-tooltips" visible="true">
+                <a-entity id="leftTooltips" class="oculus-tooltips" visible="false">
                     <a-entity tooltip="text: Freeze attributes; width: 0.1; height: 0.03; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
                         position="-0.10 0.013 0.013">
                     </a-entity>
-                    <!-- <a-entity tooltip="text: Teleport; width: 0.06; height: 0.03; targetPosition: -0.008 0 -0.001; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
+                    <!-- <a-entity tooltip="text: Turn on/off controller tips; width: 0.06; height: 0.03; targetPosition: -0.008 0 -0.001; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
                         position="-0.059 0.015 -0.028">
                     </a-entity> -->
                     <a-entity tooltip="text: Rotation\n(slide left/right); width: 0.09; height: 0.04; targetPosition: 0.004 0.00 -0.01; lineHorizontalAlign: center; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
@@ -73,19 +73,19 @@
                 </a-entity>
             </a-entity>
 
-            <a-entity id="leftHand" oculus-touch-controls="hand: left" thumb-controls="hand: left" aabb-collider="objects: .movable"></a-entity>
+            <a-entity id="leftHand" oculus-touch-controls="hand: left" thumb-controls="hand: left" aabb-collider="objects: .movable" tooltip-listener></a-entity>
             <a-entity id="leftHandInfo" entity-follow="targetEntity: #leftHand" global-menu left-trigger-listener 
             scale-controller="hand:left">
-                <a-entity class="oculus-tooltips" visible="true">
+                <a-entity id="rightTooltips" class="oculus-tooltips" visible="false">
                     <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
                             position="0.066 0.013 0.013">
                     </a-entity>
                     <!-- <a-entity tooltip="text: Teleport; width: 0.06; height: 0.03; targetPosition: 0.008 0 -0.001; rotation: -90 0 0; src: assets/images/tooltip.png"
                         position="0.059 0.015 -0.028">
-                    </a-entity>
-                    <a-entity tooltip="text: Brush size\n(slide up/down); width: 0.09; height: 0.04; targetPosition: -0.009 0.01 -0.01; lineHorizontalAlign: center; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
-                        position="-0.07 0.01 0.06">
                     </a-entity> -->
+                    <a-entity tooltip="text: Scale\n(slide left/right); width: 0.09; height: 0.04; targetPosition: -0.004 0.00 -0.01; lineHorizontalAlign: center; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
+                        position="-0.07 0.01 0.06">
+                    </a-entity>
                     <a-entity tooltip="text: Press to create an object!; width: 0.14; height: 0.04; targetPosition: 0.002 -0.03 -0.015; lineHorizontalAlign: right; rotation: -90 0 0; src: assets/images/tooltip.png"
                         position="-0.09 0.020 -0.067">
                     </a-entity>

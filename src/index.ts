@@ -1,5 +1,6 @@
 import * as AFRAME from 'aframe';
 import * as ENVIRONMENT from 'aframe-environment-component';
+import * as TELEPORT from 'aframe-teleport-controls';
 
 import rightGripListener from './components/controllers/right-grip-listener';
 import leftTriggerListener from './components/controllers/left-trigger-listener';
@@ -25,6 +26,7 @@ import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
 console.log(ENVIRONMENT);
+console.log(TELEPORT);
 
 declare const THREE:any;
 

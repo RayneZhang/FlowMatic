@@ -133,7 +133,8 @@ const leftTriggerListener = {
 
             // Add position component to the entity.
             const controllerPos: any = el.object3D.position;
-            newEntity.object3D.position.set(controllerPos.x, controllerPos.y, controllerPos.z);
+            const cameraRig: any = document.querySelector("#cameraRig");
+            newEntity.object3D.position.set(cameraRig.object3D.position.x + controllerPos.x, cameraRig.object3D.position.y + controllerPos.y, cameraRig.object3D.position.z + controllerPos.z);
 
             // Set the boolean 'triggering' and the createdEl.
             el.setAttribute('left-trigger-listener', {createdEl: newEntity, triggering: 'true'});

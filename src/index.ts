@@ -1,6 +1,7 @@
 import * as AFRAME from 'aframe';
 import * as ENVIRONMENT from 'aframe-environment-component';
 import * as TELEPORT from 'aframe-teleport-controls';
+import * as FPSCOUNTER from 'aframe-fps-counter-component'
 
 import rightGripListener from './components/controllers/right-grip-listener';
 import leftTriggerListener from './components/controllers/left-trigger-listener';
@@ -25,8 +26,9 @@ import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
-console.log(ENVIRONMENT);
-console.log(TELEPORT);
+ENVIRONMENT;
+TELEPORT;
+FPSCOUNTER;
 
 declare const THREE:any;
 

@@ -27,6 +27,7 @@ import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
 import { createStore } from 'redux'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import todoApp from './reducers'
 import {
     addTodo,
@@ -80,6 +81,7 @@ store.dispatch(addTodo('Learn about reducers'));
 
 store.dispatch(toggleTodo(0));
 store.dispatch(toggleTodo(1));
+store.dispatch(UndoActionCreators.undo());
 store.dispatch(setVisibilityFilter(VisibilityFilters.SHOW_COMPLETED));
 
 // Stop listening to state updates

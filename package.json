@@ -24,6 +24,7 @@
     "aframe-fps-counter-component": "^1.0.1",
     "aframe-teleport-controls": "^0.3.1",
     "redux": "^4.0.1",
+    "redux-undo": "^1.0.0-beta9-9-7",
     "three": "^0.96.0",
     "ts-loader": "^5.2.0",
     "tsc": "^1.20150623.0",

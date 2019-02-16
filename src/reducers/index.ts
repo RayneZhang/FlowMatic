@@ -1,51 +1,53 @@
 import { combineReducers } from 'redux'
 import undoable, {includeAction} from 'redux-undo'
 import {
-  ADD_TODO,
-  TOGGLE_TODO,
-  SET_VISIBILITY_FILTER,
-  VisibilityFilters
+  ADD_OBJECT,
+  ADD_LINE
 } from '../actions'
-const { SHOW_ALL } = VisibilityFilters
 
-function visibilityFilter(state = SHOW_ALL, action) {
+function lines(state = [], action) {
   switch (action.type) {
-    case SET_VISIBILITY_FILTER:
+    case ADD_LINE:
       return action.filter
     default:
       return state
   }
 }
 
-function todos(state = [], action) {
+function objects(state = [], action) {
   switch (action.type) {
-    case ADD_TODO:
+    case ADD_OBJECT:
+      // Original Version down here.
+      // Object.assign({}, state, {
+        
+      // })
       return [
         ...state,
         {
-          text: action.text,
-          completed: false
+          id: action.id,
+          targetObject: action.targetObject,
+          position: action.position
         }
       ]
-    case TOGGLE_TODO:
-      return state.map((todo, index) => {
-        if (index === action.id) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed
-          })
-        }
-        return todo
-      })
+    // case TOGGLE_TODO:
+    //   return state.map((todo, index) => {
+    //     if (index === action.id) {
+    //       return Object.assign({}, todo, {
+    //         completed: !todo.completed
+    //       })
+    //     }
+    //     return todo
+    //   })
     default:
       return state
   }
 }
 
-const undoableTodos = undoable(todos, {filter: includeAction([ADD_TODO, TOGGLE_TODO])});
+const undoableObjects = undoable(objects, {filter: includeAction([ADD_OBJECT])});
 
 const todoApp = combineReducers({
-  visibilityFilter,
-  undoableTodos
+  lines,
+  undoableObjects
 })
 
 export default todoApp

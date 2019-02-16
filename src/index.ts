@@ -26,15 +26,12 @@ import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
-import { createStore } from 'redux'
+import store from './store'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import todoApp from './reducers'
 import {
-    addTodo,
-    toggleTodo,
-    setVisibilityFilter,
-    VisibilityFilters
-  } from './actions'
+    addObject,
+    addLine
+} from './actions'
   
 
 ENVIRONMENT;
@@ -66,7 +63,6 @@ AFRAME.registerComponent('line-properties', lineProperties);
 
 AFRAME.registerComponent('entity-follow', EntityFollow);
 
-const store = createStore(todoApp);
 
 // Log the initial state
 console.log(store.getState());
@@ -76,13 +72,8 @@ console.log(store.getState());
 const unsubscribe = store.subscribe(() => console.log(store.getState()));
 
 // Dispatch some actions
-store.dispatch(addTodo('Learn about actions'));
-store.dispatch(addTodo('Learn about reducers'));
 
-store.dispatch(toggleTodo(0));
-store.dispatch(toggleTodo(1));
-store.dispatch(UndoActionCreators.undo());
-store.dispatch(setVisibilityFilter(VisibilityFilters.SHOW_COMPLETED));
+// store.dispatch(UndoActionCreators.undo());
 
 // Stop listening to state updates
 unsubscribe();

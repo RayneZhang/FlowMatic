@@ -1,3 +1,8 @@
+import store from '../../store'
+import { addObject } from '../../actions'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
+
+
 declare const THREE:any;
 
 const leftTriggerListener = {
@@ -15,6 +20,7 @@ const leftTriggerListener = {
         const listeningEl = document.querySelector('#leftHand');
 
         listeningEl.addEventListener('triggerdown', (event) => {  
+            
             // Create an entity and append it to the scene.
             let newEntity: any = document.createElement('a-entity');
             sceneEl.appendChild(newEntity);
@@ -136,6 +142,9 @@ const leftTriggerListener = {
             const cameraRig: any = document.querySelector("#cameraRig");
             newEntity.object3D.position.set(cameraRig.object3D.position.x + controllerPos.x, cameraRig.object3D.position.y + controllerPos.y, cameraRig.object3D.position.z + controllerPos.z);
 
+            store.dispatch(addObject('test', this.data.targetModel, newEntity.object3D.position)); // For debugging
+            store.dispatch(UndoActionCreators.undo()); // For debugging
+            
             // Set the boolean 'triggering' and the createdEl.
             el.setAttribute('left-trigger-listener', {createdEl: newEntity, triggering: 'true'});
         });

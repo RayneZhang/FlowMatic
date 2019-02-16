@@ -27,12 +27,6 @@ import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
 import store from './store'
-import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import {
-    addObject,
-    addLine
-} from './actions'
-  
 
 ENVIRONMENT;
 TELEPORT;
@@ -66,14 +60,6 @@ AFRAME.registerComponent('entity-follow', EntityFollow);
 
 // Log the initial state
 console.log(store.getState());
-
 // Every time the state changes, log it
 // Note that subscribe() returns a function for unregistering the listener.
-const unsubscribe = store.subscribe(() => console.log(store.getState()));
-
-// Dispatch some actions
-
-// store.dispatch(UndoActionCreators.undo());
-
-// Stop listening to state updates
-// unsubscribe();
+const subscribe = store.subscribe(() => console.log(store.getState()));

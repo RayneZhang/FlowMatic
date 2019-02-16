@@ -45,9 +45,9 @@ function objects(state = [], action) {
 
 const undoableObjects = undoable(objects, {filter: includeAction([ADD_OBJECT])});
 
-const todoApp = combineReducers({
+const reducers = combineReducers({
   lines,
   undoableObjects
 })
 
-export default todoApp
+export default reducers

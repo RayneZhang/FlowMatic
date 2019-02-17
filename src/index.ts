@@ -8,8 +8,13 @@ import leftTriggerListener from './components/controllers/left-trigger-listener'
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import rightAButtonListener from './components/controllers/right-abutton-listener';
 import collisionListener from './components/controllers/collision-listener';
+import rotationController from './components/controllers/rotation-controller';
+import scaleController from './components/controllers/scale-controller';
+import tooltipListener from './components/controllers/tooltip-listener';
 
 import modelSubset from './components/Utils/model-subset';
+import EntityFollow from './components/Utils/EntityFollow';
+
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
 
@@ -17,22 +22,17 @@ import bottleDescription from './components/bottles/bottleDescrip';
 import dataSource from './components/bottles/dataSource';
 import dataFilter from './components/bottles/dataFilter';
 import dataReceiver from './components/bottles/dataReceiver';
-import drawLine from './components/lines/drawLine';
-import lineProperties from './components/lines/lineProperties';
 import filterDescription from './components/bottles/filterDescription';
 
-import EntityFollow from './components/Utils/EntityFollow';
-import rotationController from './components/controllers/rotation-controller';
-import scaleController from './components/controllers/scale-controller';
-import tooltipListener from './components/controllers/tooltip-listener';
+import drawLine from './components/lines/drawLine';
+import lineProperties from './components/lines/lineProperties';
 
-import store from './store'
+import stateBinding from './state-binding/index'
+stateBinding;
 
 ENVIRONMENT;
 TELEPORT;
 FPSCOUNTER;
-
-declare const THREE:any;
 
 AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
@@ -56,10 +56,3 @@ AFRAME.registerComponent('draw-line', drawLine);
 AFRAME.registerComponent('line-properties', lineProperties);
 
 AFRAME.registerComponent('entity-follow', EntityFollow);
-
-
-// Log the initial state
-console.log(store.getState());
-// Every time the state changes, log it
-// Note that subscribe() returns a function for unregistering the listener.
-const subscribe = store.subscribe(() => console.log(store.getState()));

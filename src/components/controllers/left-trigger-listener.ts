@@ -143,7 +143,7 @@ const leftTriggerListener = {
             newEntity.object3D.position.set(cameraRig.object3D.position.x + controllerPos.x, cameraRig.object3D.position.y + controllerPos.y, cameraRig.object3D.position.z + controllerPos.z);
 
             store.dispatch(addObject('test', this.data.targetModel, newEntity.object3D.position)); // For debugging
-            store.dispatch(UndoActionCreators.undo()); // For debugging
+            // store.dispatch(UndoActionCreators.undo()); // For debugging
             
             // Set the boolean 'triggering' and the createdEl.
             el.setAttribute('left-trigger-listener', {createdEl: newEntity, triggering: 'true'});

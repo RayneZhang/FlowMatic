@@ -11,9 +11,18 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
     init: function(): void {
         // Log the initial state
-        console.log('Initial State: ' + store.getState());
+        console.log('Initial State:');
+        console.log(store.getState());
         // Note that subscribe() returns a function for unregistering the listener.
-        const unsubscribe = store.subscribe(() => console.log(store.getState()));
+        const unsubscribe = store.subscribe(() => {
+            this.updateObjects();
+            this.updateObjects();
+        });
+    }, 
+
+    // No mutating the parameters.
+    updateObjects: function(): void {
+        console.log(store.getState())
     }
 });
 

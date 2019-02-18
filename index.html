@@ -32,6 +32,8 @@
                 <a-asset-item id="bottle-thumbnail" src="assets/models/Thumbnails/bottle_thumbnail.obj"></a-asset-item>
                 <a-asset-item id="street-obj" src="assets/models/StreetScene/StreetScene.obj"></a-asset-item>
                 <a-asset-item id="bench-obj" src="assets/models/Bench/Bench.obj"></a-asset-item>
+                <a-asset-item id="stage-obj" src="assets/models/stage/Concert_scene.obj"></a-asset-item>
+                <a-asset-item id="stage-mtl" src="assets/models/stage/Concert_scene.mtl"></a-asset-item>
             </a-assets>
 
             <a-entity id="cameraRig">
@@ -91,10 +93,10 @@
             </a-entity>
 
             <!-- Surrounding and floor. -->
-            <a-entity id="env" environment="preset: default; ground: none"></a-entity>
+            <a-entity id="env" environment="preset: default"></a-entity>
             <a-entity id="ambientLight" light="type: ambient; intensity: 0.3;"></a-entity>
-            <!-- <a-entity light="type: directional; color: #EEE; intensity: 1.0; castShadow: true" position="-1 1 0"></a-entity> -->
-            <a-entity id="street" obj-model="obj: #street-obj" material="color:grey" rotation="0 180 0" shadow></a-entity>
+
+            <!-- <a-entity id="street" obj-model="obj: #stage-obj; mtl: #stage-mtl" rotation="0 0 0" shadow></a-entity> -->
             <a-entity id="bench" class="movable" data-receiver obj-attributes-list obj-model="obj: #bench-obj" material="color: grey" position="-5 0.5 -3" rotation="0 90 0" shadow></a-entity>
 
             <a-entity id="lines" draw-line></a-entity>

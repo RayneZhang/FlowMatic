@@ -156,8 +156,43 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
         // When deleting an object from the scene...
         else if (presentObjects.length < this.data.objects.length) {
+            const deletedObj = this.data.objects[this.data.objects.length - 1];
+            const objectNum = deletedObj.targetModel;
+            const createdId = deletedObj.id;
+            let id = '';
 
+            switch (objectNum) {
+                case 'container0': {
+                    id = '#bottle' + createdId;
+                    break;
+                }
+                case 'container1': default: {
+                    id = '#box' + createdId;
+                    break;
+                }
+                case 'container2': {
+                    id = '#color-filter' + createdId;
+                    break;
+                }
+                case 'container3': {   
+                    id = '#sphere' + createdId;
+                    break;
+                }
+                case 'container4': {
+                    id = '#position-filter' + createdId;
+                    break;
+                }
+                case 'container5': {
+                    id = '#position-filter' + createdId;
+                    break;
+                }
+            }
+
+            const deletedObjEntity = document.querySelector(id);
+            deletedObjEntity.parentNode.removeChild(deletedObjEntity);
         }
+
+        this.data.objects = store.getState().objects.present;
     }
 });
 

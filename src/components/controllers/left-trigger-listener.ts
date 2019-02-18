@@ -1,7 +1,5 @@
 import store from '../../store'
 import { addObject } from '../../actions'
-import { ActionCreators as UndoActionCreators } from 'redux-undo'
-
 
 declare const THREE:any;
 
@@ -24,8 +22,7 @@ const leftTriggerListener = {
             const cameraRig: any = document.querySelector("#cameraRig");
             const position = new THREE.Vector3(cameraRig.object3D.position.x + controllerPos.x, cameraRig.object3D.position.y + controllerPos.y, cameraRig.object3D.position.z + controllerPos.z);
 
-            store.dispatch(addObject(this.id, this.data.targetModel, position, this.data.color)); // For debugging
-            // store.dispatch(UndoActionCreators.undo()); // For debugging
+            store.dispatch(addObject(this.id, this.data.targetModel, position, this.data.color));
             this.id++;
         });
     },

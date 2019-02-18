@@ -27,6 +27,9 @@ import filterDescription from './components/bottles/filterDescription';
 import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';
 
+import leftGripListener from './components/controllers/left-grip-listener'
+leftGripListener;
+
 import stateBinding from './state-binding/index'
 stateBinding;
 

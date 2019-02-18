@@ -12,8 +12,8 @@ function lines(state = [], action) {
 }
 
 const reducers = combineReducers({
-  lines,
-  undoableObjects
+  lines: lines,
+  objects: undoableObjects
 })
 
 export default reducers

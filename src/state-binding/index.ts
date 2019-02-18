@@ -16,7 +16,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         // Note that subscribe() returns a function for unregistering the listener.
         const unsubscribe = store.subscribe(() => {
             this.updateObjects();
-            this.updateObjects();
         });
     }, 
 

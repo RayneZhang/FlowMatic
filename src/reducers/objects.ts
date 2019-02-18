@@ -11,8 +11,9 @@ const objects = (state = [], action) => {
           ...state,
           {
             id: action.id,
-            targetObject: action.targetObject,
-            position: action.position
+            targetModel: action.targetModel,
+            position: action.position,
+            color: action.color
           }
         ]
       default:

@@ -46,7 +46,7 @@
                 <!-- Controllers. -->
                 <a-entity id="rightHand" oculus-touch-controls="hand: right" thumb-controls="hand: right" aabb-collider="objects: .movable" tooltip-listener collision-listener></a-entity>
                 <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener 
-                raycaster="origin: 0.008, -0.004, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable; far: 10" 
+                raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable; far: 10" 
                 rotation-controller="hand: right">
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
                         <a-entity tooltip="text: Freeze attributes; width: 0.1; height: 0.03; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"

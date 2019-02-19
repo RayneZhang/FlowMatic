@@ -231,7 +231,9 @@ const globalMenu = {
                 break;
             }
             case 6: {
-                
+                // modelThumbnailEntity.setAttribute('obj-model', 'obj', '#arrow-obj');
+                // modelThumbnailEntity.object3D.scale.set(0.0005, 0.0005, 0.0005);
+                // break;
             }
         }
         

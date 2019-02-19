@@ -147,6 +147,14 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
+                 case 'container6': {
+                    newEntity.setAttribute('id', 'arrow' + this.id);
+                    newEntity.setAttribute('obj-model', 'obj', '#arrow-obj');
+                    newEntity.setAttribute('obj-model', 'mtl', '#arrow-mtl');
+                    newEntity.object3D.scale.set(0.0025, 0.005, 0.005);
+                    this.id++;
+                    break;
+                 }
              }
 
              // Add class component to the entity.
@@ -184,6 +192,10 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 }
                 case 'container5': {
                     id = '#position-filter' + createdId;
+                    break;
+                }
+                case 'container6': {
+                    id = '#arrow' + createdId;
                     break;
                 }
             }

@@ -148,10 +148,20 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case 'container6': {
-                    newEntity.setAttribute('id', 'arrow' + this.id);
-                    newEntity.setAttribute('obj-model', 'obj', '#arrow-obj');
-                    newEntity.setAttribute('obj-model', 'mtl', '#arrow-mtl');
-                    newEntity.object3D.scale.set(0.0025, 0.005, 0.005);
+                    // Create an entity and append it to the scene.
+                    let newSubEntityHead: any = document.createElement('a-entity');
+                    let newSubEntityBody: any = document.createElement('a-entity');
+                    newEntity.appendChild(newSubEntityHead);
+                    newEntity.appendChild(newSubEntityBody);
+
+                    // Set entity id.
+                    newEntity.setAttribute('id', 'vector' + this.id);
+                    newSubEntityHead.setAttribute('id', 'vectorHead' + this.id);
+                    newSubEntityBody.setAttribute('id', 'vectorBody' + this.id);
+
+                    // Set entity geometry.
+                    
+                    
                     this.id++;
                     break;
                  }
@@ -195,7 +205,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     break;
                 }
                 case 'container6': {
-                    id = '#arrow' + createdId;
+                    id = '#vector' + createdId;
                     break;
                 }
             }

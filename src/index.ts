@@ -12,8 +12,8 @@ import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
-import modelSubset from './components/Utils/model-subset';
-import EntityFollow from './components/Utils/EntityFollow';
+import modelSubset from './components/utils/model-subset';
+import EntityFollow from './components/utils/EntityFollow';
 
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';

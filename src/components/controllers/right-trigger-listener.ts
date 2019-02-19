@@ -289,8 +289,10 @@ const rightTriggerListener = {
             const lineEntity: any = document.querySelector('#lines');
 
             // Update line end point to controller position.
-            const ControllerPos = {x: this.el.object3D.position.x, y: this.el.object3D.position.y, z: this.el.object3D.position.z};
-            lineEntity.setAttribute('draw-line', 'endPoint', ControllerPos);
+            const controllerPos: any = this.el.object3D.position;
+            const cameraRig: any = document.querySelector("#cameraRig");
+            const controllerWorldPos = {x: cameraRig.object3D.position.x + controllerPos.x, y: cameraRig.object3D.position.y + controllerPos.y, z: cameraRig.object3D.position.z + controllerPos.z};
+            lineEntity.setAttribute('draw-line', 'endPoint', controllerWorldPos);
 
             // Check if there is another dot to connect.
             // Retrieve all intersected Elements through raycaster.

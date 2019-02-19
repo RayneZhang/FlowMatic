@@ -15,6 +15,8 @@ const vector = AFRAME.registerComponent('vector', {
         // Set up id for the sub-entities.
         subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
         subEntityBody.setAttribute('id', 'vector-body' + this.data.seqId);
+
+        this.setGeometry(subEntityHead, subEntityBody);
     },
     
     setGeometry: function(_subEntityHead, _subEntityBody): void {

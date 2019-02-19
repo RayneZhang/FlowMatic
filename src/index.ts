@@ -33,6 +33,9 @@ leftGripListener;
 import stateBinding from './state-binding/index'
 stateBinding;
 
+import vector from './components/utils/vector'
+vector;
+
 ENVIRONMENT;
 TELEPORT;
 FPSCOUNTER;

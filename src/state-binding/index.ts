@@ -148,19 +148,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case 'container6': {
-                    // Create an entity and append it to the scene.
-                    let newSubEntityHead: any = document.createElement('a-entity');
-                    let newSubEntityBody: any = document.createElement('a-entity');
-                    newEntity.appendChild(newSubEntityHead);
-                    newEntity.appendChild(newSubEntityBody);
-
                     // Set entity id.
                     newEntity.setAttribute('id', 'vector' + this.id);
-                    newSubEntityHead.setAttribute('id', 'vectorHead' + this.id);
-                    newSubEntityBody.setAttribute('id', 'vectorBody' + this.id);
-
-                    // Set entity geometry.
-                    
+                    newEntity.setAttribute('vector', 'seqId', this.id);
                     
                     this.id++;
                     break;

@@ -27,11 +27,35 @@ const vector = AFRAME.registerComponent('vector', {
         this.setVectorBody(subEntityHead, subEntityTail);
 
         this.setAxis();
-        this.lengthen(subEntityBody, 0.1414);
+        this.setTorus();
+        this.setLength(subEntityBody, 0.1414);
         this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
     },
 
-    lengthen: function(_subEntityBody, _length): void {
+    setTorus: function(): void {
+        const latitudeAxis: any = document.createElement('a-entity');
+        const longitudeAxis: any = document.createElement('a-entity');
+        this.el.appendChild(latitudeAxis);
+        this.el.appendChild(longitudeAxis);
+
+        // Set geometry of the two Axis.
+        latitudeAxis.setAttribute('geometry', {
+            primitive: 'torus',
+            radius: 0.1,
+            radiusTubular: 0.001,
+            arc: 360
+        });
+
+        // Set geometry of the two Axis.
+        longitudeAxis.setAttribute('geometry', {
+            primitive: 'torus',
+            radius: 0.1,
+            radiusTubular: 0.001,
+            arc: 360
+        });
+    },
+
+    setLength: function(_subEntityBody, _length): void {
         const times = _length / (this.cylinderHeight + this.coneHeight);
         _subEntityBody.setAttribute('scale', 'y', times);
     },

@@ -65,6 +65,7 @@ const filterDescription = {
         // Initiate tht panel content.
         promptEntity.setAttribute('text', {
             value: prompt,
+            side: 'double',
             wrapCount: 10,
             align: 'center'
         });

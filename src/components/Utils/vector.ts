@@ -31,24 +31,6 @@ const vector = AFRAME.registerComponent('vector', {
     },
     
     pointAt: function(_subEntityBody, _position): void {
-        // let xRad = 0;
-        // let yRad = 0;
-        // const startingDir = new THREE.Vector3(0, 1, 0);
-
-        // const xPlaneProject = new THREE.Vector3(0, _position.y, _position.z);
-        // xRad = startingDir.angleTo(xPlaneProject);
-        // xRad = _position.z > 0 ? xRad : -xRad;
-
-        // // Apply this x radian to starting direction.
-        // startingDir.applyAxisAngle(new THREE.Vector3(1, 0, 0), xRad);
-        // _subEntityBody.object3D.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), xRad);
-        
-        // yRad = startingDir.angleTo(_position);
-        // yRad = _position.x > 0 ? yRad : -yRad;
-
-        // // The order of rotation matters!
-        // _subEntityBody.object3D.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), yRad);
-
         // Get the world position of current entity.
         const worldPos = new THREE.Vector3();
         worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);

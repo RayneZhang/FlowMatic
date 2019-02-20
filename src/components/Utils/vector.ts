@@ -18,28 +18,34 @@ const vector = AFRAME.registerComponent('vector', {
         subEntityBody.appendChild(subEntityHead);
         subEntityBody.appendChild(subEntityTail);
         this.el.appendChild(subEntityBody);    
+
+        // Create longitude and latitude axis.
+        const latitudeAxis: any = document.createElement('a-entity');
+        const longitudeAxis: any = document.createElement('a-entity');
+        this.el.appendChild(latitudeAxis);
+        this.el.appendChild(longitudeAxis);
     
         // Set up id for the sub-entities.
         subEntityBody.setAttribute('id', 'vector-body' + this.data.seqId);
         subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
         subEntityTail.setAttribute('id', 'vector-tail' + this.data.seqId);
 
-        this.initVectorBody(subEntityHead, subEntityTail);
-
+        // Init setup.
         this.initAxis();
-        this.initTorus();
+        this.initVectorBody(subEntityHead, subEntityTail);
+        this.initTorus(latitudeAxis, longitudeAxis);
+
         this.setLength(subEntityBody, 0.1414);
         this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
     },
 
-    initTorus: function(): void {
-        const latitudeAxis: any = document.createElement('a-entity');
-        const longitudeAxis: any = document.createElement('a-entity');
-        this.el.appendChild(latitudeAxis);
-        this.el.appendChild(longitudeAxis);
+    setTorus: function(_position): void {
 
+    },
+
+    initTorus: function(_latitudeAxis, _longitudeAxis): void {
         // Set geometry of the two Axis.
-        latitudeAxis.setAttribute('geometry', {
+        _latitudeAxis.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
             radiusTubular: 0.002,
@@ -47,7 +53,7 @@ const vector = AFRAME.registerComponent('vector', {
         });
 
         // Set geometry of the two Axis.
-        longitudeAxis.setAttribute('geometry', {
+        _longitudeAxis.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
             radiusTubular: 0.002,

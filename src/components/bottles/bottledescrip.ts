@@ -79,6 +79,7 @@ const bottleDescription = {
         // Initiate the panel color.
         promptEntity.setAttribute('material', {
             color: _color,
+            side: 'double',
             transparent: true,
             opacity: 0.5
         });
@@ -86,6 +87,7 @@ const bottleDescription = {
         // Initiate tht panel content.
         promptEntity.setAttribute('text', {
             value: prompt,
+            side: 'double',
             wrapCount: 10,
             align: 'center'
         });

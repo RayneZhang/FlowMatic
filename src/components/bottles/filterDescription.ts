@@ -57,6 +57,7 @@ const filterDescription = {
         // Initiate the panel color.
         promptEntity.setAttribute('material', {
             color: _color,
+            side: 'double',
             transparent: true,
             opacity: 0.5
         });

@@ -33,12 +33,14 @@ const objAttrList = {
 
             // Initiate the panel color.
             curEntity.setAttribute('material', {
-                color: 'grey'
+                color: 'grey',
+                side: 'double'
             });
 
             // Initiate tht panel content.
             curEntity.setAttribute('text', {
                 value: attrName,
+                side: 'double',
                 wrapCount: 10,
                 align: 'center'
             });

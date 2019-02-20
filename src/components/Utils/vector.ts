@@ -7,33 +7,50 @@ const vector = AFRAME.registerComponent('vector', {
     },
 
     init: function(): void {
+        // Private properties.
+        this.coneHeight = 0.025;
+        this.cylinderHeight = 0.075;
+
         // Create an entity and append it to the scene.
-        let subEntityHead: any = document.createElement('a-entity');
-        let subEntityBody: any = document.createElement('a-entity');    
-        this.el.appendChild(subEntityHead);
-        this.el.appendChild(subEntityBody);
+        const subEntityBody: any = document.createElement('a-entity');
+        const subEntityHead: any = document.createElement('a-entity');
+        const subEntityTail: any = document.createElement('a-entity');
+        subEntityBody.appendChild(subEntityHead);
+        subEntityBody.appendChild(subEntityTail);
+        this.el.appendChild(subEntityBody);    
     
         // Set up id for the sub-entities.
-        subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
         subEntityBody.setAttribute('id', 'vector-body' + this.data.seqId);
+        subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
+        subEntityTail.setAttribute('id', 'vector-tail' + this.data.seqId);
 
+        this.setVectorBody(subEntityHead, subEntityTail);
+        
         this.setAxis();
-        this.setGeometry(subEntityHead, subEntityBody);
     },
     
-    setGeometry: function(_subEntityHead, _subEntityBody): void {
+    pointAt: function(_position): void {
+
+    },
+
+    setVectorBody: function(_subEntityHead, _subEntityTail): void {
+        // Set up the geometry of both.
         _subEntityHead.setAttribute('geometry', {
             primitive: 'cone',
-            height: 0.025,
+            height: this.coneHeight,
             radiusBottom: 0.01,
             radiusTop: 0
         }); 
 
-        _subEntityBody.setAttribute('geometry', {
+        _subEntityTail.setAttribute('geometry', {
             primitive: 'cylinder',
-            height: 0.1,
-            radius: 0.005,
+            height: this.cylinderHeight,
+            radius: 0.005
         }); 
+
+        // Set up the relative position of both.
+        _subEntityTail.object3D.position.set(0, this.cylinderHeight / 2, 0);
+        _subEntityHead.object3D.position.set(0, this.cylinderHeight + this.coneHeight / 2, 0);
     },
 
     setAxis: function(): void {

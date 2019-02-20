@@ -24,15 +24,15 @@ const vector = AFRAME.registerComponent('vector', {
         subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
         subEntityTail.setAttribute('id', 'vector-tail' + this.data.seqId);
 
-        this.setVectorBody(subEntityHead, subEntityTail);
+        this.initVectorBody(subEntityHead, subEntityTail);
 
-        this.setAxis();
-        this.setTorus();
+        this.initAxis();
+        this.initTorus();
         this.setLength(subEntityBody, 0.1414);
         this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
     },
 
-    setTorus: function(): void {
+    initTorus: function(): void {
         const latitudeAxis: any = document.createElement('a-entity');
         const longitudeAxis: any = document.createElement('a-entity');
         this.el.appendChild(latitudeAxis);
@@ -42,7 +42,7 @@ const vector = AFRAME.registerComponent('vector', {
         latitudeAxis.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
-            radiusTubular: 0.001,
+            radiusTubular: 0.002,
             arc: 360
         });
 
@@ -50,7 +50,7 @@ const vector = AFRAME.registerComponent('vector', {
         longitudeAxis.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
-            radiusTubular: 0.001,
+            radiusTubular: 0.002,
             arc: 360
         });
     },
@@ -70,7 +70,7 @@ const vector = AFRAME.registerComponent('vector', {
         _subEntityBody.object3D.rotateX(THREE.Math.degToRad(90));
     },
 
-    setVectorBody: function(_subEntityHead, _subEntityTail): void {
+    initVectorBody: function(_subEntityHead, _subEntityTail): void {
         // Set up the geometry of both.
         _subEntityHead.setAttribute('geometry', {
             primitive: 'cone',
@@ -90,7 +90,7 @@ const vector = AFRAME.registerComponent('vector', {
         _subEntityHead.object3D.position.set(0, this.cylinderHeight + this.coneHeight / 2, 0);
     },
 
-    setAxis: function(): void {
+    initAxis: function(): void {
         const xAxis: any = document.createElement('a-entity');
         const yAxis: any = document.createElement('a-entity');
         const zAxis: any = document.createElement('a-entity');

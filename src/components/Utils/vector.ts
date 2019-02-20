@@ -27,7 +27,13 @@ const vector = AFRAME.registerComponent('vector', {
         this.setVectorBody(subEntityHead, subEntityTail);
 
         this.setAxis();
+        this.lengthen(subEntityBody, 0.1414);
         this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
+    },
+
+    lengthen: function(_subEntityBody, _length): void {
+        const times = _length / (this.cylinderHeight + this.coneHeight);
+        _subEntityBody.setAttribute('scale', 'y', times);
     },
     
     pointAt: function(_subEntityBody, _position): void {

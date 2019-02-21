@@ -46,9 +46,11 @@ const vector = AFRAME.registerComponent('vector', {
         this.initAxis();
         this.initVectorBody(subEntityHead, subEntityTail);
         this.initTorus(longitudeAxis, longitudeArrowUp, longitudeArrowDown);
+        this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
 
         this.setLength(subEntityBody, 0.1);
         this.pointAt(subEntityBody, new THREE.Vector3(1, 0, 0));
+        
         // this.setTorus(latitudeAxis,longitudeAxis, new THREE.Vector3(1, 0, 0));
     },
 
@@ -85,13 +87,13 @@ const vector = AFRAME.registerComponent('vector', {
         _axis.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
-            radiusTubular: 0.002,
+            radiusTubular: 0.001,
             segmentsRadial: 36,
             segmentsTubular: 32,
             arc: 360
         });
 
-        // Set up two components of an arrow.
+        // Set up two components of the down arrow.
         const arrowDownHead: any = document.createElement('a-entity');
         const arrowDownTail: any = document.createElement('a-entity');
         // Append children.
@@ -116,8 +118,34 @@ const vector = AFRAME.registerComponent('vector', {
         arrowDownHead.object3D.position.set(0.0866, 0.05, 0);
         arrowDownHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(30));
 
+        // Set up two components of the up arrow.
+        const arrowUpHead: any = document.createElement('a-entity');
+        const arrowUpTail: any = document.createElement('a-entity');
+        // Append children.
+        _arrowUp.appendChild(arrowUpHead);
+        _arrowUp.appendChild(arrowUpTail);
+        arrowUpTail.setAttribute('geometry', {
+            primitive: 'torus',
+            radius: 0.1,
+            radiusTubular: 0.003,
+            segmentsRadial: 36,
+            segmentsTubular: 32,
+            arc: 25
+        });
+        arrowUpTail.object3D.rotation.set(0, 0, THREE.Math.degToRad(-25));
+        arrowUpHead.setAttribute('geometry', {
+            primitive: 'cone',
+            height: 0.02,
+            radiusBottom: 0.01,
+            radiusTop: 0.005,
+            segmentsRadial: 6,
+            segmentsHeight: 18
+        });
+        arrowUpHead.object3D.position.set(0.0866, -0.05, 0);
+        arrowUpHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(150));
 
         _arrowDown.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+        _arrowUp.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
     },
 
     setLength: function(_subEntityBody, _length): void {

@@ -86,22 +86,27 @@ const vector = AFRAME.registerComponent('vector', {
         // Append children.
         _arrowDown.appendChild(arrowDownHead);
         _arrowDown.appendChild(arrowDownTail);
-        arrowDownTail.setAttribute('geometry', {
+
+        const tailGeometry = {
             primitive: 'torus',
             radius: 0.1,
             radiusTubular: 0.002,
             segmentsRadial: 36,
             segmentsTubular: 32,
             arc: 25
-        });
-        arrowDownHead.setAttribute('geometry', {
+        };
+
+        const headGeometry = {
             primitive: 'cone',
             height: 0.02,
             radiusBottom: 0.01,
             radiusTop: 0.005,
             segmentsRadial: 6,
             segmentsHeight: 18
-        });
+        };
+        
+        arrowDownTail.setAttribute('geometry', tailGeometry);
+        arrowDownHead.setAttribute('geometry', headGeometry);
         arrowDownHead.object3D.position.set(0.0866, 0.05, 0);
         arrowDownHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(30));
 
@@ -111,23 +116,10 @@ const vector = AFRAME.registerComponent('vector', {
         // Append children.
         _arrowUp.appendChild(arrowUpHead);
         _arrowUp.appendChild(arrowUpTail);
-        arrowUpTail.setAttribute('geometry', {
-            primitive: 'torus',
-            radius: 0.1,
-            radiusTubular: 0.002,
-            segmentsRadial: 36,
-            segmentsTubular: 32,
-            arc: 25
-        });
+
+        arrowUpTail.setAttribute('geometry', tailGeometry);
         arrowUpTail.object3D.rotation.set(0, 0, THREE.Math.degToRad(-25));
-        arrowUpHead.setAttribute('geometry', {
-            primitive: 'cone',
-            height: 0.02,
-            radiusBottom: 0.01,
-            radiusTop: 0.005,
-            segmentsRadial: 6,
-            segmentsHeight: 18
-        });
+        arrowUpHead.setAttribute('geometry', headGeometry);
         arrowUpHead.object3D.position.set(0.0866, -0.05, 0);
         arrowUpHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(150));
 

@@ -49,37 +49,61 @@ const vector = AFRAME.registerComponent('vector', {
         this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
 
         this.setLength(subEntityBody, 0.1);
-        this.pointAt(subEntityBody, new THREE.Vector3(1, 0, 0));
+        this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
         
-        // this.setTorus(latitudeAxis,longitudeAxis, new THREE.Vector3(1, 0, 0));
+        this.setTorus(latitude, longitude, new THREE.Vector3(1, 1, 1));
     },
 
-    setTorus: function(_latitudeAxis, _longitudeAxis, _position): void {
-        let xRad = 0;
-        let yRad = 0;
-        const startingDirY = new THREE.Vector3(-1, 0, 0);
-        const startingDirX = new THREE.Vector3(0, 1, 0);
+    setTorus: function(_latitude, _longitude, _position): void {
+        // let xRad = 0;
+        // let yRad = 0;
+        // let xArrowRad = 0;
+        // let yArrowRad = 0;
+        // const startingDirY = new THREE.Vector3(-1, 0, 0);
+        // const startingDirArrowY = new THREE.Vector3(0, 1, 0);
+        // const startingDirX = new THREE.Vector3(0, 1, 0);
+        // const startingDirArrowX = new THREE.Vector3();
 
-        const yPlaneProject = new THREE.Vector3(_position.x, 0, _position.z);
-        if (_position.x != 0 || _position.z != 0) {
-            yRad = startingDirY.angleTo(yPlaneProject);
-            yRad = _position.z > 0 ? yRad : -yRad;
-        }
-        else {
-            yRad = THREE.Math.degToRad(90);
-        }
+        // const yPlaneProject = new THREE.Vector3(_position.x, 0, _position.z);
+        // if (_position.x != 0 || _position.z != 0) {
+        //     yRad = startingDirY.angleTo(yPlaneProject);
+        //     yRad = _position.z > 0 ? yRad : -yRad;
+        // }
+        // else {
+        //     yRad = THREE.Math.degToRad(90);
+        // }
 
-        const xPlaneProject = new THREE.Vector3(0, _position.y, _position.z);
-        if (_position.y != 0 || _position.z != 0) {
-            xRad = startingDirX.angleTo(xPlaneProject);
-            xRad = _position.z > 0 ? xRad : -xRad;
-        }
-        else {
-            xRad = THREE.Math.degToRad(90);
-        }
+        // yArrowRad = startingDirArrowY.angleTo(_position);
+        // yArrowRad = _position.x > 0 ? -yArrowRad : yArrowRad;
+        
 
-        _longitudeAxis.object3D.rotation.set(0, yRad, 0);
-        _latitudeAxis.object3D.rotation.set(xRad, 0, 0);
+        // const xPlaneProject = new THREE.Vector3(0, _position.y, _position.z);
+        // if (_position.y != 0 || _position.z != 0) {
+        //     xRad = startingDirX.angleTo(xPlaneProject);
+        //     xRad = _position.z > 0 ? xRad : -xRad;
+        // }
+        // else {
+        //     xRad = THREE.Math.degToRad(90);
+        // }
+        // startingDirX.applyAxisAngle(new THREE.Vector3(1, 0, 0), xRad);
+        // xArrowRad = startingDirX.angleTo(_position);
+        // xArrowRad = 
+
+        // _longitude.object3D.rotation.set(0, yRad, 0);
+        // _latitude.object3D.rotation.set(xRad, 0, 0);
+
+        // First look at the position.
+        // Get the world position of current entity.
+        const worldPos = new THREE.Vector3();
+        worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
+        const relativePosition = new THREE.Vector3(worldPos.x + _position.x, worldPos.y + _position.y, worldPos.z + _position.z);
+        _latitude.object3D.lookAt(relativePosition);
+        _longitude.object3D.lookAt(relativePosition);
+
+        _longitude.object3D.rotateY(THREE.Math.degToRad(90));
+        _longitude.object3D.rotateZ(THREE.Math.degToRad(90));
+
+        _latitude.object3D.rotateX(THREE.Math.degToRad(90));
     },
 
     initTorus: function(_axis, _arrowUp, _arrowDown): void {
@@ -102,7 +126,7 @@ const vector = AFRAME.registerComponent('vector', {
         arrowDownTail.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
-            radiusTubular: 0.003,
+            radiusTubular: 0.002,
             segmentsRadial: 36,
             segmentsTubular: 32,
             arc: 25
@@ -127,7 +151,7 @@ const vector = AFRAME.registerComponent('vector', {
         arrowUpTail.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
-            radiusTubular: 0.003,
+            radiusTubular: 0.002,
             segmentsRadial: 36,
             segmentsTubular: 32,
             arc: 25

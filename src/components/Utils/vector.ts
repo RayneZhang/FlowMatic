@@ -106,7 +106,9 @@ const vector = AFRAME.registerComponent('vector', {
         };
         
         arrowDownTail.setAttribute('geometry', tailGeometry);
+        arrowDownTail.setAttribute('material', 'color', 'red');
         arrowDownHead.setAttribute('geometry', headGeometry);
+        arrowDownHead.setAttribute('material', 'color', 'red');
         arrowDownHead.object3D.position.set(0.0866, 0.05, 0);
         arrowDownHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(30));
 
@@ -118,8 +120,10 @@ const vector = AFRAME.registerComponent('vector', {
         _arrowUp.appendChild(arrowUpTail);
 
         arrowUpTail.setAttribute('geometry', tailGeometry);
+        arrowUpTail.setAttribute('material', 'color', 'green');
         arrowUpTail.object3D.rotation.set(0, 0, THREE.Math.degToRad(-25));
         arrowUpHead.setAttribute('geometry', headGeometry);
+        arrowUpHead.setAttribute('material', 'color', 'green');
         arrowUpHead.object3D.position.set(0.0866, -0.05, 0);
         arrowUpHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(150));
 
@@ -170,26 +174,23 @@ const vector = AFRAME.registerComponent('vector', {
         this.el.appendChild(yAxis);
         this.el.appendChild(zAxis);
 
-        xAxis.setAttribute('geometry', {
+        const axisGeometry = {
             primitive: 'cylinder',
             height: 0.1,
-            radius: 0.005,
-        });
+            radius: 0.003,
+        };
+
+        xAxis.setAttribute('geometry', axisGeometry);
+        xAxis.setAttribute('material', 'color', 'blue');
         xAxis.object3D.position.set(0.05, 0, 0);
         xAxis.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
 
-        yAxis.setAttribute('geometry', {
-            primitive: 'cylinder',
-            height: 0.1,
-            radius: 0.005,
-        });
+        yAxis.setAttribute('geometry', axisGeometry);
+        yAxis.setAttribute('material', 'color', 'green');
         yAxis.object3D.position.set(0, 0.05, 0);
 
-        zAxis.setAttribute('geometry', {
-            primitive: 'cylinder',
-            height: 0.1,
-            radius: 0.005,
-        });
+        zAxis.setAttribute('geometry', axisGeometry);
+        zAxis.setAttribute('material', 'color', 'red');
         zAxis.object3D.position.set(0, 0, 0.05);
         zAxis.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
     }

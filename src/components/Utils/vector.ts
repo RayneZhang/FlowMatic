@@ -93,10 +93,24 @@ const vector = AFRAME.registerComponent('vector', {
         _arrowDown.appendChild(arrowDownHead);
         _arrowDown.appendChild(arrowDownTail);
 
-        arrowDownHead.classList.add('ui');
+        // Add intersection.
+        arrowDownHead.classList.add('Arrow');
+        arrowDownTail.classList.add('Arrow');
         arrowDownHead.addEventListener('raycaster-intersected', (event) => {
-            arrowDownHead.setAttribute('material', 'color', 'yellow'); // Work.
-            _arrowDown.setAttribute('material', 'color', 'yellow'); // Not work.
+            arrowDownHead.setAttribute('material', 'color', 'yellow');
+            arrowDownTail.setAttribute('material', 'color', 'yellow');
+        });
+        arrowDownHead.addEventListener('raycaster-intersected-cleared', (event) => {
+            arrowDownHead.setAttribute('material', 'color', 'red');
+            arrowDownTail.setAttribute('material', 'color', 'red');
+        });
+        arrowDownTail.addEventListener('raycaster-intersected', (event) => {
+            arrowDownHead.setAttribute('material', 'color', 'yellow');
+            arrowDownTail.setAttribute('material', 'color', 'yellow');
+        });
+        arrowDownTail.addEventListener('raycaster-intersected-cleared', (event) => {
+            arrowDownHead.setAttribute('material', 'color', 'red');
+            arrowDownTail.setAttribute('material', 'color', 'red');
         });
 
         const tailGeometry = {
@@ -130,6 +144,26 @@ const vector = AFRAME.registerComponent('vector', {
         // Append children.
         _arrowUp.appendChild(arrowUpHead);
         _arrowUp.appendChild(arrowUpTail);
+
+        // Add intersection.
+        arrowUpHead.classList.add('Arrow');
+        arrowUpTail.classList.add('Arrow');
+        arrowUpHead.addEventListener('raycaster-intersected', (event) => {
+            arrowUpHead.setAttribute('material', 'color', 'yellow');
+            arrowUpTail.setAttribute('material', 'color', 'yellow');
+        });
+        arrowUpHead.addEventListener('raycaster-intersected-cleared', (event) => {
+            arrowUpHead.setAttribute('material', 'color', 'green');
+            arrowUpTail.setAttribute('material', 'color', 'green');
+        });
+        arrowUpTail.addEventListener('raycaster-intersected', (event) => {
+            arrowUpHead.setAttribute('material', 'color', 'yellow');
+            arrowUpTail.setAttribute('material', 'color', 'yellow');
+        });
+        arrowUpTail.addEventListener('raycaster-intersected-cleared', (event) => {
+            arrowUpHead.setAttribute('material', 'color', 'green');
+            arrowUpTail.setAttribute('material', 'color', 'green');
+        });
 
         arrowUpTail.setAttribute('geometry', tailGeometry);
         arrowUpTail.setAttribute('material', 'color', 'green');

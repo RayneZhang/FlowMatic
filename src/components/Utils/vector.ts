@@ -20,10 +20,22 @@ const vector = AFRAME.registerComponent('vector', {
         this.el.appendChild(subEntityBody);    
 
         // Create longitude and latitude axis.
+        const latitude: any = document.createElement('a-entity');
+        const longitude: any = document.createElement('a-entity');
         const latitudeAxis: any = document.createElement('a-entity');
         const longitudeAxis: any = document.createElement('a-entity');
-        this.el.appendChild(latitudeAxis);
-        this.el.appendChild(longitudeAxis);
+        const latitudeArrowLeft: any = document.createElement('a-entity');
+        const latitudeArrowRight: any = document.createElement('a-entity');
+        const longitudeArrowUp: any = document.createElement('a-entity');
+        const longitudeArrowDown: any = document.createElement('a-entity');
+        latitude.appendChild(latitudeAxis);
+        latitude.appendChild(latitudeArrowLeft);
+        latitude.appendChild(latitudeArrowRight);
+        longitude.appendChild(longitudeAxis);
+        longitude.appendChild(longitudeArrowUp);
+        longitude.appendChild(longitudeArrowDown);
+        this.el.appendChild(latitude);
+        this.el.appendChild(longitude);
     
         // Set up id for the sub-entities.
         subEntityBody.setAttribute('id', 'vector-body' + this.data.seqId);
@@ -33,11 +45,11 @@ const vector = AFRAME.registerComponent('vector', {
         // Init setup.
         this.initAxis();
         this.initVectorBody(subEntityHead, subEntityTail);
-        this.initTorus(latitudeAxis, longitudeAxis);
+        this.initTorus(longitudeAxis, longitudeArrowUp, longitudeArrowDown);
 
         this.setLength(subEntityBody, 0.1);
         this.pointAt(subEntityBody, new THREE.Vector3(1, 0, 0));
-        this.setTorus(latitudeAxis,longitudeAxis, new THREE.Vector3(1, 0, 0));
+        // this.setTorus(latitudeAxis,longitudeAxis, new THREE.Vector3(1, 0, 0));
     },
 
     setTorus: function(_latitudeAxis, _longitudeAxis, _position): void {
@@ -68,22 +80,44 @@ const vector = AFRAME.registerComponent('vector', {
         _latitudeAxis.object3D.rotation.set(xRad, 0, 0);
     },
 
-    initTorus: function(_latitudeAxis, _longitudeAxis): void {
-        // Set geometry of the two Axis.
-        _latitudeAxis.setAttribute('geometry', {
+    initTorus: function(_axis, _arrowUp, _arrowDown): void {
+        // Set geometry of the Axis.
+        _axis.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
             radiusTubular: 0.002,
+            segmentsRadial: 36,
+            segmentsTubular: 32,
             arc: 360
         });
 
-        // Set geometry of the two Axis.
-        _longitudeAxis.setAttribute('geometry', {
+        // Set up two components of an arrow.
+        const arrowDownHead: any = document.createElement('a-entity');
+        const arrowDownTail: any = document.createElement('a-entity');
+        // Append children.
+        _arrowDown.appendChild(arrowDownHead);
+        _arrowDown.appendChild(arrowDownTail);
+        arrowDownTail.setAttribute('geometry', {
             primitive: 'torus',
             radius: 0.1,
-            radiusTubular: 0.002,
-            arc: 360
+            radiusTubular: 0.003,
+            segmentsRadial: 36,
+            segmentsTubular: 32,
+            arc: 25
         });
+        arrowDownHead.setAttribute('geometry', {
+            primitive: 'cone',
+            height: 0.02,
+            radiusBottom: 0.01,
+            radiusTop: 0.005,
+            segmentsRadial: 6,
+            segmentsHeight: 18
+        });
+        arrowDownHead.object3D.position.set(0.0866, 0.05, 0);
+        arrowDownHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(30));
+
+
+        _arrowDown.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
     },
 
     setLength: function(_subEntityBody, _length): void {

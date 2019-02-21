@@ -11,6 +11,7 @@ const vector = AFRAME.registerComponent('vector', {
         // Private properties.
         this.coneHeight = 0.025;
         this.cylinderHeight = 0.075;
+        this.pointingPos = new THREE.Vector3(1, 1, 1);
 
         // Create an entity and append it to the scene.
         const subEntityBody: any = document.createElement('a-entity');
@@ -67,10 +68,9 @@ const vector = AFRAME.registerComponent('vector', {
         this.initTorus(longitudeAxis, longitudeArrowUp, longitudeArrowDown);
         this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
 
-        this.setLength(subEntityBody, 0.1);
-        this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
-        
-        this.setTorus(latitude, longitude, new THREE.Vector3(1, 1, 1));
+        this.setLength(subEntityBody, this.pointingPos);
+        this.pointAt(subEntityBody, this.pointingPos);
+        this.setTorus(latitude, longitude, this.pointingPos);
     },
 
     initSelectedArrow: function(_arrow, _dir: string): void {
@@ -199,8 +199,9 @@ const vector = AFRAME.registerComponent('vector', {
         _arrowUp.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
     },
 
-    setLength: function(_subEntityBody, _length): void {
-        const times = _length / (this.cylinderHeight + this.coneHeight);
+    setLength: function(_subEntityBody, _position): void {
+        const scaledVector = THREE.Vector3(_position.x / 10, _position.y / 10, _position.z / 10);
+        const times = scaledVector.length() / (this.cylinderHeight + this.coneHeight);
         _subEntityBody.setAttribute('scale', 'y', times);
     },
     
@@ -266,6 +267,25 @@ const vector = AFRAME.registerComponent('vector', {
     // ==========For external call==========
     rotateVector: function(_timeDelta): void {
         console.log("Rotating vector " + _timeDelta);
+        switch (this.data.selectedArrow) {
+            case 'left':
+                break;
+            case 'right':
+                const latitude: any = document.querySelector('#latitude' + this.data.seqId);
+                const _facingDir = new THREE.Vector3(0, 0, 1);
+                _facingDir.applyQuaternion(latitude.object3D.quaternion);
+                console.log(_facingDir);
+                break;
+            case 'up':
+                const longitude: any = document.querySelector('#longitude' + this.data.seqId);
+                const facingDir = new THREE.Vector3(0.0001, 0.0001, 1);
+                facingDir.applyQuaternion(longitude.object3D.quaternion);
+                console.log(facingDir);
+                break;
+            case 'down':
+            default:
+                return;
+        }
     }
 });
 

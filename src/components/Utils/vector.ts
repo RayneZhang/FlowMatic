@@ -55,43 +55,6 @@ const vector = AFRAME.registerComponent('vector', {
     },
 
     setTorus: function(_latitude, _longitude, _position): void {
-        // let xRad = 0;
-        // let yRad = 0;
-        // let xArrowRad = 0;
-        // let yArrowRad = 0;
-        // const startingDirY = new THREE.Vector3(-1, 0, 0);
-        // const startingDirArrowY = new THREE.Vector3(0, 1, 0);
-        // const startingDirX = new THREE.Vector3(0, 1, 0);
-        // const startingDirArrowX = new THREE.Vector3();
-
-        // const yPlaneProject = new THREE.Vector3(_position.x, 0, _position.z);
-        // if (_position.x != 0 || _position.z != 0) {
-        //     yRad = startingDirY.angleTo(yPlaneProject);
-        //     yRad = _position.z > 0 ? yRad : -yRad;
-        // }
-        // else {
-        //     yRad = THREE.Math.degToRad(90);
-        // }
-
-        // yArrowRad = startingDirArrowY.angleTo(_position);
-        // yArrowRad = _position.x > 0 ? -yArrowRad : yArrowRad;
-        
-
-        // const xPlaneProject = new THREE.Vector3(0, _position.y, _position.z);
-        // if (_position.y != 0 || _position.z != 0) {
-        //     xRad = startingDirX.angleTo(xPlaneProject);
-        //     xRad = _position.z > 0 ? xRad : -xRad;
-        // }
-        // else {
-        //     xRad = THREE.Math.degToRad(90);
-        // }
-        // startingDirX.applyAxisAngle(new THREE.Vector3(1, 0, 0), xRad);
-        // xArrowRad = startingDirX.angleTo(_position);
-        // xArrowRad = 
-
-        // _longitude.object3D.rotation.set(0, yRad, 0);
-        // _latitude.object3D.rotation.set(xRad, 0, 0);
-
         // First look at the position.
         // Get the world position of current entity.
         const worldPos = new THREE.Vector3();

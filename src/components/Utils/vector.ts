@@ -3,7 +3,8 @@ declare const THREE:any;
 
 const vector = AFRAME.registerComponent('vector', {
     schema: {
-        seqId: {type: 'number', default: 0}
+        seqId: {type: 'number', default: 0},
+        selectedArrow: {type: 'string', default: ''}
     },
 
     init: function(): void {
@@ -22,7 +23,7 @@ const vector = AFRAME.registerComponent('vector', {
         // Append children.
         subEntityBody.appendChild(subEntityHead);
         subEntityBody.appendChild(subEntityTail);
-        this.el.appendChild(subEntityBody);    
+        this.el.appendChild(subEntityBody);
 
         // Create longitude and latitude axis.
         const latitude: any = document.createElement('a-entity');
@@ -36,15 +37,19 @@ const vector = AFRAME.registerComponent('vector', {
 
         const latitudeArrowLeft: any = document.createElement('a-entity');
         latitudeArrowLeft.setAttribute('id', 'latitude-arrow-left' + this.data.seqId);
+        this.initSelectedArrow(latitudeArrowLeft, 'left');
 
         const latitudeArrowRight: any = document.createElement('a-entity');
         latitudeArrowRight.setAttribute('id', 'latitude-arrow-right' + this.data.seqId);
+        this.initSelectedArrow(latitudeArrowRight, 'right');
 
         const longitudeArrowUp: any = document.createElement('a-entity');
         longitudeArrowUp.setAttribute('id', 'longitude-arrow-up' + this.data.seqId);
+        this.initSelectedArrow(longitudeArrowUp, 'up');
 
         const longitudeArrowDown: any = document.createElement('a-entity');
         longitudeArrowDown.setAttribute('id', 'longitude-arrow-down' + this.data.seqId);
+        this.initSelectedArrow(longitudeArrowDown, 'down');
 
         // Append children.
         latitude.appendChild(latitudeAxis);
@@ -66,6 +71,15 @@ const vector = AFRAME.registerComponent('vector', {
         this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
         
         this.setTorus(latitude, longitude, new THREE.Vector3(1, 1, 1));
+    },
+
+    initSelectedArrow: function(_arrow, _dir: string): void {
+        _arrow.addEventListener('raycaster-intersected', (event) => {
+            this.data.selectedArrow = _dir;
+        });
+        _arrow.addEventListener('raycaster-intersected-cleared', (event) => {
+            this.data.selectedArrow = '';
+        });
     },
 
     setTorus: function(_latitude, _longitude, _position): void {

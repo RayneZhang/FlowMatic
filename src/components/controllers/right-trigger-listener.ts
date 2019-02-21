@@ -12,6 +12,8 @@ const rightTriggerListener = {
         this.hueDown = false;
         this.sliding = false;
         this.slidingEl = null;
+        this.vector = false;
+        this.vectorId = 0;
         this.line = null;
 
         const listeningEl = document.querySelector('#rightHand');
@@ -114,12 +116,19 @@ const rightTriggerListener = {
                 this.showOrHideWireframe(intersectedEl, true);
             }
             
+            // Check if the intersected object is an arrow of a vector system.
+            if (intersectedEl.classList.contains('Arrow')) {
+                const parentId: string = intersectedEl.parentNode.getAttribute('id');
+                this.vectorId = Number(parentId.substr(-1, 1));
+                this.vector = true;
+            }
         });
 
         listeningEl.addEventListener('triggerup', (event) => {
             this.triggering = false;
             this.hueDown = false;
             this.sliding = false;
+            this.vector = false;
             if (this.slidingEl) {
                 this.slidingEl.parentNode.parentNode.setAttribute('filter-description', 'sliding', false);
                 this.slidingEl.emit('raycaster-intersected-cleared');
@@ -283,6 +292,12 @@ const rightTriggerListener = {
                 // Modify position at three.js level for better performance. (Better than setAttribute)
                 this.slidingEl.object3D.position.set(0, THREE.Math.clamp(updatedTargetPosition.y, -0.1, 0.1), 0);
                 this.onFilterCursorDown();
+                return;
+            }
+
+            if (this.vector) {
+                const vector: any = document.querySelector('#vector' + this.vectorId);
+                vector.components['vector'].rotateVector(timeDelta);
                 return;
             }
 

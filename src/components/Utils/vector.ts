@@ -261,6 +261,11 @@ const vector = AFRAME.registerComponent('vector', {
         zAxis.setAttribute('material', 'color', 'red');
         zAxis.object3D.position.set(0, 0, 0.05);
         zAxis.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+    },
+
+    // ==========For external call==========
+    rotateVector: function(_timeDelta): void {
+        console.log("Rotating vector " + _timeDelta);
     }
 });
 

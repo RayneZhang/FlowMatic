@@ -35,12 +35,37 @@ const vector = AFRAME.registerComponent('vector', {
         this.initVectorBody(subEntityHead, subEntityTail);
         this.initTorus(latitudeAxis, longitudeAxis);
 
-        this.setLength(subEntityBody, 0.1414);
-        this.pointAt(subEntityBody, new THREE.Vector3(1, 1, 1));
+        this.setLength(subEntityBody, 0.1);
+        this.pointAt(subEntityBody, new THREE.Vector3(1, 0, 0));
+        this.setTorus(latitudeAxis,longitudeAxis, new THREE.Vector3(1, 0, 0));
     },
 
-    setTorus: function(_position): void {
+    setTorus: function(_latitudeAxis, _longitudeAxis, _position): void {
+        let xRad = 0;
+        let yRad = 0;
+        const startingDirY = new THREE.Vector3(-1, 0, 0);
+        const startingDirX = new THREE.Vector3(0, 1, 0);
 
+        const yPlaneProject = new THREE.Vector3(_position.x, 0, _position.z);
+        if (_position.x != 0 || _position.z != 0) {
+            yRad = startingDirY.angleTo(yPlaneProject);
+            yRad = _position.z > 0 ? yRad : -yRad;
+        }
+        else {
+            yRad = THREE.Math.degToRad(90);
+        }
+
+        const xPlaneProject = new THREE.Vector3(0, _position.y, _position.z);
+        if (_position.y != 0 || _position.z != 0) {
+            xRad = startingDirX.angleTo(xPlaneProject);
+            xRad = _position.z > 0 ? xRad : -xRad;
+        }
+        else {
+            xRad = THREE.Math.degToRad(90);
+        }
+
+        _longitudeAxis.object3D.rotation.set(0, yRad, 0);
+        _latitudeAxis.object3D.rotation.set(xRad, 0, 0);
     },
 
     initTorus: function(_latitudeAxis, _longitudeAxis): void {

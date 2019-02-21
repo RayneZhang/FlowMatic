@@ -15,19 +15,30 @@ const vector = AFRAME.registerComponent('vector', {
         const subEntityBody: any = document.createElement('a-entity');
         const subEntityHead: any = document.createElement('a-entity');
         const subEntityTail: any = document.createElement('a-entity');
+        // Set up id for the sub-entities.
+        subEntityBody.setAttribute('id', 'vector-body' + this.data.seqId);
+        subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
+        subEntityTail.setAttribute('id', 'vector-tail' + this.data.seqId);
+        // Append children.
         subEntityBody.appendChild(subEntityHead);
         subEntityBody.appendChild(subEntityTail);
         this.el.appendChild(subEntityBody);    
 
         // Create longitude and latitude axis.
         const latitude: any = document.createElement('a-entity');
+        latitude.setAttribute('id', 'latitude' + this.data.seqId);
         const longitude: any = document.createElement('a-entity');
+        longitude.setAttribute('id', 'longitude' + this.data.seqId);
         const latitudeAxis: any = document.createElement('a-entity');
+        latitudeAxis.setAttribute('id', 'latitude-axis' + this.data.seqId);
         const longitudeAxis: any = document.createElement('a-entity');
+        longitudeAxis.setAttribute('id', 'longitude-axis' + this.data.seqId);
         const latitudeArrowLeft: any = document.createElement('a-entity');
         const latitudeArrowRight: any = document.createElement('a-entity');
         const longitudeArrowUp: any = document.createElement('a-entity');
         const longitudeArrowDown: any = document.createElement('a-entity');
+
+        // Append children.
         latitude.appendChild(latitudeAxis);
         latitude.appendChild(latitudeArrowLeft);
         latitude.appendChild(latitudeArrowRight);
@@ -36,11 +47,6 @@ const vector = AFRAME.registerComponent('vector', {
         longitude.appendChild(longitudeArrowDown);
         this.el.appendChild(latitude);
         this.el.appendChild(longitude);
-    
-        // Set up id for the sub-entities.
-        subEntityBody.setAttribute('id', 'vector-body' + this.data.seqId);
-        subEntityHead.setAttribute('id', 'vector-head' + this.data.seqId);
-        subEntityTail.setAttribute('id', 'vector-tail' + this.data.seqId);
 
         // Init setup.
         this.initAxis();

@@ -33,10 +33,18 @@ const vector = AFRAME.registerComponent('vector', {
         latitudeAxis.setAttribute('id', 'latitude-axis' + this.data.seqId);
         const longitudeAxis: any = document.createElement('a-entity');
         longitudeAxis.setAttribute('id', 'longitude-axis' + this.data.seqId);
+
         const latitudeArrowLeft: any = document.createElement('a-entity');
+        latitudeArrowLeft.setAttribute('id', 'latitude-arrow-left' + this.data.seqId);
+
         const latitudeArrowRight: any = document.createElement('a-entity');
+        latitudeArrowRight.setAttribute('id', 'latitude-arrow-right' + this.data.seqId);
+
         const longitudeArrowUp: any = document.createElement('a-entity');
+        longitudeArrowUp.setAttribute('id', 'longitude-arrow-up' + this.data.seqId);
+
         const longitudeArrowDown: any = document.createElement('a-entity');
+        longitudeArrowDown.setAttribute('id', 'longitude-arrow-down' + this.data.seqId);
 
         // Append children.
         latitude.appendChild(latitudeAxis);

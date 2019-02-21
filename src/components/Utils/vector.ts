@@ -93,6 +93,12 @@ const vector = AFRAME.registerComponent('vector', {
         _arrowDown.appendChild(arrowDownHead);
         _arrowDown.appendChild(arrowDownTail);
 
+        arrowDownHead.classList.add('ui');
+        arrowDownHead.addEventListener('raycaster-intersected', (event) => {
+            arrowDownHead.setAttribute('material', 'color', 'yellow'); // Work.
+            _arrowDown.setAttribute('material', 'color', 'yellow'); // Not work.
+        });
+
         const tailGeometry = {
             primitive: 'torus',
             radius: 0.1,

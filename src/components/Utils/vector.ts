@@ -11,7 +11,7 @@ const vector = AFRAME.registerComponent('vector', {
         // Private properties.
         this.coneHeight = 0.025;
         this.cylinderHeight = 0.075;
-        this.pointingPos = new THREE.Vector3(1, 1, 1);
+        this.pointingPos = new THREE.Vector3(0.5, 0.5, 0.5);
         this.radius = 0.1;
 
         // Create an entity and append it to the scene.
@@ -63,11 +63,24 @@ const vector = AFRAME.registerComponent('vector', {
         this.el.appendChild(latitude);
         this.el.appendChild(longitude);
 
+        // Create magnitude arrows.
+        const magnitudeUp: any = this.magnitudeUp = document.createElement('a-entity');
+        magnitudeUp.setAttribute('id', 'magnitude-up' + this.data.seqId);
+        this.initSelectedArrow(magnitudeUp, 'out');
+
+        const magnitudeDown: any = this.magnitudeDown = document.createElement('a-entity');
+        magnitudeDown.setAttribute('id', 'magnitude-down' + this.data.seqId);
+        this.initSelectedArrow(magnitudeDown, 'in');
+
+        this.el.appendChild(magnitudeUp);
+        this.el.appendChild(magnitudeDown);
+
         // Init setup.
         this.initAxis();
         this.initVectorBody(subEntityHead, subEntityTail);
         this.initTorus(longitudeAxis, longitudeArrowUp, longitudeArrowDown);
         this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
+        this.initMagnitude();
 
         this.setMagnitude(subEntityBody, this.pointingPos);
         this.pointAt(subEntityBody, this.pointingPos);
@@ -209,6 +222,38 @@ const vector = AFRAME.registerComponent('vector', {
         // Set the radius of torus.
         this.latitude.object3D.scale.set(times, times, times);
         this.longitude.object3D.scale.set(times, times, times);
+    },
+
+    initMagnitude: function(): void {
+        const arrowGeometry = {
+            primitive: 'cone',
+            height: 0.015,
+            radiusBottom: 0.01,
+            radiusTop: 0.005,
+            segmentsRadial: 6,
+            segmentsHeight: 18
+        };
+
+        this.magnitudeUp.setAttribute('geometry', arrowGeometry);
+        this.magnitudeUp.setAttribute('material', 'color', 'green');
+
+        this.magnitudeDown.setAttribute('geometry', arrowGeometry);
+        this.magnitudeDown.setAttribute('material', 'color', 'red');
+
+        // Set up rotation.
+        this.magnitudeUp.object3D.rotation.set(this.subEntityBody.object3D.rotation.x, this.subEntityBody.object3D.rotation.y, this.subEntityBody.object3D.rotation.z);
+        this.magnitudeDown.object3D.rotation.set(-this.subEntityBody.object3D.rotation.x, -this.subEntityBody.object3D.rotation.y, -this.subEntityBody.object3D.rotation.z);
+
+        // Set up position.
+        const pointingPos = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
+        const distance = 0.05;
+        const normPointingPos = pointingPos.clone().normalize();
+        normPointingPos.multiplyScalar(distance);
+
+        pointingPos.add(normPointingPos);
+        this.magnitudeUp.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
+        pointingPos.add(normPointingPos);
+        this.magnitudeDown.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
     },
     
     pointAt: function(_subEntityBody, _position): void {

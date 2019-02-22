@@ -11,7 +11,7 @@ const vector = AFRAME.registerComponent('vector', {
         // Private properties.
         this.coneHeight = 0.025;
         this.cylinderHeight = 0.075;
-        this.pointingPos = new THREE.Vector3(1, 0, 0);
+        this.pointingPos = new THREE.Vector3(1, 1, 1);
 
         // Create an entity and append it to the scene.
         const subEntityBody: any = this.subEntityBody = document.createElement('a-entity');
@@ -269,36 +269,35 @@ const vector = AFRAME.registerComponent('vector', {
     rotateVector: function(_timeDelta): void {
         const latitude: any = document.querySelector('#latitude' + this.data.seqId);
         const longitude: any = document.querySelector('#longitude' + this.data.seqId);
-        const latitudeDir = new THREE.Vector3(0.00001, 0.00001, 1); // This is due to a bug of THREE.js
+        const latitudeDir = new THREE.Vector3(0, 0, 1); // This is due to a bug of THREE.js
         const longitudeDir = new THREE.Vector3(0, 0, 1); // This is due to a bug of THREE.js
 
         const angleRad = THREE.Math.degToRad(15 / 1000 * _timeDelta);
         const reverseAngleRad = THREE.Math.degToRad(-15 / 1000 * _timeDelta);
         switch (this.data.selectedArrow) {
             case 'left':
-                latitudeDir.applyEuler(latitude.object3D.rotation);
-                console.log(latitudeDir);
+                latitudeDir.applyQuaternion(latitude.object3D.quaternion);
+                // console.log(latitudeDir);
                 this.pointingPos.applyAxisAngle(latitudeDir, angleRad);
                 break;
             case 'right':
-                latitudeDir.applyEuler(latitude.object3D.rotation);
-                console.log(latitudeDir);
+                latitudeDir.applyQuaternion(latitude.object3D.quaternion);
+                // console.log(latitudeDir);
                 this.pointingPos.applyAxisAngle(latitudeDir, reverseAngleRad);
                 break;
             case 'down':
                 longitudeDir.applyQuaternion(longitude.object3D.quaternion);
-                console.log(longitudeDir);
+                // console.log(longitudeDir);
                 this.pointingPos.applyAxisAngle(longitudeDir, angleRad);
                 break;
             case 'up':
                 longitudeDir.applyQuaternion(longitude.object3D.quaternion);
-                console.log(longitudeDir);
+                // console.log(longitudeDir);
                 this.pointingPos.applyAxisAngle(longitudeDir, reverseAngleRad);
                 break;
             default:
                 return;
         }
-
         this.setLength(this.subEntityBody, this.pointingPos);
         this.pointAt(this.subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);

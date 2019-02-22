@@ -89,7 +89,8 @@ const vector = AFRAME.registerComponent('vector', {
 
     initSelectedArrow: function(_arrow, _dir: string): void {
         _arrow.addEventListener('raycaster-intersected', (event) => {
-            this.data.selectedArrow = _dir;
+            if (!this.data.selectedArrow)
+                this.data.selectedArrow = _dir;
         });
         _arrow.addEventListener('raycaster-intersected-cleared', (event) => {
             this.data.selectedArrow = '';
@@ -236,9 +237,23 @@ const vector = AFRAME.registerComponent('vector', {
 
         this.magnitudeUp.setAttribute('geometry', arrowGeometry);
         this.magnitudeUp.setAttribute('material', 'color', 'green');
+        this.magnitudeUp.classList.add('Arrow');
+        this.magnitudeUp.addEventListener('raycaster-intersected', (event) => {
+            this.magnitudeUp.setAttribute('material', 'color', 'yellow');
+        });
+        this.magnitudeUp.addEventListener('raycaster-intersected-cleared', (event) => {
+            this.magnitudeUp.setAttribute('material', 'color', 'green');
+        });
 
         this.magnitudeDown.setAttribute('geometry', arrowGeometry);
         this.magnitudeDown.setAttribute('material', 'color', 'red');
+        this.magnitudeDown.classList.add('Arrow');
+        this.magnitudeDown.addEventListener('raycaster-intersected', (event) => {
+            this.magnitudeDown.setAttribute('material', 'color', 'yellow');
+        });
+        this.magnitudeDown.addEventListener('raycaster-intersected-cleared', (event) => {
+            this.magnitudeDown.setAttribute('material', 'color', 'red');
+        });
 
         // Set up rotation.
         // Get the world position of current entity.
@@ -357,6 +372,10 @@ const vector = AFRAME.registerComponent('vector', {
         this.setMagnitude(this.subEntityBody, this.pointingPos);
         this.pointAt(this.subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
+    },
+
+    magnifyVector: function(_timeDelta): void {
+
     }
 });
 

@@ -241,19 +241,25 @@ const vector = AFRAME.registerComponent('vector', {
         this.magnitudeDown.setAttribute('material', 'color', 'red');
 
         // Set up rotation.
-        this.magnitudeUp.object3D.rotation.set(this.subEntityBody.object3D.rotation.x, this.subEntityBody.object3D.rotation.y, this.subEntityBody.object3D.rotation.z);
-        this.magnitudeDown.object3D.rotation.set(-this.subEntityBody.object3D.rotation.x, -this.subEntityBody.object3D.rotation.y, -this.subEntityBody.object3D.rotation.z);
+        // Get the world position of current entity.
+        const worldPos = new THREE.Vector3();
+        worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
+        const relativePosition = new THREE.Vector3(worldPos.x + this.pointingPos.x, worldPos.y + this.pointingPos.y, worldPos.z + this.pointingPos.z);
+        this.magnitudeUp.object3D.lookAt(relativePosition);
+        this.magnitudeDown.object3D.lookAt(relativePosition);
+        this.magnitudeUp.object3D.rotateX(THREE.Math.degToRad(90));
+        this.magnitudeDown.object3D.rotateX(THREE.Math.degToRad(-90));
 
         // Set up position.
         const pointingPos = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
-        const distance = 0.05;
+        const distance = 0.01;
         const normPointingPos = pointingPos.clone().normalize();
         normPointingPos.multiplyScalar(distance);
 
         pointingPos.add(normPointingPos);
-        this.magnitudeUp.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
-        pointingPos.add(normPointingPos);
         this.magnitudeDown.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
+        pointingPos.add(normPointingPos);
+        this.magnitudeUp.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
     },
     
     pointAt: function(_subEntityBody, _position): void {

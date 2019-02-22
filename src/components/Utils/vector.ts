@@ -80,7 +80,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.initVectorBody(subEntityHead, subEntityTail);
         this.initTorus(longitudeAxis, longitudeArrowUp, longitudeArrowDown);
         this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
-        this.initMagnitude();
+        this.initMagnitudeArrow();
 
         this.setMagnitude(subEntityBody, this.pointingPos);
         this.pointAt(subEntityBody, this.pointingPos);
@@ -225,7 +225,30 @@ const vector = AFRAME.registerComponent('vector', {
         this.longitude.object3D.scale.set(times, times, times);
     },
 
-    initMagnitude: function(): void {
+    setMagnitudeArrow: function(): void {
+        // Set up rotation.
+        // Get the world position of current entity.
+        const worldPos = new THREE.Vector3();
+        worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
+        const relativePosition = new THREE.Vector3(worldPos.x + this.pointingPos.x, worldPos.y + this.pointingPos.y, worldPos.z + this.pointingPos.z);
+        this.magnitudeUp.object3D.lookAt(relativePosition);
+        this.magnitudeDown.object3D.lookAt(relativePosition);
+        this.magnitudeUp.object3D.rotateX(THREE.Math.degToRad(90));
+        this.magnitudeDown.object3D.rotateX(THREE.Math.degToRad(-90));
+
+        // Set up position.
+        const pointingPos = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
+        const distance = 0.03;
+        const normPointingPos = pointingPos.clone().normalize();
+        normPointingPos.multiplyScalar(distance);
+
+        pointingPos.add(normPointingPos);
+        this.magnitudeDown.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
+        pointingPos.add(normPointingPos);
+        this.magnitudeUp.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
+    },
+
+    initMagnitudeArrow: function(): void {
         const arrowGeometry = {
             primitive: 'cone',
             height: 0.015,
@@ -255,26 +278,7 @@ const vector = AFRAME.registerComponent('vector', {
             this.magnitudeDown.setAttribute('material', 'color', 'red');
         });
 
-        // Set up rotation.
-        // Get the world position of current entity.
-        const worldPos = new THREE.Vector3();
-        worldPos.setFromMatrixPosition(this.el.object3D.matrixWorld);
-        const relativePosition = new THREE.Vector3(worldPos.x + this.pointingPos.x, worldPos.y + this.pointingPos.y, worldPos.z + this.pointingPos.z);
-        this.magnitudeUp.object3D.lookAt(relativePosition);
-        this.magnitudeDown.object3D.lookAt(relativePosition);
-        this.magnitudeUp.object3D.rotateX(THREE.Math.degToRad(90));
-        this.magnitudeDown.object3D.rotateX(THREE.Math.degToRad(-90));
-
-        // Set up position.
-        const pointingPos = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
-        const distance = 0.03;
-        const normPointingPos = pointingPos.clone().normalize();
-        normPointingPos.multiplyScalar(distance);
-
-        pointingPos.add(normPointingPos);
-        this.magnitudeDown.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
-        pointingPos.add(normPointingPos);
-        this.magnitudeUp.object3D.position.set(pointingPos.x, pointingPos.y, pointingPos.z);
+        this.setMagnitudeArrow();
     },
     
     pointAt: function(_subEntityBody, _position): void {
@@ -372,6 +376,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.setMagnitude(this.subEntityBody, this.pointingPos);
         this.pointAt(this.subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
+        this.setMagnitudeArrow();
     },
 
     magnifyVector: function(_timeDelta): void {

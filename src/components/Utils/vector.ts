@@ -252,7 +252,7 @@ const vector = AFRAME.registerComponent('vector', {
 
         // Set up position.
         const pointingPos = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
-        const distance = 0.01;
+        const distance = 0.03;
         const normPointingPos = pointingPos.clone().normalize();
         normPointingPos.multiplyScalar(distance);
 

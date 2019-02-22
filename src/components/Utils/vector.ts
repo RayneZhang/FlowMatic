@@ -12,6 +12,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.coneHeight = 0.025;
         this.cylinderHeight = 0.075;
         this.pointingPos = new THREE.Vector3(1, 1, 1);
+        this.radius = 0.1;
 
         // Create an entity and append it to the scene.
         const subEntityBody: any = this.subEntityBody = document.createElement('a-entity');
@@ -27,13 +28,13 @@ const vector = AFRAME.registerComponent('vector', {
         this.el.appendChild(subEntityBody);
 
         // Create longitude and latitude axis.
-        const latitude: any = document.createElement('a-entity');
+        const latitude: any = this.latitude = document.createElement('a-entity');
         latitude.setAttribute('id', 'latitude' + this.data.seqId);
-        const longitude: any = document.createElement('a-entity');
+        const longitude: any = this.longitude = document.createElement('a-entity');
         longitude.setAttribute('id', 'longitude' + this.data.seqId);
-        const latitudeAxis: any = document.createElement('a-entity');
+        const latitudeAxis: any = this.latitudeAxis = document.createElement('a-entity');
         latitudeAxis.setAttribute('id', 'latitude-axis' + this.data.seqId);
-        const longitudeAxis: any = document.createElement('a-entity');
+        const longitudeAxis: any = this.longitudeAxis = document.createElement('a-entity');
         longitudeAxis.setAttribute('id', 'longitude-axis' + this.data.seqId);
 
         const latitudeArrowLeft: any = document.createElement('a-entity');
@@ -68,7 +69,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.initTorus(longitudeAxis, longitudeArrowUp, longitudeArrowDown);
         this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
 
-        this.setLength(subEntityBody, this.pointingPos);
+        this.setMagnitude(subEntityBody, this.pointingPos);
         this.pointAt(subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
     },
@@ -101,7 +102,7 @@ const vector = AFRAME.registerComponent('vector', {
         // Set geometry of the Axis.
         _axis.setAttribute('geometry', {
             primitive: 'torus',
-            radius: 0.1,
+            radius: this.radius,
             radiusTubular: 0.001,
             segmentsRadial: 36,
             segmentsTubular: 32,
@@ -137,7 +138,7 @@ const vector = AFRAME.registerComponent('vector', {
 
         const tailGeometry = {
             primitive: 'torus',
-            radius: 0.1,
+            radius: this.radius,
             radiusTubular: 0.002,
             segmentsRadial: 36,
             segmentsTubular: 32,
@@ -199,11 +200,15 @@ const vector = AFRAME.registerComponent('vector', {
         _arrowUp.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
     },
 
-    setLength: function(_subEntityBody, _position): void {
+    setMagnitude: function(_subEntityBody, _position): void {
         const scaledVector = new THREE.Vector3(_position.x / 10, _position.y / 10, _position.z / 10);
-        // const times = scaledVector.length() / (this.cylinderHeight + this.coneHeight);
-        const times = 0.1 / (this.cylinderHeight + this.coneHeight);
+        const magnitude = scaledVector.length();
+        const times = magnitude / (this.cylinderHeight + this.coneHeight);
         _subEntityBody.setAttribute('scale', 'y', times);
+
+        // Set the radius of torus.
+        this.latitude.object3D.scale.set(times, times, times);
+        this.longitude.object3D.scale.set(times, times, times);
     },
     
     pointAt: function(_subEntityBody, _position): void {
@@ -298,7 +303,7 @@ const vector = AFRAME.registerComponent('vector', {
             default:
                 return;
         }
-        this.setLength(this.subEntityBody, this.pointingPos);
+        this.setMagnitude(this.subEntityBody, this.pointingPos);
         this.pointAt(this.subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
     }

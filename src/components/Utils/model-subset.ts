@@ -49,12 +49,12 @@ const modelSubset = {
         this.el.appendChild(imgEl);
         switch (this.data.name) {
             case "submenu1" : {
-                imgEl.setAttribute('src', '#bottle_icon');
+                imgEl.setAttribute('src', '#source_icon');
                 imgEl.object3D.position.set(-0.155, 0.001, -0.055);
                 break;
             }
             case "submenu2" : {
-                imgEl.setAttribute('src', '#filter_icon');
+                imgEl.setAttribute('src', '#operator_icon');
                 imgEl.object3D.position.set(-0.155, 0.001, -0.035);
                 break;
             }

@@ -40,6 +40,8 @@ const rightTriggerListener = {
                 return;
             }
 
+            // console.log(intersectedEl); // For debugging.
+
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
                 const id = intersectedEl.getAttribute('id');

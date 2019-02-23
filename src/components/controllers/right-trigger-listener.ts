@@ -297,7 +297,7 @@ const rightTriggerListener = {
 
             if (this.vector) {
                 const vector: any = document.querySelector('#vector' + this.vectorId);
-                vector.components['vector'].rotateVector(timeDelta);
+                vector.components['vector'].updateVector(timeDelta);
                 return;
             }
 

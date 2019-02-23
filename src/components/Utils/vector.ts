@@ -82,7 +82,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.initTorus(latitudeAxis, latitudeArrowRight, latitudeArrowLeft);
         this.initMagnitudeArrow();
 
-        this.setMagnitude(subEntityBody, this.pointingPos);
+        this.setMagnitude();
         this.pointAt(subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
     },
@@ -214,11 +214,11 @@ const vector = AFRAME.registerComponent('vector', {
         _arrowUp.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
     },
 
-    setMagnitude: function(_subEntityBody, _position): void {
-        const scaledVector = new THREE.Vector3(_position.x / 10, _position.y / 10, _position.z / 10);
+    setMagnitude: function(): void {
+        const scaledVector = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
         const magnitude = scaledVector.length();
         const times = magnitude / (this.cylinderHeight + this.coneHeight);
-        _subEntityBody.setAttribute('scale', 'y', times);
+        this.subEntityBody.setAttribute('scale', 'y', times);
 
         // Set the radius of torus.
         this.latitude.object3D.scale.set(times, times, times);
@@ -341,11 +341,14 @@ const vector = AFRAME.registerComponent('vector', {
     },
 
     // ==========For external call==========
-    rotateVector: function(_timeDelta): void {
+    updateVector: function(_timeDelta): void {
         const latitude: any = document.querySelector('#latitude' + this.data.seqId);
         const longitude: any = document.querySelector('#longitude' + this.data.seqId);
-        const latitudeDir = new THREE.Vector3(0, 0, 1); // This is due to a bug of THREE.js
-        const longitudeDir = new THREE.Vector3(0, 0, 1); // This is due to a bug of THREE.js
+        const latitudeDir = new THREE.Vector3(0, 0, 1);
+        const longitudeDir = new THREE.Vector3(0, 0, 1);
+
+        const times = 0.1 / 1000 * _timeDelta;
+        const offsetVector = this.pointingPos.clone().normalize().multiplyScalar(times);
 
         const angleRad = THREE.Math.degToRad(15 / 1000 * _timeDelta);
         const reverseAngleRad = THREE.Math.degToRad(-15 / 1000 * _timeDelta);
@@ -370,17 +373,19 @@ const vector = AFRAME.registerComponent('vector', {
                 // console.log(longitudeDir);
                 this.pointingPos.applyAxisAngle(longitudeDir, reverseAngleRad);
                 break;
+            case 'out':
+                this.pointingPos.add(offsetVector);
+                break;
+            case 'in':
+                this.pointingPos.add(new THREE.Vector3(-offsetVector.x, -offsetVector.y, -offsetVector.z));
+                break;
             default:
                 return;
         }
-        this.setMagnitude(this.subEntityBody, this.pointingPos);
+        this.setMagnitude();
         this.pointAt(this.subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
         this.setMagnitudeArrow();
-    },
-
-    magnifyVector: function(_timeDelta): void {
-
     }
 });
 

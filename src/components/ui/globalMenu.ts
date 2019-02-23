@@ -23,6 +23,7 @@ const globalMenu = {
         this.loadModelGroup();
         this.createSubMenuEl();
         this.loadThumbnailDescription();
+        this.loadTextLabel();
         this.loadButtonThumbnail(this.modelThumbnails.length);
 
         // menuEntity.setAttribute('rotation', '45 0 0');
@@ -109,6 +110,36 @@ const globalMenu = {
 
         // Set the value of the description.
         this.setThumbnailDescription(this.data.selectedContainerId);
+    },
+
+    // Load description of undo/redo button.
+    loadTextLabel(): void {
+        const undoLabel: any = document.createElement('a-entity');
+        const undoEl: any = document.querySelector("#undo");
+        const redoLabel: any = document.createElement('a-entity');
+        const redoEl: any = document.querySelector("#redo");
+        undoEl.appendChild(undoLabel);
+        redoEl.appendChild(redoLabel);
+
+        // Initiate tht panel content.
+        undoLabel.setAttribute('text', {
+            value: 'Undo',
+            wrapCount: 200,
+            align: 'center'
+        });
+        // Initiate tht panel content.
+        redoLabel.setAttribute('text', {
+            value: 'Redo',
+            wrapCount: 200,
+            align: 'center'
+        });
+
+        // Set the description rotation.
+        undoLabel.object3D.rotation.x += THREE.Math.degToRad(-90);
+        redoLabel.object3D.rotation.x += THREE.Math.degToRad(-90);
+        // Set the description position.
+        undoLabel.object3D.position.set(-0.145, 0, 0.06);
+        redoLabel.object3D.position.set(-0.1, 0, 0.06);
     },
 
     // Set description of the panel.

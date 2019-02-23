@@ -98,7 +98,7 @@ const vector = AFRAME.registerComponent('vector', {
         const posLblOffset = 0.03;
         this.positionLabel.object3D.position.set(0, magnitude + posLblOffset, 0);
         this.positionLabel.setAttribute('text', {
-            value: '(' + this.pointingPos.x + ', ' + this.pointingPos.y + ', '+ this.pointingPos.z + ')',
+            value: '(' + Math.round(this.pointingPos.x * 1000) / 1000 + ', ' + Math.round(this.pointingPos.y * 1000) / 1000 + ', '+ Math.round(this.pointingPos.z * 1000) / 1000 + ')',
             align: 'center',
             wrapCount: 80
         });

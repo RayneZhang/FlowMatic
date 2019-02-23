@@ -322,7 +322,7 @@ const vector = AFRAME.registerComponent('vector', {
         const axisGeometry = {
             primitive: 'cylinder',
             height: 0.1,
-            radius: 0.003,
+            radius: 0.003
         };
 
         xAxis.setAttribute('geometry', axisGeometry);
@@ -338,6 +338,31 @@ const vector = AFRAME.registerComponent('vector', {
         zAxis.setAttribute('material', 'color', 'red');
         zAxis.object3D.position.set(0, 0, 0.05);
         zAxis.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+
+        const xLabel: any = document.createElement('a-entity');
+        const yLabel: any = document.createElement('a-entity');
+        const zLabel: any = document.createElement('a-entity');
+        this.el.appendChild(xLabel);
+        this.el.appendChild(yLabel);
+        this.el.appendChild(zLabel);
+        xLabel.object3D.position.set(0.1, -0.005, 0);
+        yLabel.object3D.position.set(0.005, 0.1, 0);
+        zLabel.object3D.position.set(0, -0.005, 0.1);
+        xLabel.setAttribute('text', {
+            value: 'x',
+            align: 'center',
+            wrapCount: 80
+        });
+        yLabel.setAttribute('text', {
+            value: 'y',
+            align: 'center',
+            wrapCount: 80
+        });
+        zLabel.setAttribute('text', {
+            value: 'z',
+            align: 'center',
+            wrapCount: 80
+        });
     },
 
     // ==========For external call==========

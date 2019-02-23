@@ -85,6 +85,23 @@ const vector = AFRAME.registerComponent('vector', {
         this.setMagnitude();
         this.pointAt(subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
+
+        // Init position label.
+        const positionLabel: any = this.positionLabel = document.createElement('a-entity');
+        this.el.appendChild(positionLabel);
+        this.updatePositionLabel();
+    },
+
+    updatePositionLabel: function(): void {
+        const scaledVector = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
+        const magnitude = scaledVector.length();
+        const posLblOffset = 0.03;
+        this.positionLabel.object3D.position.set(0, magnitude + posLblOffset, 0);
+        this.positionLabel.setAttribute('text', {
+            value: '(' + this.pointingPos.x + ', ' + this.pointingPos.y + ', '+ this.pointingPos.z + ')',
+            align: 'center',
+            wrapCount: 80
+        });
     },
 
     initSelectedArrow: function(_arrow, _dir: string): void {
@@ -411,6 +428,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.pointAt(this.subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
         this.setMagnitudeArrow();
+        this.updatePositionLabel();
     }
 });
 

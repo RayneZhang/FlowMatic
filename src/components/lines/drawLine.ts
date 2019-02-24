@@ -15,7 +15,7 @@ const drawLine = {
         const positionSize = (this.data.divisions + 1) * 3;
         // Position and Color Data
         var positions = this.positions = new Array<number>(positionSize);
-        var colors = this.colors = new Array<number>(positionSize);
+        var colors = this.colors = new Array<any>(positionSize);
     },
 
     tick: function(time, timeDelta): void {
@@ -35,9 +35,8 @@ const drawLine = {
             geometry.setPositions( this.positions );
             geometry.setColors( this.colors );
             const matLine = new THREE.LineMaterial( {
-                color: 0xffffff,
                 linewidth: 0.005, // in pixels
-                vertexColors: THREE.VertexColors,
+                vertexColors: this.colors,
                 //resolution:  // to be set by renderer, eventually
                 dashed: false
             } );
@@ -60,6 +59,11 @@ const drawLine = {
             this.positions[i * 3] = x;
             this.positions[i * 3 + 1] = y;
             this.positions[i * 3 + 2] = z;
+
+            // Set vertex color.
+            this.colors[i * 3] = 0xff0000;
+            this.colors[i * 3 + 1] = 0xff0000;
+            this.colors[i * 3 + 2] = 0xff0000;
         }
     },
 

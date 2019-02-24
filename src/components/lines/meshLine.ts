@@ -21,7 +21,7 @@ const meshLine = AFRAME.registerComponent('meshline', {
 
         var material = new MeshLineMaterial({
             color: new THREE.Color( new THREE.Color( 'red' ) ),
-		    lineWidth: 5
+		    lineWidth: 2
         });
 
         var mesh = new THREE.Mesh( g.geometry, material ); // this syntax could definitely be improved!

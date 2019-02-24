@@ -16,13 +16,6 @@ const drawLine = {
         // Position and Color Data
         var positions = this.positions = new Array<number>(positionSize);
         var colors = this.colors = new Array<number>(positionSize);
-
-        // positions.push(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-        // positions.push(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        // colors.push(0, 0, 0);
-        // colors.push(0, 0, 0);
-        // console.log(line.geometry);
-        // geometry.attributes.instanceEnd.data.needsUpdate = true;
     },
 
     tick: function(time, timeDelta): void {

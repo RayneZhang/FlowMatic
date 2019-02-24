@@ -28,7 +28,6 @@ const meshLine = AFRAME.registerComponent('meshline', {
         mesh.geo = geo;
 	    mesh.g = g;
 
-
         this.el.setObject3D('mesh', mesh); 
     }
 });

@@ -36,6 +36,9 @@ stateBinding;
 import vector from './components/utils/vector'
 vector;
 
+import meshLine from './components/lines/meshLine'
+meshLine;
+
 ENVIRONMENT;
 TELEPORT;
 FPSCOUNTER;

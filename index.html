@@ -25,6 +25,7 @@
                 <img id="operator_icon" src="assets/images/operator.png" crossorigin="anonymous">
 
                 <a-asset-item id="menu-obj" src="assets/models/menu/menu.obj"></a-asset-item>
+                <a-asset-item id="operator-obj" src="assets/models/operator/operator.obj"></a-asset-item>
                 <a-asset-item id="blue-obj" src="assets/models/bottles/objs/blue_bottle.obj"></a-asset-item>
                 <a-asset-item id="blue-mtl" src="assets/models/bottles/objs/blue_bottle.mtl"></a-asset-item>
                 <a-asset-item id="green-obj" src="assets/models/bottles/objs/green_bottle.obj"></a-asset-item>
@@ -96,7 +97,8 @@
             <a-entity id="bench" class="movable" data-receiver obj-attributes-list obj-model="obj: #bench-obj" material="color: grey" position="-5 0.5 -3" rotation="0 90 0" shadow></a-entity>
             <a-entity id="lines" draw-line></a-entity>
             <a-entity id="redux" state-binding></a-entity>
-            <a-entity id='MeshLine' meshline></a-entity>
+            <!-- <a-entity id='MeshLine' meshline></a-entity> -->
+            <a-entity id="operator" class="movable" obj-model="obj: #operator-obj" material="color: grey" position="0 0.5 -0.5" shadow></a-entity>
         </a-scene>
     </body>
 </html>

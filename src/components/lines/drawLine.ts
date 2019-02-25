@@ -76,7 +76,6 @@ const drawLine = {
         const controlPoint = new THREE.Vector3((startPoint.x + endPoint.x)/2, Math.max(startPoint.y, endPoint.y) + height, (startPoint.z + endPoint.z)/2);
         const curve = new THREE.CatmullRomCurve3([
             startPoint,
-            controlPoint,
             endPoint
         ]);
 

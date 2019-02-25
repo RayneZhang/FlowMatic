@@ -11,10 +11,6 @@ const globalMenu = {
         // The corresponding model thumbnails in the buttons.
         this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector'];
 
-        // The cursor is centered in 0,0 to allow scale it easily.
-        // This is the offset to put it back in its original position on the slider.
-        // cursorOffset = new THREE.Vector3(0.06409, 0.01419, -0.10242);
-
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
         this.el.appendChild(menuEntity);
@@ -48,6 +44,11 @@ const globalMenu = {
         modelGroup.setAttribute('id', 'modelGroup');
         modelGroup.setAttribute('obj-model', 'obj:#menu-obj');
         modelGroup.object3D.visible = false;
+    },
+
+    dismissModelGroup(): void {
+        const modelGroup: any = document.querySelector('#modelGroup');
+        modelGroup.parentNode.removeChild(modelGroup);
     },
 
     // Create sub-menu entities based on the modelGroup. 

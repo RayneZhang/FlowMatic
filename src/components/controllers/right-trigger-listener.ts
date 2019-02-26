@@ -100,8 +100,9 @@ const rightTriggerListener = {
                 const EP = {x: theHand.object3D.position.x, y: theHand.object3D.position.y, z: theHand.object3D.position.z};
                 LinesEntity.setAttribute('draw-line', 'startPoint', SP);
                 LinesEntity.setAttribute('draw-line', 'endPoint', EP);
-                // Dot -> prompt -> bottle.
-                LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
+                // input/output -> operator.
+                LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode);
+                // Dot -> prompt -> attributeName -> bottle.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                     const attrNameEntity: any = intersectedEl.parentNode;
@@ -132,7 +133,7 @@ const rightTriggerListener = {
             this.sliding = false;
             this.vector = false;
             if (this.slidingEl) {
-                this.slidingEl.parentNode.parentNode.setAttribute('filter-description', 'sliding', false);
+                this.slidingEl.parentNode.setAttribute('filter-description', 'sliding', false);
                 this.slidingEl.emit('raycaster-intersected-cleared');
             }
 
@@ -172,9 +173,9 @@ const rightTriggerListener = {
                 let targetEntity: any = null;
                 let dataType: string = null;
 
-                // Dot->Prompt->Object
-                if (intersectedEl.parentNode.parentNode.classList.contains('data-filter')) {
-                    targetEntity = intersectedEl.parentNode.parentNode;
+                // input/output->Object
+                if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                    targetEntity = intersectedEl.parentNode;
                     dataType = linesEntity.getAttribute('draw-line').dataType;
                 }
                 // Dot->Description->ListEntity->Object

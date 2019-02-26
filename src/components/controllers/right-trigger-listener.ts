@@ -74,18 +74,6 @@ const rightTriggerListener = {
                         this.onHueDown(WorldPos.clone());
                         break;
                     }
-                    case 'box_position_slider_x': case 'box_position_cursor_x': {
-                        const {x, y, z} = intersections[0].point;
-                        const WorldPos = new THREE.Vector3(x, y, z);
-                        this.onPosXCursorDown(WorldPos.clone());
-                        break;
-                    }
-                    case 'box_position_slider_y': case 'box_position_cursor_y': {
-                        const {x, y, z} = intersections[0].point;
-                        const WorldPos = new THREE.Vector3(x, y, z);
-                        this.onPosYCursorDown(WorldPos.clone());
-                        break;
-                    }
                 }
 
                 return;
@@ -403,34 +391,6 @@ const rightTriggerListener = {
 
         const intersectedPoint: any = slider.object3D.position.clone();
         operator.emit('filter-update', {filterValue: intersectedPoint.x}, false);
-    },
-
-    onPosYCursorDown: function(position: any) {
-        const box: any = document.querySelector('#box');
-        const cursor: any = document.querySelector('#box_position_cursor_y');
-        const slider: any = document.querySelector('#box_position_slider_y');
-        // const sliderBoundingBox = slider.geometry.boundingBox;
-        // const sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
-        slider.object3D.updateMatrixWorld();
-        slider.object3D.worldToLocal(position);
-
-        const distance: number = position.x - cursor.object3D.position.x;
-        cursor.object3D.position.x = position.x;
-        box.object3D.position.y += distance;
-    },
-
-    onPosXCursorDown: function(position: any) {
-        const box: any = document.querySelector('#box');
-        const cursor: any = document.querySelector('#box_position_cursor_x');
-        const slider: any = document.querySelector('#box_position_slider_x');
-        // const sliderBoundingBox = slider.geometry.boundingBox;
-        // const sliderWidth = sliderBoundingBox.max.x - sliderBoundingBox.min.x;
-        slider.object3D.updateMatrixWorld();
-        slider.object3D.worldToLocal(position);
-
-        const distance: number = position.x - cursor.object3D.position.x;
-        cursor.object3D.position.x = position.x;
-        box.object3D.position.x += distance;
     },
 
     onHueDown: function(position: any) {

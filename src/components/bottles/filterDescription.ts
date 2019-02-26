@@ -109,7 +109,25 @@ const filterDescription = {
             event.stopPropagation();
             if (this.data.sliding)
                 return;
-            SliderEl.setAttribute('material', 'color', 'grey'); 
+            SliderEl.setAttribute('material', 'color', 'white'); 
+        })
+
+        InputEl.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
+            SliderEl.setAttribute('material', 'color', 'yellow'); 
+        })
+        InputEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
+            SliderEl.setAttribute('material', 'color', 'white'); 
+        })
+
+        OutputEl.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
+            SliderEl.setAttribute('material', 'color', 'yellow'); 
+        })
+        OutputEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
+            SliderEl.setAttribute('material', 'color', 'white'); 
         })
     }  
 }

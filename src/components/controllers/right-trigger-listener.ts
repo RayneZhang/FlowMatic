@@ -391,10 +391,10 @@ const rightTriggerListener = {
             return;
         }
         const slider: any = this.slidingEl;
-        const filter: any = this.slidingEl.parentNode;
+        const operator: any = this.slidingEl.parentNode;
 
         const intersectedPoint: any = slider.object3D.position.clone();
-        filter.emit('filter-update', {filterValue: intersectedPoint.x}, false);
+        operator.emit('filter-update', {filterValue: intersectedPoint.x}, false);
     },
 
     onPosYCursorDown: function(position: any) {

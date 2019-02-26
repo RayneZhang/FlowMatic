@@ -69,9 +69,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case 'container2': {
-                     // Set the color of the primitive.
-                     newEntity.setAttribute('material', 'color', color);
- 
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'color-filter' + this.id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
@@ -97,9 +94,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case 'container4': { 
-                     // Set the color of the primitive.
-                     newEntity.setAttribute('material', 'color', color);
- 
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + this.id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
@@ -109,9 +103,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case 'container5': {
-                     // Set the color of the primitive.
-                     newEntity.setAttribute('material', 'color', color);
- 
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + this.id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");

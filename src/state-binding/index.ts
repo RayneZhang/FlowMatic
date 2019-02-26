@@ -41,7 +41,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
              
              switch (objectNum) {
                  case 'container0': {
-                     newEntity.setAttribute('id', 'bottle' + this.id);
+                     newEntity.setAttribute('id', 'bottle' + id);
                      newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                      newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
                      
@@ -61,7 +61,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
  
                      // Set the color of the primitive.
                      newEntity.setAttribute('material', 'color', color);
-                     newEntity.setAttribute('id', 'box' + this.id);
+                     newEntity.setAttribute('id', 'box' + id);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'sourceValue', color);
                      newEntity.setAttribute('obj-attributes-list', 'freeze', false);
@@ -70,7 +70,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'container2': {
                      // Attach components to the filter.
-                     newEntity.setAttribute('id', 'color-filter' + this.id);
+                     newEntity.setAttribute('id', 'color-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
                      newEntity.setAttribute('data-filter', 'sourceValue', color);
                      newEntity.setAttribute('filter-description', 'freeze', false);
@@ -86,7 +86,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
  
                      // Set the color of the primitive.
                      newEntity.setAttribute('material', 'color', color);
-                     newEntity.setAttribute('id', 'sphere' + this.id);
+                     newEntity.setAttribute('id', 'sphere' + id);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'sourceValue', color);
                      newEntity.setAttribute('obj-attributes-list', 'freeze', false);
@@ -95,7 +95,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'container4': { 
                      // Attach components to the filter.
-                     newEntity.setAttribute('id', 'position-filter' + this.id);
+                     newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
                      newEntity.setAttribute('data-filter', 'sourceValue', color);
                      newEntity.setAttribute('filter-description', 'freeze', false);
@@ -104,7 +104,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'container5': {
                      // Attach components to the filter.
-                     newEntity.setAttribute('id', 'position-filter' + this.id);
+                     newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'sourceValue', color);
                      newEntity.setAttribute('filter-description', 'freeze', false);
@@ -113,9 +113,18 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'container6': {
                     // Set entity id.
-                    newEntity.setAttribute('id', 'vector' + this.id);
-                    newEntity.setAttribute('vector', 'seqId', this.id);
+                    newEntity.setAttribute('id', 'vector' + id);
+                    newEntity.setAttribute('vector', 'seqId', id);
                     
+                    this.id++;
+                    break;
+                 }
+                 case 'container7': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'plus-filter' + id);
+                    newEntity.setAttribute('data-filter', 'filterName', "plus");
+                    newEntity.setAttribute('data-filter', 'sourceValue', color);
+                    newEntity.setAttribute('filter-description', 'freeze', false);
                     this.id++;
                     break;
                  }

@@ -1,5 +1,6 @@
 import Line from "../../modules/Line";
-
+import store from '../../store'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 declare const THREE:any;
 
 const rightTriggerListener = {
@@ -72,6 +73,14 @@ const rightTriggerListener = {
                         const {x, y, z} = intersections[0].point;
                         const WorldPos = new THREE.Vector3(x, y, z);
                         this.onHueDown(WorldPos.clone());
+                        break;
+                    }
+                    case 'undo': {
+                        store.dispatch(UndoActionCreators.undo());
+                        break;
+                    }
+                    case 'redo': {
+                        store.dispatch(UndoActionCreators.redo());
                         break;
                     }
                 }

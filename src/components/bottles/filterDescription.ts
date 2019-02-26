@@ -114,20 +114,20 @@ const filterDescription = {
 
         InputEl.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
-            SliderEl.setAttribute('material', 'color', 'yellow'); 
+            InputEl.setAttribute('material', 'color', 'yellow'); 
         })
         InputEl.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
-            SliderEl.setAttribute('material', 'color', 'white'); 
+            InputEl.setAttribute('material', 'color', 'white'); 
         })
 
         OutputEl.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
-            SliderEl.setAttribute('material', 'color', 'yellow'); 
+            OutputEl.setAttribute('material', 'color', 'yellow'); 
         })
         OutputEl.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
-            SliderEl.setAttribute('material', 'color', 'white'); 
+            OutputEl.setAttribute('material', 'color', 'white'); 
         })
     }  
 }

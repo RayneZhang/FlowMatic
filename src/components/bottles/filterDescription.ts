@@ -76,28 +76,25 @@ const filterDescription = {
 
     // Create a model of an operator.
     createOperatorModel(): void {
-        const ShellEl: any = document.createElement('a-entity');
         const SliderEl: any = document.createElement('a-entity');
         const InputEl: any = document.createElement('a-entity');
         const OutputEl: any = document.createElement('a-entity');
 
-        this.el.appendChild(ShellEl);
         this.el.appendChild(SliderEl);
         this.el.appendChild(InputEl);
         this.el.appendChild(OutputEl);
 
-        ShellEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'shell');
         SliderEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'slider');
         InputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'input');
         OutputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'output');
 
-        ShellEl.setAttribute('obj-model', 'obj:#shell-obj');
+        this.el.setAttribute('obj-model', 'obj:#shell-obj');
         SliderEl.setAttribute('obj-model', 'obj:#slider-obj');
         InputEl.setAttribute('obj-model', 'obj:#input-obj');
         OutputEl.setAttribute('obj-model', 'obj:#output-obj');
 
         // Attach the material component to the slider entity.
-        ShellEl.setAttribute('material', 'color', 'grey');
+        this.el.setAttribute('material', 'color', 'grey');
         SliderEl.setAttribute('material', 'color', 'white');
         InputEl.setAttribute('material', 'color', 'white');
         OutputEl.setAttribute('material', 'color', 'white');
@@ -107,8 +104,8 @@ const filterDescription = {
         OutputEl.classList.add('connectable', 'output');
 
         // Adjust the position offset of the cursor entity.
-        // if (this.data.filterName === "darkness")
-        //     CursorEl.object3D.position.set(0, 0.1, 0);
+        if (this.data.filterName === "darkness")
+            SliderEl.object3D.position.set(0.03, 0, 0);
 
         // Handle material when hover.
         SliderEl.addEventListener('raycaster-intersected', (event) => {

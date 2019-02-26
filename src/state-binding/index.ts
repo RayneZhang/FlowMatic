@@ -96,18 +96,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container4': {
-                     // Add geometry component to the entity.
-                     newEntity.setAttribute('geometry', {
-                         primitive: 'cone',
-                         height: 0.2,
-                         radiusBottom: 0.1,
-                         radiusTop: 0.05
-                     }); 
- 
+                 case 'container4': { 
                      // Set the color of the primitive.
                      newEntity.setAttribute('material', 'color', color);
-                     newEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
  
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + this.id);
@@ -118,17 +109,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case 'container5': {
-                     // Add geometry component to the entity.
-                     newEntity.setAttribute('geometry', {
-                         primitive: 'cone',
-                         height: 0.2,
-                         radiusBottom: 0.1,
-                         radiusTop: 0.05
-                     }); 
- 
                      // Set the color of the primitive.
                      newEntity.setAttribute('material', 'color', color);
-                     newEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
  
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + this.id);

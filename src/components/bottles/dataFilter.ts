@@ -15,7 +15,7 @@ const dataFilter = {
         
         this.timeOffset = 2000;
         this.globalTimeDelta = 0;
-        this.maxValue = 0.1;
+        this.maxValue = 0.03;
 
         this.initColorValue = this.data.sourceValue;
 

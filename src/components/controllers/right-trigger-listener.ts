@@ -52,7 +52,7 @@ const rightTriggerListener = {
                     globalMenuComponent.setSelectedButtonId(id);
                 }
 
-                if (intersectedEl.classList.contains('slider_cursor')) {
+                if (intersectedEl.classList.contains('slider')) {
                     // Set current position as lastPosition.
                     this.lastPosition = new THREE.Vector3();
                     this.lastPosition = this.el.object3D.position.clone();
@@ -60,7 +60,7 @@ const rightTriggerListener = {
                     // Set the intersected object as the following object.
                     this.slidingEl = intersectedEl;
                     this.sliding = true;
-                    this.slidingEl.parentNode.parentNode.setAttribute('filter-description', 'sliding', true);
+                    this.slidingEl.parentNode.setAttribute('filter-description', 'sliding', true);
 
                     // Leave it to tick.
                 }
@@ -292,7 +292,7 @@ const rightTriggerListener = {
                 const updatedTargetPosition: any = currentTargetPosition.add(currentPosition.sub(lastPosition));
 
                 // Modify position at three.js level for better performance. (Better than setAttribute)
-                this.slidingEl.object3D.position.set(0, THREE.Math.clamp(updatedTargetPosition.y, -0.1, 0.1), 0);
+                this.slidingEl.object3D.position.set(THREE.Math.clamp(updatedTargetPosition.x, -0.03, 0.03), 0, 0);
                 this.onFilterCursorDown();
                 return;
             }
@@ -390,12 +390,11 @@ const rightTriggerListener = {
             console.warn("The sliding element is null when onFilterCursorDown() is called!");
             return;
         }
-        const cursor: any = this.slidingEl;
-        const slider: any = this.slidingEl.parentNode;
-        const filter: any = this.slidingEl.parentNode.parentNode;
+        const slider: any = this.slidingEl;
+        const filter: any = this.slidingEl.parentNode;
 
-        const intersectedPoint: any = cursor.object3D.position.clone();
-        filter.emit('filter-update', {filterValue: intersectedPoint.y}, false);
+        const intersectedPoint: any = slider.object3D.position.clone();
+        filter.emit('filter-update', {filterValue: intersectedPoint.x}, false);
     },
 
     onPosYCursorDown: function(position: any) {

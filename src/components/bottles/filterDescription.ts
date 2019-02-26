@@ -10,10 +10,10 @@ const filterDescription = {
     },
 
     init: function(): void {
-        const offset = new THREE.Vector3(-0.25, 0, 0);
+        const offset = new THREE.Vector3(0, 0.25, 0);
         this.data.filterName = this.el.getAttribute('data-filter').filterName;
         this.createPrompt(this.data.filterName, 'blue', offset.clone());
-        this.createSlider(this.el);
+        this.createOperatorModel();
         this.initDots();
 
         this.el.addEventListener('raycaster-intersected', (event) => {
@@ -41,7 +41,7 @@ const filterDescription = {
         const rightDot: any = new Dot(promptEntity, 'right', posOffset.clone());
     },
 
-    // Create prompts of the function of the bottle.
+    // Create Prompt of an operator
     createPrompt: function(prompt: string, _color: string, position: any): void {
         const promptEntity: any = document.createElement('a-entity');
         this.el.appendChild(promptEntity);
@@ -70,65 +70,58 @@ const filterDescription = {
             align: 'center'
         });
 
-        promptEntity.object3D.rotation.z += THREE.Math.degToRad(90);
         // Set the position related to the attached object.
         promptEntity.object3D.position.copy(position);
-
-        // Set visibility of the object.
-        // promptEntity.object3D.visible = false;
     },
 
-    // Create the sliders of x,y,z of the attribute.
-    createSlider(appendEl): void {
+    // Create a model of an operator.
+    createOperatorModel(): void {
+        const ShellEl: any = document.createElement('a-entity');
         const SliderEl: any = document.createElement('a-entity');
-        const CursorEl: any = document.createElement('a-entity');
+        const InputEl: any = document.createElement('a-entity');
+        const OutputEl: any = document.createElement('a-entity');
 
-        appendEl.appendChild(SliderEl);
-        SliderEl.appendChild(CursorEl);
+        this.el.appendChild(ShellEl);
+        this.el.appendChild(SliderEl);
+        this.el.appendChild(InputEl);
+        this.el.appendChild(OutputEl);
 
-        SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider');
-        CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor');
+        ShellEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'shell');
+        SliderEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'slider');
+        InputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'input');
+        OutputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'output');
 
-        SliderEl.setAttribute('geometry', {
-            primitive: 'cone',
-            height: 0.2,
-            radiusBottom: 0.018,
-            radiusTop: 0
-        });
-        CursorEl.setAttribute('geometry', {
-            primitive: 'sphere',
-            radius: 0.025
-        });
+        ShellEl.setAttribute('obj-model', 'obj:#shell-obj');
+        SliderEl.setAttribute('obj-model', 'obj:#slider-obj');
+        InputEl.setAttribute('obj-model', 'obj:#input-obj');
+        OutputEl.setAttribute('obj-model', 'obj:#output-obj');
 
         // Attach the material component to the slider entity.
-        SliderEl.setAttribute('material', 'color', this.el.getAttribute("material").color);
+        ShellEl.setAttribute('material', 'color', 'grey');
+        SliderEl.setAttribute('material', 'color', 'white');
+        InputEl.setAttribute('material', 'color', 'white');
+        OutputEl.setAttribute('material', 'color', 'white');
 
-        // Attach the same material component to the cursor entity.
-        CursorEl.setAttribute('material', 'color', this.el.getAttribute("material").color);
-
-        SliderEl.classList.add('ui');
-        CursorEl.classList.add('ui', 'slider_cursor');
+        SliderEl.classList.add('ui', 'slider');
+        InputEl.classList.add('connectable', 'input');
+        OutputEl.classList.add('connectable', 'output');
 
         // Adjust the position offset of the cursor entity.
-        if (this.data.filterName === "darkness")
-            CursorEl.object3D.position.set(0, 0.1, 0);
-
-        // Place the slider entity in the layout.
-        SliderEl.object3D.position.set(0, 0.15, 0);
-        SliderEl.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+        // if (this.data.filterName === "darkness")
+        //     CursorEl.object3D.position.set(0, 0.1, 0);
 
         // Handle material when hover.
-        CursorEl.addEventListener('raycaster-intersected', (event) => {
+        SliderEl.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
-            CursorEl.setAttribute('material', 'color', 'pink'); 
+            SliderEl.setAttribute('material', 'color', 'yellow'); 
         })
 
         // Handle material when hover cleared.
-        CursorEl.addEventListener('raycaster-intersected-cleared', (event) => {
+        SliderEl.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
             if (this.data.sliding)
                 return;
-            CursorEl.setAttribute('material', 'color', this.el.getAttribute("material").color); 
+            SliderEl.setAttribute('material', 'color', 'grey'); 
         })
     }  
 }

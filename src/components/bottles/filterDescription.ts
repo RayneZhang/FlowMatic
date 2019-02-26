@@ -10,11 +10,10 @@ const filterDescription = {
     },
 
     init: function(): void {
-        const offset = new THREE.Vector3(0, 0.25, 0);
+        const offset = new THREE.Vector3(0, 0.15, 0);
         this.data.filterName = this.el.getAttribute('data-filter').filterName;
         this.createPrompt(this.data.filterName, 'blue', offset.clone());
         this.createOperatorModel();
-        this.initDots();
 
         this.el.addEventListener('raycaster-intersected', (event) => {
             const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
@@ -33,14 +32,6 @@ const filterDescription = {
 
     },
 
-    // Initiate dots for connection
-    initDots: function(): void {
-        const posOffset = new THREE.Vector3(0.17, 0, 0);
-        const promptEntity: any = document.querySelector('#' + this.el.getAttribute('id') + '-prompt');
-        const leftDot: any = new Dot(promptEntity, 'left', posOffset.clone());
-        const rightDot: any = new Dot(promptEntity, 'right', posOffset.clone());
-    },
-
     // Create Prompt of an operator
     createPrompt: function(prompt: string, _color: string, position: any): void {
         const promptEntity: any = document.createElement('a-entity');
@@ -50,8 +41,8 @@ const filterDescription = {
 
         promptEntity.setAttribute('geometry', {
             primitive: 'plane', 
-            width: 0.25,
-            height: 0.15
+            width: 0.1,
+            height: 0.06
         });
 
         // Initiate the panel color.

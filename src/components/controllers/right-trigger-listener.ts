@@ -115,8 +115,10 @@ const rightTriggerListener = {
             if (intersectedEl.classList.contains('movable')) {
                 if (this.data.selectedEl) {
                     this.showOrHideWireframe(this.data.selectedEl, false);
-                    if (this.data.selectedEl == intersectedEl)
+                    if (this.data.selectedEl == intersectedEl) {
+                        this.data.selectedEl = null;
                         return;
+                    }
                 }
                 this.data.selectedEl = intersectedEl;
                 this.showOrHideWireframe(intersectedEl, true);
@@ -344,7 +346,7 @@ const rightTriggerListener = {
             console.log("The mesh of the selected object is null!");
             return;
         }
-        console.log(mesh);
+        // console.log(mesh); // For debugging
         if (mesh.type == "Mesh") {
             if (_show) {
                 const geometry: any = mesh.geometry;
@@ -365,7 +367,7 @@ const rightTriggerListener = {
         
         if (mesh.type == "Group") {
             if (_show) {
-                this.line = new THREE.LineSegments();
+                this.lines = [];
                 for (const child of mesh.children) {
                     const geometry: any = child.geometry;
                     if (!geometry) {
@@ -373,18 +375,20 @@ const rightTriggerListener = {
                         continue;
                     }
                     else {
-                        if (geometry.type != "BufferGeometry")
+                        if (geometry.type != "BufferGeometry" || child.type != "Mesh")
                             continue;
                         const wireframe: any = new THREE.EdgesGeometry(geometry);
                         const line = new THREE.LineSegments(wireframe);
-                        //mesh.add(line);
-                        this.line.add(line);
+                        line.material.depthTest = false;
+                        mesh.add(line);
+                        this.lines.push(line);
                     }
                 }
-                mesh.add(this.line);
             }
             else {
-                mesh.remove(this.line);
+                for (const line of this.lines) {
+                    mesh.remove(line);
+                }
             }
         }
     },

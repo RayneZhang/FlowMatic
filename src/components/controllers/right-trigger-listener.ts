@@ -113,8 +113,11 @@ const rightTriggerListener = {
 
             // Check if the intersected object is a movable object.
             if (intersectedEl.classList.contains('movable')) {
-                if (this.data.selectedEl)
+                if (this.data.selectedEl) {
                     this.showOrHideWireframe(this.data.selectedEl, false);
+                    if (this.data.selectedEl == intersectedEl)
+                        return;
+                }
                 this.data.selectedEl = intersectedEl;
                 this.showOrHideWireframe(intersectedEl, true);
             }
@@ -341,7 +344,7 @@ const rightTriggerListener = {
             console.log("The mesh of the selected object is null!");
             return;
         }
-        
+        console.log(mesh);
         if (mesh.type == "Mesh") {
             if (_show) {
                 const geometry: any = mesh.geometry;

@@ -7,5 +7,4 @@ Description: TODO
   * Menu (from [APainter](https://github.com/aframevr/a-painter))
   * Controller ToolTip (from [aframe-tooltip-component](https://github.com/fernandojsg/aframe-tooltip-component))
   * Bottles (from [CGTrader](https://www.cgtrader.com/free-3d-models/science/medical/potions-pack-f1518b7f1c8b5fe0960c68480e3b4444))
-  * StreetScene (from [CGTrader](https://www.cgtrader.com/free-3d-models/exterior/cityscape/the-street-scene))
-  * Bench (from [CGTrader](https://www.cgtrader.com/free-3d-models/furniture/outdoor/bench--39))
+  * Operator (from [Sound Stage](https://github.com/googlearchive/soundstagevr))

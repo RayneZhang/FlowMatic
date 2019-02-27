@@ -35,6 +35,8 @@ stateBinding;
 
 import vector from './components/utils/vector'
 vector;
+import vectorSource from './components/sources/vectorSource'
+vectorSource;
 
 import meshLine from './components/lines/meshLine'
 meshLine;

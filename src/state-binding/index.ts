@@ -115,7 +115,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Set entity id.
                     newEntity.setAttribute('id', 'vector' + id);
                     newEntity.setAttribute('vector', 'seqId', id);
-                    
+                    newEntity.setAttribute('vector-source', 'targetEntities', []);
                     this.id++;
                     break;
                  }

@@ -429,6 +429,10 @@ const vector = AFRAME.registerComponent('vector', {
         this.setTorus(latitude, longitude, this.pointingPos);
         this.setMagnitudeArrow();
         this.updatePositionLabel();
+    },
+
+    getVector: function(): any {
+        return this.pointingPos.clone() as string;
     }
 });
 

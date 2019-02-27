@@ -2,8 +2,8 @@ declare const THREE:any;
 
 const dataFilter = {
     schema: {
-        sourceName: {type: 'string', default: 'color'},
-        sourceValue: {type: 'string', default: 'red'},
+        dataType: {type: 'string', default: 'color'},
+        dataValue: {type: 'string', default: 'red'},
         filterName: {type: 'string', default: 'darkness'},
         filterValue: {type: 'number', default: 1},
         targetEntities: {type: 'array', default: []}
@@ -17,7 +17,7 @@ const dataFilter = {
         this.globalTimeDelta = 0;
         this.maxValue = 0.03;
 
-        this.initColorValue = this.data.sourceValue;
+        this.initColorValue = this.data.dataValue;
 
         this.velocity = 0;
         this.maxVelocity = 1;
@@ -27,17 +27,17 @@ const dataFilter = {
         this.aDistance = 0;
 
         this.el.addEventListener('attribute-update', (event) => {
-            const sourceName: string = event.detail.sourceName;
-            const sourceValue: any = event.detail.sourceValue;
-            if (sourceName === 'color') {
-                this.initColorValue = sourceValue;
-                const color = new THREE.Color(sourceValue);
+            const dataType: string = event.detail.dataType;
+            const dataValue: any = event.detail.dataValue;
+            if (dataType === 'color') {
+                this.initColorValue = dataValue;
+                const color = new THREE.Color(dataValue);
                 color.multiplyScalar(this.data.filterValue);
-                this.data.sourceValue = color;
+                this.data.dataValue = color;
             }
-            if (sourceName === 'position') {
-                this.data.sourceName = sourceName;
-                this.data.sourceValue = sourceValue;
+            if (dataType === 'position') {
+                this.data.dataType = dataType;
+                this.data.dataValue = dataValue;
                 this.vDistance = event.detail.vDistance;
                 this.aDistance = event.detail.aDistance;
             }
@@ -49,7 +49,7 @@ const dataFilter = {
                 this.data.filterValue = (filterValue + this.maxValue)/(this.maxValue * 2);
                 const color = new THREE.Color(this.initColorValue);
                 color.multiplyScalar(this.data.filterValue);
-                this.data.sourceValue = color;
+                this.data.dataValue = color;
             }
             if (this.data.filterName == "velocity") {
                 const filterValue: any = event.detail.filterValue;
@@ -74,14 +74,14 @@ const dataFilter = {
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                if (this.data.sourceName === "color")
-                    curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
-                if (this.data.sourceName === "position") {
+                if (this.data.dataType === "color")
+                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue}, false);
+                if (this.data.dataType === "position") {
                     const secondsDelta = timeDelta/1000;
                     const vDistance: number = this.velocity * secondsDelta + this.vDistance;
                     const aDistance: number = 1/2 * this.acceleration * secondsDelta * secondsDelta + this.aDistance;
                     this.velocity += this.acceleration * secondsDelta;
-                    curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue, vDistance: vDistance, aDistance: aDistance}, false);
+                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, vDistance: vDistance, aDistance: aDistance}, false);
                 }
             }
         }

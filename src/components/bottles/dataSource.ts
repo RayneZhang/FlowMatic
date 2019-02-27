@@ -2,8 +2,8 @@ declare const THREE:any;
 
 const dataSource = {
     schema: {
-        sourceName: {type: 'string', default:'color'},
-        sourceValue: {type: 'string', default: ''},
+        dataType: {type: 'string', default:'color'},
+        dataValue: {type: 'string', default: ''},
         targetEntities: {type: 'array', default: []}
     },
 
@@ -25,7 +25,7 @@ const dataSource = {
         else {
             this.globalTimeDelta = 0;
             const colorPos: number = Math.floor(Math.random() * 6);
-            this.data.sourceValue = this.colorSet[colorPos];
+            this.data.dataValue = this.colorSet[colorPos];
 
             const targetEntities = this.data.targetEntities;
             // Check if there is target object.
@@ -36,7 +36,7 @@ const dataSource = {
             for (const curId of this.data.targetEntities) {
                 const curTarget: any = document.querySelector('#' + curId);
                 if (curTarget) {
-                    curTarget.emit('attribute-update', {sourceName: this.data.sourceName, sourceValue: this.data.sourceValue}, false);
+                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue}, false);
                 }
             }
         }

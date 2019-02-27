@@ -226,7 +226,7 @@ const rightTriggerListener = {
                     }
                     targetEntities.push(targetEntity.getAttribute('id'));
                     sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('data-receiver', 'sourceName', dataType);
+                    sourceEntity.setAttribute('data-receiver', 'dataType', dataType);
                 }
                 
 

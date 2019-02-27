@@ -99,7 +99,13 @@ const rightTriggerListener = {
                 LinesEntity.setAttribute('draw-line', 'endPoint', EP);
                 // input/output -> operator.
                 LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode);
-                // Dot -> prompt -> attributeName -> bottle.
+                // Dot -> prompt -> bottle.
+                if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
+                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
+                    const dataType: string = intersectedEl.parentNode.parentNode.getAttribute('data-source').dataType;
+                    LinesEntity.setAttribute('draw-line', 'dataType', dataType);
+                }
+                // Dot -> prompt -> attributeName -> objects.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                     const attrNameEntity: any = intersectedEl.parentNode;

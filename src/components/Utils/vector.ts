@@ -86,10 +86,35 @@ const vector = AFRAME.registerComponent('vector', {
         this.pointAt(subEntityBody, this.pointingPos);
         this.setTorus(latitude, longitude, this.pointingPos);
 
-        // Init position label.
+        // Init position label and output plug.
         const positionLabel: any = this.positionLabel = document.createElement('a-entity');
+        const outputPlug: any = this.outputPlug = document.createElement('a-entity');
         this.el.appendChild(positionLabel);
+        this.el.appendChild(outputPlug);
+        this.initOutputPlug();
         this.updatePositionLabel();
+    },
+
+    updateOutputPlug: function(): void {
+        const scaledVector = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
+        const magnitude = scaledVector.length();
+        const plugOffset = 0.03;
+        this.outputPlug.object3D.position.set(0.12, magnitude + plugOffset, 0);
+        this.outputPlug.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+    },
+
+    initOutputPlug: function(): void {
+        this.outputPlug.setAttribute('obj-model', 'obj:#plug-obj');
+        this.outputPlug.setAttribute('material', 'color', 'white'); 
+        this.outputPlug.classList.add('connectable', 'output');
+        this.outputPlug.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
+            this.outputPlug.setAttribute('material', 'color', 'yellow'); 
+        })
+        this.outputPlug.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
+            this.outputPlug.setAttribute('material', 'color', 'white'); 
+        })
     },
 
     updatePositionLabel: function(): void {
@@ -102,6 +127,7 @@ const vector = AFRAME.registerComponent('vector', {
             align: 'center',
             wrapCount: 80
         });
+        this.updateOutputPlug();
     },
 
     initSelectedArrow: function(_arrow, _dir: string): void {

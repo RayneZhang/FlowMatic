@@ -99,6 +99,15 @@ const rightTriggerListener = {
                 LinesEntity.setAttribute('draw-line', 'endPoint', EP);
                 // input/output -> operator.
                 LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode);
+                if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                    const dataType: string = intersectedEl.parentNode.getAttribute('data-filter').dataType;
+                    LinesEntity.setAttribute('draw-line', 'dataType', dataType);
+                }
+                else if (intersectedEl.parentNode.classList.contains('vector-source')) {
+                    const dataType: string = intersectedEl.parentNode.getAttribute('vector-source').dataType;
+                    LinesEntity.setAttribute('draw-line', 'dataType', dataType);
+                }
+
                 // Dot -> prompt -> bottle.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);

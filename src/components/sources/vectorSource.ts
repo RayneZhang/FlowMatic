@@ -5,7 +5,8 @@ const vectorSource = AFRAME.registerComponent('vector-source', {
     schema: {
         dataType: {type: 'string', default:'vector'},
         dataValue: {type: 'string', default: ''},
-        targetEntities: {type: 'array', default: []}
+        targetEntities: {type: 'array', default: []},
+        targetAttributes: {type: 'array', default: []}
     },
 
     init: function(): void {

@@ -95,6 +95,10 @@ const vector = AFRAME.registerComponent('vector', {
         this.updatePositionLabel();
     },
 
+    updateDataValue: function(): void {
+        this.el.setAttribute('vector-source', 'dataValue', this.pointingPos.clone() as string);
+    },
+
     updateOutputPlug: function(): void {
         const scaledVector = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
         const magnitude = scaledVector.length();
@@ -455,6 +459,7 @@ const vector = AFRAME.registerComponent('vector', {
         this.setTorus(latitude, longitude, this.pointingPos);
         this.setMagnitudeArrow();
         this.updatePositionLabel();
+        this.updateDataValue();
     },
 
     getVector: function(): any {

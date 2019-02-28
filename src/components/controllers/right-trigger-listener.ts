@@ -121,6 +121,7 @@ const rightTriggerListener = {
                     const attrNameEntity: any = intersectedEl.parentNode;
                     const dataType: string = attrNameEntity.getAttribute('text').value;
                     LinesEntity.setAttribute('draw-line', 'dataType', dataType);
+                    intersectedEl.parentNode.parentNode.parentNode.setAttribute('data-receiver', 'dataType', dataType);
                 }
             }
 
@@ -192,7 +193,7 @@ const rightTriggerListener = {
                 let targetAttribute: string = null;
 
                 // input/output->Object
-                if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                if (intersectedEl.parentNode.classList.contains('data-filter') || intersectedEl.parentNode.classList.contains('plus')) {
                     targetEntity = intersectedEl.parentNode;
                 }
                 // Dot->Description->ListEntity->Object
@@ -202,7 +203,7 @@ const rightTriggerListener = {
                     const attrNameEntity: any = intersectedEl.parentNode;
                     targetAttribute = attrNameEntity.getAttribute('text').value;
                     const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
-                    console.log(sourceDataType);
+                    // console.log(sourceDataType); // For debugging
                     if (sourceDataType != 'vector' && targetAttribute != sourceDataType) {
                         console.log('Code goes here.');
                         if (this.curLine) {
@@ -255,6 +256,21 @@ const rightTriggerListener = {
                     targetAttributes.push(targetAttribute);
                     sourceEntity.setAttribute('vector-source', 'targetEntities', targetEntities);
                     sourceEntity.setAttribute('vector-source', 'targetAttributes', targetAttributes);
+                }
+                if (sourceEntity.classList.contains('plus')) {
+                    let targetEntities: any = sourceEntity.getAttribute('plus').targetEntities;
+                    let targetAttributes: any = sourceEntity.getAttribute('plus').targetAttributes;
+                    // If the targetEntities is null, we need to reset the type.
+                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                        targetEntities = [];
+                    }
+                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
+                        targetAttributes = [];
+                    }
+                    targetEntities.push(targetEntity.getAttribute('id'));
+                    targetAttributes.push(targetAttribute);
+                    sourceEntity.setAttribute('plus', 'targetEntities', targetEntities);
+                    sourceEntity.setAttribute('plus', 'targetAttributes', targetAttributes);
                 }
                 
 

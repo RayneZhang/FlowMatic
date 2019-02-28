@@ -29,7 +29,7 @@ const vectorSource = AFRAME.registerComponent('vector-source', {
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, attribute: this.data.targetAttributes[i]}, false);
+                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, attribute: this.data.targetAttributes[i], sourceEntityId: this.el.getAttribute('id')}, false);
                 i++;
             }
         }

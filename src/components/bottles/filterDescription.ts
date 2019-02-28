@@ -11,7 +11,6 @@ const filterDescription = {
 
     init: function(): void {
         const offset = new THREE.Vector3(0, 0.15, 0);
-        this.data.filterName = this.el.getAttribute('data-filter').filterName;
         this.createPrompt(this.data.filterName, 'blue', offset.clone());
         this.createOperatorModel();
 

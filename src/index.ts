@@ -37,6 +37,8 @@ import vector from './components/utils/vector'
 vector;
 import vectorSource from './components/sources/vectorSource'
 vectorSource;
+import plusOperator from './components/operators/plus'
+plusOperator;
 
 import meshLine from './components/lines/meshLine'
 meshLine;

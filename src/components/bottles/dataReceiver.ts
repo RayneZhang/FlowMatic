@@ -79,7 +79,7 @@ const dataReceiver = {
                 if (this.data.dataType === "color")
                     curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue}, false);
                 if (this.data.dataType === "position") {
-                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, vDistance: 0, aDistance: 0}, false);
+                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, vDistance: 0, aDistance: 0, sourceEntityId: this.el.getAttribute('id')}, false);
                 }
             }
         }

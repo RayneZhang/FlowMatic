@@ -14,14 +14,28 @@ const plusOperator = AFRAME.registerComponent('plus', {
 
     init: function(): void {
         // Add to the entity's class list.
-        this.el.classList.add("data-filter");
+        this.el.classList.add("plus");
+        this.dataValue = new THREE.Vector3();
 
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: any = event.detail.dataValue;
-            if (dataType === 'vector') {
-                
+            const sourceEntityId: string = event.detail.sourceEntityId;
+            if (dataType === 'vector' || dataType === 'position') {
+                const entityIndex = this.data.sourceEntities.indexOf(sourceEntityId);
+                if ( entityIndex === -1 ) {
+                    this.data.sourceEntities.push(sourceEntityId);
+                    this.data.sourceValues.push(dataValue);
+                    this.dataValue.add(new THREE.Vector3().copy(dataValue));
+                }
+                else {
+                    const oldValue = this.data.sourceValues[entityIndex];
+                    this.dataValue.sub(new THREE.Vector3().copy(oldValue));
+                    this.data.sourceValues[entityIndex] = dataValue;
+                    this.dataValue.add(new THREE.Vector3().copy(dataValue));
+                }
             }
+            this.data.dataValue = this.dataValue as string;
         });
     },
 
@@ -32,11 +46,13 @@ const plusOperator = AFRAME.registerComponent('plus', {
             return;
         }
 
+        let i: number = 0;
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue}, false);
+                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, attribute: this.data.targetAttributes[i]}, false);
             }
+            i++;
         }
     },
 

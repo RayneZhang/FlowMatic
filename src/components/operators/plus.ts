@@ -30,6 +30,7 @@ const plusOperator = AFRAME.registerComponent('plus', {
                 }
                 else {
                     const oldValue = this.data.sourceValues[entityIndex];
+                    if (oldValue === dataValue) return;
                     this.dataValue.sub(new THREE.Vector3().copy(oldValue));
                     this.data.sourceValues[entityIndex] = dataValue;
                     this.dataValue.add(new THREE.Vector3().copy(dataValue));

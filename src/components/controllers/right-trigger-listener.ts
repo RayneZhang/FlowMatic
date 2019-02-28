@@ -103,7 +103,8 @@ const rightTriggerListener = {
                     const dataType: string = intersectedEl.parentNode.getAttribute('data-filter').dataType;
                     LinesEntity.setAttribute('draw-line', 'dataType', dataType);
                 }
-                else if (intersectedEl.parentNode.classList.contains('vector-source')) {
+                
+                if (intersectedEl.parentNode.classList.contains('vector-source')) {
                     const dataType: string = intersectedEl.parentNode.getAttribute('vector-source').dataType;
                     LinesEntity.setAttribute('draw-line', 'dataType', dataType);
                 }
@@ -188,33 +189,31 @@ const rightTriggerListener = {
                 // Push the id into target entities.
                 const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
                 let targetEntity: any = null;
-                let dataType: string = null;
+                let targetAttribute: string = null;
 
                 // input/output->Object
                 if (intersectedEl.parentNode.classList.contains('data-filter')) {
                     targetEntity = intersectedEl.parentNode;
-                    dataType = linesEntity.getAttribute('draw-line').dataType;
                 }
                 // Dot->Description->ListEntity->Object
                 else {
                     targetEntity = intersectedEl.parentNode.parentNode.parentNode;
 
                     const attrNameEntity: any = intersectedEl.parentNode;
-                    const targetDataType: string = attrNameEntity.getAttribute('text').value;
+                    targetAttribute = attrNameEntity.getAttribute('text').value;
                     const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
-                    if (sourceDataType && targetDataType != sourceDataType) {
-                        // console.log(targetDataType);
-                        // console.log(sourceDataType);
+                    console.log(sourceDataType);
+                    if (sourceDataType != 'vector' && targetAttribute != sourceDataType) {
+                        console.log('Code goes here.');
                         if (this.curLine) {
                             this.curLine.destroyLine();
                             this.curLine = null;
                         }
                         return;
                     }
-                    dataType = targetDataType;
                 }
 
-                // Set target objects.
+                // Set target objects of source entity.
                 if (sourceEntity.classList.contains('data-source')){
                     let targetEntities: any = sourceEntity.getAttribute('data-source').targetEntities;
                     // If the targetEntities is null, we need to reset the type.
@@ -241,7 +240,21 @@ const rightTriggerListener = {
                     }
                     targetEntities.push(targetEntity.getAttribute('id'));
                     sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('data-receiver', 'dataType', dataType);
+                }
+                if (sourceEntity.classList.contains('vector-source')) {
+                    let targetEntities: any = sourceEntity.getAttribute('vector-source').targetEntities;
+                    let targetAttributes: any = sourceEntity.getAttribute('vector-source').targetAttributes;
+                    // If the targetEntities is null, we need to reset the type.
+                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                        targetEntities = [];
+                    }
+                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
+                        targetAttributes = [];
+                    }
+                    targetEntities.push(targetEntity.getAttribute('id'));
+                    targetAttributes.push(targetAttribute);
+                    sourceEntity.setAttribute('vector-source', 'targetEntities', targetEntities);
+                    sourceEntity.setAttribute('vector-source', 'targetAttributes', targetAttributes);
                 }
                 
 

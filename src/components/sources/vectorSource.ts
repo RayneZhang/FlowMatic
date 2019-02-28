@@ -11,7 +11,8 @@ const vectorSource = AFRAME.registerComponent('vector-source', {
 
     init: function(): void {
         // Add to the entity's class list.
-        this.el.classList.add("data-source");
+        // this.el.classList.add("data-source");
+        this.el.classList.add('vector-source');
     },
 
     tick: function(time, timeDelta): void {
@@ -24,10 +25,12 @@ const vectorSource = AFRAME.registerComponent('vector-source', {
         // Fetch the vector value from vector component.
         this.data.dataValue = this.el.components['vector'].getVector();
 
+        let i: number = 0;
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue}, false);
+                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, attribute: this.data.targetAttributes[i]}, false);
+                i++;
             }
         }
     }

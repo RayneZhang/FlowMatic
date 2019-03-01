@@ -25,14 +25,14 @@ const plusOperator = AFRAME.registerComponent('plus', {
                 const entityIndex = this.data.sourceEntities.indexOf(sourceEntityId);
                 if ( entityIndex === -1 ) {
                     this.data.sourceEntities.push(sourceEntityId);
-                    this.data.sourceValues.push(dataValue);
+                    this.data.sourceValues.push(dataValue.clone());
                     this.dataValue.add(new THREE.Vector3().copy(dataValue));
                 }
                 else {
                     const oldValue = this.data.sourceValues[entityIndex];
                     if (oldValue === dataValue) return;
                     this.dataValue.sub(new THREE.Vector3().copy(oldValue));
-                    this.data.sourceValues[entityIndex] = dataValue;
+                    this.data.sourceValues[entityIndex] = new THREE.Vector3().copy(dataValue);
                     this.dataValue.add(new THREE.Vector3().copy(dataValue));
                 }
             }

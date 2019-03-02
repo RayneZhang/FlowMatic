@@ -14,7 +14,7 @@ const globalMenu = {
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
         this.el.appendChild(menuEntity);
-        menuEntity.setAttribute('id', 'global_menu'); 
+        menuEntity.setAttribute('id', 'global-menu'); 
 
         this.loadModelGroup();
         this.createSubMenuEl();

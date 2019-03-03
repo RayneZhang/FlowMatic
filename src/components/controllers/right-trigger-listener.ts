@@ -204,14 +204,14 @@ const rightTriggerListener = {
                     targetAttribute = attrNameEntity.getAttribute('text').value;
                     const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
                     // console.log(sourceDataType); // For debugging
-                    if (sourceDataType != 'vector' && targetAttribute != sourceDataType) {
-                        console.log('Code goes here.');
-                        if (this.curLine) {
-                            this.curLine.destroyLine();
-                            this.curLine = null;
-                        }
-                        return;
-                    }
+                    // if (sourceDataType != 'vector' && targetAttribute != sourceDataType) {
+                    //     console.log('Code goes here.');
+                    //     if (this.curLine) {
+                    //         this.curLine.destroyLine();
+                    //         this.curLine = null;
+                    //     }
+                    //     return;
+                    // }
                 }
 
                 // Set target objects of source entity.
@@ -235,12 +235,18 @@ const rightTriggerListener = {
                 }
                 if (sourceEntity.classList.contains('data-receiver')){
                     let targetEntities: any = sourceEntity.getAttribute('data-receiver').targetEntities;
+                    let targetAttributes: any = sourceEntity.getAttribute('data-receiver').targetAttributes;
                     // If the targetEntities is null, we need to reset the type.
                     if (!Array.isArray(targetEntities) || !targetEntities.length) {
                         targetEntities = [];
                     }
+                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
+                        targetAttributes = [];
+                    }
                     targetEntities.push(targetEntity.getAttribute('id'));
+                    targetAttributes.push(targetAttribute);
                     sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
+                    sourceEntity.setAttribute('data-receiver', 'targetAttributes', targetAttributes);
                 }
                 if (sourceEntity.classList.contains('vector-source')) {
                     let targetEntities: any = sourceEntity.getAttribute('vector-source').targetEntities;

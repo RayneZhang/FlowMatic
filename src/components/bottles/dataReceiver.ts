@@ -4,7 +4,8 @@ const dataReceiver = {
     schema: {
         dataType: {type: 'string', default: 'color'},
         dataValue: {type: 'string', default: 'blue'},
-        targetEntities: {type: 'array', default: []}
+        targetEntities: {type: 'array', default: []},
+        targetAttributes: {type: 'array', default: []}
     },
 
     init: function(): void {
@@ -33,7 +34,6 @@ const dataReceiver = {
                 if (!this.sourceInitPos) {
                     this.sourceInitPos = sourcePos.clone();
                     this.objInitPos = currentPos.clone();
-
                 }
                 if (vDistance == 0 && aDistance == 0) {
                     const updatedPos = sourcePos.add(this.objInitPos.clone().sub(this.sourceInitPos));
@@ -62,25 +62,24 @@ const dataReceiver = {
             return;
         }
 
-        switch (this.data.dataType) {
-            case "color": default: {
-                break;
-            }
-            case "position": {
-                const val: string = this.el.object3D.position as string;
-                this.data.dataValue = val;
-                break;
-            }
-        }
-
+        let i: number = 0;
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                if (this.data.dataType === "color")
-                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue}, false);
-                if (this.data.dataType === "position") {
-                    curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, vDistance: 0, aDistance: 0, sourceEntityId: this.el.getAttribute('id')}, false);
+                switch (this.data.targetAttributes[i]) {
+                    case "color": default: {
+                        this.data.dataType = 'color';
+                        break;
+                    }
+                    case "position": {
+                        this.data.dataType = 'vector';
+                        const val: string = this.el.object3D.position as string;
+                        this.data.dataValue = val;
+                        break;
+                    }
                 }
+                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, attribute: this.data.targetAttributes[i], sourceEntityId: this.el.getAttribute('id')}, false);
+                i++;
             }
         }
     },

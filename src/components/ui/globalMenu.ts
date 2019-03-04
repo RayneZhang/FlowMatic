@@ -9,7 +9,7 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subMenuNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
         // The corresponding model thumbnails in the buttons.
-        this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector', 'plus operator'];
+        this.modelThumbnails = ['data source', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector', 'plus operator', 'subtract operator'];
 
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');

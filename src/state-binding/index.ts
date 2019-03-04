@@ -121,9 +121,17 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'container7': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', 'plus-filter' + id);
+                    newEntity.setAttribute('id', 'plus-operator' + id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
                     newEntity.setAttribute('filter-description', 'filterName', 'plus');
+                    this.id++;
+                    break;
+                 }
+                 case 'container8': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'subtract-operator' + id);
+                    newEntity.setAttribute('subtract', 'targetEntities', []);
+                    newEntity.setAttribute('filter-description', 'filterName', 'subtract');
                     this.id++;
                     break;
                  }
@@ -168,6 +176,14 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 }
                 case 'container6': {
                     id = '#vector' + createdId;
+                    break;
+                }
+                case 'container6': {
+                    id = '#plus-operator' + createdId;
+                    break;
+                }
+                case 'container6': {
+                    id = '#subtract-operator' + createdId;
                     break;
                 }
             }

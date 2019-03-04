@@ -195,6 +195,7 @@ const rightTriggerListener = {
                 // input/output->Object
                 if (intersectedEl.parentNode.classList.contains('data-filter') 
                 || intersectedEl.parentNode.classList.contains('plus')
+                || intersectedEl.parentNode.classList.contains('subtract')
                 || intersectedEl.parentNode.classList.contains('vector-source')) {
                     targetEntity = intersectedEl.parentNode;
                 }
@@ -279,6 +280,21 @@ const rightTriggerListener = {
                     targetAttributes.push(targetAttribute);
                     sourceEntity.setAttribute('plus', 'targetEntities', targetEntities);
                     sourceEntity.setAttribute('plus', 'targetAttributes', targetAttributes);
+                }
+                if (sourceEntity.classList.contains('subtract')) {
+                    let targetEntities: any = sourceEntity.getAttribute('subtract').targetEntities;
+                    let targetAttributes: any = sourceEntity.getAttribute('subtract').targetAttributes;
+                    // If the targetEntities is null, we need to reset the type.
+                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
+                        targetEntities = [];
+                    }
+                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
+                        targetAttributes = [];
+                    }
+                    targetEntities.push(targetEntity.getAttribute('id'));
+                    targetAttributes.push(targetAttribute);
+                    sourceEntity.setAttribute('subtract', 'targetEntities', targetEntities);
+                    sourceEntity.setAttribute('subtract', 'targetAttributes', targetAttributes);
                 }
                 
 

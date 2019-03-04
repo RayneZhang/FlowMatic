@@ -469,6 +469,17 @@ const vector = AFRAME.registerComponent('vector', {
 
     getVector: function(): any {
         return this.pointingPos.clone() as string;
+    },
+
+    setVector: function(_vector: any): any {
+        if (this.pointingPos.equals(_vector)) return;
+        this.pointingPos.copy(_vector);
+        this.setMagnitude();
+        this.pointAt(this.subEntityBody, this.pointingPos);
+        this.setTorus(this.latitude, this.longitude, this.pointingPos);
+        this.setMagnitudeArrow();
+        this.updatePositionLabel();
+        this.updateDataValue();
     }
 });
 

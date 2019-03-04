@@ -11,8 +11,15 @@ const vectorSource = AFRAME.registerComponent('vector-source', {
 
     init: function(): void {
         // Add to the entity's class list.
-        // this.el.classList.add("data-source");
         this.el.classList.add('vector-source');
+        this.el.addEventListener('attribute-update', (event) => {
+            const dataType: string = event.detail.dataType;
+            const dataValue: string = event.detail.dataValue;
+            if (dataType === 'vector') {
+                this.data.dataValue = dataValue;
+                this.el.components['vector'].setVector(dataValue);
+            }
+        });
     },
 
     tick: function(time, timeDelta): void {

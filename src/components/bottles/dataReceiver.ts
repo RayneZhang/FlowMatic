@@ -67,12 +67,12 @@ const dataReceiver = {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
                 switch (this.data.targetAttributes[i]) {
-                    case "color": default: {
+                    case "color": {
                         this.data.dataType = 'color';
                         this.data.dataValue = this.el.getAttribute('material').color;
                         break;
                     }
-                    case "position": {
+                    case "position": default: {
                         this.data.dataType = 'vector';
                         const val: string = this.el.object3D.position as string;
                         this.data.dataValue = val;

@@ -69,6 +69,7 @@ const dataReceiver = {
                 switch (this.data.targetAttributes[i]) {
                     case "color": default: {
                         this.data.dataType = 'color';
+                        this.data.dataValue = this.el.getAttribute('material').color;
                         break;
                     }
                     case "position": {

@@ -21,12 +21,12 @@ const modelSubset = {
             if (this.data.name.indexOf("submenu") != -1) this.initSubmenu();
         });
 
-        // Handle material when hover. 
+        // Handle material when hover. Objects including submenus & buttons.
         this.el.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
             this.data.raycasted = true;
             if (NotReactUI.indexOf(this.data.name) === -1) 
-                this.el.setAttribute('material', 'color', '#d2527f'); 
+                this.el.setAttribute('material', 'color', '#22a7f0'); 
         })
 
         // Handle material when hover cleared.

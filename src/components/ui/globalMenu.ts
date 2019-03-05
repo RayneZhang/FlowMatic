@@ -52,7 +52,7 @@ const globalMenu = {
         modelGroup.parentNode.removeChild(modelGroup);
     },
 
-    // Create sub-menu entities based on the modelGroup. 
+    // Create sub entities based on the modelGroup, setting geometry and material. 
     createSubEntity(): void {
         const modelGroup = document.querySelector('#modelGroup');
         for (const subMenuName of this.subMenuNames) {
@@ -156,19 +156,19 @@ const globalMenu = {
         const zOffset: number = 0.03;
         for (let i=0; i<buttonNum; i++) {
             // Create sub-menu entity.
-            const ButtonEl: any = document.createElement('a-entity');
-            this.menuEl.appendChild(ButtonEl);
-            ButtonEl.setAttribute('id', "container"+i.toString());
-            ButtonEl.classList.add('ui', 'thumbnail');
+            const ContainerEl: any = document.createElement('a-entity');
+            this.menuEl.appendChild(ContainerEl);
+            ContainerEl.setAttribute('id', "container"+i.toString());
+            ContainerEl.classList.add('ui', 'container');
 
             // Add geometry component to the entity.
-            ButtonEl.setAttribute('geometry', {
+            ContainerEl.setAttribute('geometry', {
                 primitive: 'sphere',
                 radius: 0.015
             }); 
 
             // Add the s2ame material component of the sub-menu entity.
-            ButtonEl.setAttribute('material', {
+            ContainerEl.setAttribute('material', {
                 color: '#FFFFFF',
                 flatShading: true,
                 shader: 'flat',
@@ -178,29 +178,29 @@ const globalMenu = {
             });
 
             // Handle material&description when hover.
-            ButtonEl.addEventListener('raycaster-intersected', (event) => {
+            ContainerEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
-                ButtonEl.setAttribute('material', 'color', '#FF69B4'); 
-                this.setThumbnailDescription(ButtonEl.getAttribute('id'));
+                ContainerEl.setAttribute('material', 'color', '#FF69B4'); 
+                this.setThumbnailDescription(ContainerEl.getAttribute('id'));
             })
 
             // Handle material&description when hover cleared.
-            ButtonEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            ContainerEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
-                if (ButtonEl.getAttribute('id') != this.data.selectedContainerId) {
-                    ButtonEl.setAttribute('material', 'color', '#FFFFFF'); 
+                if (ContainerEl.getAttribute('id') != this.data.selectedContainerId) {
+                    ContainerEl.setAttribute('material', 'color', '#FFFFFF'); 
                     this.setThumbnailDescription(this.data.selectedContainerId);
                 }
             })
 
-            ButtonEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
-            this.loadModelThumbnail(ButtonEl, i);
+            ContainerEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
+            this.loadModelThumbnail(ContainerEl, i);
         }
 
         this.setSelectedButtonId('container1');
     },
 
-    // Load the thumbnails of the models to display in buttons.
+    // Load the model thumbnail of the model i to be displayed in containers.
     loadModelThumbnail(appendEl: any, buttonNum: number): void {
         const modelThumbnailEntity: any = document.createElement('a-entity');
         appendEl.appendChild(modelThumbnailEntity);

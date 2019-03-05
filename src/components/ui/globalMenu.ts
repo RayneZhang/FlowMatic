@@ -18,9 +18,9 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubEntity();
-        this.loadThumbnailDescription();
-        this.loadTextLabel();
-        this.loadButtonThumbnail(this.modelThumbnails.length);
+        this.initThumbnailDescription();
+        this.initTextLabel();
+        this.loadButtonAndThumbnail(this.modelThumbnails.length);
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -34,6 +34,8 @@ const globalMenu = {
     tick: function(time, timeDelta): void {
 
     },
+
+    // ==========For internal call only.==========
 
     // Load an entity just for importing 3D obj.
     loadModelGroup(): void {
@@ -94,7 +96,7 @@ const globalMenu = {
     },
 
     // Load description of thumbnails panel.
-    loadThumbnailDescription(): void {
+    initThumbnailDescription(): void {
         // Create thumbnail description entity.
         const descripText: any = document.createElement('a-entity');
         const descripEl: any = document.querySelector("#description");
@@ -118,7 +120,7 @@ const globalMenu = {
     },
 
     // Load description of undo/redo button.
-    loadTextLabel(): void {
+    initTextLabel(): void {
         const undoLabel: any = document.createElement('a-entity');
         const undoEl: any = document.querySelector("#undo");
         const redoLabel: any = document.createElement('a-entity');
@@ -147,17 +149,8 @@ const globalMenu = {
         redoLabel.object3D.position.set(-0.1, 0, 0.06);
     },
 
-    // Set description of the panel.
-    setThumbnailDescription(_buttonId: string): void {
-        const id: string = _buttonId.substr(-1, 1);
-        const idNum: number = Number(id);
-
-        const thumbDescripEl: any = document.querySelector('#description_text');
-        thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[idNum]);
-    },
-
     // Load the thumbnails of the buttons to chose from.
-    loadButtonThumbnail(buttonNum: number): void {
+    loadButtonAndThumbnail(buttonNum: number): void {
         const xOffset: number = 0.03;
         const yOffset: number = 0;
         const zOffset: number = 0.03;
@@ -301,6 +294,17 @@ const globalMenu = {
         return radius;
     },
 
+    // Set description of the panel.
+    setThumbnailDescription(_buttonId: string): void {
+        const id: string = _buttonId.substr(-1, 1);
+        const idNum: number = Number(id);
+
+        const thumbDescripEl: any = document.querySelector('#description_text');
+        thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[idNum]);
+    },
+
+
+    // ==========Also for external call.==========
     // Set the selected button id.
     setSelectedButtonId: function(_id: string): void {
         if (this.data.selectedContainerId) {

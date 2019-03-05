@@ -36,7 +36,7 @@ const modelSubset = {
             this.data.raycasted = false;
             const leftHandInfo: any = document.querySelector("#leftHandInfo");
             const selectedButtonId: number = leftHandInfo.getAttribute('global-menu').selectedButtonId;
-            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id').indexOf(String(selectedButtonId+1)) === -1) 
+            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) 
                 this.el.setAttribute('material', 'color', '#22313f'); 
         })
     },

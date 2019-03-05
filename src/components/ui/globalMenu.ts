@@ -22,7 +22,6 @@ const globalMenu = {
         this.loadTextLabel();
         this.loadButtonThumbnail(this.modelThumbnails.length);
 
-        // menuEntity.setAttribute('rotation', '45 0 0');
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
         menuEntity.object3D.visible = false;
@@ -85,7 +84,7 @@ const globalMenu = {
             }
             else {
                 subMenuEl.setAttribute('material', {
-                    color: 'grey',
+                    color: '#22313f',
                     flatShading: true,
                     shader: 'flat',
                     transparent: true

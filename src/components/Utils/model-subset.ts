@@ -26,7 +26,7 @@ const modelSubset = {
             event.stopPropagation();
             this.data.raycasted = true;
             if (NotReactUI.indexOf(this.data.name) === -1) 
-                this.el.setAttribute('material', 'color', 'pink'); 
+                this.el.setAttribute('material', 'color', '#d2527f'); 
         })
 
         // Handle material when hover cleared.
@@ -38,7 +38,7 @@ const modelSubset = {
             const id: string = selectedContainerId.substr(-1, 1);
             const idNum: number = Number(id);
             if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id').indexOf(String(idNum+1)) === -1) 
-                this.el.setAttribute('material', 'color', 'grey'); 
+                this.el.setAttribute('material', 'color', '#22313f'); 
         })
     },
 

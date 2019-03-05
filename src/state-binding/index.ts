@@ -31,7 +31,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         if (presentObjects.length > this.data.objects.length) {
             const addedObj = presentObjects[presentObjects.length - 1];
             const id = addedObj.id;
-            const objectNum = addedObj.targetModel;
+            const buttonId = addedObj.targetModel;
             const position = addedObj.position;
             const color = addedObj.color;
 
@@ -39,8 +39,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
              let newEntity: any = document.createElement('a-entity');
              this.el.appendChild(newEntity);
              
-             switch (objectNum) {
-                 case 'container0': {
+             switch (buttonId) {
+                 case 0: {
                      newEntity.setAttribute('id', 'bottle' + id);
                      newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                      newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
@@ -50,7 +50,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container1': default: {
+                 case 1: default: {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
                          primitive: 'box',
@@ -68,7 +68,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container2': {
+                 case 2: {
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'color-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
@@ -77,7 +77,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container3': {
+                 case 3: {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
                          primitive: 'sphere',
@@ -93,7 +93,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container4': { 
+                 case 4: { 
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
@@ -102,7 +102,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container5': {
+                 case 5: {
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
@@ -111,7 +111,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'container6': {
+                 case 6: {
                     // Set entity id.
                     newEntity.setAttribute('id', 'vector' + id);
                     newEntity.setAttribute('vector', 'seqId', id);
@@ -119,7 +119,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'container7': {
+                 case 7: {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'plus-operator' + id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
@@ -127,7 +127,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'container8': {
+                 case 8: {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'subtract-operator' + id);
                     newEntity.setAttribute('subtract', 'targetEntities', []);
@@ -150,39 +150,39 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             let id = '';
 
             switch (objectNum) {
-                case 'container0': {
+                case 0: {
                     id = '#bottle' + createdId;
                     break;
                 }
-                case 'container1': default: {
+                case 1: default: {
                     id = '#box' + createdId;
                     break;
                 }
-                case 'container2': {
+                case 2: {
                     id = '#color-filter' + createdId;
                     break;
                 }
-                case 'container3': {   
+                case 3: {   
                     id = '#sphere' + createdId;
                     break;
                 }
-                case 'container4': {
+                case 4: {
                     id = '#position-filter' + createdId;
                     break;
                 }
-                case 'container5': {
+                case 5: {
                     id = '#position-filter' + createdId;
                     break;
                 }
-                case 'container6': {
+                case 6: {
                     id = '#vector' + createdId;
                     break;
                 }
-                case 'container6': {
+                case 7: {
                     id = '#plus-operator' + createdId;
                     break;
                 }
-                case 'container6': {
+                case 8: {
                     id = '#subtract-operator' + createdId;
                     break;
                 }

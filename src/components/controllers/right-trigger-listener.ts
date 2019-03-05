@@ -47,10 +47,11 @@ const rightTriggerListener = {
             if (intersectedEl.classList.contains('ui')) {
                 const id = intersectedEl.getAttribute('id');
 
-                if (intersectedEl.classList.contains('container')) {
+                if (intersectedEl.classList.contains('button')) {
                     const globalMenu: any = document.querySelector('[global-menu]');
                     const globalMenuComponent = globalMenu.components['global-menu'];
-                    globalMenuComponent.setSelectedButtonId(id);
+                    const buttonId: number = Number(id.substr(-1, 1)) - 1;
+                    globalMenuComponent.setSelectedButtonId(buttonId);
                 }
 
                 if (intersectedEl.classList.contains('slider')) {

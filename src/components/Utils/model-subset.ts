@@ -19,6 +19,7 @@ const modelSubset = {
 
             if (this.data.name === 'hue') {this.initColorWheel();}
             if (this.data.name.indexOf("submenu") != -1) this.initSubmenu();
+            if (this.data.name.indexOf('button') != -1) this.el.classList.add('button');
         });
 
         // Handle material when hover. Objects including submenus & buttons.
@@ -34,10 +35,8 @@ const modelSubset = {
             event.stopPropagation();
             this.data.raycasted = false;
             const leftHandInfo: any = document.querySelector("#leftHandInfo");
-            const selectedContainerId: string = leftHandInfo.getAttribute('global-menu').selectedContainerId;
-            const id: string = selectedContainerId.substr(-1, 1);
-            const idNum: number = Number(id);
-            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id').indexOf(String(idNum+1)) === -1) 
+            const selectedButtonId: number = leftHandInfo.getAttribute('global-menu').selectedButtonId;
+            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id').indexOf(String(selectedButtonId+1)) === -1) 
                 this.el.setAttribute('material', 'color', '#22313f'); 
         })
     },

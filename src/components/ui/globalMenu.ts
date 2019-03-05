@@ -2,7 +2,7 @@ declare const THREE:any;
 
 const globalMenu = {
     schema: {
-        selectedContainerId: {type: 'string', default: "container1"}
+        selectedButtonId: {type: 'number', default: 0}
     },
 
     init: function(): void {
@@ -116,7 +116,7 @@ const globalMenu = {
         descripText.object3D.position.set(-0.1, 0, -0.055);
 
         // Set the value of the description.
-        this.setThumbnailDescription(this.data.selectedContainerId);
+        this.setThumbnailDescription(this.data.selectedButtonId);
     },
 
     // Load description of undo/redo button.
@@ -159,7 +159,6 @@ const globalMenu = {
             const ContainerEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(ContainerEl);
             ContainerEl.setAttribute('id', "container"+i.toString());
-            ContainerEl.classList.add('ui', 'container');
 
             // Add geometry component to the entity.
             ContainerEl.setAttribute('geometry', {
@@ -177,27 +176,11 @@ const globalMenu = {
                 fog: false
             });
 
-            // Handle material&description when hover.
-            ContainerEl.addEventListener('raycaster-intersected', (event) => {
-                event.stopPropagation();
-                ContainerEl.setAttribute('material', 'color', '#FF69B4'); 
-                this.setThumbnailDescription(ContainerEl.getAttribute('id'));
-            })
-
-            // Handle material&description when hover cleared.
-            ContainerEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                event.stopPropagation();
-                if (ContainerEl.getAttribute('id') != this.data.selectedContainerId) {
-                    ContainerEl.setAttribute('material', 'color', '#FFFFFF'); 
-                    this.setThumbnailDescription(this.data.selectedContainerId);
-                }
-            })
-
             ContainerEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
             this.loadModelThumbnail(ContainerEl, i);
         }
 
-        this.setSelectedButtonId('container1');
+        this.setSelectedButtonId(0);
     },
 
     // Load the model thumbnail of the model i to be displayed in containers.
@@ -295,33 +278,23 @@ const globalMenu = {
     },
 
     // Set description of the panel.
-    setThumbnailDescription(_buttonId: string): void {
-        const id: string = _buttonId.substr(-1, 1);
-        const idNum: number = Number(id);
-
+    setThumbnailDescription(_buttonId: number): void {
         const thumbDescripEl: any = document.querySelector('#description_text');
-        thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[idNum]);
+        thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[_buttonId]);
     },
 
     // ==========Also for external call.==========
     // Set the selected button id.
-    setSelectedButtonId: function(_id: string): void {
-        if (this.data.selectedContainerId) {
-            const lastSelectedContainer: any = document.querySelector('#' + this.data.selectedContainerId);
-            lastSelectedContainer.setAttribute('material', 'color', '#FFFFFF');
-
-            const id: string = this.data.selectedContainerId.substr(-1, 1);
-            const idNum: number = Number(id);
-            const lastSelectedButton: any = document.querySelector('#Button' + String(idNum+1));
-
-            this.data.selectedContainerId = _id;
-            
+    setSelectedButtonId: function(_id: number): void {
+        if (this.data.selectedButtonId) {
+            const lastSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
+            this.data.selectedButtonId = _id;
             lastSelectedButton.emit('raycaster-intersected-cleared');
         }
 
-        this.data.selectedContainerId = _id;
-        const currentSelectedButton: any = document.querySelector('#' + this.data.selectedContainerId);
-        currentSelectedButton.setAttribute('material', 'color', '#FF69B4');
+        this.data.selectedButtonId = _id;
+        const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
+        currentSelectedButton.setAttribute('material', 'color', '#22a7f0');
 
         // Pass the id for left hand to create the corresponding object.
         const leftHand: any = document.querySelector('#leftHandInfo');

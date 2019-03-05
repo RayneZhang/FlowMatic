@@ -17,7 +17,7 @@ const globalMenu = {
         menuEntity.setAttribute('id', 'global-menu'); 
 
         this.loadModelGroup();
-        this.createSubMenuEl();
+        this.createSubEntity();
         this.loadThumbnailDescription();
         this.loadTextLabel();
         this.loadButtonThumbnail(this.modelThumbnails.length);
@@ -52,7 +52,7 @@ const globalMenu = {
     },
 
     // Create sub-menu entities based on the modelGroup. 
-    createSubMenuEl(): void {
+    createSubEntity(): void {
         const modelGroup = document.querySelector('#modelGroup');
         for (const subMenuName of this.subMenuNames) {
             // Create sub-menu entity.
@@ -64,9 +64,16 @@ const globalMenu = {
                 target: modelGroup,
                 name: subMenuName
             });
-
-            // Add the same material component of the sub-menu entity.
-            if (subMenuName != "currentcolor" && subMenuName != "hue") {
+            // Set a different material component for currentcolor.
+            if (subMenuName == "currentcolor") {
+                subMenuEl.setAttribute('material', {
+                    color: '#ffffff',
+                    flatShading: true,
+                    shader: 'flat',
+                    transparent: false
+                });
+            }
+            else if (subMenuName == 'hue' || subMenuName == 'huecursor') {
                 subMenuEl.setAttribute('material', {
                     color: '#ffffff',
                     flatShading: true,
@@ -76,14 +83,12 @@ const globalMenu = {
                     src: '#uinormal'
                 });
             }
-
-            // Set a different material component for currentcolor.
-            if (subMenuName == "currentcolor") {
+            else {
                 subMenuEl.setAttribute('material', {
-                    color: '#ffffff',
+                    color: 'grey',
                     flatShading: true,
                     shader: 'flat',
-                    transparent: false
+                    transparent: true
                 });
             }
         }

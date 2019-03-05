@@ -20,7 +20,7 @@ const globalMenu = {
         this.createSubEntity();
         this.initThumbnailDescription();
         this.initTextLabel();
-        this.loadButtonAndThumbnail(this.modelThumbnails.length);
+        this.loadContainerAndThumbnail(this.modelThumbnails.length);
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -150,7 +150,7 @@ const globalMenu = {
     },
 
     // Load the thumbnails of the buttons to chose from.
-    loadButtonAndThumbnail(buttonNum: number): void {
+    loadContainerAndThumbnail(buttonNum: number): void {
         const xOffset: number = 0.03;
         const yOffset: number = 0;
         const zOffset: number = 0.03;
@@ -302,7 +302,6 @@ const globalMenu = {
         const thumbDescripEl: any = document.querySelector('#description_text');
         thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[idNum]);
     },
-
 
     // ==========Also for external call.==========
     // Set the selected button id.

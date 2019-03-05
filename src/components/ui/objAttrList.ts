@@ -53,8 +53,6 @@ const objAttrList = {
             const posOffset = new THREE.Vector3(0.35, 0, 0);
             this.createDotEntity(curEntity, 'left', posOffset.clone());
             this.createDotEntity(curEntity, 'right', posOffset.clone());
-
-            // this.createSlider(curEntity);
         }
 
         // We can only access the mesh after it is loaded.
@@ -131,69 +129,7 @@ const objAttrList = {
         const height = size.y;
         
         return height;
-    },
-
-    // Create the sliders of x,y,z of the attribute.
-    createSlider(appendEl): void {
-        const xyz: any = ['x', 'y', 'z'];
-        let offset: number = 0.05;
-        let currentY: number = 0;
-        const sceneEl = document.querySelector('a-scene');
-        sceneEl.addEventListener('loaded', (event) => {
-            const modelGroup = document.querySelector('#modelGroup');
-        
-            for (const i of xyz) {
-                const SliderEl: any = document.createElement('a-entity');
-                const CursorEl: any = document.createElement('a-entity');
-
-                appendEl.appendChild(SliderEl);
-                SliderEl.appendChild(CursorEl);
-
-                SliderEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'slider' + '_' + i);
-                CursorEl.setAttribute('id', appendEl.getAttribute('id') + '_' + 'cursor' + '_' + i);
-
-                SliderEl.setAttribute('model-subset', {
-                    target: modelGroup,
-                    name: 'sizebg'
-                });
-                CursorEl.setAttribute('model-subset', {
-                    target: modelGroup,
-                    name: 'size'
-                });
-
-                // Attach the material component to the slider entity.
-                SliderEl.setAttribute('material', {
-                    color: '#ffffff',
-                    flatShading: true,
-                    shader: 'flat',
-                    transparent: true,
-                    fog: false,
-                    src: '#uinormal'
-                });
-                // Attach the same material component to the cursor entity.
-                CursorEl.setAttribute('material', {
-                    color: '#ffffff',
-                    flatShading: true,
-                    shader: 'flat',
-                    transparent: true,
-                    fog: false,
-                    alphaTest: 0.5,
-                    src: '#uinormal'
-                });
-
-                SliderEl.setAttribute('class', 'ui');
-                CursorEl.setAttribute('class', 'ui');
-
-                // Adjust the position offset of the cursor entity.
-                CursorEl.object3D.position.set(0.06409, 0.01419, -0.10242);
-
-                // Place the slider entity in the layout.
-                SliderEl.object3D.position.set(0.2, currentY, 0.12);
-                SliderEl.object3D.rotation.set(45, 0, 0);
-                currentY -= offset;
-            }
-        });
-    }    
+    }  
 }
 
 export default objAttrList;

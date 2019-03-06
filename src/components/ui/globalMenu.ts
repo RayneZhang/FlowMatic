@@ -24,7 +24,8 @@ const globalMenu = {
         this.createSubEntity();
         this.initTextLabel();
         this.initInstanceDescription();
-        // this.loadContainerAndInstance(this.instanceNames.length);
+        const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
+        this.loadContainerAndInstance(this.subMenu[subMenuName].length);
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -154,11 +155,11 @@ const globalMenu = {
     },
 
     // Load the thumbnails of the buttons to chose from.
-    loadContainerAndInstance(buttonNum: number): void {
+    loadContainerAndInstance(_containerNum: number): void {
         const xOffset: number = 0.03;
         const yOffset: number = 0;
         const zOffset: number = 0.03;
-        for (let i=0; i<buttonNum; i++) {
+        for (let i=0; i<_containerNum; i++) {
             // Create sub-menu entity.
             const ContainerEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(ContainerEl);
@@ -188,11 +189,13 @@ const globalMenu = {
     },
 
     // Load the model thumbnail of the model i to be displayed in containers.
-    loadModelInstance(appendEl: any, buttonNum: number): void {
+    loadModelInstance(_appendEl: any, _buttonId: number): void {
         const modelInstanceEntity: any = document.createElement('a-entity');
-        appendEl.appendChild(modelInstanceEntity);
-
-        switch (buttonNum) {
+        _appendEl.appendChild(modelInstanceEntity);
+        const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
+        const instanceName: string = this.subMenu[subMenuName][_buttonId];
+        const instanceId: number = this.instanceNames.indexOf(instanceName);
+        switch (instanceId) {
             case 0: {
                 modelInstanceEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
                 
@@ -297,26 +300,35 @@ const globalMenu = {
 
     setSubMenuDescription(_buttonId: number): void {
         const thumbDescripEl: any = document.querySelector('#description_text');
-        thumbDescripEl.setAttribute('text', 'value', this.subMenuNames[_buttonId]);
+        const subMenuName: string = Object.keys(this.subMenu)[_buttonId];
+        thumbDescripEl.setAttribute('text', 'value', subMenuName);
     },
     
     // Set the selected button id.
-    setSelectedButtonId: function(_id: number): void {
+    setSelectedButtonId: function(_buttonId: number): void {
+        // Check if selected button id is out of range.
+        const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
+        if (_buttonId >= this.subMenu[subMenuName].length) {
+            return;
+        }
+
         if (this.data.selectedButtonId) {
             const lastSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
-            this.data.selectedButtonId = _id;
+            this.data.selectedButtonId = _buttonId;
             lastSelectedButton.emit('raycaster-intersected-cleared');
         }
         else
-            this.data.selectedButtonId = _id;
+            this.data.selectedButtonId = _buttonId;
         
         // Add responsive color to the button.
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
         currentSelectedButton.setAttribute('material', 'color', '#22a7f0');
 
         // Pass the id for left hand to create the corresponding object.
+        const instanceName: string = this.subMenu[subMenuName][_buttonId];
+        const instanceId: number = this.instanceNames.indexOf(instanceName);
         const leftHand: any = document.querySelector('#leftHandInfo');
-        leftHand.setAttribute('left-trigger-listener', 'targetModel', _id);
+        leftHand.setAttribute('left-trigger-listener', 'targetModel', instanceId);
     },
 
     // Set current color for reference.

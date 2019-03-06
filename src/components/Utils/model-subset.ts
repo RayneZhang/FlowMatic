@@ -61,9 +61,11 @@ const modelSubset = {
             // Set raycasted for handling hue down event.
             this.data.raycasted = false;
             const leftHandInfo: any = document.querySelector("#leftHandInfo");
+            const globalMenuComponent = leftHandInfo.components['global-menu'];
             const selectedButtonId: number = leftHandInfo.getAttribute('global-menu').selectedButtonId;
             if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) {
-                this.el.setAttribute('material', 'color', '#22313f'); 
+                this.el.setAttribute('material', 'color', '#22313f');
+                globalMenuComponent.setInstanceDescription(selectedButtonId);
             }
         })
     },

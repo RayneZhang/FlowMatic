@@ -7,9 +7,11 @@ const globalMenu = {
 
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
-        this.subMenuNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
-        // The corresponding model thumbnails in the buttons.
-        this.modelThumbnails = ['random color', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector', 'plus operator', 'subtract operator'];
+        this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
+        // The corresponding instances in the buttons.
+        this.instanceNames = ['random color', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector', 'plus operator', 'subtract operator'];
+        // The corresponding submenus in the buttons.
+        this.subMenuNames = ['Data', 'Operators', 'Assets'];
 
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
@@ -18,9 +20,9 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubEntity();
-        this.initThumbnailDescription();
+        this.initInstanceDescription();
         this.initTextLabel();
-        this.loadContainerAndThumbnail(this.modelThumbnails.length);
+        this.loadContainerAndInstance(this.instanceNames.length);
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -55,18 +57,18 @@ const globalMenu = {
     // Create sub entities based on the modelGroup, setting geometry and material. 
     createSubEntity(): void {
         const modelGroup = document.querySelector('#modelGroup');
-        for (const subMenuName of this.subMenuNames) {
+        for (const subEntityName of this.subEntitiesNames) {
             // Create sub-menu entity.
             const subMenuEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(subMenuEl);
-            subMenuEl.setAttribute('id', subMenuName);
+            subMenuEl.setAttribute('id', subEntityName);
             subMenuEl.setAttribute('class', 'ui');
             subMenuEl.setAttribute('model-subset', {
                 target: modelGroup,
-                name: subMenuName
+                name: subEntityName
             });
             // Set a different material component for currentcolor.
-            if (subMenuName == "currentcolor") {
+            if (subEntityName == "currentcolor") {
                 subMenuEl.setAttribute('material', {
                     color: '#ffffff',
                     flatShading: true,
@@ -74,7 +76,7 @@ const globalMenu = {
                     transparent: false
                 });
             }
-            else if (subMenuName == 'hue' || subMenuName == 'huecursor') {
+            else if (subEntityName == 'hue' || subEntityName == 'huecursor') {
                 subMenuEl.setAttribute('material', {
                     color: '#ffffff',
                     flatShading: true,
@@ -96,7 +98,7 @@ const globalMenu = {
     },
 
     // Load description of thumbnails panel.
-    initThumbnailDescription(): void {
+    initInstanceDescription(): void {
         // Create thumbnail description entity.
         const descripText: any = document.createElement('a-entity');
         const descripEl: any = document.querySelector("#description");
@@ -116,7 +118,7 @@ const globalMenu = {
         descripText.object3D.position.set(-0.1, 0, -0.055);
 
         // Set the value of the description.
-        this.setThumbnailDescription(this.data.selectedButtonId);
+        this.setInstanceDescription(this.data.selectedButtonId);
     },
 
     // Load description of undo/redo button.
@@ -150,7 +152,7 @@ const globalMenu = {
     },
 
     // Load the thumbnails of the buttons to chose from.
-    loadContainerAndThumbnail(buttonNum: number): void {
+    loadContainerAndInstance(buttonNum: number): void {
         const xOffset: number = 0.03;
         const yOffset: number = 0;
         const zOffset: number = 0.03;
@@ -177,27 +179,27 @@ const globalMenu = {
             });
 
             ContainerEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
-            this.loadModelThumbnail(ContainerEl, i);
+            this.loadModelInstance(ContainerEl, i);
         }
 
         this.setSelectedButtonId(0);
     },
 
     // Load the model thumbnail of the model i to be displayed in containers.
-    loadModelThumbnail(appendEl: any, buttonNum: number): void {
-        const modelThumbnailEntity: any = document.createElement('a-entity');
-        appendEl.appendChild(modelThumbnailEntity);
+    loadModelInstance(appendEl: any, buttonNum: number): void {
+        const modelInstanceEntity: any = document.createElement('a-entity');
+        appendEl.appendChild(modelInstanceEntity);
 
         switch (buttonNum) {
             case 0: {
-                modelThumbnailEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
                 
-                modelThumbnailEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
-                modelThumbnailEntity.object3D.scale.set(0.05, 0.05, 0.05);
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                modelInstanceEntity.object3D.scale.set(0.05, 0.05, 0.05);
                 break;
             }
             case 1: {
-                modelThumbnailEntity.setAttribute('geometry', {
+                modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'box',
                     width: 0.015,
                     height: 0.015,
@@ -206,50 +208,50 @@ const globalMenu = {
                 break;
             }
             case 2: {
-                modelThumbnailEntity.setAttribute('geometry', {
+                modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'cone',
                     height: 0.015,
                     radiusBottom: 0.01,
                     radiusTop: 0.005
                 });
-                modelThumbnailEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+                modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
                 break;
             }
             case 3: {
-                modelThumbnailEntity.setAttribute('geometry', {
+                modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'sphere',
                     radius: 0.01
                 });
                 break;
             }
             case 4: {
-                modelThumbnailEntity.setAttribute('geometry', {
+                modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'cone',
                     height: 0.015,
                     radiusBottom: 0.01,
                     radiusTop: 0.005
                 });
-                modelThumbnailEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+                modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
                 break;
             }
             case 5: {
-                modelThumbnailEntity.setAttribute('geometry', {
+                modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'cone',
                     height: 0.015,
                     radiusBottom: 0.01,
                     radiusTop: 0.005
                 });
-                modelThumbnailEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
+                modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
                 break;
             }
             case 6: {
-                // modelThumbnailEntity.setAttribute('obj-model', 'obj', '#arrow-obj');
-                // modelThumbnailEntity.object3D.scale.set(0.0005, 0.0005, 0.0005);
+                // modelInstanceEntity.setAttribute('obj-model', 'obj', '#arrow-obj');
+                // modelInstanceEntity.object3D.scale.set(0.0005, 0.0005, 0.0005);
                 // break;
             }
         }
         
-        modelThumbnailEntity.setAttribute('material', {
+        modelInstanceEntity.setAttribute('material', {
             color: '#87ceeb',
             transparent: true,
             fog: false,
@@ -277,13 +279,18 @@ const globalMenu = {
         return radius;
     },
 
+    // ==========Also for external call.==========
     // Set description of the panel.
-    setThumbnailDescription(_buttonId: number): void {
+    setInstanceDescription(_buttonId: number): void {
         const thumbDescripEl: any = document.querySelector('#description_text');
-        thumbDescripEl.setAttribute('text', 'value', this.modelThumbnails[_buttonId]);
+        thumbDescripEl.setAttribute('text', 'value', this.instanceNames[_buttonId]);
     },
 
-    // ==========Also for external call.==========
+    setSubMenuDescription(_buttonId: number): void {
+        const thumbDescripEl: any = document.querySelector('#description_text');
+        thumbDescripEl.setAttribute('text', 'value', this.subMenuNames[_buttonId]);
+    },
+    
     // Set the selected button id.
     setSelectedButtonId: function(_id: number): void {
         if (this.data.selectedButtonId) {
@@ -291,8 +298,10 @@ const globalMenu = {
             this.data.selectedButtonId = _id;
             lastSelectedButton.emit('raycaster-intersected-cleared');
         }
-
-        this.data.selectedButtonId = _id;
+        else
+            this.data.selectedButtonId = _id;
+        
+        // Add responsive color to the button.
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
         currentSelectedButton.setAttribute('material', 'color', '#22a7f0');
 

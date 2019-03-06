@@ -17,31 +17,58 @@ const modelSubset = {
             const subset = model.getObjectByName(this.data.name);
             this.el.setObject3D('mesh', subset.clone());
 
-            if (this.data.name === 'hue') {this.initColorWheel();}
-            if (this.data.name.indexOf("submenu") != -1) this.initSubmenu();
-            if (this.data.name.indexOf('button') != -1) this.el.classList.add('button');
+            // Handle color wheel initiation.
+            if (this.data.name === 'hue') 
+                this.initColorWheel();
+
+            // Handle submenu initiation.
+            if (this.data.name.indexOf('submenu') != -1) {
+                this.el.classList.add('submenu');
+                this.initSubmenuImg();
+            }
+
+            // Handle instance initiation.
+            if (this.data.name.indexOf('button') != -1) 
+                this.el.classList.add('instance');
         });
 
         // Handle material when hover. Objects including submenus & buttons.
         this.el.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
+            // Set raycasted for handling hue down event.
             this.data.raycasted = true;
-            if (NotReactUI.indexOf(this.data.name) === -1) 
+            if (NotReactUI.indexOf(this.data.name) === -1) {
+                // Set responsive color.
                 this.el.setAttribute('material', 'color', '#22a7f0'); 
+                // Set description value.
+                const EntityId = this.el.getAttribute('id');
+                const globalMenu: any = document.querySelector('[global-menu]');
+                const globalMenuComponent = globalMenu.components['global-menu'];
+                if (this.el.classList.contains('instance')) {
+                    const buttonId: number = Number(EntityId.substr(-1, 1)) - 1;
+                    globalMenuComponent.setInstanceDescription(buttonId);
+                }
+                if (this.el.classList.contains('submenu')) {
+                    const buttonId: number = Number(EntityId.substr(-1, 1)) - 1;
+                    globalMenuComponent.setSubMenuDescription(buttonId);
+                }
+            }
         })
 
         // Handle material when hover cleared.
         this.el.addEventListener('raycaster-intersected-cleared', (event) => {
             event.stopPropagation();
+            // Set raycasted for handling hue down event.
             this.data.raycasted = false;
             const leftHandInfo: any = document.querySelector("#leftHandInfo");
             const selectedButtonId: number = leftHandInfo.getAttribute('global-menu').selectedButtonId;
-            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) 
+            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) {
                 this.el.setAttribute('material', 'color', '#22313f'); 
+            }
         })
     },
 
-    initSubmenu(): void {
+    initSubmenuImg(): void {
         const imgEl: any = document.createElement('a-image');
         imgEl.setAttribute('height', 0.012);
         imgEl.setAttribute('width', 0.012);

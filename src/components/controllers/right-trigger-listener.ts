@@ -47,7 +47,7 @@ const rightTriggerListener = {
             if (intersectedEl.classList.contains('ui')) {
                 const id = intersectedEl.getAttribute('id');
 
-                if (intersectedEl.classList.contains('button')) {
+                if (intersectedEl.classList.contains('instance')) {
                     const globalMenu: any = document.querySelector('[global-menu]');
                     const globalMenuComponent = globalMenu.components['global-menu'];
                     const buttonId: number = Number(id.substr(-1, 1)) - 1;

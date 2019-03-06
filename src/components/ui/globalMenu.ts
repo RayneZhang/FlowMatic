@@ -2,6 +2,7 @@ declare const THREE:any;
 
 const globalMenu = {
     schema: {
+        selectedSubMenuId: {type: 'number', default: 1},
         selectedButtonId: {type: 'number', default: 0}
     },
 
@@ -11,7 +12,8 @@ const globalMenu = {
         // The corresponding instances in the buttons.
         this.instanceNames = ['Random Color', 'Box', 'Color Operator', 'Sphere', 'Acceleration', 'Velocity', 'Vector', 'Plus', 'Subtract'];
         // The corresponding submenus in the buttons.
-        this.subMenuNames = ['Data', 'Operators', 'Assets'];
+        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Color Operator', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector']};
+        
 
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
@@ -20,9 +22,9 @@ const globalMenu = {
 
         this.loadModelGroup();
         this.createSubEntity();
-        this.initInstanceDescription();
         this.initTextLabel();
-        this.loadContainerAndInstance(this.instanceNames.length);
+        this.initInstanceDescription();
+        // this.loadContainerAndInstance(this.instanceNames.length);
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -97,30 +99,6 @@ const globalMenu = {
         }
     },
 
-    // Load description of thumbnails panel.
-    initInstanceDescription(): void {
-        // Create thumbnail description entity.
-        const descripText: any = document.createElement('a-entity');
-        const descripEl: any = document.querySelector("#description");
-        descripEl.appendChild(descripText);
-        descripText.setAttribute('id', "description_text");
-
-        // Initiate tht panel content.
-        descripText.setAttribute('text', {
-            value: '',
-            wrapCount: 200,
-            align: 'center'
-        });
-
-        // Set the description rotation.
-        descripText.object3D.rotation.x += THREE.Math.degToRad(-90);
-        // Set the description position.
-        descripText.object3D.position.set(-0.1, 0, -0.055);
-
-        // Set the value of the description.
-        this.setInstanceDescription(this.data.selectedButtonId);
-    },
-
     // Load description of undo/redo button.
     initTextLabel(): void {
         const undoLabel: any = document.createElement('a-entity');
@@ -149,6 +127,30 @@ const globalMenu = {
         // Set the description position.
         undoLabel.object3D.position.set(-0.145, 0, 0.06);
         redoLabel.object3D.position.set(-0.1, 0, 0.06);
+    },
+
+    // Load description of thumbnails panel.
+    initInstanceDescription(): void {
+        // Create thumbnail description entity.
+        const descripText: any = document.createElement('a-entity');
+        const descripEl: any = document.querySelector("#description");
+        descripEl.appendChild(descripText);
+        descripText.setAttribute('id', "description_text");
+
+        // Initiate tht panel content.
+        descripText.setAttribute('text', {
+            value: '',
+            wrapCount: 200,
+            align: 'center'
+        });
+
+        // Set the description rotation.
+        descripText.object3D.rotation.x += THREE.Math.degToRad(-90);
+        // Set the description position.
+        descripText.object3D.position.set(-0.1, 0, -0.055);
+
+        // Set the value of the description.
+        this.setInstanceDescription(this.data.selectedSubMenuId, this.data.selectedButtonId);
     },
 
     // Load the thumbnails of the buttons to chose from.
@@ -283,7 +285,14 @@ const globalMenu = {
     // Set description of the panel.
     setInstanceDescription(_buttonId: number): void {
         const thumbDescripEl: any = document.querySelector('#description_text');
-        thumbDescripEl.setAttribute('text', 'value', this.instanceNames[_buttonId]);
+        const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
+        const instanceName: string = this.subMenu[subMenuName][_buttonId];
+        if (!instanceName) {
+            // console.log('The selected button is out of range. buttonId: ' + _buttonId);
+            return;
+        }
+        else
+            thumbDescripEl.setAttribute('text', 'value', instanceName);
     },
 
     setSubMenuDescription(_buttonId: number): void {

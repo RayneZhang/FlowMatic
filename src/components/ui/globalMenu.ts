@@ -150,7 +150,7 @@ const globalMenu = {
         descripText.object3D.position.set(-0.1, 0, -0.055);
 
         // Set the value of the description.
-        this.setInstanceDescription(this.data.selectedSubMenuId, this.data.selectedButtonId);
+        this.setInstanceDescription(this.data.selectedButtonId);
     },
 
     // Load the thumbnails of the buttons to chose from.

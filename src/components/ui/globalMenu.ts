@@ -7,7 +7,7 @@ const globalMenu = {
 
     init: function(): void {
         // The sub-menu elements' names in the 3D obj.
-        this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'menu', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
+        this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
         // The corresponding instances in the buttons.
         this.instanceNames = ['random color', 'box', 'color filter', 'sphere', 'acceleration filter', 'velocity filter', 'vector', 'plus operator', 'subtract operator'];
         // The corresponding submenus in the buttons.

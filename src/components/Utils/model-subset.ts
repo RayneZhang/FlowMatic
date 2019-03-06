@@ -78,17 +78,17 @@ const modelSubset = {
         switch (this.data.name) {
             case "submenu1" : {
                 imgEl.setAttribute('src', '#source_icon');
-                imgEl.object3D.position.set(-0.155, 0.001, -0.055);
+                imgEl.object3D.position.set(-0.16, 0.001, -0.055);
                 break;
             }
             case "submenu2" : {
                 imgEl.setAttribute('src', '#operator_icon');
-                imgEl.object3D.position.set(-0.155, 0.001, -0.035);
+                imgEl.object3D.position.set(-0.16, 0.001, -0.035);
                 break;
             }
             case "submenu3" : {
                 imgEl.setAttribute('src', '#cube_icon');
-                imgEl.object3D.position.set(-0.155, 0.001, -0.015);
+                imgEl.object3D.position.set(-0.16, 0.001, -0.015);
                 break;
             }
         }

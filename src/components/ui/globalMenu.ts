@@ -2,7 +2,7 @@ declare const THREE:any;
 
 const globalMenu = {
     schema: {
-        selectedSubMenuId: {type: 'number', default: 1},
+        selectedSubMenuId: {type: 'number', default: 0},
         selectedButtonId: {type: 'number', default: 0}
     },
 
@@ -24,7 +24,7 @@ const globalMenu = {
         this.createSubEntity();
         this.initTextLabel();
         this.initInstanceDescription();
-        this.reloadContainerAndInstance();
+        this.setSelectedSubMenuId(0);
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -316,13 +316,13 @@ const globalMenu = {
             return;
         }
 
-        if (this.data.selectedButtonId) {
+        if (this.data.selectedButtonId >= 0) {
+            // Manually raycaster intersected cleared.
             const lastSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
-            this.data.selectedButtonId = _buttonId;
-            lastSelectedButton.emit('raycaster-intersected-cleared');
+            lastSelectedButton.setAttribute('material', 'color', '#22313f');
         }
-        else
-            this.data.selectedButtonId = _buttonId;
+        this.data.selectedButtonId = _buttonId;
+        this.setInstanceDescription(_buttonId);
         
         // Add responsive color to the button.
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
@@ -337,16 +337,16 @@ const globalMenu = {
 
     // Set the selected subMenu id.
     setSelectedSubMenuId: function(_buttonId: number): void {
-        if (this.data.selectedSubMenuId) {
-            const lastSelectedSubMenu: any = document.querySelector('#submenu' + String(this.data.selectedButtonId+1));
-            this.data.selectedSubMenuId = _buttonId;
-            lastSelectedSubMenu.emit('raycaster-intersected-cleared');
+        if (this.data.selectedSubMenuId >= 0) {
+            // Manually raycaster intersected cleared.
+            const lastSelectedSubMenu: any = document.querySelector('#submenu' + String(this.data.selectedSubMenuId+1));
+            lastSelectedSubMenu.setAttribute('material', 'color', '#22313f');
         }
-        else
-            this.data.selectedSubMenuId = _buttonId;
+        this.data.selectedSubMenuId = _buttonId;
+        this.setInstanceDescription(_buttonId);
 
         // Add responsive color to the button.
-        const currentSelectedSubMenu: any = document.querySelector('#submenu' + String(this.data.selectedButtonId+1));
+        const currentSelectedSubMenu: any = document.querySelector('#submenu' + String(this.data.selectedSubMenuId+1));
         currentSelectedSubMenu.setAttribute('material', 'color', '#22a7f0');
 
         // Reload containers and instances.

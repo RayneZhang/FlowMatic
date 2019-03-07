@@ -53,6 +53,12 @@ const rightTriggerListener = {
                     const buttonId: number = Number(id.substr(-1, 1)) - 1;
                     globalMenuComponent.setSelectedButtonId(buttonId);
                 }
+                if (intersectedEl.classList.contains('submenu')) {
+                    const globalMenu: any = document.querySelector('[global-menu]');
+                    const globalMenuComponent = globalMenu.components['global-menu'];
+                    const buttonId: number = Number(id.substr(-1, 1)) - 1;
+                    globalMenuComponent.setSelectedSubMenuId(buttonId);
+                }
 
                 if (intersectedEl.classList.contains('slider')) {
                     // Set current position as lastPosition.

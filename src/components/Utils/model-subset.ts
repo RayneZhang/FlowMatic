@@ -63,7 +63,10 @@ const modelSubset = {
             const leftHandInfo: any = document.querySelector("#leftHandInfo");
             const globalMenuComponent = leftHandInfo.components['global-menu'];
             const selectedButtonId: number = leftHandInfo.getAttribute('global-menu').selectedButtonId;
-            if (NotReactUI.indexOf(this.data.name) === -1 && this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) {
+            const selectedSubMenuId: number = leftHandInfo.getAttribute('global-menu').selectedSubMenuId;
+            if (NotReactUI.indexOf(this.data.name) === -1 && 
+            this.el.getAttribute('id') != 'button' + String(selectedButtonId+1) &&
+            this.el.getAttribute('id') != 'submenu' + String(selectedSubMenuId+1)) {
                 this.el.setAttribute('material', 'color', '#22313f');
                 globalMenuComponent.setInstanceDescription(selectedButtonId);
             }

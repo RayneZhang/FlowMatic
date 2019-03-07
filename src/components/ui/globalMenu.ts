@@ -24,8 +24,7 @@ const globalMenu = {
         this.createSubEntity();
         this.initTextLabel();
         this.initInstanceDescription();
-        const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
-        this.loadContainerAndInstance(this.subMenu[subMenuName].length);
+        this.reloadContainerAndInstance();
 
         menuEntity.setAttribute('position', '0 0 -0.15');
         // Set the visibility of the menu entity as false at the beginning.
@@ -156,23 +155,28 @@ const globalMenu = {
 
     // Load the thumbnails of the buttons to chose from.
     loadContainerAndInstance(_containerNum: number): void {
+        // Put all containers and instances under one entity for the sake of deleting and regenerating.
+        const containersEl: any = document.createElement('a-entity');
+        this.menuEl.appendChild(containersEl);
+        containersEl.setAttribute('id', "containers");
+
         const xOffset: number = 0.03;
         const yOffset: number = 0;
         const zOffset: number = 0.03;
         for (let i=0; i<_containerNum; i++) {
             // Create sub-menu entity.
-            const ContainerEl: any = document.createElement('a-entity');
-            this.menuEl.appendChild(ContainerEl);
-            ContainerEl.setAttribute('id', "container"+i.toString());
+            const childContainerEl: any = document.createElement('a-entity');
+            containersEl.appendChild(childContainerEl);
+            childContainerEl.setAttribute('id', "container"+i.toString());
 
             // Add geometry component to the entity.
-            ContainerEl.setAttribute('geometry', {
+            childContainerEl.setAttribute('geometry', {
                 primitive: 'sphere',
                 radius: 0.015
             }); 
 
             // Add the s2ame material component of the sub-menu entity.
-            ContainerEl.setAttribute('material', {
+            childContainerEl.setAttribute('material', {
                 color: '#FFFFFF',
                 flatShading: true,
                 shader: 'flat',
@@ -181,8 +185,8 @@ const globalMenu = {
                 fog: false
             });
 
-            ContainerEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
-            this.loadModelInstance(ContainerEl, i);
+            childContainerEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
+            this.loadModelInstance(childContainerEl, i);
         }
 
         this.setSelectedButtonId(0);
@@ -331,10 +335,40 @@ const globalMenu = {
         leftHand.setAttribute('left-trigger-listener', 'targetModel', instanceId);
     },
 
+    // Set the selected subMenu id.
+    setSelectedSubMenuId: function(_buttonId: number): void {
+        if (this.data.selectedSubMenuId) {
+            const lastSelectedSubMenu: any = document.querySelector('#submenu' + String(this.data.selectedButtonId+1));
+            this.data.selectedSubMenuId = _buttonId;
+            lastSelectedSubMenu.emit('raycaster-intersected-cleared');
+        }
+        else
+            this.data.selectedSubMenuId = _buttonId;
+
+        // Add responsive color to the button.
+        const currentSelectedSubMenu: any = document.querySelector('#submenu' + String(this.data.selectedButtonId+1));
+        currentSelectedSubMenu.setAttribute('material', 'color', '#22a7f0');
+
+        // Reload containers and instances.
+        this.reloadContainerAndInstance();
+    },
+
     // Set current color for reference.
     setCurrentColor(_color: string): void {
         const currentColor: any = document.querySelector('#currentcolor');
         currentColor.setAttribute('material', 'color', _color);
+    },
+
+    // Reload the buttons.
+    reloadContainerAndInstance(): void {
+        // Remove previous containers and instances.
+        const containersEl: any = document.querySelector('#containers');
+        if (containersEl)
+            containersEl.parentNode.removeChild(containersEl);
+
+        // Load the containers and instances again.
+        const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
+        this.loadContainerAndInstance(this.subMenu[subMenuName].length);
     }
 }
 

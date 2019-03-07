@@ -38,6 +38,8 @@
                 <a-asset-item id="bottle-thumbnail" src="assets/models/Thumbnails/bottle_thumbnail.obj"></a-asset-item>
                 <a-asset-item id="stage-obj" src="assets/models/Stage01/stage.obj"></a-asset-item>
                 <a-asset-item id="stage-mtl" src="assets/models/Stage01/stage.mtl"></a-asset-item>
+                <a-asset-item id="speaker-obj" src="assets/models/speakers/speaker1/speaker.obj"></a-asset-item>
+                <a-asset-item id="speaker-mtl" src="assets/models/speakers/speaker1/speaker.mtl"></a-asset-item>
             </a-assets>
 
             <a-entity id="cameraRig">
@@ -101,6 +103,7 @@
             <a-entity id="lines" draw-line></a-entity>
             <a-entity id="redux" state-binding></a-entity>
             <!-- <a-entity id='MeshLine' meshline></a-entity> -->
+            <a-entity id='speaker' class='movable' obj-model="obj: #speaker-obj; mtl: #speaker-mtl" scale="0.01 0.01 0.01" shadow>
         </a-scene>
     </body>
 </html>

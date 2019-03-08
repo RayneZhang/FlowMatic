@@ -78,7 +78,7 @@ const filterDescription = {
         InputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'input');
         OutputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'output');
 
-        this.el.setAttribute('obj-model', 'obj:#shell-obj');
+        this.el.setAttribute('obj-model', 'obj:#shell-obj; mtl:#shell-mtl');
         SliderEl.setAttribute('obj-model', 'obj:#slider-obj');
         InputEl.setAttribute('obj-model', 'obj:#input-obj');
         OutputEl.setAttribute('obj-model', 'obj:#output-obj');

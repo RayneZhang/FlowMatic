@@ -10,21 +10,9 @@ const filterDescription = {
     },
 
     init: function(): void {
-        const offset = new THREE.Vector3(0, 0.15, 0);
-        this.createPrompt(this.data.filterName, 'blue', offset.clone());
+        const offset = new THREE.Vector3(0, 0.03, 0.02);
+        this.createPrompt(this.data.filterName, '#00e640', offset.clone());
         this.createOperatorModel();
-
-        this.el.addEventListener('raycaster-intersected', (event) => {
-            const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-            promptEntity.object3D.visible = true;
-        });
-
-        this.el.addEventListener('raycaster-intersected-cleared', (event) => {
-            if(!this.data.freeze) {
-                const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-                promptEntity.object3D.visible = false;
-            }
-        });
     },
 
     tick: function(time, timeDelta): void {
@@ -40,8 +28,8 @@ const filterDescription = {
 
         promptEntity.setAttribute('geometry', {
             primitive: 'plane', 
-            width: 0.1,
-            height: 0.06
+            width: 0.065,
+            height: 0.03
         });
 
         // Initiate the panel color.

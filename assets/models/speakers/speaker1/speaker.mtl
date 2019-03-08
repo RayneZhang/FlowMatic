@@ -1,4 +1,4 @@
-# Blender MTL File: 'speaker.blend'
+# Blender MTL File: 'None'
 # Material Count: 2
 
 newmtl Material__46
@@ -21,4 +21,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures\\Speaker_Abledo.png
+map_Kd textures\\Speaker_Texture.png

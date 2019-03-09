@@ -15,7 +15,7 @@ const objAttrList = {
         const ListEntity: any = document.createElement('a-entity'); 
 
         // layout offset of the attributes.
-        let offset: number = 0.4;
+        let offset: number = 0.35;
         let currentY: number = 0;
          
         // Create list of attributes elements.
@@ -33,8 +33,10 @@ const objAttrList = {
 
             // Initiate the panel color.
             curEntity.setAttribute('material', {
-                color: 'grey',
-                side: 'double'
+                color: 'white',
+                side: 'double',
+                transparent: true,
+                opacity: 0.5
             });
 
             // Initiate tht panel content.
@@ -58,10 +60,10 @@ const objAttrList = {
         // We can only access the mesh after it is loaded.
         this.el.addEventListener('loaded', (event) => {
             // Set position of the listEntity.
-            const height: number = this.calHeight(this.el);
+            const width: number = this.calWidth(this.el);
             this.el.appendChild(ListEntity);
-            ListEntity.object3D.scale.set(height, height, height);
-            ListEntity.object3D.position.set(0, height/2 + offset*height, 0);
+            ListEntity.object3D.scale.set(width, width, width);
+            ListEntity.object3D.position.set(width/2 + 0.5*width, 0, 0);
             ListEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
         });
 
@@ -117,8 +119,8 @@ const objAttrList = {
         });
     },
 
-    // Calculate the height of the object.
-    calHeight(obj): number {
+    // Calculate the width of the object.
+    calWidth(obj): number {
         const mesh = obj.getObject3D('mesh');
         if (!mesh) {
             return 0;
@@ -126,10 +128,10 @@ const objAttrList = {
 
         const box = new THREE.Box3().setFromObject(mesh);
         const size = box.getSize();
-        const height = size.y;
+        const width = size.x;
         
-        return height;
-    }  
+        return width;
+    }
 }
 
 export default objAttrList;

@@ -18,8 +18,6 @@
             <a-assets>
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
                 <img id="uihover" src="assets/images/ui-hover.png" crossorigin="anonymous">
-                <img id="uipressed" src="assets/images/ui-pressed.png" crossorigin="anonymous">
-                <img id="brush" src="assets/images/line_gradient.png" crossorigin="anonymous">
                 <img id="source_icon" src="assets/images/source.png" crossorigin="anonymous">
                 <img id="cube_icon" src="assets/images/cube.png" crossorigin="anonymous">
                 <img id="operator_icon" src="assets/images/operator.png" crossorigin="anonymous">
@@ -39,12 +37,19 @@
                 <a-asset-item id="bottle-thumbnail" src="assets/models/Thumbnails/bottle_thumbnail.obj"></a-asset-item>
                 <a-asset-item id="stage-obj" src="assets/models/Stage01/stage.obj"></a-asset-item>
                 <a-asset-item id="stage-mtl" src="assets/models/Stage01/stage.mtl"></a-asset-item>
+
                 <a-asset-item id="speaker-shell-obj" src="assets/models/speakers/speaker1/speaker_shell.obj"></a-asset-item>
                 <a-asset-item id="speaker-plane-obj" src="assets/models/speakers/speaker1/speaker_plane.obj"></a-asset-item>
                 <img id="speaker-abledo" src="assets/models/speakers/speaker1/textures/Speaker_Abledo.png">
                 <img id="speaker-normal" src="assets/models/speakers/speaker1/textures/Speaker_Normals.png">
                 <img id="grille-abledo" src="assets/models/speakers/speaker1/textures/Grille_Abledo.png">
                 <img id="grille-normal" src="assets/models/speakers/speaker1/textures/Grille_Normals.png">
+
+                <a-asset-item id="light-01-obj" src="assets/models/lights/01_stage_light/stage_light.obj"></a-asset-item>
+                <img id="light-01-abledo" src="assets/models/lights/01_stage_light/Textures/stage_light_tx_Base_Color.jpg">
+                <img id="light-01-normal" src="assets/models/lights/01_stage_light/Textures/stage_light_tx_Normal_DirectX.jpg">
+                <img id="light-01-emissive" src="assets/models/lights/01_stage_light/Textures/stage_light_tx_Emissive.jpg">
+
             </a-assets>
 
             <a-entity id="cameraRig">
@@ -109,10 +114,12 @@
             <a-entity id="lines" draw-line></a-entity>
             <a-entity id="redux" state-binding></a-entity>
             <!-- <a-entity id='MeshLine' meshline></a-entity> -->
-            <a-entity id='speaker' class='movable'>
+            <a-entity id='speaker' position="-2 0 0" class='movable'>
                 <a-entity obj-model="obj: #speaker-shell-obj" material="src: #speaker-abledo; normalMap: #speaker-normal" shadow></a-entity>
                 <a-entity obj-model="obj: #speaker-plane-obj" material="repeat: 1 1; src: #grille-abledo; normalMap: #grille-normal" shadow></a-entity>
             </a-entity>
+
+            <a-entity id='light' class='movable' obj-model='obj: #light-01-obj' material='src: #light-01-abledo; normalMap: #light-01-normal;'>
         </a-scene>
     </body>
 </html>

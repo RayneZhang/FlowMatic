@@ -39,12 +39,12 @@
                 <a-asset-item id="bottle-thumbnail" src="assets/models/Thumbnails/bottle_thumbnail.obj"></a-asset-item>
                 <a-asset-item id="stage-obj" src="assets/models/Stage01/stage.obj"></a-asset-item>
                 <a-asset-item id="stage-mtl" src="assets/models/Stage01/stage.mtl"></a-asset-item>
-                <a-asset-item id="speaker-obj" src="assets/models/speakers/speaker1/speaker.obj"></a-asset-item>
-                <a-asset-item id="speaker-mtl" src="assets/models/speakers/speaker1/speaker.mtl"></a-asset-item>
-                <img id="speaker-abledo" src="assets/models/speakers/speaker1/textures/Speaker_Abledo.png"></a-asset-item>
-                <img id="speaker-normal" src="assets/models/speakers/speaker1/textures/Speaker_Normals.png"></a-asset-item>
-                <img id="speaker-gloss" src="assets/models/speakers/speaker1/textures/Speaker_Gloss.png"></a-asset-item>
-                <img id="speaker-texture" src="assets/models/speakers/speaker1/textures/Speaker_Texture.png"></a-asset-item>
+                <a-asset-item id="speaker-shell-obj" src="assets/models/speakers/speaker1/speaker_shell.obj"></a-asset-item>
+                <a-asset-item id="speaker-plane-obj" src="assets/models/speakers/speaker1/speaker_plane.obj"></a-asset-item>
+                <img id="speaker-abledo" src="assets/models/speakers/speaker1/textures/Speaker_Abledo.png">
+                <img id="speaker-normal" src="assets/models/speakers/speaker1/textures/Speaker_Normals.png">
+                <img id="grille-abledo" src="assets/models/speakers/speaker1/textures/Grille_Abledo.png">
+                <img id="grille-normal" src="assets/models/speakers/speaker1/textures/Grille_Normals.png">
             </a-assets>
 
             <a-entity id="cameraRig">
@@ -109,7 +109,10 @@
             <a-entity id="lines" draw-line></a-entity>
             <a-entity id="redux" state-binding></a-entity>
             <!-- <a-entity id='MeshLine' meshline></a-entity> -->
-            <a-entity id='speaker' class='movable' obj-model="obj: #speaker-obj" material="src: #speaker-texture; normalMap: #speaker-normal" shadow></a-entity>
+            <a-entity id='speaker' class='movable'>
+                <a-entity obj-model="obj: #speaker-shell-obj" material="src: #speaker-abledo; normalMap: #speaker-normal" shadow></a-entity>
+                <a-entity obj-model="obj: #speaker-plane-obj" material="repeat: 1 1; src: #grille-abledo; normalMap: #grille-normal" shadow></a-entity>
+            </a-entity>
         </a-scene>
     </body>
 </html>

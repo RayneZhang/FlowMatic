@@ -7,12 +7,13 @@ const globalMenu = {
     },
 
     init: function(): void {
+        this.containerRadius = 0.015;
         // The sub-menu elements' names in the 3D obj.
         this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
         // The corresponding instances in the buttons.
-        this.instanceNames = ['Random Color', 'Box', 'Darkness', 'Sphere', 'Acceleration', 'Velocity', 'Vector', 'Plus', 'Subtract'];
+        this.instanceNames = ['Random Color', 'Box', 'Darkness', 'Sphere', 'Acceleration', 'Velocity', 'Vector', 'Plus', 'Subtract', 'light'];
         // The corresponding submenus in the buttons.
-        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector']};
+        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector', 'light']};
         
 
         // Create a menu entity and append it to the controller.
@@ -172,7 +173,7 @@ const globalMenu = {
             // Add geometry component to the entity.
             childContainerEl.setAttribute('geometry', {
                 primitive: 'sphere',
-                radius: 0.015
+                radius: this.containerRadius
             }); 
 
             // Add the s2ame material component of the sub-menu entity.

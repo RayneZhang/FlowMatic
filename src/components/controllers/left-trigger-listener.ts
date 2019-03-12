@@ -6,7 +6,7 @@ declare const THREE:any;
 const leftTriggerListener = {
     schema: {
         triggering: {type: 'boolean', default: false},
-        targetModel: {type: 'number', default: 0},
+        targetModel: {type: 'string', default: ''},
         color: {type: 'string', default: ''}
     },
 

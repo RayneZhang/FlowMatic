@@ -31,16 +31,15 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         if (presentObjects.length > this.data.objects.length) {
             const addedObj = presentObjects[presentObjects.length - 1];
             const id = addedObj.id;
-            const buttonId = addedObj.targetModel;
+            const targetModelName: string = addedObj.targetModel;
             const position = addedObj.position;
             const color = addedObj.color;
 
              // Create an entity and append it to the scene.
              let newEntity: any = document.createElement('a-entity');
              this.el.appendChild(newEntity);
-             
-             switch (buttonId) {
-                 case 0: {
+             switch (targetModelName) {
+                 case 'Random Color': {
                      newEntity.setAttribute('id', 'bottle' + id);
                      newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                      newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
@@ -50,7 +49,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 1: default: {
+                 case 'Box': default: {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
                          primitive: 'box',
@@ -68,7 +67,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 2: {
+                 case 'Darkness': {
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'color-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
@@ -77,7 +76,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 3: {
+                 case 'Sphere': {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
                          primitive: 'sphere',
@@ -93,7 +92,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 4: { 
+                 case 'Acceleration': { 
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
@@ -102,7 +101,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 5: {
+                 case 'Velocity': {
                      // Attach components to the filter.
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
@@ -111,7 +110,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 6: {
+                 case 'Vector': {
                     // Set entity id.
                     newEntity.setAttribute('id', 'vector' + id);
                     newEntity.setAttribute('vector', 'seqId', id);
@@ -119,7 +118,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 7: {
+                 case 'Plus': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'plus-operator' + id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
@@ -127,11 +126,23 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 8: {
+                 case 'Subtract': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'subtract-operator' + id);
                     newEntity.setAttribute('subtract', 'targetEntities', []);
                     newEntity.setAttribute('filter-description', 'filterName', 'subtract');
+                    this.id++;
+                    break;
+                 }
+                 case 'Light': {
+                    newEntity.setAttribute('obj-model', 'obj', '#light-01-obj');
+                    newEntity.setAttribute('material', 'src', '#light-01-abledo');
+                    newEntity.setAttribute('material', 'normalMap', '#light-01-normal');
+
+                    newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('data-receiver', 'targetEntities', []);
+                    newEntity.setAttribute('data-receiver', 'dataValue', color);
+                    newEntity.setAttribute('obj-attributes-list', 'freeze', false);
                     this.id++;
                     break;
                  }
@@ -145,45 +156,49 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         // When deleting an object from the scene...
         else if (presentObjects.length < this.data.objects.length) {
             const deletedObj = this.data.objects[this.data.objects.length - 1];
-            const objectNum = deletedObj.targetModel;
+            const targetModelName: string = deletedObj.targetModel;
             const createdId = deletedObj.id;
             let id = '';
 
-            switch (objectNum) {
-                case 0: {
+            switch (targetModelName) {
+                case 'Random Color': {
                     id = '#bottle' + createdId;
                     break;
                 }
-                case 1: default: {
+                case 'Box': default: {
                     id = '#box' + createdId;
                     break;
                 }
-                case 2: {
+                case 'Darkness': {
                     id = '#color-filter' + createdId;
                     break;
                 }
-                case 3: {   
+                case 'Sphere': {   
                     id = '#sphere' + createdId;
                     break;
                 }
-                case 4: {
+                case 'Acceleration': {
                     id = '#position-filter' + createdId;
                     break;
                 }
-                case 5: {
+                case 'Velocity': {
                     id = '#position-filter' + createdId;
                     break;
                 }
-                case 6: {
+                case 'Vector': {
                     id = '#vector' + createdId;
                     break;
                 }
-                case 7: {
+                case 'Plus': {
                     id = '#plus-operator' + createdId;
                     break;
                 }
-                case 8: {
+                case 'Subtract': {
                     id = '#subtract-operator' + createdId;
+                    break;
+                }
+                case 'Light': {
+                    id = '#' + targetModelName + createdId;
                     break;
                 }
             }

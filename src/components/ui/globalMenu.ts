@@ -11,9 +11,9 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'submenu1', 'submenu2', 'submenu3', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
         // The corresponding instances in the buttons.
-        this.instanceNames = ['Random Color', 'Box', 'Darkness', 'Sphere', 'Acceleration', 'Velocity', 'Vector', 'Plus', 'Subtract', 'light'];
+        this.instanceNames = ['Random Color', 'Box', 'Darkness', 'Sphere', 'Acceleration', 'Velocity', 'Vector', 'Plus', 'Subtract', 'Light'];
         // The corresponding submenus in the buttons.
-        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector', 'light']};
+        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector', 'Light']};
         
 
         // Create a menu entity and append it to the controller.
@@ -199,16 +199,15 @@ const globalMenu = {
         _appendEl.appendChild(modelInstanceEntity);
         const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
         const instanceName: string = this.subMenu[subMenuName][_buttonId];
-        const instanceId: number = this.instanceNames.indexOf(instanceName);
-        switch (instanceId) {
-            case 0: {
+        switch (instanceName) {
+            case 'Random Color': {
                 modelInstanceEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
                 
                 modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 modelInstanceEntity.object3D.scale.set(0.05, 0.05, 0.05);
                 break;
             }
-            case 1: {
+            case 'Box': {
                 modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'box',
                     width: 0.015,
@@ -217,7 +216,7 @@ const globalMenu = {
                 });
                 break;
             }
-            case 2: {
+            case 'Darkness': case 'Acceleration': case 'Velocity': case 'Plus': case 'Subtract': {
                 modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'cone',
                     height: 0.015,
@@ -227,37 +226,12 @@ const globalMenu = {
                 modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
                 break;
             }
-            case 3: {
+            case 'Sphere': {
                 modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'sphere',
                     radius: 0.01
                 });
                 break;
-            }
-            case 4: {
-                modelInstanceEntity.setAttribute('geometry', {
-                    primitive: 'cone',
-                    height: 0.015,
-                    radiusBottom: 0.01,
-                    radiusTop: 0.005
-                });
-                modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
-                break;
-            }
-            case 5: {
-                modelInstanceEntity.setAttribute('geometry', {
-                    primitive: 'cone',
-                    height: 0.015,
-                    radiusBottom: 0.01,
-                    radiusTop: 0.005
-                });
-                modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
-                break;
-            }
-            case 6: {
-                // modelInstanceEntity.setAttribute('obj-model', 'obj', '#arrow-obj');
-                // modelInstanceEntity.object3D.scale.set(0.0005, 0.0005, 0.0005);
-                // break;
             }
         }
         

@@ -201,19 +201,10 @@ const globalMenu = {
         const instanceName: string = this.subMenu[subMenuName][_buttonId];
         switch (instanceName) {
             case 'Random Color': {
-                modelInstanceEntity.setAttribute('obj-model', 'obj', '#bottle-thumbnail');
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#bottle-instance');
                 
                 modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 modelInstanceEntity.object3D.scale.set(0.05, 0.05, 0.05);
-                break;
-            }
-            case 'Box': {
-                modelInstanceEntity.setAttribute('geometry', {
-                    primitive: 'box',
-                    width: 0.015,
-                    height: 0.015,
-                    depth: 0.015
-                });
                 break;
             }
             case 'Darkness': case 'Acceleration': case 'Velocity': case 'Plus': case 'Subtract': {
@@ -226,11 +217,25 @@ const globalMenu = {
                 modelInstanceEntity.object3D.rotation.set(0, 0, THREE.Math.degToRad(270));
                 break;
             }
+            case 'Box': {
+                modelInstanceEntity.setAttribute('geometry', {
+                    primitive: 'box',
+                    width: 0.015,
+                    height: 0.015,
+                    depth: 0.015
+                });
+                break;
+            }
             case 'Sphere': {
                 modelInstanceEntity.setAttribute('geometry', {
                     primitive: 'sphere',
                     radius: 0.01
                 });
+                break;
+            }
+            case 'Light': {
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#light-01-instance');
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 break;
             }
         }

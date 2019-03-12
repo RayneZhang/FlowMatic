@@ -12,7 +12,7 @@ const objAttrList = {
         const attrNames: any = ["color", "position"];
         
         // Create a menu entity and append it to the controller.
-        const ListEntity: any = document.createElement('a-entity'); 
+        const ListEntity: any = this.listEntity = document.createElement('a-entity'); 
 
         // layout offset of the attributes.
         let offset: number = 0.35;
@@ -58,14 +58,11 @@ const objAttrList = {
         }
 
         // We can only access the mesh after it is loaded.
-        this.el.addEventListener('loaded', (event) => {
-            // Set position of the listEntity.
-            const width: number = this.calWidth(this.el);
-            this.el.appendChild(ListEntity);
-            ListEntity.object3D.scale.set(width, width, width);
-            ListEntity.object3D.position.set(width/2 + 0.5*width, 0, 0);
-            ListEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
-        });
+        if (this.el.getAttribute('obj-model'))
+            this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
+        else
+            this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
+        
 
         // Set visible of the attribute list when (not) intersected.
         this.el.addEventListener('raycaster-intersected', (event) => {
@@ -78,13 +75,15 @@ const objAttrList = {
         });
     },
 
-    update: function(): void {
-        
+    // The listener when x-button is down.
+    onModelLoaded(event): void {
+        // Set position of the listEntity.
+        const width: number = this.calWidth(this.el);
+        this.el.appendChild(this.listEntity);
+        this.listEntity.object3D.scale.set(width, width, width);
+        this.listEntity.object3D.position.set(width/2 + 0.5*width, 0, 0);
+        this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
-
-    tick: function(time, timeDelta): void {
-
-    }, 
 
     createDotEntity: function(appendEntity: any, lr: string, offset: any): void {
         if (lr != 'left' && lr != 'right') {return;}
@@ -120,8 +119,8 @@ const objAttrList = {
     },
 
     // Calculate the width of the object.
-    calWidth(obj): number {
-        const mesh = obj.getObject3D('mesh');
+    calWidth(_entity): number {
+        const mesh: any = _entity.getObject3D('mesh');
         if (!mesh) {
             return 0;
         }

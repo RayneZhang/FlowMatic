@@ -45,6 +45,9 @@ subtractOperator;
 import meshLine from './components/lines/meshLine'
 meshLine;
 
+import gridGlitchShader from './shaders/test'
+gridGlitchShader;
+
 ENVIRONMENT;
 TELEPORT;
 FPSCOUNTER;

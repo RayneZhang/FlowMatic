@@ -63,7 +63,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'box' + id);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
-                     newEntity.setAttribute('obj-attributes-list', 'freeze', false);
+                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['color', 'position']);
                      this.id++;
                      break;
                  }
@@ -88,7 +88,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'sphere' + id);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
-                     newEntity.setAttribute('obj-attributes-list', 'freeze', false);
+                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['color', 'position']);
                      this.id++;
                      break;
                  }
@@ -142,7 +142,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     
                     // Set up attributes.
                     newEntity.setAttribute('id', targetModelName + id);
-                    newEntity.setAttribute('obj-attributes-list', 'freeze', false);
+                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['color', 'position']);
                     newEntity.setAttribute('spotlight', 'color', 'white');
 
                     // Set up dataflow.

@@ -2,15 +2,13 @@ declare const THREE:any;
 
 const objAttrList = {
     schema: {
-        freeze: {type: "boolean", default: false}
+        freeze: {type: "boolean", default: false},
+        attrNames: {type: 'array', default: []}
     },
 
     init: function(): void {
         // Add to the entity's class list.
-        this.el.classList.add("obj-attr-list");
-
-        const attrNames: any = ["color", "position"];
-        
+        this.el.classList.add("obj-attr-list");        
         // Create a menu entity and append it to the controller.
         const ListEntity: any = this.listEntity = document.createElement('a-entity'); 
 
@@ -19,7 +17,7 @@ const objAttrList = {
         let currentY: number = 0;
          
         // Create list of attributes elements.
-        for (const attrName of attrNames) {
+        for (const attrName of this.data.attrNames) {
             const curEntity: any = document.createElement('a-entity');
             ListEntity.appendChild(curEntity);
 

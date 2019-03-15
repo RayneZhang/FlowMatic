@@ -146,8 +146,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('spotlight', 'color', 'white');
 
                     // Set up dataflow.
-                    newEntity.setAttribute('data-receiver', 'targetEntities', []);
-                    newEntity.setAttribute('data-receiver', 'dataValue', color);
                     this.id++;
                     break;
                  }

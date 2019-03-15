@@ -29,14 +29,31 @@ const spotLight = AFRAME.registerComponent('spotlight', {
 
     // ==========For internal call only.==========
     initLight: function(): void {
-        // Create light entity.
-        const lightEntity: any = document.createElement('a-entity');
-        this.el.appendChild(lightEntity);
+        // Create spotlight entity.
+        const spotLightEntity: any = document.createElement('a-entity');
+        this.el.appendChild(spotLightEntity);
 
         // Set up parameters.
-        lightEntity.setAttribute('light', 'type', 'spot');
-        lightEntity.setAttribute('light', 'angle', 45);
-        lightEntity.object3D.rotation.set(THREE.Math.degToRad(180), 0, 0);
+        spotLightEntity.setAttribute('light', 'type', 'spot');
+        spotLightEntity.setAttribute('light', 'angle', 45);
+        spotLightEntity.object3D.rotation.set(THREE.Math.degToRad(165), 0, 0);
+
+        // Create light bulb entity.
+        const lightBulbEntity: any = document.createElement('a-entity');
+        this.el.appendChild(lightBulbEntity);
+
+        // Set up parameters.
+        lightBulbEntity.setAttribute('geometry', {
+            primitive: 'cylinder',
+            radius: 0.045,
+            height: 0.02
+        });
+        lightBulbEntity.setAttribute('material', {
+            color: '#fff',
+            shader: 'flat'
+        });
+        lightBulbEntity.object3D.position.set(0, 0.02, 0.04);
+        lightBulbEntity.object3D.rotation.set(THREE.Math.degToRad(70), 0, 0);
     }
 });
 

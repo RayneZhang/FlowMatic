@@ -135,14 +135,19 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     break;
                  }
                  case 'Light': {
+                    // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#light-01-obj');
                     newEntity.setAttribute('material', 'src', '#light-01-abledo');
                     newEntity.setAttribute('material', 'normalMap', '#light-01-normal');
                     
+                    // Set up attributes.
                     newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('obj-attributes-list', 'freeze', false);
+                    newEntity.setAttribute('spotlight', 'color', 'white');
+
+                    // Set up dataflow.
                     newEntity.setAttribute('data-receiver', 'targetEntities', []);
                     newEntity.setAttribute('data-receiver', 'dataValue', color);
-                    newEntity.setAttribute('obj-attributes-list', 'freeze', false);
                     this.id++;
                     break;
                  }

@@ -18,11 +18,12 @@ import EntityFollow from './components/utils/EntityFollow';
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
 
-import bottleDescription from './components/bottles/bottleDescrip';
-import dataSource from './components/bottles/dataSource';
-import dataFilter from './components/bottles/dataFilter';
-import dataReceiver from './components/bottles/dataReceiver';
-import filterDescription from './components/bottles/filterDescription';
+import bottleDescription from './components/dataflow/bottleDescrip';
+import dataSource from './components/dataflow/dataSource';
+import dataFilter from './components/dataflow/dataFilter';
+import dataReceiver from './components/dataflow/dataReceiver';
+import vectorSource from './components/dataflow/vectorSource'
+vectorSource;
 
 import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';
@@ -35,12 +36,12 @@ stateBinding;
 
 import vector from './components/utils/vector'
 vector;
-import vectorSource from './components/sources/vectorSource'
-vectorSource;
+
 import plusOperator from './components/operators/plus'
 plusOperator;
 import subtractOperator from './components/operators/subtract'
 subtractOperator;
+import filterDescription from './components/operators/filterDescription';
 
 import meshLine from './components/lines/meshLine'
 meshLine;

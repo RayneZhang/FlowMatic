@@ -17,8 +17,8 @@ import EntityFollow from './components/utils/EntityFollow';
 
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
+import bottleDescription from './components/ui/bottleDescrip';
 
-import bottleDescription from './components/dataflow/bottleDescrip';
 import dataSource from './components/dataflow/dataSource';
 import dataFilter from './components/dataflow/dataFilter';
 import dataReceiver from './components/dataflow/dataReceiver';

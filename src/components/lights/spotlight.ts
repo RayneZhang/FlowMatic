@@ -24,6 +24,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         // Set up parameters.
         lightEntity.setAttribute('light', 'type', 'spot');
         lightEntity.setAttribute('light', 'angle', 45);
+        lightEntity.object3D.rotation.set(THREE.Math.degToRad(180), 0, 0);
     }
 });
 

@@ -138,7 +138,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('obj-model', 'obj', '#light-01-obj');
                     newEntity.setAttribute('material', 'src', '#light-01-abledo');
                     newEntity.setAttribute('material', 'normalMap', '#light-01-normal');
-
+                    
                     newEntity.setAttribute('id', targetModelName + id);
                     newEntity.setAttribute('data-receiver', 'targetEntities', []);
                     newEntity.setAttribute('data-receiver', 'dataValue', color);

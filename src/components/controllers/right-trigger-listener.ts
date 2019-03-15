@@ -212,16 +212,6 @@ const rightTriggerListener = {
 
                     const attrNameEntity: any = intersectedEl.parentNode;
                     targetAttribute = attrNameEntity.getAttribute('text').value;
-                    const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
-                    // console.log(sourceDataType); // For debugging
-                    // if (sourceDataType != 'vector' && targetAttribute != sourceDataType) {
-                    //     console.log('Code goes here.');
-                    //     if (this.curLine) {
-                    //         this.curLine.destroyLine();
-                    //         this.curLine = null;
-                    //     }
-                    //     return;
-                    // }
                 }
 
                 // Set target objects of source entity.
@@ -271,7 +261,7 @@ const rightTriggerListener = {
                     targetEntities.push(targetEntity.getAttribute('id'));
                     targetAttributes.push(targetAttribute);
                     sourceEntity.setAttribute('vector-source', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('vector-source', 'targetAttributes', targetAttributes);
+                    sourceEntity.setAttribute('vector-source', 'targetAttributes', targetAttributes); // Target Attributes only exist when target is an object.
                 }
                 if (sourceEntity.classList.contains('plus')) {
                     let targetEntities: any = sourceEntity.getAttribute('plus').targetEntities;

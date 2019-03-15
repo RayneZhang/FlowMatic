@@ -47,7 +47,7 @@ const dataReceiver = {
             }
             if (dataType === 'vector') {
                 const attribute: string = event.detail.attribute;
-                if (attribute === 'position') {
+                if (attribute === 'Position') {
                     this.el.object3D.position.copy(dataValue);
                 }
             }

@@ -8,11 +8,23 @@ const spotLight = AFRAME.registerComponent('spotlight', {
     },
 
     init: function(): void {
-        // Private properties.
-        this.offset = new THREE.Vector3();
-
         // Set up light type for the entity.
         this.initLight();
+
+        this.el.classList.add('data-receiver');
+        this.el.addEventListener('attribute-update', (event) => {
+            const dataType: string = event.detail.dataType;
+            const dataValue: string = event.detail.dataValue;
+
+            if (dataType === 'vector') {
+                const attribute: string = event.detail.attribute;
+                if (attribute === 'Light Direction') {
+                    const Dir = new THREE.Vector3().copy(dataValue);
+                    Dir.add(this.el.object3D.position.clone());
+                    this.el.object3D.lookAt(Dir);
+                }
+            }
+        });
     },
 
     // ==========For internal call only.==========

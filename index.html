@@ -49,6 +49,9 @@
                 <img id="light-01-abledo" src="assets/models/lights/01_stage_light/Textures/stage_light_tx_Base_Color.jpg">
                 <img id="light-01-normal" src="assets/models/lights/01_stage_light/Textures/stage_light_tx_Normal_DirectX.jpg">
                 <img id="light-01-emissive" src="assets/models/lights/01_stage_light/Textures/stage_light_tx_Emissive.jpg">
+                <a-asset-item id="light-02-obj" src="assets/models/lights/02_stage_light/light_02.obj"></a-asset-item>
+                <a-asset-item id="light-02-mtl" src="assets/models/lights/02_stage_light/light_02.mtl"></a-asset-item>
+
 
                 <a-asset-item id="bottle-instance" src="assets/models/instances/data/01_bottle_instance.obj"></a-asset-item>
                 <a-asset-item id="light-01-instance" src="assets/models/instances/assets/01_stage_light_instance.obj"></a-asset-item>
@@ -132,6 +135,7 @@
                 radius="0.5"
                 position="0 1.5 -2">
             </a-sphere> -->
+            <a-entity id="stage_light" position="0 0 -2" obj-model="obj: #light-02-obj; mtl: #light-02-mtl" scale="0.3 0.3 0.3" shadow></a-entity>
         </a-scene>
     </body>
 </html>

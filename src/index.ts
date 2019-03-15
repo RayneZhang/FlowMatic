@@ -12,7 +12,7 @@ import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 
-import modelSubset from './components/utils/model-subset';
+import modelSubset from './components/utils/model_subset';
 import EntityFollow from './components/utils/EntityFollow';
 
 import globalMenu from './components/ui/globalMenu';

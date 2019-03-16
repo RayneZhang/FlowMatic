@@ -236,6 +236,11 @@ const globalMenu = {
                 modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 break;
             }
+            case 'Headset': {
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#headset-instance');
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                break;
+            }
         }
         
         modelInstanceEntity.setAttribute('material', {

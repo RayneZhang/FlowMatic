@@ -94,6 +94,16 @@ const modelSubset = {
                 imgEl.object3D.position.set(-0.16, 0.001, -0.015);
                 break;
             }
+            case "submenu4" : {
+                imgEl.setAttribute('src', '#light_icon');
+                imgEl.object3D.position.set(-0.16, 0.001, 0.005);
+                break;
+            }
+            case "submenu5" : {
+                imgEl.setAttribute('src', '#avatar_icon');
+                imgEl.object3D.position.set(-0.16, 0.001, 0.025);
+                break;
+            }
         }
         imgEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
     },

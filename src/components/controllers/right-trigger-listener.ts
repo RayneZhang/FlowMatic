@@ -187,10 +187,7 @@ const rightTriggerListener = {
                 let targetAttribute: string = null;
 
                 // input/output->Object
-                if (intersectedEl.parentNode.classList.contains('data-filter') 
-                || intersectedEl.parentNode.classList.contains('plus')
-                || intersectedEl.parentNode.classList.contains('subtract')
-                || intersectedEl.parentNode.classList.contains('vector-source')) {
+                if (intersectedEl.parentNode.classList.contains('data-filter') || intersectedEl.parentNode.classList.contains('vector-source')) {
                     targetEntity = intersectedEl.parentNode;
                 }
                 // Dot->Description->ListEntity->Object
@@ -212,13 +209,7 @@ const rightTriggerListener = {
                     sourceEntity.setAttribute('data-source', 'targetEntities', targetEntities);
                 }
                 if (sourceEntity.classList.contains('data-filter')){
-                    let targetEntities: any = sourceEntity.getAttribute('data-filter').targetEntities;
-                    // If the targetEntities is null, we need to reset the type.
-                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                        targetEntities = [];
-                    }
-                    targetEntities.push(targetEntity.getAttribute('id'));
-                    sourceEntity.setAttribute('data-filter', 'targetEntities', targetEntities);
+                    sourceEntity.emit('operator-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
                 }
                 if (sourceEntity.classList.contains('data-receiver')){
                     let targetEntities: any = sourceEntity.getAttribute('data-receiver').targetEntities;
@@ -254,36 +245,6 @@ const rightTriggerListener = {
                     targetAttributes.push(targetAttribute);
                     sourceEntity.setAttribute('vector-source', 'targetEntities', targetEntities);
                     sourceEntity.setAttribute('vector-source', 'targetAttributes', targetAttributes); // Target Attributes only exist when target is an object.
-                }
-                if (sourceEntity.classList.contains('plus')) {
-                    let targetEntities: any = sourceEntity.getAttribute('plus').targetEntities;
-                    let targetAttributes: any = sourceEntity.getAttribute('plus').targetAttributes;
-                    // If the targetEntities is null, we need to reset the type.
-                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                        targetEntities = [];
-                    }
-                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
-                        targetAttributes = [];
-                    }
-                    targetEntities.push(targetEntity.getAttribute('id'));
-                    targetAttributes.push(targetAttribute);
-                    sourceEntity.setAttribute('plus', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('plus', 'targetAttributes', targetAttributes);
-                }
-                if (sourceEntity.classList.contains('subtract')) {
-                    let targetEntities: any = sourceEntity.getAttribute('subtract').targetEntities;
-                    let targetAttributes: any = sourceEntity.getAttribute('subtract').targetAttributes;
-                    // If the targetEntities is null, we need to reset the type.
-                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                        targetEntities = [];
-                    }
-                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
-                        targetAttributes = [];
-                    }
-                    targetEntities.push(targetEntity.getAttribute('id'));
-                    targetAttributes.push(targetAttribute);
-                    sourceEntity.setAttribute('subtract', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('subtract', 'targetAttributes', targetAttributes);
                 }
                 
 

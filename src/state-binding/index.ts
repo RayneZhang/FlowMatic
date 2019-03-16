@@ -149,6 +149,17 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Headset': {
+                     // Set up geometry and materials.
+                    newEntity.setAttribute('obj-model', 'obj', '#headset-obj');
+                    newEntity.setAttribute('material', 'src', '#headset-mtl');
+
+                    // Set up attributes.
+                    newEntity.setAttribute('id', targetModelName + id);
+                    
+                    this.id++;
+                    break;
+                 }
              }
 
              // Add class component to the entity.

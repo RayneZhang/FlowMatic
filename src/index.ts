@@ -46,6 +46,9 @@ import filterDescription from './components/operators/filterDescription';
 import spotLight from './components/lights/spotlight'
 spotLight;
 
+import headset from './components/avatars/headset'
+headset;
+
 import meshLine from './components/lines/meshLine'
 meshLine;
 

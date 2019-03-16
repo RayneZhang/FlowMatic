@@ -4,7 +4,10 @@ declare const THREE:any;
 const spotLight = AFRAME.registerComponent('spotlight', {
     schema: {
         color: {type: 'string', default: 'white'},
-        direction: {type: 'string', default: ''}
+        direction: {type: 'string', default: ''},
+        sourceAttributes: {type: 'array', default: []},
+        targetEntities: {type: 'array', default: []},
+        targetAttributes: {type: 'array', default: []}
     },
 
     init: function(): void {
@@ -54,6 +57,32 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         });
         lightBulbEntity.object3D.position.set(0, 0.02, 0.04);
         lightBulbEntity.object3D.rotation.set(THREE.Math.degToRad(70), 0, 0);
+    },
+
+    // Even receivers can emit events.
+    tick: function(time, timeDelta): void {
+        const targetEntities = this.data.targetEntities;
+        // Check if there is target object.
+        if (!Array.isArray(targetEntities) || !targetEntities.length) {
+            return;
+        }
+
+        let i: number = 0;
+        for (const curId of targetEntities) {
+            const curTarget: any = document.querySelector('#' + curId);
+            if (curTarget) {
+                switch (this.data.sourceAttributes[i]) {
+                    case "Position": {
+                        this.dataType = 'vector';
+                        const val: string = this.el.object3D.position as string;
+                        this.dataValue = val;
+                        break;
+                    }
+                }
+                curTarget.emit('attribute-update', {dataType: this.dataType, dataValue: this.dataValue, attribute: this.data.targetAttributes[i], sourceEntityId: this.el.getAttribute('id')}, false);
+                i++;
+            }
+        }
     }
 });
 

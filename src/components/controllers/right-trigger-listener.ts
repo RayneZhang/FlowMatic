@@ -53,6 +53,7 @@ const rightTriggerListener = {
                     const buttonId: number = Number(id.substr(-1, 1)) - 1;
                     globalMenuComponent.setSelectedButtonId(buttonId);
                 }
+
                 if (intersectedEl.classList.contains('submenu')) {
                     const globalMenu: any = document.querySelector('[global-menu]');
                     const globalMenuComponent = globalMenu.components['global-menu'];
@@ -126,9 +127,9 @@ const rightTriggerListener = {
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                     const attrNameEntity: any = intersectedEl.parentNode;
-                    const dataType: string = attrNameEntity.getAttribute('text').value;
-                    LinesEntity.setAttribute('draw-line', 'dataType', dataType);
-                    intersectedEl.parentNode.parentNode.parentNode.setAttribute('data-receiver', 'dataType', dataType);
+                    const attrName: string = attrNameEntity.getAttribute('text').value;
+                    LinesEntity.setAttribute('draw-line', 'dataType', attrName);
+                    intersectedEl.parentNode.parentNode.parentNode.setAttribute('data-receiver', 'dataType', attrName);
                 }
             }
 
@@ -196,6 +197,7 @@ const rightTriggerListener = {
 
                 // Push the id into target entities.
                 const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
+                const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
                 let targetEntity: any = null;
                 let targetAttribute: string = null;
 
@@ -236,6 +238,7 @@ const rightTriggerListener = {
                 if (sourceEntity.classList.contains('data-receiver')){
                     let targetEntities: any = sourceEntity.getAttribute('data-receiver').targetEntities;
                     let targetAttributes: any = sourceEntity.getAttribute('data-receiver').targetAttributes;
+                    let sourceAttributes: any = sourceEntity.getAttribute('data-receiver').sourceAttributes;
                     // If the targetEntities is null, we need to reset the type.
                     if (!Array.isArray(targetEntities) || !targetEntities.length) {
                         targetEntities = [];
@@ -243,8 +246,12 @@ const rightTriggerListener = {
                     if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
                         targetAttributes = [];
                     }
+                    if (!Array.isArray(sourceAttributes) || !sourceAttributes.length) {
+                        sourceAttributes = [];
+                    }
                     targetEntities.push(targetEntity.getAttribute('id'));
                     targetAttributes.push(targetAttribute);
+                    sourceAttributes.push(sourceDataType);
                     sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
                     sourceEntity.setAttribute('data-receiver', 'targetAttributes', targetAttributes);
                 }

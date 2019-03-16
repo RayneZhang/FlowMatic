@@ -216,6 +216,10 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     id = '#' + targetModelName + createdId;
                     break;
                 }
+                case 'Headset': {
+                    id = '#' + targetModelName + createdId;
+                    break;
+                }
             }
 
             const deletedObjEntity = document.querySelector(id);

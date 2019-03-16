@@ -15,6 +15,25 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         this.initLight();
 
         this.el.classList.add('data-receiver');
+        this.el.addEventListener('target-update', (event) => {
+            const targetEntity: string = event.detail.targetEntity;
+            const targetAttribute: string = event.detail.targetAttribute;
+            const sourceAttribute: string = event.detail.sourceAttribute;
+            // If the targetEntities is null, we need to reset the type.
+            if (!Array.isArray(this.data.targetEntities) || !this.data.targetEntities.length) {
+                this.data.targetEntities = [];
+            }
+            if (!Array.isArray(this.data.targetAttributes) || !this.data.targetAttributes.length) {
+                this.data.targetAttributes = [];
+            }
+            if (!Array.isArray(this.data.sourceAttributes) || !this.data.sourceAttributes.length) {
+                this.data.sourceAttributes = [];
+            }
+            this.data.targetEntities.push(targetEntity);
+            this.data.targetAttributes.push(targetAttribute);
+            this.data.sourceAttributes.push(sourceAttribute);
+        });
+        
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: string = event.detail.dataValue;

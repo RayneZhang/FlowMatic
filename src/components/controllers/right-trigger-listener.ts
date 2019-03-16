@@ -115,6 +115,7 @@ const rightTriggerListener = {
                 // Dot -> prompt -> attributeName -> objects.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
+                    LinesEntity.setAttribute('draw-line', 'dataType', intersectedEl.parentNode.getAttribute('text').value);
                 }
             }
 
@@ -212,24 +213,7 @@ const rightTriggerListener = {
                     sourceEntity.emit('operator-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
                 }
                 if (sourceEntity.classList.contains('data-receiver')){
-                    let targetEntities: any = sourceEntity.getAttribute('data-receiver').targetEntities;
-                    let targetAttributes: any = sourceEntity.getAttribute('data-receiver').targetAttributes;
-                    let sourceAttributes: any = sourceEntity.getAttribute('data-receiver').sourceAttributes;
-                    // If the targetEntities is null, we need to reset the type.
-                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                        targetEntities = [];
-                    }
-                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
-                        targetAttributes = [];
-                    }
-                    if (!Array.isArray(sourceAttributes) || !sourceAttributes.length) {
-                        sourceAttributes = [];
-                    }
-                    targetEntities.push(targetEntity.getAttribute('id'));
-                    targetAttributes.push(targetAttribute);
-                    sourceAttributes.push(sourceDataType);
-                    sourceEntity.setAttribute('data-receiver', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('data-receiver', 'targetAttributes', targetAttributes);
+                    sourceEntity.emit('target-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute, sourceAttribute: sourceDataType}, false);
                 }
                 if (sourceEntity.classList.contains('vector-source')) {
                     let targetEntities: any = sourceEntity.getAttribute('vector-source').targetEntities;

@@ -41,7 +41,7 @@ const subtractOperator = AFRAME.registerComponent('subtract', {
                 if ( entityIndex === -1 ) {
                     this.data.sourceEntities.push(sourceEntityId);
                     this.data.sourceValues.push(dataValue.clone());
-                    if (this.data.sourceValues.length === 1)
+                    if (this.data.sourceValues.length === 1) 
                         this.dataValue.add(new THREE.Vector3().copy(dataValue));
                     else
                         this.dataValue.sub(new THREE.Vector3().copy(dataValue));

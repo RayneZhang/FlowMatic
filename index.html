@@ -15,6 +15,7 @@
     </head>
     <body>
         <a-scene background="color: #ECECEC">
+            <!-- Assets -->
             <a-assets>
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
                 <img id="uihover" src="assets/images/ui-hover.png" crossorigin="anonymous">
@@ -130,8 +131,7 @@
             <a-entity light="type: directional; color: #fff1bc; intensity: 0.4" position="-1 1 0"></a-entity>
 
             <!-- Surrounding and floor. -->
-            <a-plane id="ground" rotation='-90 0 0' position="0 0.5 1"></a-plane>
-            <a-entity id="env" environment="preset: default; lighting: none; groundTexture: walkernoise"></a-entity>
+            <a-entity id="env" environment="preset: forest; lighting: none"></a-entity>
             
             <a-entity id="stage" position="0 0 -10" obj-model="obj: #stage-obj; mtl: #stage-mtl" shadow>
                 <a-plane id="stage-plane" position='-1.25 1.47 0.24' rotation='-90 0 0' scale='19.5 13.5 0' material='transparent: true; opacity: 0'></a-plane>

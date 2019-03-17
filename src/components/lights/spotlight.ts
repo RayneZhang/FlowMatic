@@ -46,13 +46,19 @@ const spotLight = AFRAME.registerComponent('spotlight', {
                     this.el.object3D.lookAt(Dir);
                 }
             }
+            if (dataType === 'Color') {
+                const attribute: string = event.detail.attribute;
+                if (attribute === 'Light Color') {
+                    this.spotLightEntity.setAttribute('light', 'color', dataValue);
+                }
+            }
         });
     },
 
     // ==========For internal call only.==========
     initLight: function(): void {
         // Create spotlight entity.
-        const spotLightEntity: any = document.createElement('a-entity');
+        const spotLightEntity: any = this.spotLightEntity = document.createElement('a-entity');
         this.el.appendChild(spotLightEntity);
 
         // Set up parameters.

@@ -201,13 +201,7 @@ const rightTriggerListener = {
 
                 // Set target objects of source entity.
                 if (sourceEntity.classList.contains('data-source')){
-                    let targetEntities: any = sourceEntity.getAttribute('data-source').targetEntities;
-                    // If the targetEntities is null, we need to reset the type.
-                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                        targetEntities = [];
-                    }
-                    targetEntities.push(targetEntity.getAttribute('id'));
-                    sourceEntity.setAttribute('data-source', 'targetEntities', targetEntities);
+                    sourceEntity.emit('source-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
                 }
                 if (sourceEntity.classList.contains('data-filter')){
                     sourceEntity.emit('operator-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);

@@ -56,7 +56,7 @@ const objAttrList = {
         }
 
         // We can only access the mesh after it is loaded.
-        if (this.el.getAttribute('obj-model'))
+        if (this.el.getAttribute('obj-model') || this.el.getAttribute('gltf-model'))
             this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
         else
             this.el.addEventListener('loaded', this.onModelLoaded.bind(this));

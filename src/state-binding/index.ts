@@ -162,6 +162,28 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Left Controller': {
+                    // Set up geometry and materials.
+                   newEntity.setAttribute('gltf-model', '#controller-left');
+
+                   // Set up attributes.
+                   newEntity.setAttribute('id', targetModelName + id);
+                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
+
+                   this.id++;
+                   break;
+                }
+                case 'Right Controller': {
+                    // Set up geometry and materials.
+                   newEntity.setAttribute('gltf-model', '#controller-right');
+
+                   // Set up attributes.
+                   newEntity.setAttribute('id', targetModelName + id);
+                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
+
+                   this.id++;
+                   break;
+                }
              }
 
              // Add class component to the entity.

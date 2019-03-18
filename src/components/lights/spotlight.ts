@@ -52,6 +52,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
                 if (attribute === 'Light Color') {
                     this.spotLightEntity.setAttribute('light', 'color', dataValue);
                     this.lightBulbEntity.setAttribute('material', 'color', dataValue);
+                    this.setVolumetricLightColor(dataValue);
                 }
             }
         });
@@ -96,10 +97,15 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         var material = new THREEx.VolumetricSpotLightMaterial();
         var mesh = new THREE.Mesh( geometry, material );
         mesh.position.set(0, 0.02, 0.04);
-        material.uniforms.lightColor.value.set('white');
         material.uniforms.spotPosition.value = mesh.position;
         volumetricEntity.setObject3D('mesh', mesh);
         volumetricEntity.object3D.rotation.set(THREE.Math.degToRad(-15), 0, 0);
+        this.setVolumetricLightColor('white');
+    },
+
+    setVolumetricLightColor: function(_color: string): void {
+        const material = this.volumetricEntity.getObject3D('mesh').material;
+        material.uniforms.lightColor.value.set(_color);
     },
 
     // Even receivers can emit events.

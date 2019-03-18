@@ -64,7 +64,7 @@ THREEx.VolumetricSpotLightMaterial	= function(){
 		uniforms: { 
 			attenuation	: {
 				type	: "f",
-				value	: 5.0
+				value	: 3.0
 			},
 			anglePower	: {
 				type	: "f",
@@ -81,7 +81,7 @@ THREEx.VolumetricSpotLightMaterial	= function(){
 		},
 		vertexShader	: vertexShader,
 		fragmentShader	: fragmentShader,
-		// side		: THREE.DoubleSide,
+		side : THREE.DoubleSide,
 		// blending	: THREE.AdditiveBlending,
 		transparent	: true,
 		depthWrite	: false,

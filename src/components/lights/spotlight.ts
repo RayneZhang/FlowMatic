@@ -85,34 +85,21 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         lightBulbEntity.object3D.position.set(0, 0.02, 0.04);
         lightBulbEntity.object3D.rotation.set(THREE.Math.degToRad(70), 0, 0);
 
-        //////////////////////////////////////////////////////////////////////////////////
-        //		add a volumetric spotligth					//
-        //////////////////////////////////////////////////////////////////////////////////
-        // Create light bulb entity.
+        // Create a volumetric entity.
         const volumetricEntity: any = this.volumetricEntity = document.createElement('a-entity');
         this.el.appendChild(volumetricEntity);
-        // add spot light
-        var geometry = new THREE.CylinderGeometry( 0.1, 1.5, 5, 32*2, 20, true);
-        // var geometry	= new THREE.CylinderGeometry( 0.1, 5*Math.cos(Math.PI/3)/1.5, 5, 32*2, 20, true);
+        // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float)
+        var geometry = new THREE.CylinderGeometry( 0.045, 5.045, 5, 32*2, 20, true);
         geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, -geometry.parameters.height/2, 0 ) );
         geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -Math.PI / 2 ) );
-        // geometry.computeVertexNormals()
-        // var geometry	= new THREE.BoxGeometry( 3, 1, 3 );
-        // var material	= new THREE.MeshNormalMaterial({
-        // 	side	: THREE.DoubleSide
-        // });
-        // var material	= new THREE.MeshPhongMaterial({
-        // 	color		: 0x000000,
-        // 	wireframe	: true,
-        // })
+
         var material = new THREEx.VolumetricSpotLightMaterial();
         var mesh = new THREE.Mesh( geometry, material );
-        mesh.position.set(1.5,2,0);
-        mesh.lookAt(new THREE.Vector3(0,0, 0));
+        mesh.position.set(0, 0.02, 0.04);
         material.uniforms.lightColor.value.set('white');
         material.uniforms.spotPosition.value = mesh.position;
-
         volumetricEntity.setObject3D('mesh', mesh);
+        volumetricEntity.object3D.rotation.set(THREE.Math.degToRad(-15), 0, 0);
     },
 
     // Even receivers can emit events.

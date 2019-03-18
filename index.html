@@ -74,9 +74,10 @@
 
             </a-assets>
 
-            <a-entity id="cameraRig">
+            <!-- Camera Rig-->
+            <a-entity id="cameraRig" movement-controls = "fly: true; speed: 0.1">
                 <!-- camera -->
-                <a-entity id="head" camera look-controls wasd-controls="fly: true"></a-entity>
+                <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
                 <a-entity id="rightHand" oculus-touch-controls="hand: right" thumb-controls="hand: right" aabb-collider="objects: .movable" tooltip-listener collision-listener></a-entity>

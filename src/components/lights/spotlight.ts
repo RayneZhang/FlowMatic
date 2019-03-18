@@ -45,6 +45,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
                     const Dir = new THREE.Vector3().copy(dataValue);
                     Dir.add(this.el.object3D.position.clone());
                     this.el.object3D.lookAt(Dir);
+                    this.el.object3D.rotateX(THREE.Math.degToRad(15));
                 }
             }
             if (dataType === 'Color') {
@@ -66,7 +67,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
 
         // Set up parameters.
         spotLightEntity.setAttribute('light', 'type', 'spot');
-        spotLightEntity.setAttribute('light', 'angle', 45);
+        spotLightEntity.setAttribute('light', 'angle', 15);
         spotLightEntity.object3D.rotation.set(THREE.Math.degToRad(165), 0, 0);
 
         // Create light bulb entity.
@@ -90,7 +91,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         const volumetricEntity: any = this.volumetricEntity = document.createElement('a-entity');
         this.el.appendChild(volumetricEntity);
         // CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float)
-        var geometry = new THREE.CylinderGeometry( 0.045, 5.045, 5, 32*2, 20, true);
+        var geometry = new THREE.CylinderGeometry( 0.045, 1.045, 5, 32*2, 20, true);
         geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, -geometry.parameters.height/2, 0 ) );
         geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -Math.PI / 2 ) );
 

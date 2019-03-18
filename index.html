@@ -12,6 +12,7 @@
         <script src="vendor/aframe-tooltip-component.min.js"></script>
         <script src="vendor/aframe-aabb-collider-component.min.js"></script>
         <script src="vendor/aframe-thumb-controls-component.min.js"></script>
+        <script src="vendor/threex.volumetricspotlightmaterial.js"></script>
     </head>
     <body>
         <a-scene>
@@ -152,7 +153,7 @@
             </a-sphere> -->
 
             
-            <!-- <a-entity id="stage_light" position="0 0 -2" obj-model="obj: #light-02-obj; mtl: #light-02-mtl" scale="0.3 0.3 0.3" shadow></a-entity> -->
+            <a-entity id="stage_light" position="0 0 -2" obj-model="obj: #light-01-obj" spotlight shadow></a-entity>
         </a-scene>
     </body>
 </html>

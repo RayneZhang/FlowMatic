@@ -14,7 +14,7 @@
         <script src="vendor/aframe-thumb-controls-component.min.js"></script>
     </head>
     <body>
-        <a-scene effects="godrays" godrays="src: #moon; threshold: 0.0 0.0; intensity: 0.6">
+        <a-scene>
             <!-- Assets -->
             <a-assets>
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
@@ -129,8 +129,6 @@
             <!-- Lighting Condition -->
             <a-entity id="ambientLight" light="type: ambient; intensity: 0.6;"></a-entity>
             <a-entity light="type: directional; color: #fff1bc; intensity: 0.4" position="-0.5 1 0"></a-entity>
-            <a-entity position="10.0 10.0 -10.0" geometry="primitive: sphere; radius: 2.0;" material="shader: flat; color: #fff;"
-            id="moon"></a-entity>
 
             <!-- Surrounding and floor. -->
             <a-entity id="env" environment="preset: forest; lighting: none"></a-entity>

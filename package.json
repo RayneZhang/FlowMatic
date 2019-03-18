@@ -20,7 +20,6 @@
   "homepage": "https://github.com/RayneZhang/VRBehavior#readme",
   "dependencies": {
     "aframe": "^0.9.0",
-    "aframe-effects": "^0.8.0",
     "aframe-environment-component": "^1.1.0",
     "aframe-fps-counter-component": "^1.0.1",
     "aframe-teleport-controls": "^0.3.1",

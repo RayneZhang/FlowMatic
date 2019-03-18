@@ -50,6 +50,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
                 const attribute: string = event.detail.attribute;
                 if (attribute === 'Light Color') {
                     this.spotLightEntity.setAttribute('light', 'color', dataValue);
+                    this.lightBulbEntity.setAttribute('material', 'color', dataValue);
                 }
             }
         });
@@ -67,7 +68,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         spotLightEntity.object3D.rotation.set(THREE.Math.degToRad(165), 0, 0);
 
         // Create light bulb entity.
-        const lightBulbEntity: any = document.createElement('a-entity');
+        const lightBulbEntity: any = this.lightBulbEntity = document.createElement('a-entity');
         this.el.appendChild(lightBulbEntity);
 
         // Set up parameters.

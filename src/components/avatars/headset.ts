@@ -35,7 +35,10 @@ const headset = AFRAME.registerComponent('headset', {
     tick: function(time, timeDelta): void {
         const mainCamera: any = document.querySelector('#head');
         const camRot = mainCamera.getAttribute('rotation');
-        const camPos = mainCamera.getAttribute('position');
+        const cameraRig: any = document.querySelector('#cameraRig');
+        const camPos = {x: cameraRig.getAttribute('position').x + mainCamera.getAttribute('position').x, 
+        y: cameraRig.getAttribute('position').y + mainCamera.getAttribute('position').y,
+        z: cameraRig.getAttribute('position').z + mainCamera.getAttribute('position').z};
         this.el.setAttribute('rotation', {x: camRot.x, y: camRot.y, z: camRot.z});
 
         const targetEntities = this.data.targetEntities;

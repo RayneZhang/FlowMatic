@@ -98,7 +98,8 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         var material = new THREEx.VolumetricSpotLightMaterial();
         var mesh = new THREE.Mesh( geometry, material );
         mesh.position.set(0, 0.02, 0.04);
-        material.uniforms.spotPosition.value = mesh.position;
+        const {x, y, z} = this.el.getAttribute('position');
+        material.uniforms.spotPosition.value = new THREE.Vector3(x, y + 0.02, z + 0.04);
         volumetricEntity.setObject3D('mesh', mesh);
         volumetricEntity.object3D.rotation.set(THREE.Math.degToRad(-15), 0, 0);
         this.setVolumetricLightColor('white');

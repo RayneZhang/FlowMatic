@@ -64,7 +64,7 @@ THREEx.VolumetricSpotLightMaterial	= function(){
 		uniforms: { 
 			attenuation	: {
 				type	: "f",
-				value	: 3.0
+				value	: 5.0
 			},
 			anglePower	: {
 				type	: "f",

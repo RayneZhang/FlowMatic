@@ -10,6 +10,7 @@ const rightGripListener = {
 
         const el = this.el;
         const listeningEl = this.listeningEl = document.querySelector('#rightHand');
+        const camRigEl = this.camRigEl = document.querySelector('#cameraRig');
         listeningEl.addEventListener('gripdown', (event) => {
             el.setAttribute('right-grip-listener', 'gripping', 'true');
             
@@ -34,7 +35,7 @@ const rightGripListener = {
 
             // Set current position as lastPosition.
             this.lastPosition = new THREE.Vector3();
-            this.lastPosition = el.object3D.position.clone();
+            this.lastPosition = el.object3D.position.clone().add(this.camRigEl.object3D.position);
 
             // Set the intersected object as the following object.
             el.setAttribute('right-grip-listener', 'followingEl', intersectedEl);
@@ -52,7 +53,7 @@ const rightGripListener = {
 
         if (gripping && followingEl) {
             const lastPosition: any = this.lastPosition;
-            const currentPosition: any = this.listeningEl.object3D.position;
+            const currentPosition: any = this.listeningEl.object3D.position.clone().add(this.camRigEl.object3D.position);
 
             // Store this frame's position in oldPosition.
             this.lastPosition = currentPosition.clone();

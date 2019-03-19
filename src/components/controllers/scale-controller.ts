@@ -13,14 +13,14 @@ const scaleController = {
 
         const rightHandInfo: any = document.querySelector("#rightHandInfo");
         const listeningEl: any = document.querySelector("#" + this.data.hand + "Hand");
-        listeningEl.addEventListener('thumbrightstart', (event) => {
+        listeningEl.addEventListener('thumbupstart', (event) => {
             this.targetEntity = rightHandInfo.components['right-trigger-listener'].data.selectedEl;
             if (this.targetEntity) {
                 this.scaling = true;
                 this.scalePerFr = 0.025;
             }
         });
-        listeningEl.addEventListener('thumbleftstart', (event) => {
+        listeningEl.addEventListener('thumbdownstart', (event) => {
             this.targetEntity = rightHandInfo.components['right-trigger-listener'].data.selectedEl;
             if (this.targetEntity) {
                 this.scaling = true;

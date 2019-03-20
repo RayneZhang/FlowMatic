@@ -80,7 +80,7 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" oculus-touch-controls="hand: right; buttonColor: #ffffff" thumb-controls="hand: right" aabb-collider="objects: .movable" tooltip-listener collision-listener></a-entity>
+                <a-entity id="rightHand" oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: right" aabb-collider="objects: .movable" tooltip-listener collision-listener></a-entity>
                 <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
                 raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable, .Arrow; far: 10" 
                 line="color: #2e3131; opacity: 0.8" >
@@ -103,7 +103,7 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" thumb-controls="hand: left" aabb-collider="objects: .movable" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
+                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: left" aabb-collider="objects: .movable" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
                     <a-entity fps-counter></a-entity>
                 </a-entity>
                 <a-entity id="leftHandInfo" entity-follow="targetEntity: #leftHand" global-menu left-trigger-listener left-grip-listener>

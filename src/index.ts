@@ -13,6 +13,8 @@ import collisionListener from './components/controllers/collision-listener';
 import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
+import controllerMaterial from './components/controllers/controller-material-controller';
+controllerMaterial;
 
 import modelSubset from './components/utils/model_subset';
 import EntityFollow from './components/utils/EntityFollow';

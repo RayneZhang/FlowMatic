@@ -1,3 +1,5 @@
+declare const THREE:any;
+
 const tooltipListener = {
     init: function(): void {
         this.visible = true;
@@ -9,10 +11,20 @@ const tooltipListener = {
             this.visible = !this.visible;
         });
 
-        // this.el.addEventListener('surfacetouchend', (event) => {
-        //     leftTooltips.setAttribute('visible', false);
-        //     rightTooltips.setAttribute('visible', false);
-        // });        
+        this.el.addEventListener('model-loaded', (event) => {
+            const controllerObject3D: any = event.detail.model;
+            var buttonMeshes: any = this.buttonMeshes = {};
+            if (!controllerObject3D) { 
+                console.log("The Hand Model is null.");
+                return; 
+            }
+
+            buttonMeshes.body = controllerObject3D.getObjectByName('body');
+            this.material  = new THREE.MeshStandardMaterial({
+                color : 0xeeeeee
+            });
+            buttonMeshes['body'].material = this.material;
+        });        
     },
 
     tick: function(time, timeDelta): void {

@@ -11,7 +11,7 @@ const filterDescription = {
 
     init: function(): void {
         const offset = new THREE.Vector3(0, 0.03, 0.02);
-        this.createPrompt(this.data.filterName, '#00e640', offset.clone());
+        // this.createPrompt(this.data.filterName, '#00e640', offset.clone());
         this.createOperatorModel();
     },
 
@@ -54,50 +54,29 @@ const filterDescription = {
 
     // Create a model of an operator.
     createOperatorModel(): void {
-        const SliderEl: any = document.createElement('a-entity');
+        const paramEl: any = document.createElement('a-entity');
         const InputEl: any = document.createElement('a-entity');
         const OutputEl: any = document.createElement('a-entity');
 
-        this.el.appendChild(SliderEl);
+        this.el.appendChild(paramEl);
         this.el.appendChild(InputEl);
         this.el.appendChild(OutputEl);
 
-        SliderEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'slider');
+        paramEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'param');
         InputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'input');
         OutputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'output');
 
-        this.el.setAttribute('obj-model', 'obj:#shell-obj; mtl:#shell-mtl');
-        SliderEl.setAttribute('obj-model', 'obj:#slider-obj');
+        this.el.setAttribute('obj-model', 'obj:#functionBlock-obj');
+        paramEl.setAttribute('obj-model', 'obj:#paramBlock-obj');
         InputEl.setAttribute('obj-model', 'obj:#input-obj');
         OutputEl.setAttribute('obj-model', 'obj:#output-obj');
 
         // Attach the material component to the slider entity.
-        this.el.setAttribute('material', 'color', 'grey');
-        SliderEl.setAttribute('material', 'color', 'white');
         InputEl.setAttribute('material', 'color', 'white');
         OutputEl.setAttribute('material', 'color', 'white');
 
-        SliderEl.classList.add('ui', 'slider');
         InputEl.classList.add('connectable', 'input');
         OutputEl.classList.add('connectable', 'output');
-
-        // Adjust the position offset of the cursor entity.
-        if (this.data.filterName === "darkness")
-            SliderEl.object3D.position.set(0.03, 0, 0);
-
-        // Handle material when hover.
-        SliderEl.addEventListener('raycaster-intersected', (event) => {
-            event.stopPropagation();
-            SliderEl.setAttribute('material', 'color', 'yellow'); 
-        })
-
-        // Handle material when hover cleared.
-        SliderEl.addEventListener('raycaster-intersected-cleared', (event) => {
-            event.stopPropagation();
-            if (this.data.sliding)
-                return;
-            SliderEl.setAttribute('material', 'color', 'white'); 
-        })
 
         InputEl.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();

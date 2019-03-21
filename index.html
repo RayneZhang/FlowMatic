@@ -29,13 +29,12 @@
                 <img id="avatar_icon" src="assets/images/avatar.png" crossorigin="anonymous">
 
                 <a-asset-item id="menu-obj" src="assets/models/menu/menu.obj"></a-asset-item>
-                <a-asset-item id="operator-obj" src="assets/models/operator/operator.obj"></a-asset-item>
-                <a-asset-item id="shell-obj" src="assets/models/operator/shell.obj"></a-asset-item>
-                <a-asset-item id="shell-mtl" src="assets/models/operator/shell.mtl"></a-asset-item>
-                <a-asset-item id="slider-obj" src="assets/models/operator/slider.obj"></a-asset-item>
-                <a-asset-item id="input-obj" src="assets/models/operator/input.obj"></a-asset-item>
-                <a-asset-item id="output-obj" src="assets/models/operator/output.obj"></a-asset-item>
-                <a-asset-item id="plug-obj" src="assets/models/operator/plug.obj"></a-asset-item>
+
+                <a-asset-item id="functionBlock-obj" src="assets/models/operatorV2/functionBlock.obj"></a-asset-item>
+                <a-asset-item id="input-obj" src="assets/models/operatorV2/input.obj"></a-asset-item>
+                <a-asset-item id="output-obj" src="assets/models/operatorV2/output.obj"></a-asset-item>
+                <a-asset-item id="paramBlock-obj" src="assets/models/operatorV2/paramBlock.obj"></a-asset-item>
+
                 <a-asset-item id="blue-obj" src="assets/models/bottles/objs/blue_bottle.obj"></a-asset-item>
                 <a-asset-item id="blue-mtl" src="assets/models/bottles/objs/blue_bottle.mtl"></a-asset-item>
                 <a-asset-item id="green-obj" src="assets/models/bottles/objs/green_bottle.obj"></a-asset-item>
@@ -128,7 +127,7 @@
             </a-entity>
 
             <!-- Lighting Condition -->
-            <a-entity id="env" environment="preset: forest"></a-entity>
+            <a-entity id="env" environment="preset: forest; light: none"></a-entity>
             <a-entity id="ambientLight" light="type: ambient; intensity: 0.25"></a-entity>
             <!-- <a-entity light="type: directional; color: #fff1bc; intensity: 0.1" position="-0.5 1 0"></a-entity> -->
 

@@ -4,14 +4,13 @@ declare const THREE:any;
 
 const filterDescription = {
     schema: {
-        freeze: {type: "boolean", default: false},
-        sliding: {type: "boolean", default: false},
-        filterName: {type: 'string', default: ""}
+        functionInput: {type: 'array', default: []},
+        functionName: {type: 'string', default: ""}
     },
 
     init: function(): void {
-        const offset = new THREE.Vector3(0, 0.03, 0.02);
-        // this.createPrompt(this.data.filterName, '#00e640', offset.clone());
+        const offset = new THREE.Vector3(-0.078, 0, 0.026);
+        this.createPrompt(this.data.functionName, '#00e640', offset.clone());
         this.createOperatorModel();
     },
 
@@ -28,8 +27,8 @@ const filterDescription = {
 
         promptEntity.setAttribute('geometry', {
             primitive: 'plane', 
-            width: 0.065,
-            height: 0.03
+            width: 0.055,
+            height: 0.025
         });
 
         // Initiate the panel color.
@@ -72,6 +71,8 @@ const filterDescription = {
         OutputEl.setAttribute('obj-model', 'obj:#output-obj');
 
         // Attach the material component to the slider entity.
+        this.el.setAttribute('material', 'color', '#22313f');
+        paramEl.setAttribute('material', 'color', '#22313f');
         InputEl.setAttribute('material', 'color', 'white');
         OutputEl.setAttribute('material', 'color', 'white');
 

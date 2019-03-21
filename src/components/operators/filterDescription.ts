@@ -33,8 +33,8 @@ const filterDescription = {
             InputEl.setAttribute('obj-model', 'obj:#input-obj');
 
             // Attach the material component to the slider entity.
-            paramEl.setAttribute('material', 'color', '#22313f');
-            InputEl.setAttribute('material', 'color', 'white');
+            paramEl.setAttribute('material', 'color', '#2e3131');
+            InputEl.setAttribute('material', 'color', '#f2f1ef');
 
             InputEl.classList.add('connectable', 'input');
 
@@ -92,7 +92,7 @@ const filterDescription = {
         functionEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'function');
         this.el.appendChild(functionEl);
         functionEl.setAttribute('obj-model', 'obj:#functionBlock-obj');
-        functionEl.setAttribute('material', 'color', '#22313f');
+        functionEl.setAttribute('material', 'color', '#2e3131');
         functionEl.object3D.scale.set(1, this.data.functionInputs.length, 1);
 
         const OutputEl: any = document.createElement('a-entity');
@@ -101,7 +101,7 @@ const filterDescription = {
         this.el.appendChild(OutputEl);
 
         OutputEl.setAttribute('obj-model', 'obj:#output-obj');
-        OutputEl.setAttribute('material', 'color', 'white');
+        OutputEl.setAttribute('material', 'color', '#f2f1ef');
 
         OutputEl.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();

@@ -72,7 +72,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'color-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('filter-description', 'functionName', 'darkness');
+                     newEntity.setAttribute('filter-description', 'functionInputs', ['Color (Hex)', 'Darkness (Number)']);
                      this.id++;
                      break;
                  }
@@ -97,7 +97,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('filter-description', 'functionName', 'acceleration');
+                     newEntity.setAttribute('filter-description', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Acceleration (Number)']);
                      this.id++;
                      break;
                  }
@@ -106,7 +106,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('filter-description', 'functionName', 'velocity');
+                     newEntity.setAttribute('filter-description', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Velocity (Number)']);
                      this.id++;
                      break;
                  }
@@ -122,7 +122,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'plus-operator' + id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
-                    newEntity.setAttribute('filter-description', 'functionName', 'plus');
+                    newEntity.setAttribute('filter-description', 'functionInputs', ['+', '-']);
                     this.id++;
                     break;
                  }
@@ -130,7 +130,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'subtract-operator' + id);
                     newEntity.setAttribute('subtract', 'targetEntities', []);
-                    newEntity.setAttribute('filter-description', 'functionName', 'subtract');
+                    newEntity.setAttribute('filter-description', 'functionInputs', ['+', '-']);
                     this.id++;
                     break;
                  }

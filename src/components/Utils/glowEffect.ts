@@ -11,7 +11,7 @@ const glowEffect = AFRAME.registerComponent('glow-effect', {
             }
             console.log( mesh.geometry );
             var glowMesh = new THREEx.GeometricGlowMesh(mesh);
-            mesh.add(glowMesh);
+            mesh.add(glowMesh.object3d);
         });
     }, 
 });

@@ -4,6 +4,9 @@ THREEx.GeometricGlowMesh	= function(mesh){
 	var object3d	= new THREE.Object3D
 
 	var geometry	= mesh.geometry.clone()
+	if (mesh.geometry.isBufferGeometry) {
+		geometry = new THREE.Geometry().fromBufferGeometry(geometry);
+	}
 	THREEx.dilateGeometry(geometry, 0.01)
 	var material	= THREEx.createAtmosphereMaterial()
 	material.uniforms.glowColor.value	= new THREE.Color('cyan')
@@ -14,6 +17,9 @@ THREEx.GeometricGlowMesh	= function(mesh){
 
 
 	var geometry	= mesh.geometry.clone()
+	if (mesh.geometry.isBufferGeometry) {
+		geometry = new THREE.Geometry().fromBufferGeometry(geometry);
+	}
 	THREEx.dilateGeometry(geometry, 0.1)
 	var material	= THREEx.createAtmosphereMaterial()
 	material.uniforms.glowColor.value	= new THREE.Color('cyan')

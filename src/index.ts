@@ -49,6 +49,8 @@ import filterDescription from './components/operators/filterDescription';
 
 import spotLight from './components/lights/spotlight'
 spotLight;
+import glowEffect from './components/utils/glowEffect'
+glowEffect;
 
 import headset from './components/avatars/headset'
 headset;

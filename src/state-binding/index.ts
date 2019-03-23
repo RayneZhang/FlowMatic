@@ -125,7 +125,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Set entity id.
                     newEntity.setAttribute('id', targetModelName + id);
                     // Set up geometry and materials.
-                   
+                    newEntity.setAttribute('obj-model', 'obj', '#switch-obj');
+                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['On/Off']);
 
                     this.id++;
                     break;

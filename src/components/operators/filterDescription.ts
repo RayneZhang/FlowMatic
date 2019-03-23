@@ -10,8 +10,8 @@ const filterDescription = {
 
     init: function(): void {
         const length = this.data.functionInputs.length;
-        this.lineHeight = 0.2;
-        this.planeWidth = 1;
+        this.lineHeight = 0.1;
+        this.planeWidth = 0.5;
         this.planeHeight = this.lineHeight * (length + 1);
 
         this.createOperatorPlane();
@@ -21,10 +21,6 @@ const filterDescription = {
             this.createOneInput(inputName, this.planeHeight/2 - this.lineHeight*(i+1.5));
             i++;
         }
-    },
-
-    tick: function(time, timeDelta): void {
-        
     },
 
     // Create a line for a certain input
@@ -49,7 +45,7 @@ const filterDescription = {
         
         // Set up position of the ring.
         ring.object3D.position.set(-this.planeWidth/2, _yOffset, 0);
-        textEntity.object3D.position.set(-this.planeWidth/2 + 0.04, _yOffset - 0.04, 0);
+        textEntity.object3D.position.set(-this.planeWidth/2 + 0.04, _yOffset - 0.02, 0);
     },
 
     // Create a text geometry given by the entity and name.
@@ -59,8 +55,8 @@ const filterDescription = {
 
             var geometry = new THREE.TextGeometry( _inputName, {
                 font: font,
-                size: 0.06,
-                height: 0.01,
+                size: 0.03,
+                height: 0.005,
                 curveSegments: 12,
                 bevelEnabled: false,
                 bevelThickness: 1,

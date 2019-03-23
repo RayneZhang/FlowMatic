@@ -76,6 +76,7 @@
                 <a-asset-item id="bottle-instance" src="assets/models/instances/data/01_bottle_instance.obj"></a-asset-item>
                 <a-asset-item id="light-01-instance" src="assets/models/instances/assets/01_stage_light_instance.obj"></a-asset-item>
                 <a-asset-item id="headset-instance" src="assets/models/instances/assets/headset_instance.obj"></a-asset-item>
+                <a-asset-item id="switch-instance" src="assets/models/instances/assets/switch_instance.obj"></a-asset-item>
 
             </a-assets>
 
@@ -141,7 +142,7 @@
             <!-- Utils -->
             <a-entity id="lines" draw-line></a-entity>
             <a-entity id="redux" state-binding></a-entity>
-            <a-entity obj-model="obj: #switch-obj" position="0 1 -2" shadow></a-entity>
+            <a-entity obj-model="obj: #switch-obj" position="0 1 -2" rotation="90 0 0" shadow></a-entity>
             <a-entity obj-model="obj: #rail-obj" position="0 1 -1" shadow>
                 <a-entity obj-model="obj: #slider-obj" shadow></a-entity>
             </a-entity>

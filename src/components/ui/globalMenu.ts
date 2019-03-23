@@ -11,7 +11,7 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'submenu1', 'submenu2', 'submenu3', 'submenu4', 'submenu5', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
         // The corresponding submenus in the buttons.
-        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector'], 'Lights': ['Light'], 'Avatars': ['Headset', 'Left Controller', 'Right Controller']};
+        this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract'], 'Assets': ['Box', 'Sphere', 'Vector', 'Switch'], 'Lights': ['Light'], 'Avatars': ['Headset', 'Left Controller', 'Right Controller']};
 
         
         // Create a menu entity and append it to the controller.
@@ -229,6 +229,10 @@ const globalMenu = {
                     primitive: 'sphere',
                     radius: 0.01
                 });
+                break;
+            }
+            case 'Switch': {
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#switch-instance');
                 break;
             }
             case 'Light': {

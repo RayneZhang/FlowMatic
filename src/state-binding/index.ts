@@ -121,6 +121,15 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Switch': {
+                    // Set entity id.
+                    newEntity.setAttribute('id', targetModelName + id);
+                    // Set up geometry and materials.
+                   
+
+                    this.id++;
+                    break;
+                 }
                  case 'Plus': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'plus-operator' + id);

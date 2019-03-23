@@ -3,6 +3,7 @@ declare const THREE: any;
 declare const THREEx: any;
 
 const glowEffect = AFRAME.registerComponent('glow-effect', {
+
     init: function(): void {
         this.el.addEventListener('loaded', (event) => {
             const mesh: any = this.el.getObject3D('mesh');
@@ -37,7 +38,7 @@ const glowEffect = AFRAME.registerComponent('glow-effect', {
             textEntity.setObject3D('mesh', mesh);
         } );
         
-    }, 
+    }
 });
 
 export default glowEffect;

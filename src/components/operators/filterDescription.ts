@@ -11,42 +11,10 @@ const filterDescription = {
     init: function(): void {
         const yOffset = 0.05;
         const inputPromptOffset = new THREE.Vector3(-0.078, 0, 0.026);
-        this.createOperatorModel();
+        this.createOperatorPlane();
 
         const length = this.data.functionInputs.length;
-        const startingY = 0.025 * (length - 1);
-        for (let i = 0; i < length; i++) {
-            const paramEl: any = document.createElement('a-entity');
-            const InputEl: any = document.createElement('a-entity');
-
-            this.el.appendChild(paramEl);
-            this.el.appendChild(InputEl);
-
-            paramEl.object3D.position.y += startingY - yOffset * i; 
-            InputEl.object3D.position.y += startingY - yOffset * i; 
-            this.createPrompt(this.data.functionInputs[i], '#00e640', inputPromptOffset.clone().setY(startingY - 0.05 * i));
-
-            paramEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'param' + i);
-            InputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'input' + i);
-
-            paramEl.setAttribute('obj-model', 'obj:#paramBlock-obj');
-            InputEl.setAttribute('obj-model', 'obj:#input-obj');
-
-            // Attach the material component to the slider entity.
-            paramEl.setAttribute('material', 'color', '#2e3131');
-            InputEl.setAttribute('material', 'color', '#f2f1ef');
-
-            InputEl.classList.add('connectable', 'input');
-
-            InputEl.addEventListener('raycaster-intersected', (event) => {
-                event.stopPropagation();
-                InputEl.setAttribute('material', 'color', 'yellow'); 
-            })
-            InputEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                event.stopPropagation();
-                InputEl.setAttribute('material', 'color', 'white'); 
-            })
-        }
+        
     },
 
     tick: function(time, timeDelta): void {
@@ -86,31 +54,20 @@ const filterDescription = {
         promptEntity.object3D.position.copy(position);
     },
 
-    // Create a model of an operator.
-    createOperatorModel(): void {
-        const functionEl: any = document.createElement('a-entity');
-        functionEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'function');
-        this.el.appendChild(functionEl);
-        functionEl.setAttribute('obj-model', 'obj:#functionBlock-obj');
-        functionEl.setAttribute('material', 'color', '#2e3131');
-        functionEl.object3D.scale.set(1, this.data.functionInputs.length, 1);
+    // Create a plane of an operator.
+    createOperatorPlane(): void {
+        this.el.setAttribute('geometry', 'primitive', 'plane');
 
-        const OutputEl: any = document.createElement('a-entity');
-        OutputEl.setAttribute('id', this.el.getAttribute('id') + '-' + 'output');
-        OutputEl.classList.add('connectable', 'output');
-        this.el.appendChild(OutputEl);
-
-        OutputEl.setAttribute('obj-model', 'obj:#output-obj');
-        OutputEl.setAttribute('material', 'color', '#f2f1ef');
-
-        OutputEl.addEventListener('raycaster-intersected', (event) => {
-            event.stopPropagation();
-            OutputEl.setAttribute('material', 'color', 'yellow'); 
-        })
-        OutputEl.addEventListener('raycaster-intersected-cleared', (event) => {
-            event.stopPropagation();
-            OutputEl.setAttribute('material', 'color', 'white'); 
-        })
+        this.el.setAttribute('material', {
+            color: '#7befb2', 
+            shader: 'standard',
+            emissive: '#7befb2',
+            emissiveIntensity: 0.35,
+            side: 'double',
+            transparent: true,
+            opacity: 0.9,
+            fog: true
+        });
     }  
 }
 

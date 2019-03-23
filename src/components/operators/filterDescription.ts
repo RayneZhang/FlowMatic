@@ -9,12 +9,8 @@ const filterDescription = {
     },
 
     init: function(): void {
-        const yOffset = 0.05;
-        const inputPromptOffset = new THREE.Vector3(-0.078, 0, 0.026);
-        this.createOperatorPlane();
-
         const length = this.data.functionInputs.length;
-        
+        this.createOperatorPlane(2);        
     },
 
     tick: function(time, timeDelta): void {
@@ -55,8 +51,12 @@ const filterDescription = {
     },
 
     // Create a plane of an operator.
-    createOperatorPlane(): void {
-        this.el.setAttribute('geometry', 'primitive', 'plane');
+    createOperatorPlane(_length: number): void {
+        this.el.setAttribute('geometry', {
+            primitive: 'plane',
+            width: 1,
+            height: 0.2 * (_length + 1)
+        });
 
         this.el.setAttribute('material', {
             color: '#7befb2', 

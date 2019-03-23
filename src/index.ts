@@ -45,6 +45,8 @@ import plusOperator from './components/operators/plus'
 plusOperator;
 import subtractOperator from './components/operators/subtract'
 subtractOperator;
+import operatorModel from './components/operators/operatorModel'
+operatorModel;
 import filterDescription from './components/operators/filterDescription';
 
 import spotLight from './components/lights/spotlight'

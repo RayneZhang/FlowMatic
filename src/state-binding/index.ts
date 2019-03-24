@@ -73,7 +73,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
                      newEntity.setAttribute('operator-model', 'functionInputs', ['Color (Hex)', 'Darkness (Number)']);
-                     newEntity.setAttribute('glow-effect');
+                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
                      this.id++;
                      break;
                  }
@@ -99,7 +100,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
                      newEntity.setAttribute('operator-model', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Acceleration (Number)']);
-                     newEntity.setAttribute('glow-effect');
+                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
                      this.id++;
                      break;
                  }
@@ -109,7 +111,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
                      newEntity.setAttribute('operator-model', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Velocity (Number)']);
-                     newEntity.setAttribute('glow-effect');
+                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
                      this.id++;
                      break;
                  }
@@ -127,6 +130,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#switch-obj');
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['On/Off']);
+                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
 
                     this.id++;
                     break;
@@ -136,7 +140,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('id', 'plus-operator' + id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
-                    newEntity.setAttribute('glow-effect');
+                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                    
                     this.id++;
                     break;
                  }
@@ -145,7 +150,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('id', 'subtract-operator' + id);
                     newEntity.setAttribute('subtract', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
-                    newEntity.setAttribute('glow-effect');
+                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
                     this.id++;
                     break;
                  }

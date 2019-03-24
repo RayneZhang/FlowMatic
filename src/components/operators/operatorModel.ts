@@ -8,11 +8,16 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
     },
 
     init: function(): void {
+        // Parameters.
+        this.lineHeight = 0.1;
+        this.boxHeight = this.lineHeight * this.data.functionInputs.length;
+        this.boxWidth = 0.3;
+
         // Add to the entity's class list.
         this.el.setAttribute('geometry', {
             primitive: 'box',
-            width: 0.3,
-            height: 0.2,
+            width: this.boxWidth,
+            height: this.boxHeight,
             depth: 0.1
         });
 
@@ -24,18 +29,18 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         // Initiate plugs.
         let i: number = 0;
         for (const inputName of this.data.functionInputs) {
-            this.createOneInput(inputName, 0.1 - 0.1*(i+0.5));
-            this.createPipe(new THREE.Vector3(-0.15, 0.1 - 0.1*(i+0.5), 0), new THREE.Vector3(0.15, 0.05, 0));
+            this.createOneInput(inputName, this.boxHeight/2 - this.lineHeight*(i+0.5));
+            this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
             i++;
         }
 
         // Initiate output.
-        this.createOutput(0.05);
+        this.createOutput(this.boxHeight/2 - this.lineHeight/2);
 
         // Initiate operator name.
         const textEntity: any = document.createElement('a-entity');
         this.el.appendChild(textEntity);
-        this.createTextEntity(textEntity, "Example Function", new THREE.Vector3(-0.15, 0.15, 0));
+        this.createTextEntity(textEntity, this.data.functionName, new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 + 0.05, 0));
     },
 
     // Create a plug for a certain input
@@ -51,7 +56,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         plug.setAttribute('material', 'color', '#ffffff');
 
         // Set up plug position.
-        plug.object3D.position.set(-0.15, _yOffset, 0);
+        plug.object3D.position.set(-this.boxWidth/2, _yOffset, 0);
     },
 
     // Create an output plug.
@@ -64,7 +69,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
             radius: 0.015
         });
         output.setAttribute('material', 'color', '#ffffff');
-        output.object3D.position.set(0.15, _yOffset, 0);
+        output.object3D.position.set(this.boxWidth/2, _yOffset, 0);
     },
 
     // Create pipes.

@@ -130,7 +130,18 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#switch-obj');
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['On/Off']);
-                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
+                    this.id++;
+                    break;
+                 }
+                 case 'Slider': {
+                    // Set entity id.
+                    newEntity.setAttribute('id', targetModelName + id);
+                    const sliderEntity: any = document.createElement('a-entity');
+                    newEntity.appendChild(sliderEntity);
+                    // Set up geometry and materials.
+                    newEntity.setAttribute('obj-model', 'obj', '#rail-obj');
+                    sliderEntity.setAttribute('obj-model', 'obj', '#slider-obj');
 
                     this.id++;
                     break;
@@ -246,6 +257,14 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 }
                 case 'Vector': {
                     id = '#vector' + createdId;
+                    break;
+                }
+                case 'Switch': {
+                    id = '#' + targetModelName + createdId;
+                    break;
+                }
+                case 'Slider': {
+                    id = '#' + targetModelName + createdId;
                     break;
                 }
                 case 'Plus': {

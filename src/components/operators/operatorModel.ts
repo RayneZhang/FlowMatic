@@ -12,7 +12,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         this.el.setAttribute('geometry', {
             primitive: 'box',
             width: 0.3,
-            height: 0.3,
+            height: 0.2,
             depth: 0.1
         });
 
@@ -24,9 +24,12 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         // Initiate plugs.
         let i: number = 0;
         for (const inputName of this.data.functionInputs) {
-            this.createOneInput(inputName, 0.15 - 0.1*(i+0.5));
+            this.createOneInput(inputName, 0.1 - 0.1*(i+0.5));
             i++;
         }
+
+        // Initiate output.
+        this.createOutput(0.05);
     },
 
     // Create a plug for a certain input
@@ -48,6 +51,19 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
 
         // Set up plug position.
         plug.object3D.position.set(-0.15, _yOffset, 0);
+    },
+
+    // Create an output plug.
+    createOutput: function(_yOffset: number): void {
+        const output: any = document.createElement('a-entity');
+        this.el.appendChild(output);
+
+        output.setAttribute('geometry', {
+            primitive: 'sphere',
+            radius: 0.015
+        });
+        output.setAttribute('material', 'color', '#ffffff');
+        output.object3D.position.set(0.15, _yOffset, 0);
     }
 
 });

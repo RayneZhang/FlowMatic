@@ -31,6 +31,11 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
 
         // Initiate output.
         this.createOutput(0.05);
+
+        // Initiate operator name.
+        const textEntity: any = document.createElement('a-entity');
+        this.el.appendChild(textEntity);
+        this.createTextEntity(textEntity, "Example Function", new THREE.Vector3(-0.15, 0.15, 0));
     },
 
     // Create a plug for a certain input
@@ -84,6 +89,32 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
 
         pipe.object3D.position.copy(middlePoint);
         pipe.object3D.rotation.set(0, 0, -angle);
+    },
+
+    // Create a text geometry given by the entity and name.
+    createTextEntity(_textEntity: any, _inputName: string, _pos: any): void {
+        var loader = new THREE.FontLoader();
+        loader.load( '../vendor/fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+            var geometry = new THREE.TextGeometry( _inputName, {
+                font: font,
+                size: 0.03,
+                height: 0.005,
+                curveSegments: 12,
+                bevelEnabled: false,
+                bevelThickness: 1,
+                bevelSize: 0.5,
+                bevelSegments: 3
+            } );
+            geometry.computeBoundingBox();
+            geometry.computeVertexNormals();
+            const b_geometry = new THREE.BufferGeometry().fromGeometry( geometry );
+            const material = new THREE.MeshBasicMaterial({color: 0xffffff, opacity: 0.5, transparent: true});
+            var mesh = new THREE.Mesh( b_geometry, material );
+            _textEntity.setObject3D('mesh', mesh);
+            _textEntity.object3D.position.copy(_pos.clone());
+
+        } );
     }
 
 });

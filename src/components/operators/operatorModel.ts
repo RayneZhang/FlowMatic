@@ -3,8 +3,8 @@ declare const THREE:any;
 
 const operatorModel = AFRAME.registerComponent('operator-model', {
     schema: {
-        functionInputs: {type: 'array', default: ['Position', 'Rotation']},
-        functionName: {type: 'string', default: ""}
+        functionInputs: {type: 'array', default: ['Acceleration\n(Number)', 'Rotation']},
+        functionName: {type: 'string', default: "Example Function"}
     },
 
     init: function(): void {
@@ -40,7 +40,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         // Initiate operator name.
         const textEntity: any = document.createElement('a-entity');
         this.el.appendChild(textEntity);
-        this.createTextEntity(textEntity, this.data.functionName, new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 + 0.05, 0));
+        this.createTextEntity(textEntity, this.data.functionName, new THREE.Vector3(0, this.boxHeight/2 + 0.05, 0));
     },
 
     // Create a plug for a certain input
@@ -57,6 +57,22 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
 
         // Set up plug position.
         plug.object3D.position.set(-this.boxWidth/2, _yOffset, 0);
+
+        // Create plug description.
+        const plugDescription: any = document.createElement('a-entity');
+        this.el.appendChild(plugDescription);
+
+        plugDescription.setAttribute('text', {
+            value: _inputName,
+            side: 'double',
+            wrapCount: 100,
+            align: 'center',
+            color: '#2e3131'
+        });
+
+
+        plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(-90), 0);
+        plugDescription.object3D.position.set(-this.boxWidth/2, _yOffset + 0.3*this.lineHeight, 0);
     },
 
     // Create an output plug.
@@ -108,8 +124,9 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
             } );
             geometry.computeBoundingBox();
             geometry.computeVertexNormals();
+            geometry.center();
             const b_geometry = new THREE.BufferGeometry().fromGeometry( geometry );
-            const material = new THREE.MeshBasicMaterial({color: 0xffffff, opacity: 0.5, transparent: true});
+            const material = new THREE.MeshBasicMaterial({color: 0xffffff, opacity: 0.8, transparent: true});
             var mesh = new THREE.Mesh( b_geometry, material );
             _textEntity.setObject3D('mesh', mesh);
             _textEntity.object3D.position.copy(_pos.clone());

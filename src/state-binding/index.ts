@@ -72,7 +72,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'color-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('operator-model', 'functionInputs', ['Color (Hex)', 'Darkness (Number)']);
+                     newEntity.setAttribute('operator-model', 'functionInputs', ['Color\n(Hex)', 'Darkness\n(Number)']);
                      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
 
                      this.id++;
@@ -99,7 +99,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Acceleration (Number)']);
+                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position\n(Vector3)', 'Direction\n(Vector3)', 'Acceleration\n(Number)']);
                      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
 
                      this.id++;
@@ -110,7 +110,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Velocity (Number)']);
+                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position\n(Vector3)', 'Direction\n(Vector3)', 'Velocity\n(Number)']);
                      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
 
                      this.id++;
@@ -141,7 +141,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('plus', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
-                    
+
                     this.id++;
                     break;
                  }

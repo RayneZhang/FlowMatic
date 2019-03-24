@@ -50,11 +50,6 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         });
         plug.setAttribute('material', 'color', '#ffffff');
 
-        // Set up plug geometry
-        // plug.setAttribute('obj-model', 'obj', '#plug-obj');
-        // plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
-        // plug.object3D.scale.set(2, 2, 2);
-
         // Set up plug position.
         plug.object3D.position.set(-0.15, _yOffset, 0);
     },

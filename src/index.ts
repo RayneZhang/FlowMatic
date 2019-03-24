@@ -47,7 +47,6 @@ import subtractOperator from './components/operators/subtract'
 subtractOperator;
 import operatorModel from './components/operators/operatorModel'
 operatorModel;
-import filterDescription from './components/operators/filterDescription';
 
 import spotLight from './components/lights/spotlight'
 spotLight;
@@ -78,7 +77,6 @@ AFRAME.registerComponent('model-subset', modelSubset);
 AFRAME.registerComponent('obj-attributes-list', objAttrList);
 
 AFRAME.registerComponent('bottle-description', bottleDescription);
-AFRAME.registerComponent('filter-description', filterDescription);
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);

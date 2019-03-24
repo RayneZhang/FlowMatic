@@ -72,7 +72,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'color-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "darkness");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('filter-description', 'functionInputs', ['Color (Hex)', 'Darkness (Number)']);
+                     newEntity.setAttribute('operator-model', 'functionInputs', ['Color (Hex)', 'Darkness (Number)']);
                      newEntity.setAttribute('glow-effect');
                      this.id++;
                      break;
@@ -98,7 +98,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('filter-description', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Acceleration (Number)']);
+                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Acceleration (Number)']);
                      newEntity.setAttribute('glow-effect');
                      this.id++;
                      break;
@@ -108,7 +108,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('id', 'position-filter' + id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('filter-description', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Velocity (Number)']);
+                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position (Vector3)', 'Direction (Vector3)', 'Velocity (Number)']);
                      newEntity.setAttribute('glow-effect');
                      this.id++;
                      break;
@@ -135,7 +135,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'plus-operator' + id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
-                    newEntity.setAttribute('filter-description', 'functionInputs', ['+', '-']);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
                     newEntity.setAttribute('glow-effect');
                     this.id++;
                     break;
@@ -144,7 +144,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'subtract-operator' + id);
                     newEntity.setAttribute('subtract', 'targetEntities', []);
-                    newEntity.setAttribute('filter-description', 'functionInputs', ['+', '-']);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
                     newEntity.setAttribute('glow-effect');
                     this.id++;
                     break;

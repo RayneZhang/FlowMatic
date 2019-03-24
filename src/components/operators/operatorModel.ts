@@ -25,6 +25,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         let i: number = 0;
         for (const inputName of this.data.functionInputs) {
             this.createOneInput(inputName, 0.1 - 0.1*(i+0.5));
+            this.createPipe(new THREE.Vector3(-0.15, 0.1 - 0.1*(i+0.5), 0), new THREE.Vector3(0.15, 0.05, 0));
             i++;
         }
 
@@ -64,6 +65,25 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         });
         output.setAttribute('material', 'color', '#ffffff');
         output.object3D.position.set(0.15, _yOffset, 0);
+    },
+
+    // Create pipes.
+    createPipe: function(_point1: any, _point2: any): void {
+        const pipe: any = document.createElement('a-entity');
+        this.el.appendChild(pipe);
+
+        const height: number = _point1.distanceTo(_point2);
+        const middlePoint: any = _point1.clone().add(_point2).multiplyScalar(0.5);
+        const angle: number = new THREE.Vector3(0, 1, 0).angleTo(_point2.clone().sub(middlePoint));
+        pipe.setAttribute('geometry', {
+            primitive: 'cylinder',
+            radius: 0.005,
+            height: height
+        });
+        pipe.setAttribute('material', 'color', '#ffffff');
+
+        pipe.object3D.position.copy(middlePoint);
+        pipe.object3D.rotation.set(0, 0, -angle);
     }
 
 });

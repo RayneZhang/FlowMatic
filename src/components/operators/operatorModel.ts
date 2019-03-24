@@ -48,13 +48,20 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         // Create a plug first.
         const plug: any = document.createElement('a-entity');
         this.el.appendChild(plug);
+        plug.classList.add('connectable');
 
         plug.setAttribute('geometry', {
             primitive: 'sphere',
             radius: 0.015
         });
         plug.setAttribute('material', 'color', '#ffffff');
+        plug.addEventListener('raycaster-intersected', (event) => {
+            plug.setAttribute('material', 'color', 'yellow');
+        });
 
+        plug.addEventListener('raycaster-intersected-cleared', (event) => {
+            plug.setAttribute('material', 'color', '#ffffff');
+        });
         // Set up plug position.
         plug.object3D.position.set(-this.boxWidth/2, _yOffset, 0);
 
@@ -79,12 +86,22 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
     createOutput: function(_yOffset: number): void {
         const output: any = document.createElement('a-entity');
         this.el.appendChild(output);
+        output.classList.add('connectable');
 
         output.setAttribute('geometry', {
             primitive: 'sphere',
             radius: 0.015
         });
         output.setAttribute('material', 'color', '#ffffff');
+
+        output.addEventListener('raycaster-intersected', (event) => {
+            output.setAttribute('material', 'color', 'yellow');
+        });
+
+        output.addEventListener('raycaster-intersected-cleared', (event) => {
+            output.setAttribute('material', 'color', '#ffffff');
+        });
+
         output.object3D.position.set(this.boxWidth/2, _yOffset, 0);
     },
 

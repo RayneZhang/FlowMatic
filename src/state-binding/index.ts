@@ -127,8 +127,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  case 'Switch': {
                     // Set entity id.
                     newEntity.setAttribute('id', targetModelName + id);
+                    const switchEntity: any = document.createElement('a-entity');
+                    newEntity.appendChild(switchEntity);
+
                     // Set up geometry and materials.
-                    newEntity.setAttribute('obj-model', 'obj', '#switch-obj');
+                    newEntity.setAttribute('obj-model', 'obj', '#switch-base-obj');
+                    switchEntity.setAttribute('obj-model', 'obj', '#switch-obj');
+                    
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['On/Off']);
 
                     this.id++;

@@ -8,9 +8,10 @@ const objAttrList = {
 
     init: function(): void {
         // Add to the entity's class list.
-        this.el.classList.add("obj-attr-list");        
+        this.el.classList.add("obj-attr-list");       
         // Create a menu entity and append it to the controller.
         const ListEntity: any = this.listEntity = document.createElement('a-entity'); 
+        this.el.appendChild(this.listEntity); 
 
         // layout offset of the attributes.
         let offset: number = 0.35;
@@ -22,7 +23,6 @@ const objAttrList = {
             ListEntity.appendChild(curEntity);
 
             curEntity.setAttribute('id', this.el.getAttribute('id') + '_' + attrName);
-
             curEntity.setAttribute('geometry', {
                 primitive: 'plane', 
                 width: 0.5,
@@ -77,7 +77,6 @@ const objAttrList = {
     onModelLoaded(event): void {
         // Set position of the listEntity.
         const width: number = this.calWidth(this.el);
-        this.el.appendChild(this.listEntity);
         this.listEntity.object3D.scale.set(width, width, width);
         this.listEntity.object3D.position.set(width/2 + 0.5*width, 0, 0);
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');

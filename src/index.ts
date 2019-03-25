@@ -17,7 +17,6 @@ import controllerMaterial from './components/controllers/controller-material-con
 controllerMaterial;
 
 import modelSubset from './components/utils/model_subset';
-import EntityFollow from './components/utils/EntityFollow';
 
 import globalMenu from './components/ui/globalMenu';
 import objAttrList from './components/ui/objAttrList';
@@ -40,6 +39,10 @@ stateBinding;
 
 import vector from './components/utils/vector'
 vector;
+import swtch from './components/utils/swtch'
+swtch;
+import entityFollow from './components/utils/entityFollow'
+entityFollow;
 
 import plusOperator from './components/operators/plus'
 plusOperator;
@@ -82,5 +85,3 @@ AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);
 AFRAME.registerComponent('draw-line', drawLine);
 AFRAME.registerComponent('line-properties', lineProperties);
-
-AFRAME.registerComponent('entity-follow', EntityFollow);

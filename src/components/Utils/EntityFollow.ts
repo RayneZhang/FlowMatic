@@ -1,4 +1,6 @@
-const EntityFollow = {
+import * as AFRAME from 'aframe'
+
+const entityFollow = AFRAME.registerComponent('entity-follow', {
     schema: {
         targetEntity: {type: 'selector', default: null},
     },
@@ -15,6 +17,6 @@ const EntityFollow = {
         else
             console.log("Target empty!");
     }
-}
+});
 
-export default EntityFollow;
+export default entityFollow;

@@ -39,8 +39,12 @@ const switchSource = AFRAME.registerComponent('switch-source', {
         }
         else {
             this.globalTimeDelta = 0;
-            // Fetch the vector value from vector component.
-            this.data.dataValue = this.el.components['swtch'].getSwitchStatus();
+            // Fetch the vector value from swtch component.
+            if (this.el.firstChild.classList.contains('Switch')) {
+                this.data.dataValue = this.el.firstChild.components['swtch'].getSwitchStatus();
+            }
+            else
+                return;
 
             const targetEntities = this.data.targetEntities;
             // Check if there is target object.

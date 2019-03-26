@@ -1,4 +1,5 @@
 import * as AFRAME from 'aframe'
+import pointLightShader from '../../shaders/PointLight';
 declare const THREE:any;
 declare const THREEx:any;
 
@@ -6,6 +7,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
     schema: {
         color: {type: 'string', default: 'white'},
         direction: {type: 'string', default: ''},
+        switch: {type: 'boolean', default: false},
         sourceAttributes: {type: 'array', default: []},
         targetEntities: {type: 'array', default: []},
         targetAttributes: {type: 'array', default: []}
@@ -42,21 +44,52 @@ const spotLight = AFRAME.registerComponent('spotlight', {
             if (dataType === 'vector') {
                 const attribute: string = event.detail.attribute;
                 if (attribute === 'Light Direction') {
-                    const Dir = new THREE.Vector3().copy(dataValue);
-                    Dir.add(this.el.object3D.position.clone());
-                    this.el.object3D.lookAt(Dir);
-                    this.el.object3D.rotateX(THREE.Math.degToRad(15));
+                    this.el.setAttribute('spotlight', 'direction', dataValue);
                 }
             }
             if (dataType === 'Color') {
                 const attribute: string = event.detail.attribute;
                 if (attribute === 'Light Color') {
-                    this.spotLightEntity.setAttribute('light', 'color', dataValue);
-                    this.lightBulbEntity.setAttribute('material', 'color', dataValue);
-                    this.setVolumetricLightColor(dataValue);
+                    this.el.setAttribute('spotlight', 'color', dataValue);
+                }
+            }
+            if (dataType === 'boolean') {
+                const attribute: string = event.detail.attribute;
+                if (attribute === 'Light On/Off') {
+                    this.el.setAttribute('spotlight', 'switch', dataValue);
                 }
             }
         });
+    },
+
+    update: function (oldDate): void {
+        // Switch on.
+        if (this.data.switch) {
+            // Set up direction.
+            if (this.data.direction) {
+                const Dir = new THREE.Vector3().copy(this.data.direction);
+                Dir.add(this.el.object3D.position.clone());
+                this.el.object3D.lookAt(Dir);
+                this.el.object3D.rotateX(THREE.Math.degToRad(15));
+            }
+            
+            // Set up color.
+            this.spotLightEntity.setAttribute('light', 'color', this.data.color);
+            this.lightBulbEntity.setAttribute('material', 'color', this.data.color);
+            this.setVolumetricLightColor(this.data.color);
+
+            // Set up switch.
+            this.spotLightEntity.setAttribute('visible', true);
+            this.lightBulbEntity.setAttribute('visible', true);
+            this.volumetricEntity.setAttribute('visible', true);
+        }
+        // Switch off.
+        else {
+            // Set up switch.
+            this.spotLightEntity.setAttribute('visible', false);
+            this.lightBulbEntity.setAttribute('visible', false);
+            this.volumetricEntity.setAttribute('visible', false);
+        }
     },
 
     // ==========For internal call only.==========

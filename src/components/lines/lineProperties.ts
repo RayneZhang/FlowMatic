@@ -12,19 +12,22 @@ const lineProperties = {
         this.sourcePosition = new THREE.Vector3();
         this.targetPosition = new THREE.Vector3();
         this.positions = new Array<number>(63);
+
+        this.updatedSourcePosition = new THREE.Vector3();
+        this.updatedTargetPosition = new THREE.Vector3();
     },
 
     tick: function(time, timeDelta): void {
         if (this.data.sourceEntity && this.data.targetEntity) {
-            const currentSourcePosition = this.data.sourceEntity.object3D.getWorldPosition().clone();
-            const currentTargetPosition = this.data.targetEntity.object3D.getWorldPosition().clone();
-            if (this.sourcePosition.equals(currentSourcePosition) && this.targetPosition.equals(currentTargetPosition)) {
+            this.data.sourceEntity.object3D.getWorldPosition(this.updatedSourcePosition);
+            this.data.targetEntity.object3D.getWorldPosition(this.updatedTargetPosition);
+            if (this.sourcePosition.equals(this.updatedSourcePosition) && this.targetPosition.equals(this.updatedTargetPosition)) {
                 return;
             }
-            this.startPoint.add(currentSourcePosition.clone().sub(this.sourcePosition));
-            this.endPoint.add(currentTargetPosition.clone().sub(this.targetPosition));
-            this.sourcePosition = currentSourcePosition.clone();
-            this.targetPosition = currentTargetPosition.clone();
+            this.startPoint.add(this.updatedSourcePosition.clone().sub(this.sourcePosition));
+            this.endPoint.add(this.updatedTargetPosition.clone().sub(this.targetPosition));
+            this.sourcePosition = this.updatedSourcePosition.clone();
+            this.targetPosition = this.updatedTargetPosition.clone();
             const line: any = this.el.getObject3D('mesh');
             if (!line) return;
             this.setPositions();
@@ -36,12 +39,12 @@ const lineProperties = {
         if (this.data.sourceEntity){
             const {x, y, z} = this.el.parentNode.getAttribute('draw-line').startPoint;
             this.startPoint.set(x, y, z);
-            this.sourcePosition = this.data.sourceEntity.object3D.getWorldPosition().clone();
+            this.data.sourceEntity.object3D.getWorldPosition(this.sourcePosition);
         }
         if (this.data.targetEntity) {
             const {x, y, z} = this.el.parentNode.getAttribute('draw-line').endPoint;
             this.endPoint.set(x, y, z);
-            this.targetPosition = this.data.targetEntity.object3D.getWorldPosition().clone();
+            this.data.targetEntity.object3D.getWorldPosition(this.targetPosition);
         }
     },
 

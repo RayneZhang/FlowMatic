@@ -136,6 +136,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['On/Off']);
                     switchEntity.setAttribute('swtch', 'switchOn', false);
+                    newEntity.setAttribute('switch-source', 'targetEntities', []);
                     this.id++;
                     break;
                  }
@@ -179,7 +180,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     
                     // Set up attributes.
                     newEntity.setAttribute('id', targetModelName + id);
-                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Light Direction', 'Light Color', 'Position']);
+                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Light Direction', 'Light Color', 'Position', 'Light On/Off']);
                     newEntity.setAttribute('spotlight', 'color', 'white');
 
                     // Set up dataflow.

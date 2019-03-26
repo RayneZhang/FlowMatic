@@ -25,16 +25,16 @@ const swtch = AFRAME.registerComponent('swtch', {
     // =====For external call.=====
 
     getSwitchStatus(): boolean {
-        return this.data.swichOn;
+        return this.data.switchOn;
     },
 
     switchClicked(): void {
         this.data.switchOn = !this.data.switchOn;
         if (this.data.switchOn) {
-            this.el.object3D.rotation.set(THREE.Math.degToRad(45), 0, 0);
+            this.el.object3D.rotation.set(THREE.Math.degToRad(-45), 0, 0);
         }
         else
-            this.el.object3D.rotation.set(THREE.Math.degToRad(-45), 0, 0);
+            this.el.object3D.rotation.set(THREE.Math.degToRad(45), 0, 0);
     }
 });
 

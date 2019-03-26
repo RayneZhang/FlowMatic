@@ -95,6 +95,11 @@ const rightTriggerListener = {
 
                 // input/output -> operator.
                 LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode);
+                if (intersectedEl.parentNode && intersectedEl.parentNode.classList.contains('data-filter')) {
+                    if (intersectedEl.firstChild.getAttribute('text')) {
+                        LinesEntity.setAttribute('draw-line', 'dataType', intersectedEl.firstChild.getAttribute('text').value);
+                    }
+                }
                 // Dot -> prompt -> bottle. For data sources such as bottles.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
@@ -209,12 +214,21 @@ const rightTriggerListener = {
                     targetAttribute = attrNameEntity.getAttribute('text').value;
                 }
 
+                // delete lines.
+                if (targetEntity.getAttribute('id') == sourceEntity.getAttribute('id')) {
+                    if (this.curLine) {
+                        this.curLine.destroyLine();
+                        this.curLine = null;
+                        return;
+                    }
+                }
+
                 // Set target objects of source entity.
                 if (sourceEntity.classList.contains('data-source')){
                     sourceEntity.emit('source-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
                 }
                 if (sourceEntity.classList.contains('data-filter')){
-                    sourceEntity.emit('operator-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
+                    sourceEntity.emit('operator-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute, sourceAttribute: sourceDataType}, false);
                 }
                 if (sourceEntity.classList.contains('data-receiver')){
                     sourceEntity.emit('target-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute, sourceAttribute: sourceDataType}, false);

@@ -29,10 +29,13 @@ import vectorSource from './components/dataflow/vectorSource'
 vectorSource;
 import switchSource from './components/dataflow/switchSource'
 switchSource;
+
 import plusOperator from './components/dataflow/operators/plus'
 plusOperator;
 import subtractOperator from './components/dataflow/operators/subtract'
 subtractOperator;
+import vecToNum from './components/dataflow/operators/vecToNum'
+vecToNum;
 import conditionBool from './components/dataflow/operators/conditionBool'
 conditionBool;
 

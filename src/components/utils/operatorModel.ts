@@ -4,6 +4,7 @@ declare const THREE:any;
 const operatorModel = AFRAME.registerComponent('operator-model', {
     schema: {
         functionInputs: {type: 'array', default: ['Acceleration\n(Number)', 'Rotation']},
+        functionOutputs: {type: 'array', default: ['Output']},
         functionName: {type: 'string', default: "Example Function"}
     },
 
@@ -29,13 +30,17 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         // Initiate plugs.
         let i: number = 0;
         for (const inputName of this.data.functionInputs) {
-            this.createOneInput(inputName, this.boxHeight/2 - this.lineHeight*(i+0.5));
+            this.createOnePlug(inputName, this.boxHeight/2 - this.lineHeight*(i+0.5), true);
             this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
             i++;
         }
 
         // Initiate output.
-        this.createOutput(this.boxHeight/2 - this.lineHeight/2);
+        let j: number = 0;
+        for (const outputName of this.data.functionOutputs) {
+            this.createOnePlug(outputName, this.boxHeight/2 - this.lineHeight*(j+0.5), false);
+            j++;
+        }
 
         // Initiate operator name.
         const textEntity: any = document.createElement('a-entity');
@@ -44,7 +49,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
     },
 
     // Create a plug for a certain input
-    createOneInput: function(_inputName: string, _yOffset: number): void {
+    createOnePlug: function(_inputName: string, _yOffset: number, _input: boolean): void {
         // Create a plug first.
         const plug: any = document.createElement('a-entity');
         this.el.appendChild(plug);
@@ -63,7 +68,10 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
             plug.setAttribute('material', 'color', '#ffffff');
         });
         // Set up plug position.
-        plug.object3D.position.set(-this.boxWidth/2, _yOffset, 0);
+        if (_input)
+            plug.object3D.position.set(-this.boxWidth/2, _yOffset, 0);
+        else
+            plug.object3D.position.set(this.boxWidth/2, _yOffset, 0);
 
         // Create plug description.
         const plugDescription: any = document.createElement('a-entity');
@@ -78,31 +86,11 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         });
 
 
-        plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(-90), 0);
+        if (_input)
+            plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(-90), 0);
+        else 
+            plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(90), 0);
         plugDescription.object3D.position.set(0, 0.3*this.lineHeight, 0);
-    },
-
-    // Create an output plug.
-    createOutput: function(_yOffset: number): void {
-        const output: any = document.createElement('a-entity');
-        this.el.appendChild(output);
-        output.classList.add('connectable');
-
-        output.setAttribute('geometry', {
-            primitive: 'sphere',
-            radius: 0.015
-        });
-        output.setAttribute('material', 'color', '#ffffff');
-
-        output.addEventListener('raycaster-intersected', (event) => {
-            output.setAttribute('material', 'color', 'yellow');
-        });
-
-        output.addEventListener('raycaster-intersected-cleared', (event) => {
-            output.setAttribute('material', 'color', '#ffffff');
-        });
-
-        output.object3D.position.set(this.boxWidth/2, _yOffset, 0);
     },
 
     // Create pipes.

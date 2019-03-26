@@ -9,6 +9,7 @@ const slider = AFRAME.registerComponent('slider', {
     init: function(): void {
         // Private properties.
         this.valueRange = 0.3;
+        this.maxValue = 10;
 
         this.el.classList.add('Slider');
         this.el.setAttribute('material', 'color', '#ffffff');
@@ -66,12 +67,19 @@ const slider = AFRAME.registerComponent('slider', {
         return this.data.value;
     },
 
+    // This function is just used to display a number value.
+    setSliderValue(_value: number): void {
+        this.data.value = Math.round(_value * 100) / 100;
+        this.valueLabel.setAttribute('text', 'value', this.data.value.toString());
+        this.el.object3D.position.set(0.3, 0, 0);
+    },
+
     getValueRange(): number {
         return this.valueRange;
     },
 
     setSliderValueByPosX(_posX: number): void {
-        this.data.value = Math.round((_posX + this.valueRange) / (2*this.valueRange) * 1000) / 100;
+        this.data.value = Math.round((_posX + this.valueRange) / (2*this.valueRange) * 1000) / (1000/this.maxValue);
         this.valueLabel.setAttribute('text', 'value', this.data.value.toString());
     }
 });

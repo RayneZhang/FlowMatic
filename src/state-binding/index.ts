@@ -145,6 +145,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     // Set entity id.
                     newEntity.setAttribute('id', targetModelName + id);
                     const sliderEntity: any = document.createElement('a-entity');
+                    sliderEntity.setAttribute('id', targetModelName + id + '_subSlider');
                     newEntity.appendChild(sliderEntity);
 
                     // Set up geometry and materials.
@@ -153,6 +154,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                     // Set up attributes.
                     sliderEntity.setAttribute('slider', 'value', 5);
+                    newEntity.setAttribute('slider-source', 'targetSlider', sliderEntity);
 
                     this.id++;
                     break;

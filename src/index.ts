@@ -29,6 +29,8 @@ import vectorSource from './components/dataflow/vectorSource'
 vectorSource;
 import switchSource from './components/dataflow/switchSource'
 switchSource;
+import sliderSource from './components/dataflow/sliderSource'
+sliderSource;
 
 import plusOperator from './components/dataflow/operators/plus'
 plusOperator;

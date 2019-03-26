@@ -233,22 +233,6 @@ const rightTriggerListener = {
                 if (sourceEntity.classList.contains('data-receiver')){
                     sourceEntity.emit('target-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute, sourceAttribute: sourceDataType}, false);
                 }
-                if (sourceEntity.classList.contains('vector-source')) {
-                    let targetEntities: any = sourceEntity.getAttribute('vector-source').targetEntities;
-                    let targetAttributes: any = sourceEntity.getAttribute('vector-source').targetAttributes;
-                    // If the targetEntities is null, we need to reset the type.
-                    if (!Array.isArray(targetEntities) || !targetEntities.length) {
-                        targetEntities = [];
-                    }
-                    if (!Array.isArray(targetAttributes) || !targetAttributes.length) {
-                        targetAttributes = [];
-                    }
-                    targetEntities.push(targetEntity.getAttribute('id'));
-                    targetAttributes.push(targetAttribute);
-                    sourceEntity.setAttribute('vector-source', 'targetEntities', targetEntities);
-                    sourceEntity.setAttribute('vector-source', 'targetAttributes', targetAttributes); // Target Attributes only exist when target is an object.
-                }
-                
 
                 // Set the connected two entities in the current line entity.
                 const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;

@@ -56,7 +56,7 @@ const numToVec = AFRAME.registerComponent('num2vec', {
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: new THREE.Vector3(this.dataValue.x, this.dataValue.y, this.dataValue.z) as string, attribute: this.data.targetAttributes[i]}, false);
+                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: new THREE.Vector3(this.data.dataValue.x, this.data.dataValue.y, this.data.dataValue.z) as string, attribute: this.data.targetAttributes[i]}, false);
             }
             i++;
         }

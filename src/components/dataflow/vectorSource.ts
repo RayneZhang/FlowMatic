@@ -11,7 +11,20 @@ const vectorSource = AFRAME.registerComponent('vector-source', {
 
     init: function(): void {
         // Add to the entity's class list.
-        this.el.classList.add('vector-source');
+        this.el.classList.add('data-source');
+        this.el.addEventListener('source-update', (event) => {
+            const targetEntity: string = event.detail.targetEntity;
+            const targetAttribute: string = event.detail.targetAttribute;
+            // If the targetEntities is null, we need to reset the type.
+            if (!Array.isArray(this.data.targetEntities) || !this.data.targetEntities.length) {
+                this.data.targetEntities = [];
+            }
+            if (!Array.isArray(this.data.targetAttributes) || !this.data.targetAttributes.length) {
+                this.data.targetAttributes = [];
+            }
+            this.data.targetEntities.push(targetEntity);
+            this.data.targetAttributes.push(targetAttribute);
+        });
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: string = event.detail.dataValue;

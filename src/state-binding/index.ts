@@ -172,6 +172,16 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Condition: Bool': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'condition-bool-operator' + id);
+                    newEntity.setAttribute('condition-bool', 'targetEntities', []);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['Condition', 'when Condition\n is True', 'when Condition\n is False']);
+                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
+                    this.id++;
+                    break;
+                 }
                  case 'Light': {
                     // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#light-01-obj');

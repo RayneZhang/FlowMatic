@@ -33,6 +33,8 @@ import plusOperator from './components/dataflow/operators/plus'
 plusOperator;
 import subtractOperator from './components/dataflow/operators/subtract'
 subtractOperator;
+import conditionBool from './components/dataflow/operators/conditionBool'
+conditionBool;
 
 import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';

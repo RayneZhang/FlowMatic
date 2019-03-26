@@ -67,7 +67,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
 
         // Create plug description.
         const plugDescription: any = document.createElement('a-entity');
-        this.el.appendChild(plugDescription);
+        plug.appendChild(plugDescription);
 
         plugDescription.setAttribute('text', {
             value: _inputName,
@@ -79,7 +79,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
 
 
         plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(-90), 0);
-        plugDescription.object3D.position.set(-this.boxWidth/2, _yOffset + 0.3*this.lineHeight, 0);
+        plugDescription.object3D.position.set(0, 0.3*this.lineHeight, 0);
     },
 
     // Create an output plug.

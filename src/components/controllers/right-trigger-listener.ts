@@ -197,8 +197,14 @@ const rightTriggerListener = {
                 let targetAttribute: string = null;
 
                 // input/output->Object
-                if (intersectedEl.parentNode.classList.contains('data-filter') || intersectedEl.parentNode.classList.contains('vector-source')) {
+                if (intersectedEl.parentNode.classList.contains('vector-source')) {
                     targetEntity = intersectedEl.parentNode;
+                }
+                else if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                    targetEntity = intersectedEl.parentNode;
+                    if (intersectedEl.firstChild.getAttribute('text')) {
+                        targetAttribute = intersectedEl.firstChild.getAttribute('text').value;
+                    }
                 }
                 // Dot->Description->ListEntity->Object
                 else {

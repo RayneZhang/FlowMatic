@@ -23,6 +23,11 @@ const swtch = AFRAME.registerComponent('swtch', {
     },
 
     // =====For external call.=====
+
+    getSwitchStatus(): boolean {
+        return this.data.swichOn;
+    },
+
     switchClicked(): void {
         this.data.switchOn = !this.data.switchOn;
         if (this.data.switchOn) {

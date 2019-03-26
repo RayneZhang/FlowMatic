@@ -27,6 +27,12 @@ import dataFilter from './components/dataflow/dataFilter';
 import dataReceiver from './components/dataflow/dataReceiver';
 import vectorSource from './components/dataflow/vectorSource'
 vectorSource;
+import switchSource from './components/dataflow/switchSource'
+switchSource;
+import plusOperator from './components/dataflow/operators/plus'
+plusOperator;
+import subtractOperator from './components/dataflow/operators/subtract'
+subtractOperator;
 
 import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';
@@ -43,12 +49,7 @@ import swtch from './components/utils/swtch'
 swtch;
 import entityFollow from './components/utils/entityFollow'
 entityFollow;
-
-import plusOperator from './components/operators/plus'
-plusOperator;
-import subtractOperator from './components/operators/subtract'
-subtractOperator;
-import operatorModel from './components/operators/operatorModel'
+import operatorModel from './components/utils/operatorModel'
 operatorModel;
 
 import spotLight from './components/lights/spotlight'

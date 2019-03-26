@@ -105,10 +105,10 @@ const rightTriggerListener = {
                 const EP = {x: theHand.object3D.position.x, y: theHand.object3D.position.y, z: theHand.object3D.position.z};
                 LinesEntity.setAttribute('draw-line', 'startPoint', SP);
                 LinesEntity.setAttribute('draw-line', 'endPoint', EP);
+
                 // input/output -> operator.
                 LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode);
-
-                // Dot -> prompt -> bottle.
+                // Dot -> prompt -> bottle. For data sources such as bottles.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
                 }
@@ -116,6 +116,10 @@ const rightTriggerListener = {
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                     LinesEntity.setAttribute('draw-line', 'dataType', intersectedEl.parentNode.getAttribute('text').value);
+                }
+                // Dot -> prompt -> attributeName -> utils. For data sources such as switch.
+                if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-source')) {
+                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                 }
             }
 
@@ -199,7 +203,6 @@ const rightTriggerListener = {
                 // Dot->Description->ListEntity->Object
                 else {
                     targetEntity = intersectedEl.parentNode.parentNode.parentNode;
-
                     const attrNameEntity: any = intersectedEl.parentNode;
                     targetAttribute = attrNameEntity.getAttribute('text').value;
                 }

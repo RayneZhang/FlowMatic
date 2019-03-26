@@ -138,6 +138,11 @@ const rightTriggerListener = {
                 this.vectorId = Number(parentId.substr(-1, 1));
                 this.vector = true;
             }
+
+            // Check if the intersected object is a Switch.
+            if (intersectedEl.classList.contains('Switch')) {
+                intersectedEl.components['swtch'].switchClicked();
+            }
         });
 
         listeningEl.addEventListener('triggerup', (event) => {

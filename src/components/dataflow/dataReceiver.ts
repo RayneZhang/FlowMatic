@@ -4,6 +4,7 @@ const dataReceiver = {
     schema: {
         dataType: {type: 'string', default: 'color'},
         dataValue: {type: 'string', default: 'blue'},
+        sourceAttributes: {type: 'array', default: []},
         targetEntities: {type: 'array', default: []},
         targetAttributes: {type: 'array', default: []}
     },
@@ -14,6 +15,25 @@ const dataReceiver = {
 
         this.sourceInitPos = null;
         this.objInitPos = null;
+
+        this.el.addEventListener('target-update', (event) => {
+            const targetEntity: string = event.detail.targetEntity;
+            const targetAttribute: string = event.detail.targetAttribute;
+            const sourceAttribute: string = event.detail.sourceAttribute;
+            // If the targetEntities is null, we need to reset the type.
+            if (!Array.isArray(this.data.targetEntities) || !this.data.targetEntities.length) {
+                this.data.targetEntities = [];
+            }
+            if (!Array.isArray(this.data.targetAttributes) || !this.data.targetAttributes.length) {
+                this.data.targetAttributes = [];
+            }
+            if (!Array.isArray(this.data.sourceAttributes) || !this.data.sourceAttributes.length) {
+                this.data.sourceAttributes = [];
+            }
+            this.data.targetEntities.push(targetEntity);
+            this.data.targetAttributes.push(targetAttribute);
+            this.data.sourceAttributes.push(sourceAttribute);
+        });
 
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
@@ -66,7 +86,7 @@ const dataReceiver = {
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                switch (this.data.targetAttributes[i]) {
+                switch (this.data.sourceAttributes[i]) {
                     case "Color": {
                         this.data.dataType = 'color';
                         this.data.dataValue = this.el.getAttribute('material').color;

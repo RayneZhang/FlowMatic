@@ -301,7 +301,9 @@ const rightTriggerListener = {
                 const updatedTargetPosition: any = currentTargetPosition.add(currentPosition.sub(lastPosition));
 
                 // Modify position at three.js level for better performance. (Better than setAttribute)
-                this.slidingEl.object3D.position.set(THREE.Math.clamp(updatedTargetPosition.x, -0.03, 0.03), 0, 0);
+                const valueRange: number = this.slidingEl.components['slider'].getValueRange();
+                this.slidingEl.object3D.position.set(THREE.Math.clamp(updatedTargetPosition.x, -valueRange, valueRange), 0, 0);
+                this.slidingEl.components['slider'].setSliderValueByPosX(this.slidingEl.object3D.position.x);
                 return;
             }
 

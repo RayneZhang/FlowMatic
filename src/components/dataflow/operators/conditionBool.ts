@@ -4,8 +4,11 @@ declare const THREE:any;
 const conditionBool = AFRAME.registerComponent('condition-bool', {
     schema: {
         operatorName: {type: 'string', default: 'Condition: Bool'},
-        dataType: {type: 'string', default: 'vector'},
-        dataValue: {type: 'string', default: ''},
+        condition: {type: 'boolean', default: false},
+        trueDataType: {type: 'string', default: 'vector'},
+        trueDataValue: {type: 'string', default: ''},
+        falseDataType: {type: 'string', default: 'vector'},
+        falseDataValue: {type: 'string', default: ''},
         sourceEntities: {type: 'array', default: []},
         sourceValues: {type: 'array', default: []},
         targetEntities: {type: 'array', default: []},
@@ -34,25 +37,18 @@ const conditionBool = AFRAME.registerComponent('condition-bool', {
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: any = event.detail.dataValue;
-            const sourceEntityId: string = event.detail.sourceEntityId;
             const attribute: string = event.detail.attribute;
-            if (dataType === 'vector' || dataType === 'position') {
-                console.log("Received: " + attribute);
-                const entityIndex = this.data.sourceEntities.indexOf(sourceEntityId);
-                if ( entityIndex === -1 ) {
-                    this.data.sourceEntities.push(sourceEntityId);
-                    this.data.sourceValues.push(dataValue.clone());
-                    this.dataValue.add(new THREE.Vector3().copy(dataValue));
-                }
-                else {
-                    const oldValue = this.data.sourceValues[entityIndex];
-                    if (oldValue === dataValue) return;
-                    this.dataValue.sub(new THREE.Vector3().copy(oldValue));
-                    this.data.sourceValues[entityIndex] = new THREE.Vector3().copy(dataValue);
-                    this.dataValue.add(new THREE.Vector3().copy(dataValue));
-                }
+            if (attribute === "Condition" && dataType === 'boolean') {
+                this.data.condition = dataValue;
             }
-            this.data.dataValue = this.dataValue as string;
+            else if (attribute === "when Condition\n is True") {
+                this.data.trueDataType = dataType;
+                this.data.trueDataValue = dataValue;
+            }
+            else if (attribute === "when Condition\n is False") {
+                this.data.falseDataType = dataType;
+                this.data.falseDataValue = dataValue;
+            }
         });
     },
 
@@ -67,7 +63,10 @@ const conditionBool = AFRAME.registerComponent('condition-bool', {
         for (const curId of this.data.targetEntities) {
             const curTarget: any = document.querySelector('#' + curId);
             if (curTarget) {
-                curTarget.emit('attribute-update', {dataType: this.data.dataType, dataValue: this.data.dataValue, attribute: this.data.targetAttributes[i]}, false);
+                if (this.data.condition)
+                    curTarget.emit('attribute-update', {dataType: this.data.trueDataType, dataValue: this.data.trueDataValue, attribute: this.data.targetAttributes[i], sourceEntityId: this.el.getAttribute('id')}, false);
+                else
+                    curTarget.emit('attribute-update', {dataType: this.data.falseDataType, dataValue: this.data.falseDataValue, attribute: this.data.targetAttributes[i], sourceEntityId: this.el.getAttribute('id')}, false);
             }
             i++;
         }

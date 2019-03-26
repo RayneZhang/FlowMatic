@@ -40,8 +40,8 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: string = event.detail.dataValue;
-            
-            if (!dataValue || !dataType)
+
+            if (dataValue === undefined || dataValue === null)
                 return;
 
             if (dataType === 'vector') {

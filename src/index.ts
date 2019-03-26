@@ -49,6 +49,8 @@ import vector from './components/utils/vector'
 vector;
 import swtch from './components/utils/swtch'
 swtch;
+import slider from './components/utils/slider'
+slider;
 import entityFollow from './components/utils/entityFollow'
 entityFollow;
 import operatorModel from './components/utils/operatorModel'

@@ -134,6 +134,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('obj-model', 'obj', '#switch-base-obj');
                     switchEntity.setAttribute('obj-model', 'obj', '#switch-obj');
 
+                    // Set up attributes.
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['On/Off']);
                     switchEntity.setAttribute('swtch', 'switchOn', false);
                     newEntity.setAttribute('switch-source', 'targetEntities', []);
@@ -145,9 +146,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('id', targetModelName + id);
                     const sliderEntity: any = document.createElement('a-entity');
                     newEntity.appendChild(sliderEntity);
+
                     // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#rail-obj');
                     sliderEntity.setAttribute('obj-model', 'obj', '#slider-obj');
+
+                    // Set up attributes.
+                    sliderEntity.setAttribute('slider', 'value', 5);
 
                     this.id++;
                     break;

@@ -60,19 +60,6 @@ const rightTriggerListener = {
                     const buttonId: number = Number(id.substr(-1, 1)) - 1;
                     globalMenuComponent.setSelectedSubMenuId(buttonId);
                 }
-
-                if (intersectedEl.classList.contains('slider')) {
-                    // Set current position as lastPosition.
-                    this.lastPosition = new THREE.Vector3();
-                    this.lastPosition = this.el.object3D.position.clone();
-
-                    // Set the intersected object as the following object.
-                    this.slidingEl = intersectedEl;
-                    this.sliding = true;
-                    this.slidingEl.parentNode.setAttribute('filter-description', 'sliding', true);
-
-                    // Leave it to tick.
-                }
                 
                 switch(id) {
                     case 'hue': case 'huecursor': {
@@ -147,6 +134,19 @@ const rightTriggerListener = {
             if (intersectedEl.classList.contains('Switch')) {
                 intersectedEl.components['swtch'].switchClicked();
             }
+
+            // Check if the intersected object is a Switch.
+            if (intersectedEl.classList.contains('Slider')) {
+                // Set current position as lastPosition.
+                this.lastPosition = new THREE.Vector3();
+                this.lastPosition = this.el.object3D.position.clone();
+
+                // Set the intersected object as the following object.
+                this.slidingEl = intersectedEl;
+                this.sliding = true;
+
+                // Leave it to tick.
+            }
         });
 
         listeningEl.addEventListener('triggerup', (event) => {
@@ -154,10 +154,6 @@ const rightTriggerListener = {
             this.hueDown = false;
             this.sliding = false;
             this.vector = false;
-            if (this.slidingEl) {
-                this.slidingEl.parentNode.setAttribute('filter-description', 'sliding', false);
-                this.slidingEl.emit('raycaster-intersected-cleared');
-            }
 
             // Conditions when the intersected target is not connectable.
             // Retrieve all intersected Elements through raycaster.
@@ -306,7 +302,6 @@ const rightTriggerListener = {
 
                 // Modify position at three.js level for better performance. (Better than setAttribute)
                 this.slidingEl.object3D.position.set(THREE.Math.clamp(updatedTargetPosition.x, -0.03, 0.03), 0, 0);
-                this.onFilterCursorDown();
                 return;
             }
 
@@ -398,18 +393,6 @@ const rightTriggerListener = {
                 }
             }
         }
-    },
-
-    onFilterCursorDown: function() {
-        if (!this.slidingEl) {
-            console.warn("The sliding element is null when onFilterCursorDown() is called!");
-            return;
-        }
-        const slider: any = this.slidingEl;
-        const operator: any = this.slidingEl.parentNode;
-
-        const intersectedPoint: any = slider.object3D.position.clone();
-        operator.emit('filter-update', {filterValue: intersectedPoint.x}, false);
     },
 
     onHueDown: function(position: any) {

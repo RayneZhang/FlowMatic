@@ -36,6 +36,8 @@ import subtractOperator from './components/dataflow/operators/subtract'
 subtractOperator;
 import vecToNum from './components/dataflow/operators/vecToNum'
 vecToNum;
+import numToVec from './components/dataflow/operators/numToVec'
+numToVec;
 import conditionBool from './components/dataflow/operators/conditionBool'
 conditionBool;
 

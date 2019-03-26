@@ -188,6 +188,17 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Number2Vector': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('num2vec', 'targetEntities', []);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['X', 'Y', 'Z']);
+                    newEntity.setAttribute('operator-model', 'functionOutputs', ['Vector']);
+                    newEntity.setAttribute('operator-model', 'functionName', "Number2Vector");
+
+                    this.id++;
+                    break;
+                 }
                  case 'Condition: Bool': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'condition-bool-operator' + id);

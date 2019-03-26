@@ -123,7 +123,8 @@ const objAttrList = {
         }
 
         const box = new THREE.Box3().setFromObject(mesh);
-        const size = box.getSize();
+        const size = new THREE.Vector3();
+        box.getSize(size);
         const width = size.x;
         
         return width;

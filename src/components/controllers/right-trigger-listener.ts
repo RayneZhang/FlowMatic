@@ -439,7 +439,8 @@ const rightTriggerListener = {
         if (!mesh) {return;}
 
         const box = new THREE.Box3().setFromObject(mesh);
-        const size = box.getSize();
+        const size = new THREE.vector3();
+        box.getSize(size);
         const extent = Math.max(size.x, size.y, size.z) / 2;
         const radius = Math.sqrt(2) * extent;
         

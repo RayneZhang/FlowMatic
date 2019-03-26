@@ -264,21 +264,6 @@ const globalMenu = {
         this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
     },
 
-    // Calculate the radius of the object.
-    calRadius(obj): number {
-        const mesh = obj.getObject3D('mesh');
-        if (!mesh) {
-            return 0;
-        }
-
-        const box = new THREE.Box3().setFromObject(mesh);
-        const size = box.getSize();
-        const extent = Math.max(size.x, size.y, size.z) / 2;
-        const radius = Math.sqrt(2) * extent;
-        
-        return radius;
-    },
-
     // ==========Also for external call.==========
     // Set description of the panel.
     setInstanceDescription(_buttonId: number): void {

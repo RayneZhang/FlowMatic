@@ -198,7 +198,7 @@ const rightTriggerListener = {
                 let targetAttribute: string = null;
 
                 // input/output->Object
-                if (intersectedEl.parentNode.classList.contains('vector-source')) {
+                if (intersectedEl.parentNode.classList.contains('data-source')) {
                     targetEntity = intersectedEl.parentNode;
                 }
                 else if (intersectedEl.parentNode.classList.contains('data-filter')) {

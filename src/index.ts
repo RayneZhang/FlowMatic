@@ -72,6 +72,8 @@ glowEffect;
 
 import headset from './components/avatars/headset'
 headset;
+import leftController from './components/avatars/leftController'
+leftController;
 
 import gridGlitchShader from './shaders/test'
 gridGlitchShader;

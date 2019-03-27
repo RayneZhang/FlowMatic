@@ -254,8 +254,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    newEntity.setAttribute('gltf-model', '#controller-left');
 
                    // Set up attributes.
-                   newEntity.setAttribute('id', targetModelName + id);
+                   newEntity.setAttribute('id', 'leftController' + id);
                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
+                   newEntity.setAttribute('left-controller', {});
 
                    this.id++;
                    break;
@@ -265,7 +266,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    newEntity.setAttribute('gltf-model', '#controller-right');
 
                    // Set up attributes.
-                   newEntity.setAttribute('id', targetModelName + id);
+                   newEntity.setAttribute('id', 'rightController' + id);
                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
 
                    this.id++;
@@ -336,6 +337,14 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 }
                 case 'Headset': {
                     id = '#' + targetModelName + createdId;
+                    break;
+                }
+                case 'Left Controller': {
+                    id = '#' + 'leftController' + createdId;
+                    break;
+                }
+                case 'Right Controller': {
+                    id = '#' + 'rightController' + createdId;
                     break;
                 }
             }

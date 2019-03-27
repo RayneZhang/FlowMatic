@@ -268,6 +268,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    // Set up attributes.
                    newEntity.setAttribute('id', 'rightController' + id);
                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
+                   newEntity.setAttribute('right-controller', {});
 
                    this.id++;
                    break;

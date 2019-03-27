@@ -74,6 +74,8 @@ import headset from './components/avatars/headset'
 headset;
 import leftController from './components/avatars/leftController'
 leftController;
+import rightController from './components/avatars/rightController'
+rightController;
 
 import gridGlitchShader from './shaders/test'
 gridGlitchShader;

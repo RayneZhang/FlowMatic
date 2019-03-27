@@ -233,10 +233,12 @@ const globalMenu = {
             }
             case 'Switch': {
                 modelInstanceEntity.setAttribute('obj-model', 'obj', '#switch-instance');
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 break;
             }
             case 'Slider': {
                 modelInstanceEntity.setAttribute('obj-model', 'obj', '#slider-instance');
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 break;
             }
             case 'Light': {
@@ -246,6 +248,16 @@ const globalMenu = {
             }
             case 'Headset': {
                 modelInstanceEntity.setAttribute('obj-model', 'obj', '#headset-instance');
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                break;
+            }
+            case 'Left Controller': {
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#controller-left-instance');
+                modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                break;
+            }
+            case 'Right Controller': {
+                modelInstanceEntity.setAttribute('obj-model', 'obj', '#controller-right-instance');
                 modelInstanceEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                 break;
             }

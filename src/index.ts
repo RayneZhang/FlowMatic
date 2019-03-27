@@ -42,6 +42,8 @@ import numToVec from './components/dataflow/operators/numToVec'
 numToVec;
 import conditionBool from './components/dataflow/operators/conditionBool'
 conditionBool;
+import conditionLarger from './components/dataflow/operators/conditionLarger'
+conditionLarger;
 
 import drawLine from './components/lines/drawLine';
 import lineProperties from './components/lines/lineProperties';

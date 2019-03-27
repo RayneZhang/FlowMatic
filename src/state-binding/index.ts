@@ -211,6 +211,16 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Condition: A > B': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', 'condition-larger-operator' + id);
+                    newEntity.setAttribute('condition-larger', 'targetEntities', []);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['A', 'B', 'when\n A >= B', 'when\n A < B']);
+                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+
+                    this.id++;
+                    break;
+                 }
                  case 'Light': {
                     // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#light-01-obj');

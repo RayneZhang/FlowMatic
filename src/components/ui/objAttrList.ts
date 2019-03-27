@@ -60,17 +60,6 @@ const objAttrList = {
             this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
         else
             this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
-        
-
-        // Set visible of the attribute list when (not) intersected.
-        this.el.addEventListener('raycaster-intersected', (event) => {
-            ListEntity.object3D.visible = true;
-        });
-
-        this.el.addEventListener('raycaster-intersected-cleared', (event) => {
-            if(!this.data.freeze)
-                ListEntity.object3D.visible = false;
-        });
     },
 
     // The listener when x-button is down.

@@ -37,18 +37,6 @@ const bottleDescription = {
                     break;
             }
         });
-
-        this.el.addEventListener('raycaster-intersected', (event) => {
-            const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-            promptEntity.object3D.visible = true;
-        });
-
-        this.el.addEventListener('raycaster-intersected-cleared', (event) => {
-            if(!this.data.freeze) {
-                const promptEntity: any = document.querySelector('#' + this.el.id + '-prompt');
-                promptEntity.object3D.visible = false;
-            }
-        });
     },
 
     tick: function(time, timeDelta): void {

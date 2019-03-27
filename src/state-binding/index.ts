@@ -45,7 +45,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
                      
                      newEntity.setAttribute('data-source', 'targetEntities', []);
-                     newEntity.setAttribute('bottle-description', 'freeze', false);
+                     newEntity.setAttribute('bottle-description', 'freeze', true);
                      this.id++;
                      break;
                  }

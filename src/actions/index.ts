@@ -13,7 +13,8 @@ export const addObject = (id, targetModel, position, color) => ({
   color
 })
 
-export const addLine = (filter) => ({
+export const addLine = (entity1, entity2) => ({
   type: ADD_LINE,
-  filter
+  entity1,
+  entity2
 })

@@ -17,6 +17,9 @@ const rightTriggerListener = {
         this.vectorId = 0;
         this.line = null;
 
+        this.sourceObjects = {};
+        this.targetObjects = {};
+
         const listeningEl = document.querySelector('#rightHand');
         // Handle trigger down.
         listeningEl.addEventListener('triggerdown', (event) => {

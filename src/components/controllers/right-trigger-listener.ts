@@ -16,9 +16,11 @@ const rightTriggerListener = {
         this.vector = false;
         this.vectorId = 0;
         this.line = null;
+        this.lineId = 0;
 
-        this.sourceObjects = {};
-        this.targetObjects = {};
+        this.sourceObjects = [];
+        this.sourceObjectsConnected = [];
+        this.sourceObjectsConnectedId = [];
 
         const listeningEl = document.querySelector('#rightHand');
         // Handle trigger down.
@@ -217,7 +219,7 @@ const rightTriggerListener = {
                     targetAttribute = attrNameEntity.getAttribute('text').value;
                 }
 
-                // delete lines.
+                // delete the line if connecting the same entity.
                 if (targetEntity.getAttribute('id') == sourceEntity.getAttribute('id')) {
                     if (this.curLine) {
                         this.curLine.destroyLine();
@@ -225,6 +227,39 @@ const rightTriggerListener = {
                         return;
                     }
                 }
+
+                const sourceId: string = sourceEntity.getAttribute('id');
+                const targetId: string = sourceEntity.getAttribute('id');
+                let lineId: string = this.checkLineExist(sourceId, targetId);
+                if (!lineId)
+                    lineId = this.checkLineExist(targetId, sourceId);
+
+                if (lineId) {
+                    if (this.curLine) {
+                        this.curLine.destroyLine();
+                        this.curLine = null;
+                    }
+
+                    // If the line exists, we should delete line geometry.
+                    const selectedLine: any = document.querySelector('#' + lineId);
+                    selectedLine.parentNode.removeChild(selectedLine);
+
+                    return;
+                }
+                else {
+                    // If the line does not exist, we should add it to the data structure.
+                    const sourceObjectsIndex: number = this.sourceObjects.indexOf(sourceId);
+                    if (sourceObjectsIndex >= 0) {
+                        this.sourceObjectsConnected[sourceObjectsIndex].push(targetId);
+                        this.sourceObjectsConnectedId[sourceObjectsIndex].push(['line' + this.lineId]);
+                    }
+                    else {
+                        this.sourceObjects.push(sourceId);
+                        this.sourceObjectsConnected.push([targetId]);
+                        this.sourceObjectsConnectedId.push(['line' + this.lineId]);
+                    }
+                }
+
 
                 // Set target objects of source entity.
                 if (sourceEntity.classList.contains('data-source')){
@@ -241,6 +276,9 @@ const rightTriggerListener = {
                 const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;
                 currentLineEntity.setAttribute('line-properties', 'targetEntity', targetEntity);
                 currentLineEntity.setAttribute('line-properties', 'sourceEntity', sourceEntity);
+                currentLineEntity.setAttribute('id', 'line' + this.lineId);
+                // Handle data for next line.
+                this.lineId++;
                 linesEntity.setAttribute('draw-line', 'currentLine', null);
                 this.curLine = null;
             }
@@ -343,6 +381,27 @@ const rightTriggerListener = {
                 lineEntity.setAttribute('draw-line', 'endPoint', EP);
             }
         }
+    },
+
+    checkLineExist(_sourceEntityId: string, _targetEntityId: string): string {
+        let lineId: string = '';
+        const sourceObjectIndex: number = this.sourceObjects.indexOf(_sourceEntityId);
+
+        if (sourceObjectIndex >= 0) {
+            const targetObjectIndex = this.sourceObjectsConnected[sourceObjectIndex].indexOf(_targetEntityId);
+            if ( targetObjectIndex >= 0) {
+                
+                this.sourceObjects.splice(sourceObjectIndex, 1);
+                this.sourceObjectsConnected[sourceObjectIndex].splice(targetObjectIndex, 1);
+                lineId = this.sourceObjectsConnectedId[sourceObjectIndex][targetObjectIndex];
+                this.sourceObjectsConnectedId[sourceObjectIndex].splice(targetObjectIndex, 1);
+                if (targetObjectIndex == 0) {
+                    this.sourceObjectsConnected.splice(sourceObjectIndex, 1);
+                    this.sourceObjectsConnectedId.splice(sourceObjectIndex, 1);
+                }
+            }
+        }
+        return lineId;
     },
 
     showOrHideWireframe: function(_targetObj: any, _show: boolean) {

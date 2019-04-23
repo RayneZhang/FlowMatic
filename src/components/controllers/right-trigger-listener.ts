@@ -228,37 +228,37 @@ const rightTriggerListener = {
                     }
                 }
 
-                const sourceId: string = sourceEntity.getAttribute('id');
-                const targetId: string = sourceEntity.getAttribute('id');
-                let lineId: string = this.checkLineExist(sourceId, targetId);
-                if (!lineId)
-                    lineId = this.checkLineExist(targetId, sourceId);
+                // const sourceId: string = sourceEntity.getAttribute('id');
+                // const targetId: string = sourceEntity.getAttribute('id');
+                // let lineId: string = this.checkLineExist(sourceId, targetId);
+                // if (!lineId)
+                //     lineId = this.checkLineExist(targetId, sourceId);
 
-                if (lineId) {
-                    if (this.curLine) {
-                        this.curLine.destroyLine();
-                        this.curLine = null;
-                    }
+                // if (lineId) {
+                //     if (this.curLine) {
+                //         this.curLine.destroyLine();
+                //         this.curLine = null;
+                //     }
 
-                    // If the line exists, we should delete line geometry.
-                    const selectedLine: any = document.querySelector('#' + lineId);
-                    selectedLine.parentNode.removeChild(selectedLine);
+                //     // If the line exists, we should delete line geometry.
+                //     const selectedLine: any = document.querySelector('#' + lineId);
+                //     selectedLine.parentNode.removeChild(selectedLine);
 
-                    return;
-                }
-                else {
-                    // If the line does not exist, we should add it to the data structure.
-                    const sourceObjectsIndex: number = this.sourceObjects.indexOf(sourceId);
-                    if (sourceObjectsIndex >= 0) {
-                        this.sourceObjectsConnected[sourceObjectsIndex].push(targetId);
-                        this.sourceObjectsConnectedId[sourceObjectsIndex].push(['line' + this.lineId]);
-                    }
-                    else {
-                        this.sourceObjects.push(sourceId);
-                        this.sourceObjectsConnected.push([targetId]);
-                        this.sourceObjectsConnectedId.push(['line' + this.lineId]);
-                    }
-                }
+                //     return;
+                // }
+                // else {
+                //     // If the line does not exist, we should add it to the data structure.
+                //     const sourceObjectsIndex: number = this.sourceObjects.indexOf(sourceId);
+                //     if (sourceObjectsIndex >= 0) {
+                //         this.sourceObjectsConnected[sourceObjectsIndex].push(targetId);
+                //         this.sourceObjectsConnectedId[sourceObjectsIndex].push(['line' + this.lineId]);
+                //     }
+                //     else {
+                //         this.sourceObjects.push(sourceId);
+                //         this.sourceObjectsConnected.push([targetId]);
+                //         this.sourceObjectsConnectedId.push(['line' + this.lineId]);
+                //     }
+                // }
 
 
                 // Set target objects of source entity.

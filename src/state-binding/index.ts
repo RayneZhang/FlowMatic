@@ -276,7 +276,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
              }
 
              // Add class component to the entity.
-             newEntity.setAttribute('class', 'movable');
+             newEntity.classList.add("movable");
              newEntity.object3D.position.set(position.x, position.y, position.z);
         }
 

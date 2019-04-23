@@ -79,6 +79,7 @@ const objAttrList = {
         appendEntity.appendChild(curDot);
         curDot.setAttribute('id', this.el.getAttribute('id') + '-' + lr + '-dot');
         curDot.classList.add('connectable');
+        curDot.classList.add('aabb-collider');
 
         // Set geometry of the dot - sphere.
         curDot.setAttribute('geometry', {

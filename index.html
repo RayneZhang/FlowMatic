@@ -90,9 +90,9 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: right" aabb-collider="objects: .movable" tooltip-listener collision-listener></a-entity>
-                <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
-                raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable, .Arrow, .Switch, .Slider; far: 0.1" 
+                <a-entity id="rightHand" oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: right" aabb-collider="objects: .connectable" tooltip-listener collision-listener></a-entity>
+                <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener="mode: 0" right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
+                raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable, .Arrow, .Switch, .Slider; far: 10" 
                 line="color: #2e3131; opacity: 0.8" >
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
                         <!-- <a-entity tooltip="text: Freeze attributes; width: 0.1; height: 0.03; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
@@ -113,7 +113,7 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: left" aabb-collider="objects: .movable" fps-counter teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"></a-entity>
+                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: left" aabb-collider="objects: .connectable" fps-counter teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"></a-entity>
                 <a-entity id="leftHandInfo" entity-follow="targetEntity: #leftHand" global-menu left-trigger-listener left-grip-listener>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">
                         <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
@@ -148,8 +148,8 @@
             <a-entity id="redux" state-binding></a-entity>
 
             <!-- Connecting Lines Test -->
-            <a-entity id="Origin_1" position="0 1 -1" line-study="color: blue"></a-entity>
-            <a-entity id="Origin_2" position="1 1 -1" line-study="color: red"></a-entity>
+            <a-entity id="Origin_1" position="0 1.5 -1" line-study="color: blue"></a-entity>
+            <a-entity id="Origin_2" position="1.5 1.5 -1" line-study="color: red"></a-entity>
             <!-- <a-entity id='speaker' position="-2 0 0" class='movable'>
                 <a-entity obj-model="obj: #speaker-shell-obj" material="src: #speaker-abledo; normalMap: #speaker-normal" shadow></a-entity>
                 <a-entity obj-model="obj: #speaker-plane-obj" material="repeat: 1 1; src: #grille-abledo; normalMap: #grille-normal" shadow></a-entity>

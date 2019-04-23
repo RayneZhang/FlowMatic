@@ -5,7 +5,8 @@ declare const THREE:any;
 
 const rightTriggerListener = {
     schema: {
-        selectedEl: {type: 'selector', default: null}
+        selectedEl: {type: 'selector', default: null},
+        mode: {type: 'number', default: 0}
     },
 
     init: function(): void {
@@ -18,6 +19,8 @@ const rightTriggerListener = {
         this.line = null;
         this.lineId = 0;
 
+        this.firstDown = false;
+
         this.sourceObjects = [];
         this.sourceObjectsConnected = [];
         this.sourceObjectsConnectedId = [];
@@ -25,6 +28,136 @@ const rightTriggerListener = {
         const listeningEl = document.querySelector('#rightHand');
         // Handle trigger down.
         listeningEl.addEventListener('triggerdown', (event) => {
+            if (this.data.mode == 1 && this.firstDown) {
+                // Retrieve all intersected Elements through raycaster.
+                const intersectedEls = this.el.components.raycaster.intersectedEls;
+
+                // Check if there is intersected object.
+                if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
+                    // console.log('Nothing is intersected when triggering');
+                    return;
+                }
+
+                // Fetch the intersected object.
+                const intersectedEl = intersectedEls[0];
+
+                // Retrieve all intersections through raycaster.
+                const intersections = this.el.components.raycaster.intersections;
+                if (!Array.isArray(intersections) || !intersections.length) {
+                    // console.log('There is NO intersections when triggering');
+                    return;
+                }
+                // Check if we're about to draw a line.
+                if (intersectedEl.classList.contains('connectable')) {
+                    this.firstDown = false;
+
+                    const linesEntity: any = document.querySelector('#lines');
+                    const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
+                    linesEntity.setAttribute('draw-line', 'endPoint', EP);
+    
+                    // Push the id into target entities.
+                    const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
+                    const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
+                    let targetEntity: any = null;
+                    let targetAttribute: string = null;
+    
+                    // input/output->Object
+                    if (intersectedEl.parentNode.classList.contains('data-source')) {
+                        targetEntity = intersectedEl.parentNode;
+                    }
+                    else if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                        targetEntity = intersectedEl.parentNode;
+                        if (intersectedEl.firstChild.getAttribute('text')) {
+                            targetAttribute = intersectedEl.firstChild.getAttribute('text').value;
+                        }
+                    }
+                    // Dot->Description->ListEntity->Object
+                    else {
+                        targetEntity = intersectedEl.parentNode.parentNode.parentNode;
+                        const attrNameEntity: any = intersectedEl.parentNode;
+                        targetAttribute = attrNameEntity.getAttribute('text').value;
+                    }
+    
+                    // delete the line if connecting the same entity.
+                    if (targetEntity.getAttribute('id') == sourceEntity.getAttribute('id')) {
+                        if (this.curLine) {
+                            this.curLine.destroyLine();
+                            this.curLine = null;
+                            return;
+                        }
+                    }
+    
+                    // const sourceId: string = sourceEntity.getAttribute('id');
+                    // const targetId: string = sourceEntity.getAttribute('id');
+                    // let lineId: string = this.checkLineExist(sourceId, targetId);
+                    // if (!lineId)
+                    //     lineId = this.checkLineExist(targetId, sourceId);
+    
+                    // if (lineId) {
+                    //     if (this.curLine) {
+                    //         this.curLine.destroyLine();
+                    //         this.curLine = null;
+                    //     }
+    
+                    //     // If the line exists, we should delete line geometry.
+                    //     const selectedLine: any = document.querySelector('#' + lineId);
+                    //     selectedLine.parentNode.removeChild(selectedLine);
+    
+                    //     return;
+                    // }
+                    // else {
+                    //     // If the line does not exist, we should add it to the data structure.
+                    //     const sourceObjectsIndex: number = this.sourceObjects.indexOf(sourceId);
+                    //     if (sourceObjectsIndex >= 0) {
+                    //         this.sourceObjectsConnected[sourceObjectsIndex].push(targetId);
+                    //         this.sourceObjectsConnectedId[sourceObjectsIndex].push(['line' + this.lineId]);
+                    //     }
+                    //     else {
+                    //         this.sourceObjects.push(sourceId);
+                    //         this.sourceObjectsConnected.push([targetId]);
+                    //         this.sourceObjectsConnectedId.push(['line' + this.lineId]);
+                    //     }
+                    // }
+    
+    
+                    // Set target objects of source entity.
+                    if (sourceEntity.classList.contains('data-source')){
+                        sourceEntity.emit('source-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
+                    }
+                    if (sourceEntity.classList.contains('data-filter')){
+                        sourceEntity.emit('operator-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute, sourceAttribute: sourceDataType}, false);
+                    }
+                    if (sourceEntity.classList.contains('data-receiver')){
+                        sourceEntity.emit('target-update', {targetEntity: targetEntity.getAttribute('id'), targetAttribute: targetAttribute, sourceAttribute: sourceDataType}, false);
+                    }
+    
+                    // Set the connected two entities in the current line entity.
+                    const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;
+                    currentLineEntity.setAttribute('line-properties', 'targetEntity', targetEntity);
+                    currentLineEntity.setAttribute('line-properties', 'sourceEntity', sourceEntity);
+                    currentLineEntity.setAttribute('id', 'line' + this.lineId);
+                    // Handle data for next line.
+                    this.lineId++;
+                    linesEntity.setAttribute('draw-line', 'currentLine', null);
+                    this.curLine = null;
+                }
+                else {
+                    if (this.curLine) {
+                        this.curLine.destroyLine();
+                        this.curLine = null;
+                    }
+                }
+
+
+                return;
+            }
+
+            if (this.data.mode == 2) {
+                
+
+                return;
+            }
+
             this.triggering = true;
 
             // Retrieve all intersected Elements through raycaster.
@@ -118,6 +251,9 @@ const rightTriggerListener = {
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-source')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                 }
+
+                if (this.data.mode == 1)
+                    this.firstDown = true;
             }
 
             // Check if the intersected object is a movable object.
@@ -160,6 +296,9 @@ const rightTriggerListener = {
         });
 
         listeningEl.addEventListener('triggerup', (event) => {
+            if (this.data.mode == 1)
+                return;
+
             this.triggering = false;
             this.hueDown = false;
             this.sliding = false;

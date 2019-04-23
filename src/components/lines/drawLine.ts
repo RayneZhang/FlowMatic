@@ -7,11 +7,11 @@ const drawLine = {
         dataType: {type: 'string', default: ""},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
-        divisions: {type: 'number', default: 20}
+        divisions: {type: 'number', default: 100}
     },
 
     init: function(): void {
-        
+        this.controlPoints = [];
         const positionSize = (this.data.divisions + 1) * 3;
         // Position and Color Data
         var positions = this.positions = new Array<number>(positionSize);
@@ -23,8 +23,10 @@ const drawLine = {
     },
 
     update: function (oldDate): void {
-        if (!this.data.currentLine)
+        if (!this.data.currentLine) {
+            this.controlPoints = [];
             return;
+        }
 
         const currentLine: any = this.data.currentLine;
         const line: any = currentLine.getObject3D('mesh');
@@ -74,10 +76,11 @@ const drawLine = {
         const height: number = 0.5;
 
         const controlPoint = new THREE.Vector3((startPoint.x + endPoint.x)/2, Math.max(startPoint.y, endPoint.y) + height, (startPoint.z + endPoint.z)/2);
-        const curve = new THREE.CatmullRomCurve3([
-            startPoint,
-            endPoint
-        ]);
+        this.controlPoints = [];
+        this.controlPoints[0] = startPoint;
+        this.controlPoints.push(endPoint);
+
+        const curve = new THREE.CatmullRomCurve3(this.controlPoints);
 
         return curve.getPoints(this.data.divisions);
     }

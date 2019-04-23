@@ -7,7 +7,7 @@ const leftGripListener = AFRAME.registerComponent('left-grip-listener', {
         const listeningEl = document.querySelector('#leftHand');
 
         listeningEl.addEventListener('gripdown', (event) => {  
-            store.dispatch(UndoActionCreators.undo());
+            // store.dispatch(UndoActionCreators.undo());
         });
     }, 
 });

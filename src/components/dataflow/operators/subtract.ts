@@ -36,12 +36,13 @@ const subtractOperator = AFRAME.registerComponent('subtract', {
             const dataType: string = event.detail.dataType;
             const dataValue: any = event.detail.dataValue;
             const sourceEntityId: string = event.detail.sourceEntityId;
+            const attribute: string = event.detail.attribute;
             if (dataType === 'vector' || dataType === 'position') {
                 const entityIndex = this.data.sourceEntities.indexOf(sourceEntityId);
                 if ( entityIndex === -1 ) {
                     this.data.sourceEntities.push(sourceEntityId);
                     this.data.sourceValues.push(dataValue.clone());
-                    if (this.data.sourceValues.length === 1) 
+                    if (attribute === '+') 
                         this.dataValue.add(new THREE.Vector3().copy(dataValue));
                     else
                         this.dataValue.sub(new THREE.Vector3().copy(dataValue));
@@ -49,7 +50,7 @@ const subtractOperator = AFRAME.registerComponent('subtract', {
                 else {
                     const oldValue = this.data.sourceValues[entityIndex];
                     if (oldValue === dataValue) return;
-                    if (entityIndex === 0) {
+                    if (attribute === '+') {
                         this.dataValue.sub(new THREE.Vector3().copy(oldValue));
                         this.data.sourceValues[entityIndex] = new THREE.Vector3().copy(dataValue);
                         this.dataValue.add(new THREE.Vector3().copy(dataValue));

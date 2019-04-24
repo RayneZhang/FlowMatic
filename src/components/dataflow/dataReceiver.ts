@@ -39,7 +39,7 @@ const dataReceiver = {
             const dataType: string = event.detail.dataType;
             const dataValue: string = event.detail.dataValue;
 
-            if (dataType === 'color') {
+            if (dataType === 'Color') {
                 this.data.dataValue = dataValue;
                 this.el.setAttribute('material', 'color', dataValue);
             }
@@ -88,7 +88,7 @@ const dataReceiver = {
             if (curTarget) {
                 switch (this.data.sourceAttributes[i]) {
                     case "Color": {
-                        this.data.dataType = 'color';
+                        this.data.dataType = 'Color';
                         this.data.dataValue = this.el.getAttribute('material').color;
                         break;
                     }

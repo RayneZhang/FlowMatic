@@ -7,7 +7,7 @@ const drawLine = {
         dataType: {type: 'string', default: ""},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
-        divisions: {type: 'number', default: 100}
+        divisions: {type: 'number', default: 20}
     },
 
     init: function(): void {
@@ -76,11 +76,14 @@ const drawLine = {
         const height: number = 0.5;
 
         const controlPoint = new THREE.Vector3((startPoint.x + endPoint.x)/2, Math.max(startPoint.y, endPoint.y) + height, (startPoint.z + endPoint.z)/2);
-        this.controlPoints = [];
-        this.controlPoints[0] = startPoint;
-        this.controlPoints.push(endPoint);
+        // this.controlPoints = [];
+        // this.controlPoints[0] = startPoint;
+        // this.controlPoints.push(endPoint);
 
-        const curve = new THREE.CatmullRomCurve3(this.controlPoints);
+        const curve = new THREE.CatmullRomCurve3([
+            startPoint,
+            endPoint
+        ]);
 
         return curve.getPoints(this.data.divisions);
     }

@@ -32,6 +32,8 @@ const lineProperties = {
             if (!line) return;
             this.setPositions();
             line.geometry.setPositions(this.positions);
+
+            this.setArrow();
         }
     },
 
@@ -71,6 +73,21 @@ const lineProperties = {
         ]);
 
         return curve.getPoints(20);
+    },
+
+    setArrow: function(): void {
+        const currentLine: any = this.data.currentLine;
+
+        // Set arrow position.
+        const dir = this.endPoint.clone().sub(this.startPoint).normalize();
+        const arrowPos = this.endPoint.clone().sub(dir.multiplyScalar(0.05));
+        const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
+        const arrow: any = this.el.firstChild;
+        arrow.object3D.position.copy(localPosition);
+
+        // Set arrow rotation.
+        arrow.object3D.lookAt(this.endPoint.clone().add(dir));
+        arrow.object3D.rotateX(THREE.Math.degToRad(90));
     }
 }
 

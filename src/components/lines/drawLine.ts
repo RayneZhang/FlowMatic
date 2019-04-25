@@ -84,28 +84,46 @@ const drawLine = {
     },
 
     drawArrow: function(): void {
+        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
         const currentLine: any = this.data.currentLine;
         const arrow: any = document.createElement('a-entity');
         arrow.setAttribute('geometry', {
             primitive: 'cone',
-            height: 0.2,
-            radiusBottom: 0.08,
+            height: 0.1,
+            radiusBottom: 0.04,
             radiusTop: 0
         });
-        arrow.setAttribute('position', {x: this.data.endPoint.x, y: this.data.endPoint.y, z: this.data.endPoint.z});
         currentLine.appendChild(arrow);
-        const localPosition: any = currentLine.object3D.worldToLocal(endPoint);
+
+        // Set arrow position.
+        const dir = endPoint.clone().sub(startPoint).normalize();
+        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.05));
+        const localPosition: any = currentLine.object3D.worldToLocal(arrowPos);
         arrow.object3D.position.copy(localPosition);
+
+        // Set arrow rotation.
+        arrow.object3D.lookAt(endPoint.add(dir));
+        // arrow.object3D.rotateX(THREE.Math.degToRad(90));
     },
 
     setArrow: function(): void {
+        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
         const currentLine: any = this.data.currentLine;
-        const localPosition: any = currentLine.object3D.worldToLocal(endPoint);
+
+        // Set arrow position.
+        const dir = endPoint.clone().sub(startPoint).normalize();
+        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.05));
+        const localPosition: any = currentLine.object3D.worldToLocal(arrowPos);
         const arrow: any = currentLine.firstChild;
         arrow.object3D.position.copy(localPosition);
+
+        // Set arrow rotation.
+        arrow.object3D.lookAt(endPoint.add(dir));
+        arrow.object3D.rotateX(THREE.Math.degToRad(90));
     }
+
 }
 
 

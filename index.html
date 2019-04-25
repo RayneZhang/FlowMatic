@@ -91,7 +91,7 @@
 
                 <!-- Controllers. -->
                 <a-entity id="rightHand" oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: right" aabb-collider="objects: .connectable" tooltip-listener collision-listener></a-entity>
-                <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener="mode: 0" right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
+                <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
                 raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable, .Arrow, .Switch, .Slider; far: 1" 
                 line="color: #2e3131; opacity: 0.8" >
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
@@ -146,14 +146,7 @@
             <!-- Utils -->
             <a-entity id="lines" draw-line></a-entity>
             <a-entity id="redux" state-binding></a-entity>
-
-            <!-- Connecting Lines Test -->
-            <!-- <a-entity id="Origin_1" position="0 1.5 -1" line-study="color: blue"></a-entity>
-            <a-entity id="Origin_2" position="1.5 1.5 -1" line-study="color: red"></a-entity> -->
-            <!-- <a-entity id='speaker' position="-2 0 0" class='movable'>
-                <a-entity obj-model="obj: #speaker-shell-obj" material="src: #speaker-abledo; normalMap: #speaker-normal" shadow></a-entity>
-                <a-entity obj-model="obj: #speaker-plane-obj" material="repeat: 1 1; src: #grille-abledo; normalMap: #grille-normal" shadow></a-entity>
-            </a-entity> -->
+            
             </a-scene>
     </body>
 </html>

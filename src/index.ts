@@ -79,8 +79,6 @@ rightController;
 
 import gridGlitchShader from './shaders/test'
 gridGlitchShader;
-import lineStudy from './components/utils/lineStudy'
-lineStudy;
 
 ENVIRONMENT;
 TELEPORT;

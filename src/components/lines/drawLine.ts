@@ -11,7 +11,6 @@ const drawLine = {
     },
 
     init: function(): void {
-        this.controlPoints = [];
         const positionSize = (this.data.divisions + 1) * 3;
         // Position and Color Data
         var positions = this.positions = new Array<number>(positionSize);
@@ -24,7 +23,6 @@ const drawLine = {
 
     update: function (oldDate): void {
         if (!this.data.currentLine) {
-            this.controlPoints = [];
             return;
         }
 
@@ -47,10 +45,13 @@ const drawLine = {
             lineMesh.scale.set( 1, 1, 1 );
             currentLine.setObject3D('mesh', lineMesh); 
 
+            this.drawArrow();
         }
         else {
             this.setPositions();
             line.geometry.setPositions(this.positions);
+
+            this.setArrow();
         }
     },
 
@@ -73,12 +74,6 @@ const drawLine = {
     getCurvePoints: function(): Array<number> {
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const height: number = 0.5;
-
-        const controlPoint = new THREE.Vector3((startPoint.x + endPoint.x)/2, Math.max(startPoint.y, endPoint.y) + height, (startPoint.z + endPoint.z)/2);
-        // this.controlPoints = [];
-        // this.controlPoints[0] = startPoint;
-        // this.controlPoints.push(endPoint);
 
         const curve = new THREE.CatmullRomCurve3([
             startPoint,
@@ -86,6 +81,30 @@ const drawLine = {
         ]);
 
         return curve.getPoints(this.data.divisions);
+    },
+
+    drawArrow: function(): void {
+        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
+        const currentLine: any = this.data.currentLine;
+        const arrow: any = document.createElement('a-entity');
+        arrow.setAttribute('geometry', {
+            primitive: 'cone',
+            height: 0.2,
+            radiusBottom: 0.08,
+            radiusTop: 0
+        });
+        arrow.setAttribute('position', {x: this.data.endPoint.x, y: this.data.endPoint.y, z: this.data.endPoint.z});
+        currentLine.appendChild(arrow);
+        const localPosition: any = currentLine.object3D.worldToLocal(endPoint);
+        arrow.object3D.position.copy(localPosition);
+    },
+
+    setArrow: function(): void {
+        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
+        const currentLine: any = this.data.currentLine;
+        const localPosition: any = currentLine.object3D.worldToLocal(endPoint);
+        const arrow: any = currentLine.firstChild;
+        arrow.object3D.position.copy(localPosition);
     }
 }
 

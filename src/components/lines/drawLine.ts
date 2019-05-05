@@ -90,15 +90,15 @@ const drawLine = {
         const arrow: any = document.createElement('a-entity');
         arrow.setAttribute('geometry', {
             primitive: 'cone',
-            height: 0.1,
-            radiusBottom: 0.04,
+            height: 0.06,
+            radiusBottom: 0.025,
             radiusTop: 0
         });
         currentLine.appendChild(arrow);
 
         // Set arrow position.
         const dir = endPoint.clone().sub(startPoint).normalize();
-        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.05));
+        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
         const localPosition: any = currentLine.object3D.worldToLocal(arrowPos);
         arrow.object3D.position.copy(localPosition);
 
@@ -114,7 +114,7 @@ const drawLine = {
 
         // Set arrow position.
         const dir = endPoint.clone().sub(startPoint).normalize();
-        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.05));
+        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
         const localPosition: any = currentLine.object3D.worldToLocal(arrowPos);
         const arrow: any = currentLine.firstChild;
         arrow.object3D.position.copy(localPosition);

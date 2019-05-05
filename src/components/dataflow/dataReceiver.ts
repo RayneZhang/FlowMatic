@@ -38,7 +38,7 @@ const dataReceiver = {
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: string = event.detail.dataValue;
-
+            if (dataValue === undefined || dataValue === null) return;
             if (dataType === 'Color') {
                 this.data.dataValue = dataValue;
                 this.el.setAttribute('material', 'color', dataValue);

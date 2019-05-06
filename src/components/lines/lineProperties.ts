@@ -80,7 +80,7 @@ const lineProperties = {
 
         // Set arrow position.
         const dir = this.endPoint.clone().sub(this.startPoint).normalize();
-        const arrowPos = this.endPoint.clone().sub(dir.multiplyScalar(0.05));
+        const arrowPos = this.endPoint.clone().sub(dir.multiplyScalar(0.03));
         const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
         const arrow: any = this.el.firstChild;
         arrow.object3D.position.copy(localPosition);

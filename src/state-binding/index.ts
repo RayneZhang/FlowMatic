@@ -211,7 +211,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Condition: A > B': {
+                 case 'Condition: A >= B': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', 'condition-larger-operator' + id);
                     newEntity.setAttribute('condition-larger', 'targetEntities', []);
@@ -255,7 +255,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                    // Set up attributes.
                    newEntity.setAttribute('id', 'leftController' + id);
-                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation', 'ButtonX', 'ButtonY', 'Trigger', 'Grip']);
+                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position']);
                    newEntity.setAttribute('left-controller', {});
 
                    this.id++;
@@ -267,7 +267,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                    // Set up attributes.
                    newEntity.setAttribute('id', 'rightController' + id);
-                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation', 'ButtonA', 'ButtonB', 'Trigger', 'Grip']);
+                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position']);
                    newEntity.setAttribute('right-controller', {});
 
                    this.id++;

@@ -110,7 +110,10 @@ const globalMenu = {
         trashEl.object3D.rotation.set(0, THREE.Math.degToRad(90), THREE.Math.degToRad(-90));
         trashEl.object3D.scale.set(2, 2, 2);
 
-        trashEl.setAttribute('aabb-collider', 'objects', ['.deletable', '.connectable']);
+        trashEl.setAttribute('aabb-collider', {
+            'objects': ['.deletable', '.connectable'],
+            'debug': false
+        });
         trashEl.setAttribute('collision-listener', 'null');
     },
 

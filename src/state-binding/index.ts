@@ -66,7 +66,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Color', 'Position']);
 
                      newEntity.classList.add('deletable');
-                     newEntity.classList.add('aabb-collider');
                      this.id++;
                      break;
                  }

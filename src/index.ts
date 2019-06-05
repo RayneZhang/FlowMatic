@@ -2,6 +2,8 @@ import * as AFRAME from 'aframe';
 import * as ENVIRONMENT from 'aframe-environment-component';
 import * as TELEPORT from 'aframe-teleport-controls';
 import * as FPSCOUNTER from 'aframe-fps-counter-component';
+import * as PHYSICS from 'aframe-physics-system';
+PHYSICS;
 import * as EXTRAS from 'aframe-extras';
 EXTRAS;
 

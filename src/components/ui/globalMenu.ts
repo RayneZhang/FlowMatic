@@ -109,12 +109,6 @@ const globalMenu = {
         trashEl.object3D.position.set(-0.06, 0, 0.06);
         trashEl.object3D.rotation.set(0, THREE.Math.degToRad(90), THREE.Math.degToRad(-90));
         trashEl.object3D.scale.set(2, 2, 2);
-
-        trashEl.setAttribute('aabb-collider', {
-            'objects': ['.connectable', '.deletable'],
-            'debug': false
-        });
-        trashEl.setAttribute('collision-listener', 'null');
     },
 
     // Load description of undo/redo button.

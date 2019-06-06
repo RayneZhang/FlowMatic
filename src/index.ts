@@ -6,6 +6,8 @@ import * as PHYSICS from 'aframe-physics-system';
 PHYSICS;
 import * as EXTRAS from 'aframe-extras';
 EXTRAS;
+import * as PHYSICSEx from 'aframe-physics-extras';
+PHYSICSEx;
 
 import rightGripListener from './components/controllers/right-grip-listener';
 import leftTriggerListener from './components/controllers/left-trigger-listener';

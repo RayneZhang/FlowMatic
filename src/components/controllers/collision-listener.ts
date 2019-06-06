@@ -21,8 +21,13 @@ const collisionListener = {
         });  
         
         this.el.addEventListener('collide', (event) => {
-            event.stopPropagation();
-            console.log("Collide started!" + this.el.getAttribute('id'));
+            console.log("Collisions started!" + this.el.getAttribute('id'));
+
+            this.el.setAttribute('material', {
+                transparent: true,
+                opacity: 0.2
+            });
+
             // this.el.setAttribute('material', {
             //     transparent: true,
             //     opacity: 0.2

@@ -111,7 +111,7 @@ const globalMenu = {
         trashEl.object3D.scale.set(2, 2, 2);
 
         trashEl.setAttribute('aabb-collider', {
-            'objects': ['.deletable', '.connectable'],
+            'objects': ['.connectable', '.deletable'],
             'debug': false
         });
         trashEl.setAttribute('collision-listener', 'null');

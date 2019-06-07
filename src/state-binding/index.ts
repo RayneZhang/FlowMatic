@@ -69,9 +69,10 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('static-body', {
                         'shape': 'auto'
                      });
-                     newEntity.setAttribute('sleepy', {
-                        'allowSleep': true
-                     });
+                     // Sleepy is only necessary for dynamic-body
+                    //  newEntity.setAttribute('sleepy', {
+                    //     'allowSleep': true
+                    //  });
                      this.id++;
                      break;
                  }

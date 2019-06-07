@@ -20,6 +20,8 @@
         <a-scene physics="gravity: 0">
             <!-- Assets -->
             <a-assets>
+                <a-asset-item id="western-gltf" src="assets/models/scenes/western/scene.gltf"></a-asset-item>
+
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
                 <img id="uihover" src="assets/images/ui-hover.png" crossorigin="anonymous">
 
@@ -129,15 +131,19 @@
             </a-entity>
 
             <!-- Lighting Condition -->
-            <a-entity id="env" environment="preset: forest"></a-entity>
-            <a-entity id="ambientLight" light="type: ambient; intensity: 0.25"></a-entity>
+            <a-entity id="ambientLight" light="type: ambient; intensity: 0.7"></a-entity>
             <!-- <a-entity light="type: directional; color: #fff1bc; intensity: 0.2" position="-0.5 1 0"></a-entity> -->
 
             <!-- Floor -->
             <a-plane static-body rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
 
-            <!-- Models. -->
-            <a-entity id="stage" dynamic-body position="0 0 -10" obj-model="obj: #stage-obj; mtl: #stage-mtl" shadow></a-entity>
+            <!-- Scene #1 -->
+            <!-- <a-entity id="env" environment="preset: forest"></a-entity> -->
+            <!-- <a-entity id="stage" dynamic-body position="0 0 -10" obj-model="obj: #stage-obj; mtl: #stage-mtl" shadow></a-entity> -->
+
+            <!-- Scene #2 -->
+            <a-entity id="env" environment="preset: default; ground: none; shadow: true"></a-entity>
+            <a-entity id="western" gltf-model="#western-gltf" shadow></a-entity>            
 
             <!-- Utils -->
             <a-entity id="lines" draw-line></a-entity>

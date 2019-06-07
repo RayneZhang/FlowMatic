@@ -65,15 +65,12 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
                      newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Color', 'Position']);
 
-                     newEntity.setAttribute('dynamic-body', {
-                         'shape': 'auto'
-                     });
                      newEntity.setAttribute('collision-listener', 'null');
+                     newEntity.setAttribute('static-body', {
+                        'shape': 'auto'
+                     });
                      newEntity.setAttribute('sleepy', {
                         'allowSleep': true
-                     });
-                     newEntity.setAttribute('physics-collider', {
-                         'ignoreSleep': false
                      });
                      this.id++;
                      break;

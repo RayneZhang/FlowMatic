@@ -131,8 +131,8 @@
             </a-entity>
 
             <!-- Lighting Condition -->
-            <a-entity id="ambientLight" light="type: ambient; color: #CEE4F0; intensity: 1.5"></a-entity>
-            <a-entity light="type: directional; color: #fff1bc; intensity: 0.5" position="-0.5 1 0"></a-entity>
+            <a-entity id="ambientLight" light="type: ambient; color: #CEE4F0; intensity: 1.4"></a-entity>
+            <a-entity light="type: directional; color: #fff1bc; intensity: 0.8; castShadow: false; shadowCameraVisible: false;" position="-0.5 1 0"></a-entity>
 
             <!-- Floor -->
             <a-plane static-body rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
@@ -142,8 +142,8 @@
             <!-- <a-entity id="stage" dynamic-body position="0 0 -10" obj-model="obj: #stage-obj; mtl: #stage-mtl" shadow></a-entity> -->
 
             <!-- Scene #2 -->
-            <a-entity id="env" environment="preset: default; ground: none; shadow: true; lighting: none"></a-entity>
-            <a-entity id="western" gltf-model="#western-gltf" shadow></a-entity>            
+            <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
+            <a-entity id="western" gltf-model="#western-gltf"></a-entity>            
 
             <!-- Utils -->
             <a-entity id="lines" draw-line></a-entity>

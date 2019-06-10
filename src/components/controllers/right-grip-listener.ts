@@ -8,13 +8,12 @@ const rightGripListener = {
 
     init(): void {
 
-        const el = this.el;
         const camRigEl = this.camRigEl = document.querySelector('#cameraRig');
         this.el.addEventListener('gripdown', (event) => {
-            el.setAttribute('right-grip-listener', 'gripping', 'true');
+            this.el.setAttribute('right-grip-listener', 'gripping', 'true');
             
             // Retrieve all intersected Elements through raycaster.
-            const intersectedEls = el.components.raycaster.intersectedEls;
+            const intersectedEls = this.el.components.raycaster.intersectedEls;
     
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
@@ -34,16 +33,16 @@ const rightGripListener = {
 
             // Set current position as lastPosition.
             this.lastPosition = new THREE.Vector3();
-            this.lastPosition = el.object3D.position.clone().add(this.camRigEl.object3D.position);
+            this.lastPosition = this.el.object3D.position.clone().add(this.camRigEl.object3D.position);
 
             // Set the intersected object as the following object.
-            el.setAttribute('right-grip-listener', 'followingEl', intersectedEl);
+            this.el.setAttribute('right-grip-listener', 'followingEl', intersectedEl);
 
             // console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
         this.el.addEventListener('gripup', (event) => {
-            el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false'});
+            this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false'});
         });
     },
 

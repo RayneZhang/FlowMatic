@@ -331,7 +331,7 @@ const globalMenu = {
 
         // Pass the id for left hand to create the corresponding object.
         const instanceName: string = this.subMenu[subMenuName][_buttonId];
-        const leftHand: any = document.querySelector('#leftHandInfo');
+        const leftHand: any = document.querySelector('#leftHand');
         leftHand.setAttribute('left-trigger-listener', 'targetModel', instanceName);
     },
 

@@ -4,9 +4,8 @@ import { ActionCreators as UndoActionCreators } from 'redux-undo'
 
 const leftGripListener = AFRAME.registerComponent('left-grip-listener', {
     init: function(): void {
-        const listeningEl = document.querySelector('#leftHand');
 
-        listeningEl.addEventListener('gripdown', (event) => {  
+        this.el.addEventListener('gripdown', (event) => {  
             // store.dispatch(UndoActionCreators.undo());
         });
     }, 

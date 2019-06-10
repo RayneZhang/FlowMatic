@@ -3,8 +3,7 @@ declare const THREE:any;
 const rightAButtonListener = {
     init: function(): void {
         // Handle a button down.
-        const listeningEl = document.querySelector('#rightHand');
-        listeningEl.addEventListener('abuttondown', (event) => {
+        this.el.addEventListener('abuttondown', (event) => {
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
 

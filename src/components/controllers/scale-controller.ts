@@ -11,17 +11,17 @@ const scaleController = {
         this.scalePerFr = 0.025;
         this.targetEntity = null;
 
-        const rightHandInfo: any = document.querySelector("#rightHandInfo");
+        const rightHand: any = document.querySelector("#rightHand");
         const listeningEl: any = document.querySelector("#" + this.data.hand + "Hand");
         listeningEl.addEventListener('thumbupstart', (event) => {
-            this.targetEntity = rightHandInfo.components['right-trigger-listener'].data.selectedEl;
+            this.targetEntity = rightHand.components['right-trigger-listener'].data.selectedEl;
             if (this.targetEntity) {
                 this.scaling = true;
                 this.scalePerFr = 0.025;
             }
         });
         listeningEl.addEventListener('thumbdownstart', (event) => {
-            this.targetEntity = rightHandInfo.components['right-trigger-listener'].data.selectedEl;
+            this.targetEntity = rightHand.components['right-trigger-listener'].data.selectedEl;
             if (this.targetEntity) {
                 this.scaling = true;
                 this.scalePerFr = -0.025;

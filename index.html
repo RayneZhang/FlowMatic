@@ -87,8 +87,8 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" static-body physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" collision-listener oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: right" tooltip-listener></a-entity>
-                <a-entity id="rightHandInfo" entity-follow="targetEntity: #rightHand" right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
+                <a-entity id="rightHand" static-body physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" collision-listener oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: right" tooltip-listener
+                right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
                 raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable, .Arrow, .Switch, .Slider; far: 1" 
                 line="color: #2e3131; opacity: 0.8" >
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
@@ -110,8 +110,8 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: left" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"></a-entity>
-                <a-entity id="leftHandInfo" entity-follow="targetEntity: #leftHand" global-menu left-trigger-listener left-grip-listener>
+                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller thumb-controls="hand: left" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"
+                global-menu left-trigger-listener left-grip-listener>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">
                         <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
                                 position="0.066 0.013 0.013">

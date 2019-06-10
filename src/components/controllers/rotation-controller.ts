@@ -11,17 +11,17 @@ const rotationController = {
         this.degPerFr = 0.15;
         this.targetEntity = null;
 
-        const rightHandInfo: any = document.querySelector("#rightHandInfo");
+        const rightHand: any = document.querySelector("#rightHand");
         const listeningEl: any = document.querySelector("#" + this.data.hand + "Hand");
         listeningEl.addEventListener('thumbrightstart', (event) => {
-            this.targetEntity = rightHandInfo.components['right-trigger-listener'].data.selectedEl;
+            this.targetEntity = rightHand.components['right-trigger-listener'].data.selectedEl;
             if (this.targetEntity) {
                 this.rotating = true;
                 this.degPerFr = 1;
             }
         });
         listeningEl.addEventListener('thumbleftstart', (event) => {
-            this.targetEntity = rightHandInfo.components['right-trigger-listener'].data.selectedEl;
+            this.targetEntity = rightHand.components['right-trigger-listener'].data.selectedEl;
             if (this.targetEntity) {
                 this.rotating = true;
                 this.degPerFr = -1;

@@ -9,9 +9,8 @@ const rightGripListener = {
     init(): void {
 
         const el = this.el;
-        const listeningEl = this.listeningEl = document.querySelector('#rightHand');
         const camRigEl = this.camRigEl = document.querySelector('#cameraRig');
-        listeningEl.addEventListener('gripdown', (event) => {
+        this.el.addEventListener('gripdown', (event) => {
             el.setAttribute('right-grip-listener', 'gripping', 'true');
             
             // Retrieve all intersected Elements through raycaster.
@@ -43,7 +42,7 @@ const rightGripListener = {
             // console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
-        listeningEl.addEventListener('gripup', (event) => {
+        this.el.addEventListener('gripup', (event) => {
             el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false'});
         });
     },
@@ -53,7 +52,7 @@ const rightGripListener = {
 
         if (gripping && followingEl) {
             const lastPosition: any = this.lastPosition;
-            const currentPosition: any = this.listeningEl.object3D.position.clone().add(this.camRigEl.object3D.position);
+            const currentPosition: any = this.el.object3D.position.clone().add(this.camRigEl.object3D.position);
 
             // Store this frame's position in oldPosition.
             this.lastPosition = currentPosition.clone();

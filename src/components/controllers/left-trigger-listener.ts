@@ -14,9 +14,8 @@ const leftTriggerListener = {
         
         this.id = 0;
         const el = this.el;
-        const listeningEl = document.querySelector('#leftHand');
 
-        listeningEl.addEventListener('triggerdown', (event) => {  
+        this.el.addEventListener('triggerdown', (event) => {  
             // Add position component to the entity.
             const controllerPos: any = el.object3D.position;
             const cameraRig: any = document.querySelector("#cameraRig");

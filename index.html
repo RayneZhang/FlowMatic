@@ -21,6 +21,7 @@
             <!-- Assets -->
             <a-assets>
                 <a-asset-item id="western-gltf" src="assets/models/scenes/western/scene.gltf"></a-asset-item>
+                <a-asset-item id="mushroom-gltf" src="assets/models/mushroom.glb"></a-asset-item>
 
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
                 <img id="uihover" src="assets/images/ui-hover.png" crossorigin="anonymous">
@@ -143,7 +144,8 @@
 
             <!-- Scene #2 -->
             <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
-            <a-entity id="western" gltf-model="#western-gltf"></a-entity>            
+            <a-entity id="western" gltf-model="#western-gltf"></a-entity> 
+            <a-entity id="mushroom" class="movable" scale="0.1 0.1 0.1" position="0 -1.22 0" gltf-model="#mushroom-gltf"></a-entity>           
 
             <!-- Utils -->
             <a-entity id="lines" draw-line></a-entity>

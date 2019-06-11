@@ -9,17 +9,15 @@ const rightGripListener = {
     init(): void {
 
         this.el.addEventListener('gripdown', (event) => {
-            this.el.setAttribute('right-grip-listener', 'gripping', 'true');
+            this.data.gripping = true;
             
             // Retrieve all intersected Elements through raycaster.
             const intersectedEls = this.el.components.raycaster.intersectedEls;
-    
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
                 console.log('Nothing is intersected when gripping');
                 return;
             }
-    
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
 
@@ -35,7 +33,7 @@ const rightGripListener = {
             this.localPosition = this.el.object3D.worldToLocal(intersectedEl.object3D.position.clone());
 
             // Set the intersected object as the following object.
-            this.el.setAttribute('right-grip-listener', 'followingEl', intersectedEl);
+            this.data.followingEl = intersectedEl;
         });
 
         this.el.addEventListener('gripup', (event) => {

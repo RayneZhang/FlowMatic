@@ -8,7 +8,6 @@ const rightGripListener = {
 
     init(): void {
 
-        const camRigEl = this.camRigEl = document.querySelector('#cameraRig');
         this.el.addEventListener('gripdown', (event) => {
             this.el.setAttribute('right-grip-listener', 'gripping', 'true');
             
@@ -30,7 +29,6 @@ const rightGripListener = {
                 console.log('The intersected object is not movable.');
                 return;
             }
-
 
             this.el.object3D.updateMatrix();
             this.el.object3D.updateMatrixWorld();

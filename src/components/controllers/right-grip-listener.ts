@@ -31,14 +31,13 @@ const rightGripListener = {
                 return;
             }
 
-            // Set current position as lastPosition.
-            this.lastPosition = new THREE.Vector3();
-            this.lastPosition = this.el.object3D.position.clone().add(this.camRigEl.object3D.position);
+
+            this.el.object3D.updateMatrix();
+            this.el.object3D.updateMatrixWorld();
+            this.localPosition = this.el.object3D.worldToLocal(intersectedEl.object3D.position.clone());
 
             // Set the intersected object as the following object.
             this.el.setAttribute('right-grip-listener', 'followingEl', intersectedEl);
-
-            // console.log('When gripping, the first intersected object is: ' + followingEl.id);
         });
 
         this.el.addEventListener('gripup', (event) => {
@@ -50,20 +49,13 @@ const rightGripListener = {
         const { gripping, followingEl } = this.data;
 
         if (gripping && followingEl) {
-            const lastPosition: any = this.lastPosition;
-            const currentPosition: any = this.el.object3D.position.clone().add(this.camRigEl.object3D.position);
 
-            // Store this frame's position in oldPosition.
-            this.lastPosition = currentPosition.clone();
-
-            // Calculate target object's position.
-            const currentTargetPosition = followingEl.getAttribute('position');
-            const updatedTargetPosition: any = currentTargetPosition.add(currentPosition.sub(lastPosition));
+            this.el.object3D.updateMatrix();
+            this.el.object3D.updateMatrixWorld();
+            const updatedTargetPosition: any = this.el.object3D.localToWorld(this.localPosition.clone());
 
             // Modify position at three.js level for better performance. (Better than setAttribute)
             followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
-
-            // console.log('followingEl updated position is: ' + updatedTargetPosition.x + ',' + updatedTargetPosition.y + ','+ updatedTargetPosition.z);
         }
        
     }

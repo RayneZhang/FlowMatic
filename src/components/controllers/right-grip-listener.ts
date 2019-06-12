@@ -50,7 +50,6 @@ const rightGripListener = {
         this.el.addEventListener('gripup', (event) => {
             // If the user is holding a weapon...
             if (this.data.weaponEl) {
-                console.log(this.data.weaponEl.getAttribute('position'));
                 const redux = document.querySelector('#redux');
                 redux.appendChild(this.data.weaponEl);
                 //this.data.weaponEl.setAttribute('gltf-model', {src: 'assets/models/sword/sword.glb'});

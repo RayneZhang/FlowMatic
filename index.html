@@ -112,7 +112,8 @@
                 </a-entity>
 
                 <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"
-                global-menu left-trigger-listener left-grip-listener>
+                 left-trigger-listener left-grip-listener>
+                    <a-entity id="menu" global-menu></a-entity>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">
                         <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.03; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
                                 position="0.066 0.013 0.013">

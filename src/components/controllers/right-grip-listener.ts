@@ -32,6 +32,7 @@ const rightGripListener = {
             if (intersectedEl.classList.contains('weapon')) {
                 if (intersectedEl.classList.contains('sword')) {
                     this.el.appendChild(intersectedEl);
+                    //intersectedEl.setAttribute('gltf-model', {src: 'assets/models/sword/sword.glb'});
                     intersectedEl.object3D.position.set(0, 0, 0);
                     this.data.weaponEl = intersectedEl;
                     return;
@@ -52,6 +53,7 @@ const rightGripListener = {
                 console.log(this.data.weaponEl.getAttribute('position'));
                 const redux = document.querySelector('#redux');
                 redux.appendChild(this.data.weaponEl);
+                //this.data.weaponEl.setAttribute('gltf-model', {src: 'assets/models/sword/sword.glb'});
             }
             this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
         });

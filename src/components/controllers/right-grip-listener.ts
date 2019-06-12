@@ -31,12 +31,16 @@ const rightGripListener = {
 
             if (intersectedEl.classList.contains('weapon')) {
                 if (intersectedEl.classList.contains('sword')) {
-                    this.el.appendChild(intersectedEl);
-                    //intersectedEl.setAttribute('gltf-model', {src: 'assets/models/sword/sword.glb'});
-                    intersectedEl.object3D.position.set(0, 0, 0);
                     this.data.weaponEl = intersectedEl;
-                    return;
+                    this.data.weaponEl.addEventListener('loaded', (event) => {
+                        // When weaponEl is appended...
+                        if (this.data.weaponEl && this.data.gripping) {
+                            this.data.weaponEl.object3D.position.set(0, 0, 0);
+                        }
+                    });
+                    this.el.appendChild(intersectedEl);
                 }
+                return;
             }
 
             this.el.object3D.updateMatrix();
@@ -48,21 +52,33 @@ const rightGripListener = {
         });
 
         this.el.addEventListener('gripup', (event) => {
+            this.data.gripping = false;
+
             // If the user is holding a weapon...
             if (this.data.weaponEl) {
+                // Calculate weapon world position first.
+                this.data.weaponEl.object3D.updateMatrix();
+                this.data.weaponEl.object3D.updateMatrixWorld();
+                this.worldPosition = this.data.weaponEl.object3D.localToWorld(new THREE.Vector3(0, 0, 0));
+
+                // After weaponEl is appended...
+                this.data.weaponEl.addEventListener('loaded', (event) => {
+                    if (this.data.weaponEl && !this.data.gripping) {
+                        this.data.weaponEl.object3D.position.copy(this.worldPosition);
+                        this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
+                    }
+                });
+
+                // Append entity.
                 const redux = document.querySelector('#redux');
                 redux.appendChild(this.data.weaponEl);
-                //this.data.weaponEl.setAttribute('gltf-model', {src: 'assets/models/sword/sword.glb'});
             }
-            this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
         });
     },
 
     tick(time, timeDelta): void {
         const gripping = this.data.gripping;
         const followingEl = this.data.followingEl;
-        if (this.data.weaponEl)
-            this.data.weaponEl.object3D.position.set(0, 0, 0);
 
         if (gripping && followingEl) {
             this.el.object3D.updateMatrix();

@@ -11,12 +11,12 @@ const controllerMaterial = AFRAME.registerComponent('controller-material-control
                 return; 
             }
 
-            buttonMeshes.body = controllerObject3D.getObjectByName('body');
-            console.log(controllerObject3D.getObjectByName('body'));
+            //buttonMeshes.body = controllerObject3D.getObjectByName('body');
+            console.log(controllerObject3D);
             this.material  = new THREE.MeshStandardMaterial({
                 color : 0xeeeeee
             });
-            buttonMeshes.body.material = this.material;
+            //buttonMeshes.body.material = this.material;
         });        
     }
 });

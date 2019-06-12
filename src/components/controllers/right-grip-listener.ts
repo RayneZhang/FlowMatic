@@ -3,7 +3,8 @@ declare const THREE:any;
 const rightGripListener = {
     schema: {
         followingEl: {type: 'selector', default: null},
-        gripping: {type: 'boolean', default: false}
+        gripping: {type: 'boolean', default: false},
+        weaponEl: {type: 'selector', default: null}
     },
 
     init(): void {
@@ -28,6 +29,15 @@ const rightGripListener = {
                 return;
             }
 
+            if (intersectedEl.classList.contains('weapon')) {
+                if (intersectedEl.classList.contains('sword')) {
+                    this.el.appendChild(intersectedEl);
+                    intersectedEl.object3D.position.set(0, 0, 0);
+                    this.data.weaponEl = intersectedEl;
+                    return;
+                }
+            }
+
             this.el.object3D.updateMatrix();
             this.el.object3D.updateMatrixWorld();
             this.localPosition = this.el.object3D.worldToLocal(intersectedEl.object3D.position.clone());
@@ -37,15 +47,23 @@ const rightGripListener = {
         });
 
         this.el.addEventListener('gripup', (event) => {
-            this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false'});
+            // If the user is holding a weapon...
+            if (this.data.weaponEl) {
+                console.log(this.data.weaponEl.getAttribute('position'));
+                const redux = document.querySelector('#redux');
+                redux.appendChild(this.data.weaponEl);
+            }
+            this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
         });
     },
 
     tick(time, timeDelta): void {
-        const { gripping, followingEl } = this.data;
+        const gripping = this.data.gripping;
+        const followingEl = this.data.followingEl;
+        if (this.data.weaponEl)
+            this.data.weaponEl.object3D.position.set(0, 0, 0);
 
         if (gripping && followingEl) {
-
             this.el.object3D.updateMatrix();
             this.el.object3D.updateMatrixWorld();
             const updatedTargetPosition: any = this.el.object3D.localToWorld(this.localPosition.clone());
@@ -53,7 +71,7 @@ const rightGripListener = {
             // Modify position at three.js level for better performance. (Better than setAttribute)
             followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
         }
-       
+
     }
 }
 

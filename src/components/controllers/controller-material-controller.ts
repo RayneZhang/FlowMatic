@@ -7,16 +7,18 @@ const controllerMaterial = AFRAME.registerComponent('controller-material-control
             const controllerObject3D: any = event.detail.model;
             var buttonMeshes: any = this.buttonMeshes = {};
             if (!controllerObject3D) { 
-                console.log("The Hand Model is null.");
+                console.log("The Model is null.");
                 return; 
             }
 
-            //buttonMeshes.body = controllerObject3D.getObjectByName('body');
-            console.log(controllerObject3D);
-            this.material  = new THREE.MeshStandardMaterial({
-                color : 0xeeeeee
-            });
-            //buttonMeshes.body.material = this.material;
+            // Only listen for model who has body and buttonHome
+            if (controllerObject3D.getObjectByName('body') && controllerObject3D.getObjectByName('stick')) {
+                buttonMeshes.body = controllerObject3D.getObjectByName('body');
+                this.material  = new THREE.MeshStandardMaterial({
+                    color : 0xeeeeee
+                });
+                buttonMeshes.body.material = this.material;
+            }
         });        
     }
 });

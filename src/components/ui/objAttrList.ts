@@ -65,7 +65,10 @@ const objAttrList = {
     // The listener when x-button is down.
     onModelLoaded(event): void {
         // Set position of the listEntity.
-        const width: number = this.calWidth(this.el);
+        let width: number = this.calWidth(this.el);
+        if (this.el.getAttribute('id') == "sword")
+            width = width * 3;
+
         this.listEntity.object3D.scale.set(width, width, width);
 
         if (this.el.getAttribute('id') == "plant")

@@ -149,8 +149,8 @@
             <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
             <a-entity id="western" gltf-model="#western-gltf"></a-entity> 
             <a-entity id="mushroom" class="movable" scale="0.1 0.1 0.1" position="0 -1.22 0" gltf-model="#mushroom-gltf"></a-entity>
-            <a-entity id="plant" scale="0.001 0.001 0.001" position="0 -0.5 -3" obj-attributes-list="attrNames: ['Idle', 'Spit', 'Dying']" gltf-model="#plant-gltf" animation-mixer="clip: Idle"></a-entity> 
-            <a-entity id="sword" class="movable weapon sword" scale="0.1 0.1 0.1" position="0 0 -2" gltf-model="#sword-gltf"></a-entity>           
+            <a-entity id="plant" scale="0.001 0.001 0.001" position="0 -0.5 -3" obj-attributes-list="attrNames: Collider, Idle, Spit, Dying" gltf-model="#plant-gltf" animation-mixer="clip: Idle"></a-entity> 
+            <a-entity id="sword" class="movable weapon sword" scale="0.1 0.1 0.1" position="0 0 -2" obj-attributes-list="attrNames: Collider" gltf-model="#sword-gltf"></a-entity>           
 
             <!-- Utils -->
             <a-entity id="lines" draw-line></a-entity>

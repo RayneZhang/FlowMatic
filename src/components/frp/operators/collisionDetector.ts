@@ -39,30 +39,26 @@ const collisionDetector = AFRAME.registerComponent('collision-detector', {
 
             if (!this.data.entityA || !this.data.entityB) return;
             else {
-                console.log(this.data.entityA);
-                console.log(this.data.entityB);
                 const entityA = document.querySelector('#' + this.data.entityA);
                 entityA.addEventListener('collisions', (e) => {
-                    console.log("Collisions started!" + entityA.getAttribute('id'));
-        
-                    console.log(event.e.els);
-                    console.log(event.e.clearedEls);
-                });
-            }
-        });
+                    console.log("Collisions triggered! " + entityA.getAttribute('id'));
+                    console.log((<any>e).detail.els);
+                    console.log((<any>e).detail.clearedEls);
 
-        this.el.addEventListener('condition-update', (event) => {
-            const dataType: string = event.detail.dataType;
-            const dataValue: any = event.detail.dataValue;
-            if (dataType === 'boolean') {
-                this.data.condition = dataValue;
+                    this.data.condition = true;
+
+                });
             }
         });
     },
 
     update: function (oldData): void {
-        if (this.data.condition === oldData.condition)
-            return;
+        // console.log(oldData.condition);
+        // if (this.data.condition === oldData.condition)
+        //     return;
+
+        // console.log("update passed");
+        if (!this.data.condition) return;
 
         const targetEntities = this.data.targetEntities;
         // Check if there is target object.

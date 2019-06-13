@@ -48,6 +48,7 @@ const conditionalEvent = AFRAME.registerComponent('conditional-event', {
         });
 
         this.el.addEventListener('condition-update', (event) => {
+            console.log("condition update on condional event.");
             const dataType: string = event.detail.dataType;
             const dataValue: any = event.detail.dataValue;
             if (dataType === 'boolean') {
@@ -63,8 +64,6 @@ const conditionalEvent = AFRAME.registerComponent('conditional-event', {
     update: function (oldData): void {
         if (this.data.condition === oldData.condition)
             return;
-
-        
 
         if (this.data.condition) {
             const trueTargetEntities = this.data.trueTargetEntities;

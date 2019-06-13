@@ -226,6 +226,11 @@ const rightTriggerListener = {
                     // Handle everything within collision detector.
                     targetEntity.emit('entity-update', {entityId: sourceEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
                 }
+                if (intersectedEl.parentNode.classList.contains('event-filter')) {
+                    targetEntity = intersectedEl.parentNode;
+                    // Handle everything within event condition.
+                    sourceEntity.emit('target-update', {targetEntity: targetEntity}, false);
+                }
 
                 // delete the line if connecting the same entity.
                 if (targetEntity.getAttribute('id') == sourceEntity.getAttribute('id')) {

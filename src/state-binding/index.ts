@@ -191,6 +191,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  case 'Conditional Event': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('conditional-event', 'trueTargetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Boolean']);
                     newEntity.setAttribute('operator-model', 'functionOutputs', ['True (Event A)', 'False (Event B)']);
                     newEntity.setAttribute('operator-model', 'functionName', "Conditional Event");

@@ -88,7 +88,7 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" static-body physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" collision-listener oculus-touch-controls="hand: right; buttonColor: #ffffff" controller-material-controller tooltip-listener
+                <a-entity id="rightHand" static-body physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" collision-listener oculus-touch-controls="hand: right" controller-material-controller tooltip-listener
                 right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
                 raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .connectable, .Arrow, .Switch, .Slider; far: 1" 
                 line="color: #2e3131; opacity: 0.8" >
@@ -111,7 +111,7 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" oculus-touch-controls="hand: left; buttonColor: #ffffff" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"
+                <a-entity id="leftHand" oculus-touch-controls="hand: left" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"
                  left-trigger-listener left-grip-listener>
                     <a-entity id="menu" global-menu></a-entity>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">

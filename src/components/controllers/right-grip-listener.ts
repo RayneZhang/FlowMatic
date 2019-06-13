@@ -36,6 +36,9 @@ const rightGripListener = {
                         // When weaponEl is appended...
                         if (this.data.weaponEl && this.data.gripping) {
                             this.data.weaponEl.object3D.position.set(0, 0, 0);
+                            this.data.weaponEl.object3D.rotation.set(0, 0, 0);
+                            this.data.weaponEl.object3D.rotateX(THREE.Math.degToRad(-90));
+                            this.data.weaponEl.object3D.rotateZ(THREE.Math.degToRad(45));
                         }
                     });
                     this.el.appendChild(intersectedEl);
@@ -65,6 +68,7 @@ const rightGripListener = {
                 this.data.weaponEl.addEventListener('loaded', (event) => {
                     if (this.data.weaponEl && !this.data.gripping) {
                         this.data.weaponEl.object3D.position.copy(this.worldPosition);
+                        this.data.weaponEl.object3D.rotation.set(0, 0, 0);
                         this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
                     }
                 });

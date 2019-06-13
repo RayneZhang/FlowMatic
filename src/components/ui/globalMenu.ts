@@ -14,7 +14,6 @@ const globalMenu = {
         //this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract', 'Vector2Number', 'Number2Vector', 'Condition: Bool', 'Condition: A > B'], 'Assets': ['Box', 'Sphere', 'Vector', 'Switch', 'Slider'], 'Lights': ['Light'], 'Avatars': ['Headset', 'Left Controller', 'Right Controller']};
         this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract', 'Vector2Number', 'Number2Vector', 'Condition: Bool', 'Condition: A > B'], 'Assets': ['Box', 'Sphere', 'Vector', 'Switch', 'Slider'], 'Lights': ['Light'], 'Avatars': ['Headset', 'Left Controller', 'Right Controller']};
 
-        
         // Create a menu entity and append it to the controller.
         const menuEntity: any = this.menuEl = document.createElement('a-entity');
         this.el.appendChild(menuEntity);
@@ -34,6 +33,11 @@ const globalMenu = {
         // Event Listener to open and close menu.
         const listeningEl = document.querySelector('#leftHand');
         listeningEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
+
+        this.el.addEventListener('model-loaded', (event) => {
+            //console.log("It's actually loaded.");
+            event.stopPropagation();
+        });
     },
 
     tick: function(time, timeDelta): void {

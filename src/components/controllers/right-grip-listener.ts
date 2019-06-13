@@ -33,6 +33,7 @@ const rightGripListener = {
                 if (intersectedEl.classList.contains('sword')) {
                     this.data.weaponEl = intersectedEl;
                     this.data.weaponEl.addEventListener('loaded', (event) => {
+                        event.stopPropagation();
                         // When weaponEl is appended...
                         if (this.data.weaponEl && this.data.gripping) {
                             this.data.weaponEl.object3D.position.set(0, 0, 0);
@@ -40,6 +41,10 @@ const rightGripListener = {
                             this.data.weaponEl.object3D.rotateX(THREE.Math.degToRad(-90));
                             this.data.weaponEl.object3D.rotateZ(THREE.Math.degToRad(45));
                         }
+                    });
+                    this.data.weaponEl.addEventListener('model-loaded', (event) => {
+                        //console.log("It's actually loaded.");
+                        event.stopPropagation();
                     });
                     this.el.appendChild(intersectedEl);
                 }

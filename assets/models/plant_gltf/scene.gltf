@@ -15368,7 +15368,7 @@
           }
         }
       ],
-      "name": "Armature|ArmatureAction",
+      "name": "Spit",
       "samplers": [
         {
           "input": 29,
@@ -16443,7 +16443,7 @@
           }
         }
       ],
-      "name": "Armature|ArmatureAction.001",
+      "name": "Idle",
       "samplers": [
         {
           "input": 207,
@@ -17518,7 +17518,7 @@
           }
         }
       ],
-      "name": "Armature|ArmatureAction.002",
+      "name": "Idle2",
       "samplers": [
         {
           "input": 385,
@@ -18593,7 +18593,7 @@
           }
         }
       ],
-      "name": "Armature|ArmatureAction.003",
+      "name": "Bite",
       "samplers": [
         {
           "input": 563,
@@ -19787,7 +19787,7 @@
           }
         }
       ],
-      "name": "Armature|ArmatureAction.004",
+      "name": "Dying",
       "samplers": [
         {
           "input": 741,

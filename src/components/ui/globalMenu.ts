@@ -11,6 +11,7 @@ const globalMenu = {
         // The sub-menu elements' names in the 3D obj.
         this.subEntitiesNames = ['huecursor', 'hue', 'currentcolor', 'submenu1', 'submenu2', 'submenu3', 'submenu4', 'submenu5', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'undo', 'redo'];
         // The corresponding submenus in the buttons.
+        //this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract', 'Vector2Number', 'Number2Vector', 'Condition: Bool', 'Condition: A > B'], 'Assets': ['Box', 'Sphere', 'Vector', 'Switch', 'Slider'], 'Lights': ['Light'], 'Avatars': ['Headset', 'Left Controller', 'Right Controller']};
         this.subMenu = {'Data': ['Random Color'], 'Operators': ['Darkness', 'Acceleration', 'Velocity', 'Plus', 'Subtract', 'Vector2Number', 'Number2Vector', 'Condition: Bool', 'Condition: A > B'], 'Assets': ['Box', 'Sphere', 'Vector', 'Switch', 'Slider'], 'Lights': ['Light'], 'Avatars': ['Headset', 'Left Controller', 'Right Controller']};
 
         

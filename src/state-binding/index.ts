@@ -188,6 +188,26 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
+                 case 'Conditional Event': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['Boolean']);
+                    newEntity.setAttribute('operator-model', 'functionOutputs', ['True (Event A)', 'False (Event B)']);
+                    newEntity.setAttribute('operator-model', 'functionName', "Conditional Event");
+
+                    this.id++;
+                    break;
+                 }
+                 case 'Collision': {
+                    // Attach components to the filter.
+                    newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('operator-model', 'functionInputs', ['Entity A', 'Entity B']);
+                    newEntity.setAttribute('operator-model', 'functionOutputs', ['Boolean']);
+                    newEntity.setAttribute('operator-model', 'functionName', "Collision");
+
+                    this.id++;
+                    break;
+                 }
                  case 'Vector2Number': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', targetModelName + id);

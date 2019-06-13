@@ -19,6 +19,8 @@ import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
 import controllerMaterial from './components/controllers/controller-material-controller';
 controllerMaterial;
+import entityFollow from './components/utils/entityFollow';
+entityFollow;
 
 import modelSubset from './components/utils/model_subset';
 

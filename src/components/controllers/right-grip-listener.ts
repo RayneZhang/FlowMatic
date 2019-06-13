@@ -32,21 +32,9 @@ const rightGripListener = {
             if (intersectedEl.classList.contains('weapon')) {
                 if (intersectedEl.classList.contains('sword')) {
                     this.data.weaponEl = intersectedEl;
-                    this.data.weaponEl.addEventListener('loaded', (event) => {
-                        event.stopPropagation();
-                        // When weaponEl is appended...
-                        if (this.data.weaponEl && this.data.gripping) {
-                            this.data.weaponEl.object3D.position.set(0, 0, 0);
-                            this.data.weaponEl.object3D.rotation.set(0, 0, 0);
-                            this.data.weaponEl.object3D.rotateX(THREE.Math.degToRad(-90));
-                            this.data.weaponEl.object3D.rotateZ(THREE.Math.degToRad(45));
-                        }
+                    intersectedEl.setAttribute('entity-follow', {
+                        targetEntity: '#rightHand'
                     });
-                    this.data.weaponEl.addEventListener('model-loaded', (event) => {
-                        //console.log("It's actually loaded.");
-                        event.stopPropagation();
-                    });
-                    this.el.appendChild(intersectedEl);
                 }
                 return;
             }
@@ -64,23 +52,9 @@ const rightGripListener = {
 
             // If the user is holding a weapon...
             if (this.data.weaponEl) {
-                // Calculate weapon world position first.
-                this.data.weaponEl.object3D.updateMatrix();
-                this.data.weaponEl.object3D.updateMatrixWorld();
-                this.worldPosition = this.data.weaponEl.object3D.localToWorld(new THREE.Vector3(0, 0, 0));
-
-                // After weaponEl is appended...
-                this.data.weaponEl.addEventListener('loaded', (event) => {
-                    if (this.data.weaponEl && !this.data.gripping) {
-                        this.data.weaponEl.object3D.position.copy(this.worldPosition);
-                        this.data.weaponEl.object3D.rotation.set(0, 0, 0);
-                        this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
-                    }
+                this.data.weaponEl.setAttribute('entity-follow', {
+                    targetEntity: null
                 });
-
-                // Append entity.
-                const redux = document.querySelector('#redux');
-                redux.appendChild(this.data.weaponEl);
             }
 
             this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});

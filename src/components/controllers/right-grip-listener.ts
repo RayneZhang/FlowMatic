@@ -77,6 +77,8 @@ const rightGripListener = {
                 const redux = document.querySelector('#redux');
                 redux.appendChild(this.data.weaponEl);
             }
+
+            this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
         });
     },
 

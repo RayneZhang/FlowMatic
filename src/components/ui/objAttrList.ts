@@ -67,7 +67,11 @@ const objAttrList = {
         // Set position of the listEntity.
         const width: number = this.calWidth(this.el);
         this.listEntity.object3D.scale.set(width, width, width);
-        this.listEntity.object3D.position.set(width/2 + 0.5*width, 0, 0);
+
+        if (this.el.getAttribute('id') == "plant")
+            this.listEntity.object3D.scale.set(width * 2 , width* 2, width * 2);
+
+        this.listEntity.object3D.position.set(width, 0, 0);
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
 
@@ -114,7 +118,7 @@ const objAttrList = {
         const box = new THREE.Box3().setFromObject(mesh);
         const size = new THREE.Vector3();
         box.getSize(size);
-        const width = size.x;
+        const width = Math.max(size.x, size.y, size.z);
         
         return width;
     }

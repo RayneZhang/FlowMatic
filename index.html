@@ -139,7 +139,7 @@
             <a-entity light="type: directional; color: #fff1bc; intensity: 0.8; castShadow: false; shadowCameraVisible: false;" position="-0.5 1 0"></a-entity>
 
             <!-- Floor -->
-            <a-plane static-body rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
+            <a-plane static-body position="0 -3 0" rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
 
             <!-- Scene #1 -->
             <!-- <a-entity id="env" environment="preset: forest"></a-entity> -->
@@ -149,7 +149,7 @@
             <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
             <a-entity id="western" gltf-model="#western-gltf"></a-entity> 
             <a-entity id="mushroom" class="movable" scale="0.1 0.1 0.1" position="0 -1.22 0" gltf-model="#mushroom-gltf"></a-entity>
-            <a-entity id="plant" scale="0.001 0.001 0.001" position="0 -0.5 -3" gltf-model="#plant-gltf" animation-mixer="clip: Idle"></a-entity> 
+            <a-entity id="plant" scale="0.001 0.001 0.001" position="0 -0.5 -3" obj-attributes-list="attrNames: ['Idle', 'Spit', 'Dying']" gltf-model="#plant-gltf" animation-mixer="clip: Idle"></a-entity> 
             <a-entity id="sword" class="movable weapon sword" scale="0.1 0.1 0.1" position="0 0 -2" gltf-model="#sword-gltf"></a-entity>           
 
             <!-- Utils -->

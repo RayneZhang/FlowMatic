@@ -107,3 +107,10 @@ AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);
 AFRAME.registerComponent('draw-line', drawLine);
 AFRAME.registerComponent('line-properties', lineProperties);
+
+import collisionDetector from './components/frp/operators/collisionDetector';
+collisionDetector;
+import conditionalEvent from './components/frp/operators/conditionalEvent';
+conditionalEvent;
+import eventReceiver from './components/frp/eventReceiver';
+eventReceiver;

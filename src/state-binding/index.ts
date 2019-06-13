@@ -198,12 +198,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Collision': {
+                 case 'Collision Detector': {
                     // Attach components to the filter.
                     newEntity.setAttribute('id', targetModelName + id);
+                    newEntity.setAttribute('collision-detector', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Entity A', 'Entity B']);
                     newEntity.setAttribute('operator-model', 'functionOutputs', ['Boolean']);
-                    newEntity.setAttribute('operator-model', 'functionName', "Collision");
+                    newEntity.setAttribute('operator-model', 'functionName', "Collision Detector");
 
                     this.id++;
                     break;

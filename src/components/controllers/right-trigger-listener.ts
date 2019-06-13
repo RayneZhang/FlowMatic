@@ -117,6 +117,10 @@ const rightTriggerListener = {
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-source')) {
                     LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
                 }
+                // Dot -> prompt -> attributeName -> objects.
+                if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('event-receiver')) {
+                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
+                }
             }
 
             // Check if the intersected object is a movable object.
@@ -202,20 +206,25 @@ const rightTriggerListener = {
                 let targetAttribute: string = null;
 
                 // input/output->Object
-                if (intersectedEl.parentNode.classList.contains('data-source')) {
-                    targetEntity = intersectedEl.parentNode;
-                }
-                else if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                if (intersectedEl.parentNode.classList.contains('data-filter')) {
                     targetEntity = intersectedEl.parentNode;
                     if (intersectedEl.firstChild.getAttribute('text')) {
                         targetAttribute = intersectedEl.firstChild.getAttribute('text').value;
                     }
                 }
                 // Dot->Description->ListEntity->Object
-                else {
+                if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
                     targetEntity = intersectedEl.parentNode.parentNode.parentNode;
                     const attrNameEntity: any = intersectedEl.parentNode;
                     targetAttribute = attrNameEntity.getAttribute('text').value;
+                }
+                if (intersectedEl.parentNode.classList.contains('collision-detector')) {
+                    targetEntity = intersectedEl.parentNode;
+                    if (intersectedEl.firstChild.getAttribute('text')) {
+                        targetAttribute = intersectedEl.firstChild.getAttribute('text').value;
+                    }
+                    // Handle everything within collision detector.
+                    targetEntity.emit('entity-update', {entityId: sourceEntity.getAttribute('id'), targetAttribute: targetAttribute}, false);
                 }
 
                 // delete the line if connecting the same entity.

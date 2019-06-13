@@ -1,6 +1,7 @@
+import * as AFRAME from 'aframe'
 declare const THREE:any;
 
-const eventReceiver = {
+const eventReceiver = AFRAME.registerComponent('event-receiver', {
     schema: {
         dataType: {type: 'string', default: 'event'},
         dataValue: {type: 'string', default: ''},
@@ -28,6 +29,6 @@ const eventReceiver = {
     update: function (oldData): void {
         
     }
-}
+});
 
 export default eventReceiver;

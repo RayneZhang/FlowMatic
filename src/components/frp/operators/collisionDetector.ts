@@ -25,21 +25,30 @@ const collisionDetector = AFRAME.registerComponent('collision-detector', {
         });
 
         this.el.addEventListener('entity-update', (event) => {
-            const entityAId: string = event.detail.entityA;
-            const entityBId: string = event.detail.entityB;
+            const entityId: string = event.detail.entityId;
+            const targetAttribute: string = event.detail.targetAttribute;
             
-            if (!entityAId || !entityBId) return;
+            if (!targetAttribute) return;
 
-            this.data.entityA = entityAId;
-            this.data.entityB = entityAId;
+            if (targetAttribute == "Entity A")
+                this.data.entityA = entityId;
+            else if (targetAttribute == "Entity B")
+                this.data.entityB = entityId;
+            else
+                return;
 
-            const entityA = document.querySelector('#' + entityAId);
-            entityA.addEventListener('collisions', (e) => {
-                console.log("Collisions started!" + entityA.getAttribute('id'));
-    
-                console.log(event.e.els);
-                console.log(event.e.clearedEls);
-            });
+            if (!this.data.entityA || !this.data.entityB) return;
+            else {
+                console.log(this.data.entityA);
+                console.log(this.data.entityB);
+                const entityA = document.querySelector('#' + this.data.entityA);
+                entityA.addEventListener('collisions', (e) => {
+                    console.log("Collisions started!" + entityA.getAttribute('id'));
+        
+                    console.log(event.e.els);
+                    console.log(event.e.clearedEls);
+                });
+            }
         });
 
         this.el.addEventListener('condition-update', (event) => {

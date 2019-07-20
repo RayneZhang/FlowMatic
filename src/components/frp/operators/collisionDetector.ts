@@ -46,7 +46,8 @@ const collisionDetector = AFRAME.registerComponent('collision-detector', {
                     console.log((<any>e).detail.clearedEls);
 
                     this.data.condition = true;
-
+                    const plant: any = document.querySelector("#plant");
+                    plant.emit('event-triggered', {eventName: 'Dying'}, false);
                 });
             }
         });

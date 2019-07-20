@@ -18,6 +18,11 @@ const eventReceiver = AFRAME.registerComponent('event-receiver', {
             const eventName: string = event.detail.eventName;
             if (!eventName) return;
             // TODO
+            console.log(eventName);
+            this.el.setAttribute('animation-mixer', {
+                'clip': eventName,
+                'loop': 'once'
+            });
         });
     },
 

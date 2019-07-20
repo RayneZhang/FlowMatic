@@ -22,7 +22,9 @@ module.exports = {
     devServer: {
         disableHostCheck: true,
         hot: true,
-        contentBase: '.'
+        contentBase: '.',
+        inline: true,
+        host: '0.0.0.0'
     },
     module: {
         rules: [

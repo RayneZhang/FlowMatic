@@ -1,7 +1,10 @@
 import * as AFRAME from 'aframe';
 import * as ENVIRONMENT from 'aframe-environment-component';
+ENVIRONMENT;
 import * as TELEPORT from 'aframe-teleport-controls';
+TELEPORT;
 import * as FPSCOUNTER from 'aframe-fps-counter-component';
+FPSCOUNTER;
 import * as PHYSICS from 'aframe-physics-system';
 PHYSICS;
 import * as EXTRAS from 'aframe-extras';
@@ -84,10 +87,6 @@ rightController;
 import gridGlitchShader from './shaders/test'
 gridGlitchShader;
 
-ENVIRONMENT;
-TELEPORT;
-FPSCOUNTER;
-
 AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);
@@ -100,8 +99,8 @@ AFRAME.registerComponent('tooltip-listener', tooltipListener);
 AFRAME.registerComponent('global-menu', globalMenu);
 AFRAME.registerComponent('model-subset', modelSubset);
 AFRAME.registerComponent('obj-attributes-list', objAttrList);
-
 AFRAME.registerComponent('bottle-description', bottleDescription);
+
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);

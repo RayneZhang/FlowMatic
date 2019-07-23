@@ -1,12 +1,13 @@
+import * as AFRAME from 'aframe';
 declare const THREE:any;
 
-const drawLine = {
+const lineComponent = AFRAME.registerComponent('line-component', {
     schema: {
-        currentLine: {type: 'selector', default: null},
-        currentSource: {type: 'selector', default: null},
         dataType: {type: 'string', default: ""},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
+        sourceEntity: {type: 'selector', default: null},
+        targetEntity: {type: 'selector', default: null},
         divisions: {type: 'number', default: 20}
     },
 
@@ -15,20 +16,41 @@ const drawLine = {
         // Position and Color Data
         var positions = this.positions = new Array<number>(positionSize);
         var colors = this.colors = new Array<any>(positionSize);
+
+        this.sourcePosition = new THREE.Vector3();
+        this.targetPosition = new THREE.Vector3();
+        this.updatedSourcePosition = new THREE.Vector3();
+        this.updatedTargetPosition = new THREE.Vector3();
+    },
+
+    tick: function(): void {
+        if (this.data.sourceEntity && this.data.targetEntity) {
+            this.data.sourceEntity.object3D.getWorldPosition(this.updatedSourcePosition);
+            this.data.targetEntity.object3D.getWorldPosition(this.updatedTargetPosition);
+            if (this.sourcePosition.equals(this.updatedSourcePosition) && this.targetPosition.equals(this.updatedTargetPosition)) {
+                return;
+            }
+            const deltaSource = this.updatedSourcePosition.clone().sub(this.sourcePosition);
+            const deltaTarget = this.updatedTargetPosition.clone().sub(this.targetPosition);
+
+            const SP = {x: this.data.startPoint.x + deltaSource.x, y: this.data.startPoint.y + deltaSource.y, z: this.data.startPoint.z + deltaSource.z};
+            const EP = {x: this.data.endPoint.x + deltaTarget.x, y: this.data.endPoint.y + deltaTarget.y, z: this.data.endPoint.z + deltaTarget.z};
+            this.el.setAttribute('line-component', 'startPoint', SP);
+            this.el.setAttribute('line-component', 'endPoint', EP);
+            
+            this.sourcePosition = this.updatedSourcePosition.clone();
+            this.targetPosition = this.updatedTargetPosition.clone();
+
+            //this.setArrow();
+        }
     },
 
     update: function (oldDate): void {
-        if (!this.data.currentLine) {
-            return;
-        }
-
-        const currentLine: any = this.data.currentLine;
-        if (!currentLine.hasChildNodes()) {
+        if (!this.el.hasChildNodes()) {
             this.setPositions();
 
             const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
             const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-            const currentLine: any = this.data.currentLine;
 
             const lineBody: any = this.lineBody = document.createElement('a-entity');
             const bodyHeight: number = startPoint.distanceTo(endPoint);
@@ -37,7 +59,7 @@ const drawLine = {
                 height: bodyHeight,
                 radius: 0.01
             });
-            currentLine.appendChild(lineBody);
+            this.el.appendChild(lineBody);
 
             // Set line position.
             const dir = endPoint.clone().sub(startPoint).normalize();
@@ -103,7 +125,6 @@ const drawLine = {
     drawArrow: function(): void {
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const currentLine: any = this.data.currentLine;
         const arrow: any = document.createElement('a-entity');
         arrow.setAttribute('geometry', {
             primitive: 'cone',
@@ -111,12 +132,12 @@ const drawLine = {
             radiusBottom: 0.025,
             radiusTop: 0
         });
-        currentLine.appendChild(arrow);
+        this.el.appendChild(arrow);
 
         // Set arrow position.
         const dir = endPoint.clone().sub(startPoint).normalize();
         const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
-        const localPosition: any = currentLine.object3D.worldToLocal(arrowPos);
+        const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
         arrow.object3D.position.copy(localPosition);
 
         // Set arrow rotation.
@@ -127,13 +148,12 @@ const drawLine = {
     setArrow: function(): void {
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const currentLine: any = this.data.currentLine;
 
         // Set arrow position.
         const dir = endPoint.clone().sub(startPoint).normalize();
         const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
-        const localPosition: any = currentLine.object3D.worldToLocal(arrowPos);
-        const arrow: any = currentLine.firstChild;
+        const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
+        const arrow: any = this.el.firstChild;
         arrow.object3D.position.copy(localPosition);
 
         // Set arrow rotation.
@@ -141,8 +161,6 @@ const drawLine = {
         arrow.object3D.rotateX(THREE.Math.degToRad(90));
     }
 
-}
+});
 
-
-
-export default drawLine;
+export default lineComponent;

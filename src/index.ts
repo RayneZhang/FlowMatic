@@ -54,8 +54,8 @@ conditionBool;
 import conditionLarger from './components/dataflow/operators/conditionLarger'
 conditionLarger;
 
-import drawLine from './components/lines/drawLine';
-import lineProperties from './components/lines/lineProperties';
+import lineComponent from './components/lines/lineComponent';
+lineComponent;
 
 import leftGripListener from './components/controllers/left-grip-listener'
 leftGripListener;
@@ -104,8 +104,6 @@ AFRAME.registerComponent('bottle-description', bottleDescription);
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);
-AFRAME.registerComponent('draw-line', drawLine);
-AFRAME.registerComponent('line-properties', lineProperties);
 
 import collisionDetector from './components/frp/operators/collisionDetector';
 collisionDetector;

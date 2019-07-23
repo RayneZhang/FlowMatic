@@ -1,4 +1,3 @@
-import Line from "../../modules/Line";
 import store from '../../store'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 declare const THREE:any;
@@ -45,8 +44,6 @@ const rightTriggerListener = {
                 return;
             }
 
-            // console.log(intersectedEl); // For debugging.
-
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
                 const id = intersectedEl.getAttribute('id');
@@ -89,37 +86,43 @@ const rightTriggerListener = {
             
             // Check if we're about to draw a line.
             if (intersectedEl.classList.contains('connectable')) {
-                this.curLine = new Line();
                 const LinesEntity: any = document.querySelector("#lines");
+
+                this.curLineEntity = document.createElement('a-entity');
+                this.curLineEntity.setAttribute('line-component');
+        
+                // Append current Line Entity to the Lines Entity.
+                LinesEntity.appendChild(this.curLineEntity);
+                
                 const theHand: any = document.querySelector("#rightHand");
                 const SP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 const EP = {x: theHand.object3D.position.x, y: theHand.object3D.position.y, z: theHand.object3D.position.z};
-                LinesEntity.setAttribute('draw-line', 'startPoint', SP);
-                LinesEntity.setAttribute('draw-line', 'endPoint', EP);
+                this.curLineEntity.setAttribute('line-component', 'startPoint', SP);
+                this.curLineEntity.setAttribute('line-component', 'endPoint', EP);
 
                 // input/output -> operator.
-                LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode);
+                this.curLineEntity.setAttribute('line-component', 'sourceEntity', intersectedEl.parentNode);
                 if (intersectedEl.parentNode && intersectedEl.parentNode.classList.contains('data-filter')) {
                     if (intersectedEl.firstChild.getAttribute('text')) {
-                        LinesEntity.setAttribute('draw-line', 'dataType', intersectedEl.firstChild.getAttribute('text').value);
+                        this.curLineEntity.setAttribute('line-component', 'dataType', intersectedEl.firstChild.getAttribute('text').value);
                     }
                 }
                 // Dot -> prompt -> bottle. For data sources such as bottles.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
-                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode);
+                    this.curLineEntity.setAttribute('line-component', 'sourceEntity', intersectedEl.parentNode.parentNode);
                 }
                 // Dot -> prompt -> attributeName -> objects.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
-                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
-                    LinesEntity.setAttribute('draw-line', 'dataType', intersectedEl.parentNode.getAttribute('text').value);
+                    this.curLineEntity.setAttribute('line-component', 'sourceEntity', intersectedEl.parentNode.parentNode.parentNode);
+                    this.curLineEntity.setAttribute('line-component', 'dataType', intersectedEl.parentNode.getAttribute('text').value);
                 }
                 // Dot -> prompt -> attributeName -> utils. For data sources such as switch.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-source')) {
-                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
+                    this.curLineEntity.setAttribute('line-component', 'sourceEntity', intersectedEl.parentNode.parentNode.parentNode);
                 }
                 // Dot -> prompt -> attributeName -> objects.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('event-receiver')) {
-                    LinesEntity.setAttribute('draw-line', 'currentSource', intersectedEl.parentNode.parentNode.parentNode);
+                    this.curLineEntity.setAttribute('line-component', 'sourceEntity', intersectedEl.parentNode.parentNode.parentNode);
                 }
             }
 
@@ -173,35 +176,35 @@ const rightTriggerListener = {
             const intersectedEls = this.el.components.raycaster.intersectedEls;
             // Check if there is intersected object.
             if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                // console.log('Nothing is intersected when drawing lines');
-                if(this.curLine) {
-                    this.curLine.destroyLine();
-                    this.curLine = null;
+                if (this.curLineEntity) {
+                    this.curLineEntity.parentNode.removeChild(this.curLineEntity);
+                    this.curLineEntity = null;
+                    return;
                 }
-                return;
             }
 
             // Retrieve all intersections through raycaster.
             const intersections = this.el.components.raycaster.intersections;
             if (!Array.isArray(intersections) || !intersections.length) {
                 console.log('There is NO intersections when triggering');
-                if(this.curLine) {
-                    this.curLine.destroyLine();
-                    this.curLine = null;
+                if (this.curLineEntity) {
+                    this.curLineEntity.parentNode.removeChild(this.curLineEntity);
+                    this.curLineEntity = null;
+                    return;
                 }
-                return;
             }
 
             // Fetch the intersected object.
             const intersectedEl = intersectedEls[0];
             if (intersectedEl.classList.contains('connectable')) {
-                const linesEntity: any = document.querySelector('#lines');
+                if (!this.curLineEntity) return;
+
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
-                linesEntity.setAttribute('draw-line', 'endPoint', EP);
+                this.curLineEntity.setAttribute('line-component', 'endPoint', EP);
 
                 // Push the id into target entities.
-                const sourceEntity: any = linesEntity.getAttribute('draw-line').currentSource;
-                const sourceDataType: string = linesEntity.getAttribute('draw-line').dataType;
+                const sourceEntity: any = this.curLineEntity.getAttribute('line-component').sourceEntity;
+                const sourceDataType: string = this.curLineEntity.getAttribute('line-component').dataType;
                 let targetEntity: any = null;
                 let targetAttribute: string = null;
 
@@ -234,45 +237,10 @@ const rightTriggerListener = {
 
                 // delete the line if connecting the same entity.
                 if (targetEntity.getAttribute('id') == sourceEntity.getAttribute('id')) {
-                    if (this.curLine) {
-                        this.curLine.destroyLine();
-                        this.curLine = null;
-                        return;
-                    }
+                    this.curLineEntity.parentNode.removeChild(this.curLineEntity);
+                    this.curLineEntity = null;
+                    return;
                 }
-
-                // const sourceId: string = sourceEntity.getAttribute('id');
-                // const targetId: string = sourceEntity.getAttribute('id');
-                // let lineId: string = this.checkLineExist(sourceId, targetId);
-                // if (!lineId)
-                //     lineId = this.checkLineExist(targetId, sourceId);
-
-                // if (lineId) {
-                //     if (this.curLine) {
-                //         this.curLine.destroyLine();
-                //         this.curLine = null;
-                //     }
-
-                //     // If the line exists, we should delete line geometry.
-                //     const selectedLine: any = document.querySelector('#' + lineId);
-                //     selectedLine.parentNode.removeChild(selectedLine);
-
-                //     return;
-                // }
-                // else {
-                //     // If the line does not exist, we should add it to the data structure.
-                //     const sourceObjectsIndex: number = this.sourceObjects.indexOf(sourceId);
-                //     if (sourceObjectsIndex >= 0) {
-                //         this.sourceObjectsConnected[sourceObjectsIndex].push(targetId);
-                //         this.sourceObjectsConnectedId[sourceObjectsIndex].push(['line' + this.lineId]);
-                //     }
-                //     else {
-                //         this.sourceObjects.push(sourceId);
-                //         this.sourceObjectsConnected.push([targetId]);
-                //         this.sourceObjectsConnectedId.push(['line' + this.lineId]);
-                //     }
-                // }
-
 
                 // Set target objects of source entity.
                 if (sourceEntity.classList.contains('data-source')){
@@ -286,19 +254,16 @@ const rightTriggerListener = {
                 }
 
                 // Set the connected two entities in the current line entity.
-                const currentLineEntity:any = linesEntity.getAttribute('draw-line').currentLine;
-                currentLineEntity.setAttribute('line-properties', 'targetEntity', targetEntity);
-                currentLineEntity.setAttribute('line-properties', 'sourceEntity', sourceEntity);
-                currentLineEntity.setAttribute('id', 'line' + this.lineId);
+                this.curLineEntity.setAttribute('line-component', 'targetEntity', targetEntity);
+                this.curLineEntity.setAttribute('id', 'line' + this.lineId);
                 // Handle data for next line.
                 this.lineId++;
-                linesEntity.setAttribute('draw-line', 'currentLine', null);
-                this.curLine = null;
             }
             else {
-                if (this.curLine) {
-                    this.curLine.destroyLine();
-                    this.curLine = null;
+                if (this.curLineEntity) {
+                    this.curLineEntity.parentNode.removeChild(this.curLineEntity);
+                    this.curLineEntity = null;
+                    return;
                 }
             }
         });
@@ -365,13 +330,13 @@ const rightTriggerListener = {
                 return;
             }
 
-            const lineEntity: any = document.querySelector('#lines');
+            if (!this.curLineEntity) return;
 
             // Update line end point to controller position.
             const controllerPos: any = this.el.object3D.position;
             const cameraRig: any = document.querySelector("#cameraRig");
             const controllerWorldPos = {x: cameraRig.object3D.position.x + controllerPos.x, y: cameraRig.object3D.position.y + controllerPos.y, z: cameraRig.object3D.position.z + controllerPos.z};
-            lineEntity.setAttribute('draw-line', 'endPoint', controllerWorldPos);
+            this.curLineEntity.setAttribute('line-component', 'endPoint', controllerWorldPos);
 
             // Check if there is another dot to connect.
             // Retrieve all intersected Elements through raycaster.
@@ -391,7 +356,7 @@ const rightTriggerListener = {
 
             if (intersectedEl.classList.contains('connectable')) {
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
-                lineEntity.setAttribute('draw-line', 'endPoint', EP);
+                this.curLineEntity.setAttribute('line-component', 'endPoint', EP);
             }
         }
     },

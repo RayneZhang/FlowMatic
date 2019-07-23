@@ -23,31 +23,51 @@ const drawLine = {
         }
 
         const currentLine: any = this.data.currentLine;
-        const line: any = currentLine.getObject3D('mesh');
-        if (!line) {
+        if (!currentLine.hasChildNodes()) {
             this.setPositions();
-            // THREE.Line2 ( LineGeometry, LineMaterial )
-            const geometry = new THREE.LineGeometry();
-            geometry.setPositions( this.positions );
-            geometry.setColors( this.colors );
-            const matLine = new THREE.LineMaterial( {
-                linewidth: 0.005, // in pixels
-                vertexColors: this.colors,
-                //resolution:  // to be set by renderer, eventually
-                dashed: false
-            } );
-            const lineMesh = new THREE.Line2( geometry, matLine );
-            lineMesh.computeLineDistances();
-            lineMesh.scale.set( 1, 1, 1 );
-            currentLine.setObject3D('mesh', lineMesh); 
 
+            const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
+            const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
+            const currentLine: any = this.data.currentLine;
+
+            const lineBody: any = this.lineBody = document.createElement('a-entity');
+            const bodyHeight: number = startPoint.distanceTo(endPoint);
+            lineBody.setAttribute('geometry', {
+                primitive: 'cylinder',
+                height: bodyHeight,
+                radius: 0.01
+            });
+            currentLine.appendChild(lineBody);
+
+            // Set line position.
+            const dir = endPoint.clone().sub(startPoint).normalize();
+            const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
+            lineBody.object3D.position.copy(bodyPos);
+
+            // Set line rotation.
+            lineBody.object3D.lookAt(endPoint.add(dir));
+            lineBody.object3D.rotateX(THREE.Math.degToRad(90));
             this.drawArrow();
         }
         else {
             this.setPositions();
-            line.geometry.setPositions(this.positions);
+            const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
+            const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
+            const bodyHeight: number = startPoint.distanceTo(endPoint);
+            this.lineBody.setAttribute('geometry', {
+                primitive: 'cylinder',
+                height: bodyHeight,
+                radius: 0.01
+            });
+            const dir = endPoint.clone().sub(startPoint).normalize();
+            const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
+            this.lineBody.object3D.position.copy(bodyPos);
 
-            this.setArrow();
+            // Set line rotation.
+            this.lineBody.object3D.lookAt(endPoint.add(dir));
+            this.lineBody.object3D.rotateX(THREE.Math.degToRad(90));
+
+            //this.setArrow();
         }
     },
 

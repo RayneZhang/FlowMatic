@@ -17,10 +17,6 @@ const drawLine = {
         var colors = this.colors = new Array<any>(positionSize);
     },
 
-    tick: function(time, timeDelta): void {
-        
-    },
-
     update: function (oldDate): void {
         if (!this.data.currentLine) {
             return;
@@ -83,6 +79,7 @@ const drawLine = {
         return curve.getPoints(this.data.divisions);
     },
 
+    // Draw the arrow at the end of the line indicating the dataflow direction.
     drawArrow: function(): void {
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);

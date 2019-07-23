@@ -75,6 +75,7 @@ const lineProperties = {
         return curve.getPoints(20);
     },
 
+    // Set the arrow at the end of the line indicating the dataflow direction.
     setArrow: function(): void {
         const currentLine: any = this.data.currentLine;
 

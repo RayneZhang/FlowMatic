@@ -33,11 +33,13 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             const deltaSource = this.updatedSourcePosition.clone().sub(this.sourcePosition);
             const deltaTarget = this.updatedTargetPosition.clone().sub(this.targetPosition);
 
-            const SP = {x: this.data.startPoint.x + deltaSource.x, y: this.data.startPoint.y + deltaSource.y, z: this.data.startPoint.z + deltaSource.z};
-            const EP = {x: this.data.endPoint.x + deltaTarget.x, y: this.data.endPoint.y + deltaTarget.y, z: this.data.endPoint.z + deltaTarget.z};
+            // const SP = {x: this.data.startPoint.x + deltaSource.x, y: this.data.startPoint.y + deltaSource.y, z: this.data.startPoint.z + deltaSource.z};
+            // const EP = {x: this.data.endPoint.x + deltaTarget.x, y: this.data.endPoint.y + deltaTarget.y, z: this.data.endPoint.z + deltaTarget.z};
+            const SP = {x: this.data.startPoint.x, y: this.data.startPoint.y, z: this.data.startPoint.z};
+            const EP = {x: this.data.endPoint.x, y: this.data.endPoint.y, z: this.data.endPoint.z};
             this.el.setAttribute('line-component', 'startPoint', SP);
             this.el.setAttribute('line-component', 'endPoint', EP);
-            
+
             this.sourcePosition = this.updatedSourcePosition.clone();
             this.targetPosition = this.updatedTargetPosition.clone();
 

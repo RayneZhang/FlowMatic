@@ -16,6 +16,7 @@ const rightTriggerListener = {
         this.vectorId = 0;
         this.line = null;
         this.lineId = 0;
+        this.curLineEntity = null;
 
         this.sourceObjects = [];
         this.sourceObjectsConnected = [];
@@ -256,6 +257,7 @@ const rightTriggerListener = {
                 // Set the connected two entities in the current line entity.
                 this.curLineEntity.setAttribute('line-component', 'targetEntity', targetEntity);
                 this.curLineEntity.setAttribute('id', 'line' + this.lineId);
+                this.curLineEntity = null;
                 // Handle data for next line.
                 this.lineId++;
             }

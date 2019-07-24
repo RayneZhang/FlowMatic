@@ -46,12 +46,14 @@ const lineComponent = AFRAME.registerComponent('line-component', {
     },
 
     update: function (oldDate): void {
+        // Initiate entities positions for line updates.
         if (this.data.sourceEntity) {
             this.data.sourceEntity.object3D.getWorldPosition(this.sourcePosition);
         }
         if (this.data.targetEntity) {
             this.data.targetEntity.object3D.getWorldPosition(this.targetPosition);
         }
+        
         if (!this.el.hasChildNodes()) {
             this.setPositions();
 

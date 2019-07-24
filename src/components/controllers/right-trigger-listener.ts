@@ -191,8 +191,8 @@ const rightTriggerListener = {
                 if (this.curLineEntity) {
                     this.curLineEntity.parentNode.removeChild(this.curLineEntity);
                     this.curLineEntity = null;
-                    return;
                 }
+                return;
             }
 
             // Fetch the intersected object.

@@ -57,50 +57,36 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         }
         
         if (!this.el.hasChildNodes()) {
-            this.setPositions();
-
-            const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-            const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-
             const lineBody: any = this.lineBody = document.createElement('a-entity');
-            const bodyHeight: number = startPoint.distanceTo(endPoint);
-            lineBody.setAttribute('geometry', {
-                primitive: 'cylinder',
-                height: bodyHeight,
-                radius: 0.005
+            const arrow: any = this.arrow = document.createElement('a-entity');
+            arrow.setAttribute('geometry', {
+                primitive: 'cone',
+                height: 0.06,
+                radiusBottom: 0.025,
+                radiusTop: 0
             });
             this.el.appendChild(lineBody);
-
-            // Set line position.
-            const dir = endPoint.clone().sub(startPoint).normalize();
-            const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
-            lineBody.object3D.position.copy(bodyPos);
-
-            // Set line rotation.
-            lineBody.object3D.lookAt(endPoint.add(dir));
-            lineBody.object3D.rotateX(THREE.Math.degToRad(90));
-            this.drawArrow();
+            this.el.appendChild(arrow);
         }
-        else {
-            this.setPositions();
-            const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-            const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-            const bodyHeight: number = startPoint.distanceTo(endPoint);
-            this.lineBody.setAttribute('geometry', {
-                primitive: 'cylinder',
-                height: bodyHeight,
-                radius: 0.005
-            });
-            const dir = endPoint.clone().sub(startPoint).normalize();
-            const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
-            this.lineBody.object3D.position.copy(bodyPos);
+        
+        this.setPositions();
+        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
+        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
+        const bodyHeight: number = startPoint.distanceTo(endPoint);
+        this.lineBody.setAttribute('geometry', {
+            primitive: 'cylinder',
+            height: bodyHeight,
+            radius: 0.005
+        });
+        const dir = endPoint.clone().sub(startPoint).normalize();
+        const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
+        this.lineBody.object3D.position.copy(bodyPos);
 
-            // Set line rotation.
-            this.lineBody.object3D.lookAt(endPoint.add(dir));
-            this.lineBody.object3D.rotateX(THREE.Math.degToRad(90));
+        // Set line rotation.
+        this.lineBody.object3D.lookAt(endPoint.add(dir));
+        this.lineBody.object3D.rotateX(THREE.Math.degToRad(90));
 
-            this.setArrow();
-        }
+        this.setArrow();
     },
 
     setPositions: function(): void {
@@ -127,41 +113,19 @@ const lineComponent = AFRAME.registerComponent('line-component', {
     },
 
     // Draw the arrow at the end of the line indicating the dataflow direction.
-    drawArrow: function(): void {
-        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const arrow: any = this.arrow = document.createElement('a-entity');
-        arrow.setAttribute('geometry', {
-            primitive: 'cone',
-            height: 0.06,
-            radiusBottom: 0.025,
-            radiusTop: 0
-        });
-        this.el.appendChild(arrow);
-
-        // Set arrow position.
-        const dir = endPoint.clone().sub(startPoint).normalize();
-        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
-        const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
-        arrow.object3D.position.copy(localPosition);
-
-        // Set arrow rotation.
-        arrow.object3D.lookAt(endPoint.add(dir));
-        arrow.object3D.rotateX(THREE.Math.degToRad(90));
-    },
-
     setArrow: function(): void {
-        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-
-        // Set arrow position.
-        const dir = endPoint.clone().sub(startPoint).normalize();
-        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
-        const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
         if (!this.arrow) {
             console.warn("The line has no arrow.");
             return;
         }
+
+        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
+        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
+
+        // Set arrow position.
+        const dir = endPoint.clone().sub(startPoint).normalize();
+        const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
+        const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
         this.arrow.object3D.position.copy(localPosition);
 
         // Set arrow rotation.

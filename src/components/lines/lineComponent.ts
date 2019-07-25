@@ -15,12 +15,14 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         const positionSize = (this.data.divisions + 1) * 3;
         // Position and Color Data
         var positions = this.positions = new Array<number>(positionSize);
-        var colors = this.colors = new Array<any>(positionSize);
 
         this.sourcePosition = new THREE.Vector3();
         this.targetPosition = new THREE.Vector3();
         this.updatedSourcePosition = new THREE.Vector3();
         this.updatedTargetPosition = new THREE.Vector3();
+
+        this.arrow = null;
+        this.lineBody = null;
     },
 
     tick: function(): void {
@@ -65,7 +67,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             lineBody.setAttribute('geometry', {
                 primitive: 'cylinder',
                 height: bodyHeight,
-                radius: 0.01
+                radius: 0.005
             });
             this.el.appendChild(lineBody);
 
@@ -87,7 +89,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             this.lineBody.setAttribute('geometry', {
                 primitive: 'cylinder',
                 height: bodyHeight,
-                radius: 0.01
+                radius: 0.005
             });
             const dir = endPoint.clone().sub(startPoint).normalize();
             const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
@@ -97,7 +99,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             this.lineBody.object3D.lookAt(endPoint.add(dir));
             this.lineBody.object3D.rotateX(THREE.Math.degToRad(90));
 
-            //this.setArrow();
+            this.setArrow();
         }
     },
 
@@ -108,11 +110,6 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             this.positions[i * 3] = x;
             this.positions[i * 3 + 1] = y;
             this.positions[i * 3 + 2] = z;
-
-            // Set vertex color.
-            this.colors[i * 3] = 0xff0000;
-            this.colors[i * 3 + 1] = 0xff0000;
-            this.colors[i * 3 + 2] = 0xff0000;
         }
     },
 
@@ -133,7 +130,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
     drawArrow: function(): void {
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const arrow: any = document.createElement('a-entity');
+        const arrow: any = this.arrow = document.createElement('a-entity');
         arrow.setAttribute('geometry', {
             primitive: 'cone',
             height: 0.06,
@@ -150,7 +147,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
 
         // Set arrow rotation.
         arrow.object3D.lookAt(endPoint.add(dir));
-        // arrow.object3D.rotateX(THREE.Math.degToRad(90));
+        arrow.object3D.rotateX(THREE.Math.degToRad(90));
     },
 
     setArrow: function(): void {
@@ -161,12 +158,15 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         const dir = endPoint.clone().sub(startPoint).normalize();
         const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
         const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
-        const arrow: any = this.el.firstChild;
-        arrow.object3D.position.copy(localPosition);
+        if (!this.arrow) {
+            console.warn("The line has no arrow.");
+            return;
+        }
+        this.arrow.object3D.position.copy(localPosition);
 
         // Set arrow rotation.
-        arrow.object3D.lookAt(endPoint.add(dir));
-        arrow.object3D.rotateX(THREE.Math.degToRad(90));
+        this.arrow.object3D.lookAt(endPoint.add(dir));
+        this.arrow.object3D.rotateX(THREE.Math.degToRad(90));
     }
 
 });

@@ -1,6 +1,7 @@
 declare const THREE:any;
+import * as AFRAME from 'aframe';
 
-const globalMenu = {
+const globalMenu = AFRAME.registerComponent('global-menu', {
     schema: {
         selectedSubMenuId: {type: 'number', default: 0},
         selectedButtonId: {type: 'number', default: 0}
@@ -375,6 +376,6 @@ const globalMenu = {
         const subMenuName: string = Object.keys(this.subMenu)[this.data.selectedSubMenuId];
         this.loadContainerAndInstance(this.subMenu[subMenuName].length);
     }
-}
+});
 
 export default globalMenu;

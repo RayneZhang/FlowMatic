@@ -1,6 +1,7 @@
 declare const THREE:any;
+import * as AFRAME from 'aframe';
 
-const modelSubset = {
+const modelSubset = AFRAME.registerComponent('model-subset', {
     schema: {
         target: {type: 'selector', default: null},
         name: {type: 'string', default: ''},
@@ -150,6 +151,6 @@ const modelSubset = {
             mesh.material = material;
         }
     }
-}
+});
 
 export default modelSubset;

@@ -26,10 +26,13 @@ import entityFollow from './components/utils/entityFollow';
 entityFollow;
 
 import modelSubset from './components/utils/model_subset';
-
+modelSubset;
 import globalMenu from './components/ui/globalMenu';
+globalMenu;
 import objAttrList from './components/ui/objAttrList';
+objAttrList;
 import bottleDescription from './components/ui/bottleDescrip';
+bottleDescription;
 
 import dataSource from './components/dataflow/dataSource';
 import dataFilter from './components/dataflow/dataFilter';
@@ -95,12 +98,6 @@ AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
 AFRAME.registerComponent('scale-controller', scaleController);
 AFRAME.registerComponent('tooltip-listener', tooltipListener);
-
-AFRAME.registerComponent('global-menu', globalMenu);
-AFRAME.registerComponent('model-subset', modelSubset);
-AFRAME.registerComponent('obj-attributes-list', objAttrList);
-AFRAME.registerComponent('bottle-description', bottleDescription);
-
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);
@@ -111,3 +108,25 @@ import conditionalEvent from './components/frp/operators/conditionalEvent';
 conditionalEvent;
 import eventReceiver from './components/frp/eventReceiver';
 eventReceiver;
+
+// import { Scene } from 'frp-backend';
+// const scene = new Scene();
+// const a = scene.addConstant(2000);
+// const gen = scene.addOp('gen');
+// scene.addEdge(a, {node: gen, prop: 'delay'})
+// const b = scene.addConstant(10);
+// const p = scene.addOp('+');
+// scene.addEdge(b, p);
+// scene.addEdge(gen, p);
+// const t = scene.addOp('take');
+// const three = scene.addConstant(5);
+// scene.addEdge(p, {node: t, prop: 'stream'});
+// scene.addEdge(three, {node: t, prop: 'count'});
+// const delay = scene.addOp('delay');
+// scene.addEdge(t, {node: delay, prop: 'stream'});
+// const d2 = scene.addConstant(700);
+// scene.addEdge(d2, {node: delay, prop: 'delay'});
+
+// p.pluckOutput().subscribe(function (value) {
+//     console.log("add output is", value);
+// });

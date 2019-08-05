@@ -1,6 +1,7 @@
 declare const THREE:any;
+import * as AFRAME from 'aframe';
 
-const objAttrList = {
+const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
     schema: {
         freeze: {type: "boolean", default: false},
         attrNames: {type: 'array', default: []}
@@ -125,6 +126,6 @@ const objAttrList = {
         
         return width;
     }
-}
+});
 
 export default objAttrList;

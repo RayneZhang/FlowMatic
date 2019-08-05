@@ -1,8 +1,8 @@
 import Dot from "../../modules/Dot";
-
 declare const THREE:any;
+import * as AFRAME from 'aframe';
 
-const bottleDescription = {
+const bottleDescription = AFRAME.registerComponent('bottle-description', {
     schema: {
         freeze: {type: "boolean", default: false}
     },
@@ -86,6 +86,6 @@ const bottleDescription = {
         // Set visibility of the object.
         // promptEntity.object3D.visible = false;
     }
-}
+});
 
 export default bottleDescription;

@@ -27,24 +27,29 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         // When add an object into the scene...
         if (presentObjects.length > this.data.objects.length) {
             const addedObj: any = presentObjects[presentObjects.length - 1];
-            const targetModelName: string = addedObj.targetModel;
+            const targetObjName: string = addedObj.targetModel;
             const position: any = addedObj.position;
             const color: any = addedObj.color;
 
             // Create a node in frp-backend
-            const objNode = scene.addObj(targetModelName, [{name: 'color', default: color}, {name: 'position', default: position}]);
-            objNode.pluckOutput('color').subscribe(function (value) {
-                console.log(`${targetModelName} color is: ${color}`);
-            });
-
+            const objNode = scene.addObj(targetObjName, [{name: 'color', default: color}, {name: 'position', default: position}]);
+            
              // Create an entity and append it to AFRAME scene.
              let newEntity: any = document.createElement('a-entity');
+             newEntity.setAttribute('id', objNode.getID());
              this.el.appendChild(newEntity);
-             newEntity.classList.add("movable");
              newEntity.object3D.position.set(position.x, position.y, position.z);
-             switch (targetModelName) {
+             newEntity.classList.add("movable");
+
+             objNode.pluckOutput('color').subscribe((value) => {
+                console.log(`${objNode.getLabel()} color is now: ${value}`);
+                // Handle color change.
+                const objEntity: any = document.querySelector(`#${objNode.getID()}`);
+                objEntity.setAttribute('material', 'color', value);
+            });
+
+             switch (targetObjName) {
                  case 'Random Color': {
-                     newEntity.setAttribute('id', 'bottle' + this.id);
                      newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                      newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
                      
@@ -64,7 +69,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
  
                      // Set the color of the primitive.
                      newEntity.setAttribute('material', 'color', color);
-                     newEntity.setAttribute('id', 'box' + this.id);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
                      newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Color', 'Position']);
@@ -80,17 +84,17 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'Darkness': {
-                     // Attach components to the filter.
-                     newEntity.setAttribute('id', 'color-filter' + this.id);
-                     newEntity.setAttribute('data-filter', 'filterName', "darkness");
-                     newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('operator-model', 'functionInputs', ['Color\n(Hex)', 'Darkness\n(Number)']);
-                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                //  case 'Darkness': {
+                //      // Attach components to the filter.
+                //      newEntity.setAttribute('id', 'color-filter' + this.id);
+                //      newEntity.setAttribute('data-filter', 'filterName', "darkness");
+                //      newEntity.setAttribute('data-filter', 'dataValue', color);
+                //      newEntity.setAttribute('operator-model', 'functionInputs', ['Color\n(Hex)', 'Darkness\n(Number)']);
+                //      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
 
-                     this.id++;
-                     break;
-                 }
+                //      this.id++;
+                //      break;
+                //  }
                  case 'Sphere': {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
@@ -100,46 +104,40 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
  
                      // Set the color of the primitive.
                      newEntity.setAttribute('material', 'color', color);
-                     newEntity.setAttribute('id', 'sphere' + this.id);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
                      newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Color', 'Position']);
                      this.id++;
                      break;
                  }
-                 case 'Acceleration': { 
-                     // Attach components to the filter.
-                     newEntity.setAttribute('id', 'position-filter' + this.id);
-                     newEntity.setAttribute('data-filter', 'filterName', "acceleration");
-                     newEntity.setAttribute('data-filter', 'dataValue', color);
-                     newEntity.setAttribute('operator-model', 'functionInputs', ['Position\n(Vector3)', 'Direction\n(Vector3)', 'Acceleration\n(Number)']);
-                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                //  case 'Acceleration': { 
+                //      // Attach components to the filter.
+                //      newEntity.setAttribute('id', 'position-filter' + this.id);
+                //      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
+                //      newEntity.setAttribute('data-filter', 'dataValue', color);
+                //      newEntity.setAttribute('operator-model', 'functionInputs', ['Position\n(Vector3)', 'Direction\n(Vector3)', 'Acceleration\n(Number)']);
+                //      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
 
-                     this.id++;
-                     break;
-                 }
+                //      this.id++;
+                //      break;
+                //  }
                  case 'Velocity': {
                      // Attach components to the filter.
-                     newEntity.setAttribute('id', 'position-filter' + this.id);
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
                      newEntity.setAttribute('operator-model', 'functionInputs', ['Position\n(Vector3)', 'Direction\n(Vector3)', 'Velocity\n(Number)']);
-                     newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                     newEntity.setAttribute('operator-model', 'functionName', targetObjName);
 
                      this.id++;
                      break;
                  }
                  case 'Vector': {
-                    // Set entity id.
-                    newEntity.setAttribute('id', 'vector' + this.id);
                     newEntity.setAttribute('vector', 'seqId', this.id);
                     newEntity.setAttribute('vector-source', 'targetEntities', []);
                     this.id++;
                     break;
                  }
                  case 'Switch': {
-                    // Set entity id.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     const switchEntity: any = document.createElement('a-entity');
                     newEntity.appendChild(switchEntity);
 
@@ -155,10 +153,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     break;
                  }
                  case 'Slider': {
-                    // Set entity id.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     const sliderEntity: any = document.createElement('a-entity');
-                    sliderEntity.setAttribute('id', targetModelName + this.id + '_subSlider');
+                    sliderEntity.setAttribute('id', targetObjName + this.id + '_subSlider');
                     newEntity.appendChild(sliderEntity);
 
                     // Set up geometry and materials.
@@ -173,28 +169,24 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     break;
                  }
                  case 'Plus': {
-                    // Attach components to the filter.
-                    newEntity.setAttribute('id', 'plus-operator' + this.id);
                     newEntity.setAttribute('plus', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
-                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                    newEntity.setAttribute('operator-model', 'functionName', targetObjName);
 
                     this.id++;
                     break;
                  }
                  case 'Subtract': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', 'subtract-operator' + this.id);
                     newEntity.setAttribute('subtract', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
-                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                    newEntity.setAttribute('operator-model', 'functionName', targetObjName);
 
                     this.id++;
                     break;
                  }
                  case 'Conditional Event': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     newEntity.setAttribute('conditional-event', 'trueTargetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Boolean']);
                     newEntity.setAttribute('operator-model', 'functionOutputs', ['True (Event A)', 'False (Event B)']);
@@ -205,7 +197,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'Collision Detector': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     newEntity.setAttribute('collision-detector', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Entity A', 'Entity B']);
                     newEntity.setAttribute('operator-model', 'functionOutputs', ['Boolean']);
@@ -216,7 +207,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'Vector2Number': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     newEntity.setAttribute('vec2num', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Vector']);
                     newEntity.setAttribute('operator-model', 'functionOutputs', ['X', 'Y', 'Z']);
@@ -227,7 +217,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'Number2Vector': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     newEntity.setAttribute('num2vec', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['X', 'Y', 'Z']);
                     newEntity.setAttribute('operator-model', 'functionOutputs', ['Vector']);
@@ -238,20 +227,18 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                  }
                  case 'Condition: Bool': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', 'condition-bool-operator' + this.id);
                     newEntity.setAttribute('condition-bool', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Condition', 'when Condition\n is True', 'when Condition\n is False']);
-                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                    newEntity.setAttribute('operator-model', 'functionName', targetObjName);
 
                     this.id++;
                     break;
                  }
                  case 'Condition: A >= B': {
                     // Attach components to the filter.
-                    newEntity.setAttribute('id', 'condition-larger-operator' + this.id);
                     newEntity.setAttribute('condition-larger', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['A', 'B', 'when\n A >= B', 'when\n A < B']);
-                    newEntity.setAttribute('operator-model', 'functionName', targetModelName);
+                    newEntity.setAttribute('operator-model', 'functionName', targetObjName);
 
                     this.id++;
                     break;
@@ -263,7 +250,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('material', 'normalMap', '#light-01-normal');
                     
                     // Set up attributes.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Light Direction', 'Light Color', 'Position', 'Light On/Off']);
                     newEntity.setAttribute('spotlight', 'color', 'white');
 
@@ -277,7 +263,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('material', 'src', '#headset-mtl');
 
                     // Set up attributes.
-                    newEntity.setAttribute('id', targetModelName + this.id);
                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
                     newEntity.setAttribute('headset', {});
 
@@ -289,7 +274,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    newEntity.setAttribute('gltf-model', '#controller-left');
 
                    // Set up attributes.
-                   newEntity.setAttribute('id', 'leftController' + this.id);
                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position']);
                    newEntity.setAttribute('left-controller', {});
 
@@ -301,7 +285,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    newEntity.setAttribute('gltf-model', '#controller-right');
 
                    // Set up attributes.
-                   newEntity.setAttribute('id', 'rightController' + this.id);
                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position']);
                    newEntity.setAttribute('right-controller', {});
 
@@ -318,71 +301,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             const deletedObj = this.data.objects[this.data.objects.length - 1];
             const targetModelName: string = deletedObj.targetModel;
             const createdId = deletedObj.id;
-            let id = '';
-
-            switch (targetModelName) {
-                case 'Random Color': {
-                    id = '#bottle' + createdId;
-                    break;
-                }
-                case 'Box': default: {
-                    id = '#box' + createdId;
-                    break;
-                }
-                case 'Darkness': {
-                    id = '#color-filter' + createdId;
-                    break;
-                }
-                case 'Sphere': {   
-                    id = '#sphere' + createdId;
-                    break;
-                }
-                case 'Acceleration': {
-                    id = '#position-filter' + createdId;
-                    break;
-                }
-                case 'Velocity': {
-                    id = '#position-filter' + createdId;
-                    break;
-                }
-                case 'Vector': {
-                    id = '#vector' + createdId;
-                    break;
-                }
-                case 'Switch': {
-                    id = '#' + targetModelName + createdId;
-                    break;
-                }
-                case 'Slider': {
-                    id = '#' + targetModelName + createdId;
-                    break;
-                }
-                case 'Plus': {
-                    id = '#plus-operator' + createdId;
-                    break;
-                }
-                case 'Subtract': {
-                    id = '#subtract-operator' + createdId;
-                    break;
-                }
-                case 'Light': {
-                    id = '#' + targetModelName + createdId;
-                    break;
-                }
-                case 'Headset': {
-                    id = '#' + targetModelName + createdId;
-                    break;
-                }
-                case 'Left Controller': {
-                    id = '#' + 'leftController' + createdId;
-                    break;
-                }
-                case 'Right Controller': {
-                    id = '#' + 'rightController' + createdId;
-                    break;
-                }
-            }
-
+            let id = targetModelName + createdId;
             const deletedObjEntity = document.querySelector(id);
             deletedObjEntity.parentNode.removeChild(deletedObjEntity);
         }

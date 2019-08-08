@@ -3,6 +3,7 @@
 
 import * as AFRAME from 'aframe'
 import store from '../store'
+import * as OBJLABELS from '../ObjLabel'
 import { scene } from '../index'
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {
@@ -49,7 +50,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             });
 
              switch (targetObjName) {
-                 case 'Random Color': {
+                 case OBJLABELS.RANDOM_COLOR: {
                      newEntity.setAttribute('obj-model', 'obj', '#blue-obj');
                      newEntity.setAttribute('obj-model', 'mtl', '#blue-mtl');
                      
@@ -58,7 +59,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'Box': default: {
+                 case OBJLABELS.BOX: default: {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
                          primitive: 'box',
@@ -95,7 +96,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 //      this.id++;
                 //      break;
                 //  }
-                 case 'Sphere': {
+                 case OBJLABELS.SPHERE: {
                      // Add geometry component to the entity.
                      newEntity.setAttribute('geometry', {
                          primitive: 'sphere',
@@ -121,7 +122,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 //      this.id++;
                 //      break;
                 //  }
-                 case 'Velocity': {
+                 case OBJLABELS.VELOCITY: {
                      // Attach components to the filter.
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
                      newEntity.setAttribute('data-filter', 'dataValue', color);
@@ -131,13 +132,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      this.id++;
                      break;
                  }
-                 case 'Vector': {
+                 case OBJLABELS.VECTOR: {
                     newEntity.setAttribute('vector', 'seqId', this.id);
                     newEntity.setAttribute('vector-source', 'targetEntities', []);
                     this.id++;
                     break;
                  }
-                 case 'Switch': {
+                 case OBJLABELS.SWITCH: {
                     const switchEntity: any = document.createElement('a-entity');
                     newEntity.appendChild(switchEntity);
 
@@ -152,7 +153,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Slider': {
+                 case OBJLABELS.SLIDER: {
                     const sliderEntity: any = document.createElement('a-entity');
                     sliderEntity.setAttribute('id', targetObjName + this.id + '_subSlider');
                     newEntity.appendChild(sliderEntity);
@@ -168,7 +169,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Plus': {
+                 case OBJLABELS.PLUS: {
                     newEntity.setAttribute('plus', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
                     newEntity.setAttribute('operator-model', 'functionName', targetObjName);
@@ -176,7 +177,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Subtract': {
+                 case OBJLABELS.SUB: {
                     // Attach components to the filter.
                     newEntity.setAttribute('subtract', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['+', '-']);
@@ -185,7 +186,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Conditional Event': {
+                 case OBJLABELS.CONDITIONAL_EVENT: {
                     // Attach components to the filter.
                     newEntity.setAttribute('conditional-event', 'trueTargetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Boolean']);
@@ -195,7 +196,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Collision Detector': {
+                 case OBJLABELS.COLLISION_DETECTOR: {
                     // Attach components to the filter.
                     newEntity.setAttribute('collision-detector', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Entity A', 'Entity B']);
@@ -205,7 +206,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Vector2Number': {
+                 case OBJLABELS.VEC2NUM: {
                     // Attach components to the filter.
                     newEntity.setAttribute('vec2num', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Vector']);
@@ -215,7 +216,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Number2Vector': {
+                 case OBJLABELS.NUM2VEC: {
                     // Attach components to the filter.
                     newEntity.setAttribute('num2vec', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['X', 'Y', 'Z']);
@@ -225,7 +226,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Condition: Bool': {
+                 case OBJLABELS.COND_BOOL: {
                     // Attach components to the filter.
                     newEntity.setAttribute('condition-bool', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['Condition', 'when Condition\n is True', 'when Condition\n is False']);
@@ -234,7 +235,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Condition: A >= B': {
+                 case OBJLABELS.COND_LARGER: {
                     // Attach components to the filter.
                     newEntity.setAttribute('condition-larger', 'targetEntities', []);
                     newEntity.setAttribute('operator-model', 'functionInputs', ['A', 'B', 'when\n A >= B', 'when\n A < B']);
@@ -243,7 +244,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Light': {
+                 case OBJLABELS.LIGHT: {
                     // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#light-01-obj');
                     newEntity.setAttribute('material', 'src', '#light-01-abledo');
@@ -257,7 +258,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Headset': {
+                 case OBJLABELS.HEADSET: {
                      // Set up geometry and materials.
                     newEntity.setAttribute('obj-model', 'obj', '#headset-obj');
                     newEntity.setAttribute('material', 'src', '#headset-mtl');
@@ -269,7 +270,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     this.id++;
                     break;
                  }
-                 case 'Left Controller': {
+                 case OBJLABELS.L_CONTROLLER: {
                     // Set up geometry and materials.
                    newEntity.setAttribute('gltf-model', '#controller-left');
 
@@ -280,7 +281,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    this.id++;
                    break;
                 }
-                case 'Right Controller': {
+                case OBJLABELS.R_CONTROLLER: {
                     // Set up geometry and materials.
                    newEntity.setAttribute('gltf-model', '#controller-right');
 

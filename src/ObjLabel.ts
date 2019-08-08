@@ -14,7 +14,7 @@ export const SUB = 'Subtract';
 export const VEC2NUM = 'Vector2Number';
 export const NUM2VEC = 'Number2Vector';
 export const COND_BOOL = 'Condition: Bool';
-export const COND_LARGER = 'Condition: A > B';
+export const COND_LARGER = 'Condition: A >= B';
 
 // Assets
 export const BOX = 'Box';

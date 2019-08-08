@@ -2,19 +2,18 @@
  * action types
  */
 
-export const ADD_OBJECT = 'ADD_OBJECT'
-export const ADD_LINE = 'ADD_LINE'
+export const ADD_OBJ = 'ADD_OBJECT'
+export const ADD_EDGE = 'ADD_EDGE'
 
-export const addObject = (id, targetModel, position, color) => ({
-  type: ADD_OBJECT,
-  id,
+export const addObj = (targetModel, position, color) => ({
+  type: ADD_OBJ,
   targetModel,
   position,
   color
 })
 
-export const addLine = (entity1, entity2) => ({
-  type: ADD_LINE,
+export const addEdge = (entity1, entity2) => ({
+  type: ADD_EDGE,
   entity1,
   entity2
 })

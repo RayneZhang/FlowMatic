@@ -1,16 +1,12 @@
-import { ADD_OBJECT } from '../actions'
+import { ADD_OBJ } from '../actions'
 import undoable, {includeAction} from 'redux-undo'
 
 const objects = (state = [], action) => {
     switch (action.type) {
-      case ADD_OBJECT:
-        // Original Version down here.
-        // Object.assign({}, state, {
-        // })
+      case ADD_OBJ:
         return [
           ...state,
           {
-            id: action.id,
             targetModel: action.targetModel,
             position: action.position,
             color: action.color
@@ -21,5 +17,4 @@ const objects = (state = [], action) => {
     }
 }
 
-const undoableObjects = undoable(objects, {filter: includeAction([ADD_OBJECT])});
-export default undoableObjects;
+export const undoableObjects = undoable(objects, {filter: includeAction([ADD_OBJ])});

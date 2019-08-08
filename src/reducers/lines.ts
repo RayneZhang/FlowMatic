@@ -1,9 +1,9 @@
-import { ADD_LINE } from '../actions'
+import { ADD_EDGE } from '../actions'
 import undoable, {includeAction} from 'redux-undo'
 
 const lines = (state = [], action) => {
     switch (action.type) {
-      case ADD_LINE:
+      case ADD_EDGE:
       return [
         ...state,
         {
@@ -16,5 +16,5 @@ const lines = (state = [], action) => {
     }
 }
 
-const undoableLines = undoable(lines, {filter: includeAction([ADD_LINE])});
+const undoableLines = undoable(lines, {filter: includeAction([ADD_EDGE])});
 export default undoableLines;

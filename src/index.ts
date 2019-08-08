@@ -109,8 +109,9 @@ conditionalEvent;
 import eventReceiver from './components/frp/eventReceiver';
 eventReceiver;
 
-// import { Scene } from 'frp-backend';
-// const scene = new Scene();
+import { Scene } from 'frp-backend';
+export const scene = new Scene();
+
 // const a = scene.addConstant(2000);
 // const gen = scene.addOp('gen');
 // scene.addEdge(a, {node: gen, prop: 'delay'})

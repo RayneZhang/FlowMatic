@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import undoableObjects from './objects'
+import { undoableObjects } from './objects'
 import undoableLines from './lines'
 
 const reducers = combineReducers({

@@ -1,6 +1,7 @@
 import store from '../../store'
 import { scene } from '../../index'
 import { Node } from 'frp-backend'
+import { getIntersectedEl, getIntersections } from '../../utils/raycast'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 declare const THREE:any;
 
@@ -26,22 +27,17 @@ const rightTriggerListener = {
         this.el.addEventListener('triggerdown', (event) => {
             this.triggering = true;
 
-            // Retrieve all intersected Elements through raycaster.
-            const intersectedEls = this.el.components.raycaster.intersectedEls;
-
-            // Check if there is intersected object.
-            if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                // console.log('Nothing is intersected when triggering');
+            // Fetch the intersected object
+            const intersectedEl = getIntersectedEl(this.el);
+            if (!intersectedEl) {
+                console.log("intersectedEl is null");
                 return;
             }
 
-            // Fetch the intersected object.
-            const intersectedEl = intersectedEls[0];
-
-            // Retrieve all intersections through raycaster.
-            const intersections = this.el.components.raycaster.intersections;
-            if (!Array.isArray(intersections) || !intersections.length) {
-                // console.log('There is NO intersections when triggering');
+            // Fetch all intersections through raycaster
+            const intersections = getIntersections(this.el);
+            if (!intersections) {
+                console.log("intersections are null");
                 return;
             }
 
@@ -231,28 +227,12 @@ const rightTriggerListener = {
                     // Handle everything within collision detector.
                     // toEntity.emit('entity-update', {entityId: fromEntity.getAttribute('id'), targetAttribute: toProp}, false);
                 }
-                if (intersectedEl.parentNode.classList.contains('event-filter')) {
-                    toEntity = intersectedEl.parentNode;
-                    // Handle everything within event condition.
-                    // fromEntity.emit('target-update', {targetEntity: toEntity}, false);
-                }
 
                 // delete the line if connecting the same entity.
                 if (toEntity.getAttribute('id') == fromEntity.getAttribute('id')) {
                     this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
                     this.curEdgeEntity = null;
                     return;
-                }
-
-                // Set target objects of source entity.
-                if (fromEntity.classList.contains('data-source')){
-                    fromEntity.emit('source-update', {targetEntity: toEntity.getAttribute('id'), targetAttribute: toProp}, false);
-                }
-                if (fromEntity.classList.contains('data-filter')){
-                    fromEntity.emit('operator-update', {targetEntity: toEntity.getAttribute('id'), targetAttribute: toProp, sourceAttribute: fromProp}, false);
-                }
-                if (fromEntity.classList.contains('data-receiver')){
-                    fromEntity.emit('target-update', {targetEntity: toEntity.getAttribute('id'), targetAttribute: toProp, sourceAttribute: fromProp}, false);
                 }
 
                 // Set the connected two entities in the current line entity.

@@ -33,7 +33,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             const color: any = addedObj.color;
 
             // Create a node in frp-backend
-            const objNode = scene.addObj(targetObjName, [{name: 'color', default: color}, {name: 'position', default: position}]);
+            const objNode = scene.addObj(targetObjName, [{name: 'Color', default: color}, {name: 'Position', default: position}]);
             
              // Create an entity and append it to AFRAME scene.
              let newEntity: any = document.createElement('a-entity');
@@ -42,7 +42,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
              newEntity.object3D.position.set(position.x, position.y, position.z);
              newEntity.classList.add("movable");
 
-             objNode.pluckOutput('color').subscribe((value) => {
+             objNode.pluckOutput('Color').subscribe((value) => {
                 console.log(`${objNode.getLabel()} color is now: ${value}`);
                 // Handle color change.
                 const objEntity: any = document.querySelector(`#${objNode.getID()}`);

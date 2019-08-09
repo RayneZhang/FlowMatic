@@ -1,4 +1,6 @@
 import store from '../../store'
+import { scene } from '../../index'
+import { Node } from 'frp-backend'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 declare const THREE:any;
 
@@ -257,6 +259,10 @@ const rightTriggerListener = {
                 this.curEdgeEntity.setAttribute('line-component', 'targetEntity', toEntity);
                 this.curEdgeEntity.setAttribute('line-component', 'targetProp', toProp);
                 this.curEdgeEntity.setAttribute('id', 'line' + this.lineId);
+
+                // Add an edge in frp-backend
+                this.addEdge(fromEntity, fromProp, toEntity, toProp);
+
                 // Handle data for next line.
                 this.curEdgeEntity = null;
                 this.lineId++;
@@ -269,6 +275,12 @@ const rightTriggerListener = {
                 }
             }
         });
+    },
+
+    addEdge: function(fromEntity: any, fromProp: string, toEntity: any, toProp: string): void {
+        const fromNode: Node = scene.getNode(fromEntity.getAttribute('id'));
+        const toNode: Node = scene.getNode(toEntity.getAttribute('id'));
+        scene.addEdge({node: fromNode, prop: fromProp}, {node: toNode, prop: toProp});
     },
 
     tick: function(time, timeDelta): void {

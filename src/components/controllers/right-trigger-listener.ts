@@ -27,19 +27,10 @@ const rightTriggerListener = {
         this.el.addEventListener('triggerdown', (event) => {
             this.triggering = true;
 
-            // Fetch the intersected object
+            // Fetch the intersected object and intersections
             const intersectedEl = getIntersectedEl(this.el);
-            if (!intersectedEl) {
-                console.log("intersectedEl is null");
-                return;
-            }
-
-            // Fetch all intersections through raycaster
             const intersections = getIntersections(this.el);
-            if (!intersections) {
-                console.log("intersections are null");
-                return;
-            }
+            if (!intersectedEl || !intersections) return;
 
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
@@ -170,22 +161,10 @@ const rightTriggerListener = {
             this.sliding = false;
             this.vector = false;
 
-            // Conditions when the intersected target is not connectable.
-            // Retrieve all intersected Elements through raycaster.
-            const intersectedEls = this.el.components.raycaster.intersectedEls;
-            // Check if there is intersected object.
-            if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                if (this.curEdgeEntity) {
-                    this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
-                    this.curEdgeEntity = null;
-                    return;
-                }
-            }
-
-            // Retrieve all intersections through raycaster.
-            const intersections = this.el.components.raycaster.intersections;
-            if (!Array.isArray(intersections) || !intersections.length) {
-                console.log('There is NO intersections when triggering');
+            const intersectedEl = getIntersectedEl(this.el);
+            const intersections = getIntersections(this.el);
+            // If there is no intersection, delete the currrent edge
+            if (!intersectedEl || !intersections || !intersectedEl.classList.contains('connectable') || !this.curEdgeEntity) {
                 if (this.curEdgeEntity) {
                     this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
                     this.curEdgeEntity = null;
@@ -193,67 +172,55 @@ const rightTriggerListener = {
                 return;
             }
 
-            // Fetch the intersected object.
-            const intersectedEl = intersectedEls[0];
-            if (intersectedEl.classList.contains('connectable')) {
-                if (!this.curEdgeEntity) return;
+            const endP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
+            this.curEdgeEntity.setAttribute('line-component', 'endPoint', endP);
 
-                const endP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
-                this.curEdgeEntity.setAttribute('line-component', 'endPoint', endP);
+            // Push the id into target entities.
+            const fromEntity: any = this.curEdgeEntity.getAttribute('line-component').sourceEntity;
+            const fromProp: string = this.curEdgeEntity.getAttribute('line-component').sourceProp;
+            let toEntity: any;
+            let toProp: string;
 
-                // Push the id into target entities.
-                const fromEntity: any = this.curEdgeEntity.getAttribute('line-component').sourceEntity;
-                const fromProp: string = this.curEdgeEntity.getAttribute('line-component').sourceProp;
-                let toEntity: any;
-                let toProp: string;
-
-                // input/output->Object
-                if (intersectedEl.parentNode.classList.contains('data-filter')) {
-                    toEntity = intersectedEl.parentNode;
-                    if (intersectedEl.firstChild.getAttribute('text')) {
-                        toProp = intersectedEl.firstChild.getAttribute('text').value;
-                    }
+            // input/output->Object
+            if (intersectedEl.parentNode.classList.contains('data-filter')) {
+                toEntity = intersectedEl.parentNode;
+                if (intersectedEl.firstChild.getAttribute('text')) {
+                    toProp = intersectedEl.firstChild.getAttribute('text').value;
                 }
-                // Dot->Description->ListEntity->Object
-                if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
-                    toEntity = intersectedEl.parentNode.parentNode.parentNode;
-                    toProp = intersectedEl.parentNode.getAttribute('text').value;
+            }
+            // Dot->Description->ListEntity->Object
+            if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
+                toEntity = intersectedEl.parentNode.parentNode.parentNode;
+                toProp = intersectedEl.parentNode.getAttribute('text').value;
+            }
+            if (intersectedEl.parentNode.classList.contains('collision-detector')) {
+                toEntity = intersectedEl.parentNode;
+                if (intersectedEl.firstChild.getAttribute('text')) {
+                    toProp = intersectedEl.firstChild.getAttribute('text').value;
                 }
-                if (intersectedEl.parentNode.classList.contains('collision-detector')) {
-                    toEntity = intersectedEl.parentNode;
-                    if (intersectedEl.firstChild.getAttribute('text')) {
-                        toProp = intersectedEl.firstChild.getAttribute('text').value;
-                    }
-                    // Handle everything within collision detector.
-                    // toEntity.emit('entity-update', {entityId: fromEntity.getAttribute('id'), targetAttribute: toProp}, false);
-                }
+                // Handle everything within collision detector.
+                // toEntity.emit('entity-update', {entityId: fromEntity.getAttribute('id'), targetAttribute: toProp}, false);
+            }
 
-                // delete the line if connecting the same entity.
-                if (toEntity.getAttribute('id') == fromEntity.getAttribute('id')) {
-                    this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
-                    this.curEdgeEntity = null;
-                    return;
-                }
-
-                // Set the connected two entities in the current line entity.
-                this.curEdgeEntity.setAttribute('line-component', 'targetEntity', toEntity);
-                this.curEdgeEntity.setAttribute('line-component', 'targetProp', toProp);
-                this.curEdgeEntity.setAttribute('id', 'line' + this.lineId);
-
-                // Add an edge in frp-backend
-                this.addEdge(fromEntity, fromProp, toEntity, toProp);
-
-                // Handle data for next line.
+            // delete the line if connecting the same entity.
+            if (toEntity.getAttribute('id') == fromEntity.getAttribute('id')) {
+                this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
                 this.curEdgeEntity = null;
-                this.lineId++;
+                return;
             }
-            else {
-                if (this.curEdgeEntity) {
-                    this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
-                    this.curEdgeEntity = null;
-                    return;
-                }
-            }
+
+            // Set the connected two entities in the current line entity.
+            this.curEdgeEntity.setAttribute('line-component', 'targetEntity', toEntity);
+            this.curEdgeEntity.setAttribute('line-component', 'targetProp', toProp);
+            this.curEdgeEntity.setAttribute('id', 'line' + this.lineId);
+
+            // Add an edge in frp-backend
+            this.addEdge(fromEntity, fromProp, toEntity, toProp);
+
+            // Handle data for next line.
+            this.curEdgeEntity = null;
+            this.lineId++;
+            
         });
     },
 

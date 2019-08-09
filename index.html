@@ -26,7 +26,7 @@
                 <a-asset-item id="sword-gltf" src="assets/models/sword/sword.glb"></a-asset-item>
                 <a-asset-item id="panel-gltf" src="assets/models/panel.glb"></a-asset-item>
 
-
+                <img id='skybox-universe' src="assets/images/universe.png" crossorigin="anonymous">
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
                 <img id="uihover" src="assets/images/ui-hover.png" crossorigin="anonymous">
 
@@ -148,13 +148,15 @@
             <!-- <a-entity id="stage" dynamic-body position="0 0 -10" obj-model="obj: #stage-obj; mtl: #stage-mtl" shadow></a-entity> -->
 
             <!-- Scene #2 -->
-            <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
+            <!-- <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
             <a-entity id="western" gltf-model="#western-gltf"></a-entity> 
             <a-entity id="mushroom" class="movable" scale="0.1 0.1 0.1" position="0 -1.22 0" gltf-model="#mushroom-gltf"></a-entity>
             <a-entity id="plant" event-receiver scale="0.001 0.001 0.001" body="type: static; shape: none" shape__main="shape: cylinder; height: 1600; radiusTop: 80; radiusBottom: 80; offset: -500 300 0" physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" position="0 -0.5 -3" obj-attributes-list="attrNames: Collider, Idle, Spit, Dying" gltf-model="#plant-gltf" animation-mixer="clip: Idle"></a-entity> 
             <a-entity id="sword" event-receiver class="movable weapon sword" body="type: static; shape: none" shape__main="shape: cylinder; height: 10; radiusTop: 1; radiusBottom: 1; orientation: 0 0 -0.3 1" physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" scale="0.1 0.1 0.1" position="0 0 -2" obj-attributes-list="attrNames: Collider" gltf-model="#sword-gltf"></a-entity>           
 
-            <a-entity id="panel" gltf-model="#panel-gltf" class="movable" position="0 0.5 -1"></a-entity>
+            <a-entity id="panel" gltf-model="#panel-gltf" class="movable" position="0 0.5 -1"></a-entity> -->
+
+            <a-entity id="skybox" cubemap="ext:png; folder: /assets/images/blue/"></a-entity>
 
             <!-- Utils -->
             <a-entity id="edges"></a-entity>

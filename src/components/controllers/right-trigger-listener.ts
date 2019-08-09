@@ -203,7 +203,7 @@ const rightTriggerListener = {
             }
 
             // delete the line if connecting the same entity.
-            if (toEntity.getAttribute('id') == fromEntity.getAttribute('id')) {
+            if (toEntity.getAttribute('id') === fromEntity.getAttribute('id')) {
                 this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
                 this.curEdgeEntity = null;
                 return;

@@ -11,6 +11,8 @@ import * as EXTRAS from 'aframe-extras';
 EXTRAS;
 import * as PHYSICSEx from 'aframe-physics-extras';
 PHYSICSEx;
+import * as cubemap from 'aframe-cubemap-component';
+cubemap;
 
 import rightGripListener from './components/controllers/right-grip-listener';
 import leftTriggerListener from './components/controllers/left-trigger-listener';

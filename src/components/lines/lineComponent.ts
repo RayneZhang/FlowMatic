@@ -3,11 +3,12 @@ declare const THREE:any;
 
 const lineComponent = AFRAME.registerComponent('line-component', {
     schema: {
-        dataType: {type: 'string', default: ""},
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
         sourceEntity: {type: 'selector', default: null},
         targetEntity: {type: 'selector', default: null},
+        sourceProp: {type: 'string', default: ""},
+        targetProp: {type: 'string', default: ""},
         divisions: {type: 'number', default: 20}
     },
 

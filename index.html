@@ -157,6 +157,7 @@
             <a-entity id="panel" gltf-model="#panel-gltf" class="movable" position="0 0.5 -1"></a-entity> -->
 
             <a-entity id="skybox" cubemap="ext:png; folder: /assets/images/blue/"></a-entity>
+            <a-entity id="sword" event-receiver class="movable weapon sword" body="type: static; shape: none" shape__main="shape: cylinder; height: 10; radiusTop: 1; radiusBottom: 1; orientation: 0 0 -0.3 1" physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" scale="0.1 0.1 0.1" position="0 0 -2" obj-attributes-list="attrNames: Collider" gltf-model="#sword-gltf"></a-entity>           
 
             <!-- Utils -->
             <a-entity id="edges"></a-entity>

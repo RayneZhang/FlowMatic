@@ -1,4 +1,5 @@
-declare const THREE:any;
+import { getIntersectedEl, getIntersections } from '../../utils/raycast'
+import { Object3D, Mesh, Material, MeshBasicMaterial} from 'three'
 
 const rightGripListener = {
     schema: {
@@ -12,22 +13,9 @@ const rightGripListener = {
         this.el.addEventListener('gripdown', (event) => {
             this.data.gripping = true;
             
-            // Retrieve all intersected Elements through raycaster.
-            const intersectedEls = this.el.components.raycaster.intersectedEls;
-            // Check if there is intersected object.
-            if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                console.log('Nothing is intersected when gripping');
-                return;
-            }
-            // Fetch the intersected object.
-            const intersectedEl = intersectedEls[0];
-
-            // Check if the intersected object is movable.
-            if (!intersectedEl.classList.contains('movable')) {
-                console.log(intersectedEl);
-                console.log('The intersected object is not movable.');
-                return;
-            }
+           // Fetch the intersected object and intersections
+           const intersectedEl = getIntersectedEl(this.el);
+           if (!intersectedEl || !intersectedEl.classList.contains('movable')) return;
 
             if (intersectedEl.classList.contains('weapon')) {
                 if (intersectedEl.classList.contains('sword')) {
@@ -35,6 +23,16 @@ const rightGripListener = {
                     intersectedEl.setAttribute('entity-follow', {
                         targetEntity: '#rightHand'
                     });
+                    
+                    // Access children meshes and modify the opacity.
+                    const meshObj: Object3D = this.el.getObject3D('mesh');
+                    if (meshObj) {
+                        meshObj.children.forEach((child: Mesh) => {
+                            const m: any = child.material;
+                            m.transparent = true;
+                            m.opacity = 0.3;
+                        });
+                    }
                 }
                 return;
             }
@@ -55,6 +53,15 @@ const rightGripListener = {
                 this.data.weaponEl.setAttribute('entity-follow', {
                     targetEntity: null
                 });
+                // Access children meshes and modify the opacity.
+                const meshObj: Object3D = this.el.getObject3D('mesh');
+                if (meshObj) {
+                    meshObj.children.forEach((child: Mesh) => {
+                        const m: any = child.material;
+                        m.transparent = false;
+                        m.opacity = 1;
+                    });
+                }
             }
 
             this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});

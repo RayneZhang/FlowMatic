@@ -20,8 +20,6 @@ const rightTriggerListener = {
         this.line = null;
         this.lineId = 0;
         this.curEdgeEntity = null;
-        
-
 
         // Handle trigger down.
         this.el.addEventListener('triggerdown', (event) => {

@@ -3,8 +3,8 @@
 
 import * as AFRAME from 'aframe'
 import store from '../store'
-import * as OBJLABELS from '../ObjLabel'
-import {objects} from '../Objects'
+import * as OBJLABELS from '../Objects'
+import { objects } from '../Objects'
 import { scene } from '../index'
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {

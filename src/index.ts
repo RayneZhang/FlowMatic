@@ -111,6 +111,9 @@ conditionalEvent;
 import eventReceiver from './components/frp/eventReceiver';
 eventReceiver;
 
+import mtlLighting from './components/mtlLighting';
+mtlLighting;
+
 import { Scene } from 'frp-backend';
 export const scene = new Scene();
 

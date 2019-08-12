@@ -26,7 +26,7 @@
                 <a-asset-item id="sword-gltf" src="assets/models/sword/sword.glb"></a-asset-item>
                 <a-asset-item id="panel-gltf" src="assets/models/panel.glb"></a-asset-item>
                 <a-asset-item id="gun-gltf" src="assets/models/pistol/scene.gltf"></a-asset-item>
-
+                <a-asset-item id="cruise-gltf" src="assets/models/sky_cruiser/scene.gltf"></a-asset-item>
 
                 <img id='skybox-universe' src="assets/images/universe.png" crossorigin="anonymous">
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
@@ -139,11 +139,15 @@
             </a-entity>
 
             <!-- Lighting Condition -->
-            <a-entity id="ambientLight" light="type: ambient; color: #CEE4F0; intensity: 1.4"></a-entity>
-            <a-entity light="type: directional; color: #fff1bc; intensity: 0.8; castShadow: false; shadowCameraVisible: false;" position="-0.5 1 0"></a-entity>
+            <!-- <a-entity id="ambientLight" light="type: ambient; color: #CEE4F0; intensity: 1.4"></a-entity>
+            <a-entity id="directionalLight-1" light="type: directional; color: #fff1bc; intensity: 0.7; castShadow: false; shadowCameraVisible: false;" position="-0.5 1 0"></a-entity>
+            <a-entity id="directionalLight-2" light="type: directional; color: #fff1bc; intensity: 0.3; castShadow: false; shadowCameraVisible: false;" position="0.5 1 0"></a-entity> -->
+            <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 1.7; type: hemisphere"></a-entity>
+            <a-entity position="0 50 0" light="intensity: 0.9; type: point"></a-entity>
+            <a-entity position="0 -50 0" light="intensity: 0.5; type: point"></a-entity>
 
             <!-- Floor -->
-            <a-plane id="floor" static-body position="0 -3 0" rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
+            <a-plane id="floor" static-body position="0 -1.7 0" rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
 
             <!-- Scene #1 -->
             <!-- <a-entity id="env" environment="preset: forest"></a-entity> -->
@@ -160,8 +164,9 @@
 
             <!-- Scene #3 -->
             <a-entity id="skybox" cubemap="ext:png; folder: /assets/images/blue/"></a-entity>
-            <a-entity id="sword" event-receiver class="movable weapon sword" body="type: static; shape: none" shape__main="shape: cylinder; height: 10; radiusTop: 1; radiusBottom: 1; orientation: 0 0 -0.3 1" physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" scale="0.1 0.1 0.1" position="0 0 -2" obj-attributes-list="attrNames: Collider" gltf-model="#sword-gltf"></a-entity>           
             <a-entity id="gun" class="movable weapon" scale="0.0001 0.0001 0.0001" gltf-model="#gun-gltf"></a-entity>
+            <a-entity id="cruise" scale="15 15 15" gltf-model="#cruise-gltf" mtl-lighting></a-entity>
+            
             <!-- Utils -->
             <a-entity id="edges"></a-entity>
             <a-entity id="redux" state-binding></a-entity>

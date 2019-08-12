@@ -17,8 +17,8 @@ export const COND_BOOL = 'Condition: Bool';
 export const COND_LARGER = 'Condition: A >= B';
 
 // Assets
-export const BOX = 'Box';
-export const SPHERE = 'Sphere';
+export const BOX = 'box';
+export const SPHERE = 'sphere';
 export const VECTOR = 'Vector';
 export const SWITCH = 'Switch';
 export const SLIDER = 'Slider';

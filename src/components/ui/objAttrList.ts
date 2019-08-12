@@ -69,13 +69,11 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         let width: number = this.calWidth(this.el);
         if (this.el.getAttribute('id') == "sword")
             width = width * 3;
-
-        this.listEntity.object3D.scale.set(width, width, width);
-
         if (this.el.getAttribute('id') == "plant")
             this.listEntity.object3D.scale.set(width * 2 , width* 2, width * 2);
 
-        this.listEntity.object3D.position.set(width, 0, 0);
+        this.listEntity.object3D.scale.set(10*width, 10*width, 10*width);
+        this.listEntity.object3D.position.set(10*width, 0, 0);
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
 

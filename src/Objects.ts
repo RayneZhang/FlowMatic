@@ -1,5 +1,5 @@
 export const objects = {
-    "Models":[
+    Models:[
         {
             name: "box",
             type: "primitive",

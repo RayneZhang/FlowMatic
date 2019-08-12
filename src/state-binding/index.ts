@@ -4,6 +4,7 @@
 import * as AFRAME from 'aframe'
 import store from '../store'
 import * as OBJLABELS from '../ObjLabel'
+import {objects} from '../Objects'
 import { scene } from '../index'
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {
@@ -33,21 +34,32 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             const color: any = addedObj.color;
 
             // Create a node in frp-backend
-            const objNode = scene.addObj(targetObjName, [{name: 'Color', default: color}, {name: 'Position', default: position}]);
-            
+            const objNode = scene.addObj(targetObjName, [{name: 'color', default: color}, {name: 'position', default: position}]);
+
              // Create an entity and append it to AFRAME scene.
              let newEntity: any = document.createElement('a-entity');
              newEntity.setAttribute('id', objNode.getID());
              this.el.appendChild(newEntity);
              newEntity.object3D.position.set(position.x, position.y, position.z);
              newEntity.classList.add("movable");
-
-             objNode.pluckOutput('Color').subscribe((value) => {
+             for (let i = 0; i < objects.Models.length; i++) {
+               if (objects.Models[i].name === targetObjName) {
+                  if (objects.Models[i].type === 'primitive') {
+                     newEntity.setAttribute('geometry', 'primitive', targetObjName);
+                     newEntity.object3D.scale.set(0.1, 0.1, 0.1);
+                     break;
+                  }
+               }
+            }
+            
+             objNode.pluckOutput('color').subscribe((value) => {
                 console.log(`${objNode.getLabel()} color is now: ${value}`);
                 // Handle color change.
                 const objEntity: any = document.querySelector(`#${objNode.getID()}`);
                 objEntity.setAttribute('material', 'color', value);
             });
+
+            
 
              switch (targetObjName) {
                  case OBJLABELS.RANDOM_COLOR: {
@@ -60,68 +72,24 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      break;
                  }
                  case OBJLABELS.BOX: default: {
-                     // Add geometry component to the entity.
-                     newEntity.setAttribute('geometry', {
-                         primitive: 'box',
-                         height: 0.1,
-                         width: 0.1,
-                         depth: 0.1
-                     }); 
- 
-                     // Set the color of the primitive.
-                     newEntity.setAttribute('material', 'color', color);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
-                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Color', 'Position']);
+                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['color', 'position']);
 
                      newEntity.setAttribute('collision-listener', 'null');
                      newEntity.setAttribute('static-body', {
                         'shape': 'auto'
                      });
-                     // Sleepy is only necessary for dynamic-body
-                    //  newEntity.setAttribute('sleepy', {
-                    //     'allowSleep': true
-                    //  });
                      this.id++;
                      break;
                  }
-                //  case 'Darkness': {
-                //      // Attach components to the filter.
-                //      newEntity.setAttribute('id', 'color-filter' + this.id);
-                //      newEntity.setAttribute('data-filter', 'filterName', "darkness");
-                //      newEntity.setAttribute('data-filter', 'dataValue', color);
-                //      newEntity.setAttribute('operator-model', 'functionInputs', ['Color\n(Hex)', 'Darkness\n(Number)']);
-                //      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
-
-                //      this.id++;
-                //      break;
-                //  }
                  case OBJLABELS.SPHERE: {
-                     // Add geometry component to the entity.
-                     newEntity.setAttribute('geometry', {
-                         primitive: 'sphere',
-                         radius: 0.1
-                     }); 
- 
-                     // Set the color of the primitive.
-                     newEntity.setAttribute('material', 'color', color);
                      newEntity.setAttribute('data-receiver', 'targetEntities', []);
                      newEntity.setAttribute('data-receiver', 'dataValue', color);
-                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Color', 'Position']);
+                     newEntity.setAttribute('obj-attributes-list', 'attrNames', ['color', 'position']);
                      this.id++;
                      break;
                  }
-                //  case 'Acceleration': { 
-                //      // Attach components to the filter.
-                //      newEntity.setAttribute('id', 'position-filter' + this.id);
-                //      newEntity.setAttribute('data-filter', 'filterName', "acceleration");
-                //      newEntity.setAttribute('data-filter', 'dataValue', color);
-                //      newEntity.setAttribute('operator-model', 'functionInputs', ['Position\n(Vector3)', 'Direction\n(Vector3)', 'Acceleration\n(Number)']);
-                //      newEntity.setAttribute('operator-model', 'functionName', targetModelName);
-
-                //      this.id++;
-                //      break;
-                //  }
                  case OBJLABELS.VELOCITY: {
                      // Attach components to the filter.
                      newEntity.setAttribute('data-filter', 'filterName', "velocity");
@@ -251,7 +219,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('material', 'normalMap', '#light-01-normal');
                     
                     // Set up attributes.
-                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Light Direction', 'Light Color', 'Position', 'Light On/Off']);
+                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Light Direction', 'Light Color', 'position', 'Light On/Off']);
                     newEntity.setAttribute('spotlight', 'color', 'white');
 
                     // Set up dataflow.
@@ -264,7 +232,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     newEntity.setAttribute('material', 'src', '#headset-mtl');
 
                     // Set up attributes.
-                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position', 'Rotation']);
+                    newEntity.setAttribute('obj-attributes-list', 'attrNames', ['position', 'Rotation']);
                     newEntity.setAttribute('headset', {});
 
                     this.id++;
@@ -275,7 +243,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    newEntity.setAttribute('gltf-model', '#controller-left');
 
                    // Set up attributes.
-                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position']);
+                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['position']);
                    newEntity.setAttribute('left-controller', {});
 
                    this.id++;
@@ -286,7 +254,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                    newEntity.setAttribute('gltf-model', '#controller-right');
 
                    // Set up attributes.
-                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['Position']);
+                   newEntity.setAttribute('obj-attributes-list', 'attrNames', ['position']);
                    newEntity.setAttribute('right-controller', {});
 
                    this.id++;

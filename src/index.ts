@@ -113,6 +113,8 @@ eventReceiver;
 
 import mtlLighting from './components/mtlLighting';
 mtlLighting;
+import { canvasGenerator } from './components/ui/Canvas';
+canvasGenerator;
 
 import { Scene } from 'frp-backend';
 export const scene = new Scene();

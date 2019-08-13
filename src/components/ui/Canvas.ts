@@ -25,10 +25,10 @@ export const itemSize = {
 
 export const canvasColor = {
     background: '#292827',
-    unselected: '#24252a',
+    unselected: '#ffffff',
     hovered: '#19b5fe',
     selected: '#0078d4'
-};
+}
 
 export const itemColor = {
     unselected: '#0D6D8C',
@@ -110,12 +110,14 @@ function initButtons(menuEl: any): void {
         bnEl.setAttribute('id', `button-${i}`);
         bnEl.setAttribute('geometry', {
             primitive: 'plane',
-            width: buttonSize.width,
-            height: buttonSize.height
+            width: buttonSize.width * 0.9,
+            height: buttonSize.height * 0.9
         });
         bnEl.setAttribute('material', {
+            src: `#${key}_icon`,
             color: canvasColor.unselected,
-            side: 'double'
+            side: 'double',
+            transparent: true
         });
 
         // Place the button

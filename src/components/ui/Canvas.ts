@@ -27,9 +27,14 @@ export const canvasColor = {
     background: '#292827',
     unselected: '#252423',
     hovered: '#979593',
-    selected: '#0078d4',
-    item: '#87ceeb'
+    selected: '#0078d4'
 };
+
+export const itemColor = {
+    unselected: '#0D6D8C',
+    hovered: '#8C2C0D',
+    selected: '#EC5C2D',
+}
 
 export interface Item {
     name: string,
@@ -46,6 +51,9 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         const canvasEl: any = document.createElement('a-entity');
         const menuEl: any = document.createElement('a-entity');
         const desEl: any = document.createElement('a-entity');
+        canvasEl.setAttribute('id', 'canvas-world');
+        menuEl.setAttribute('id', 'menu-world');
+        desEl.setAttribute('id', 'description-world');
 
         initCanvasBg(canvasEl, this.el);
         initMenu(menuEl, this.el);
@@ -58,7 +66,6 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
  * Initiate a plane and specify parameters
  */
 function initCanvasBg(canvasEl: any, parentEl: any): void {   
-    canvasEl.setAttribute('id', 'canvas-world');
     canvasEl.setAttribute('geometry', {
         primitive: 'plane',
         width: canvasSize.width,
@@ -76,7 +83,6 @@ function initCanvasBg(canvasEl: any, parentEl: any): void {
  * @param parentEl The parent entity
  */
 function initMenu(menuEl: any, parentEl: any): void {
-    menuEl.setAttribute('id', 'menu-world');
     menuEl.setAttribute('geometry', {
         primitive: 'plane',
         width: menuSize.width,
@@ -122,7 +128,6 @@ function initButtons(menuEl: any): void {
  * @param parentEl Parent entity to attach to
  */
 function initDes(desEl: any, parentEl: any): void {
-    desEl.setAttribute('id', 'description-world');
     parentEl.appendChild(desEl);
     desEl.setAttribute('text', {
         align: 'center',
@@ -148,13 +153,16 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
     for (let i = 0; i < itemLimit; i++) {
         if (itemIndex + i >= objects[submenuName].length) break;
 
+        // Fetch the Item from objects
         const item: Item = objects[submenuName][itemIndex + i];
         const itemEl: any = document.createElement('a-entity');
+
+        // Set up item geometry and material
         if (item.type === 'primitive') {
             itemEl.setAttribute('id', item.name);
             itemEl.setAttribute('geometry', 'primitive', item.name);
             itemEl.setAttribute('material', {
-                color: canvasColor.item,
+                color: itemColor.unselected,
                 transparent: true,
                 opacity: 0.8
             });
@@ -166,10 +174,22 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         // Place the item
         menuEl.appendChild(itemEl);
         itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, offset.z);
+
+        // Add reaction to the item.
+        itemEl.classList.add('ui');
+        itemEl.addEventListener('raycaster-intersected', (event) => {
+            itemEl.setAttribute('material', 'color', itemColor.hovered);
+            setDescription(item.name);
+        });
+
+        itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            itemEl.setAttribute('material', 'color', itemColor.unselected);
+        });
     }
 }
 
 
-function setDescription(desEl: any, des: string): void {
+function setDescription(des: string): void {
+    const desEl: any = document.querySelector('#description-world');
     desEl.setAttribute('text', 'value', des);
 }

@@ -43,16 +43,21 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
     },
 
     init: function(): void {
-        initCanvasBg(this.el);
-        initMenu(this.el);
+        const canvasEl: any = document.createElement('a-entity');
+        const menuEl: any = document.createElement('a-entity');
+        const desEl: any = document.createElement('a-entity');
+
+        initCanvasBg(canvasEl, this.el);
+        initMenu(menuEl, this.el);
+        initDes(desEl, menuEl);
+        loadItems(menuEl, 'button-0');
     }
 });
 
 /**
  * Initiate a plane and specify parameters
  */
-function initCanvasBg(parentEl: any): void {
-    const canvasEl: any = document.createElement('a-entity');
+function initCanvasBg(canvasEl: any, parentEl: any): void {   
     canvasEl.setAttribute('id', 'canvas-world');
     canvasEl.setAttribute('geometry', {
         primitive: 'plane',
@@ -70,8 +75,7 @@ function initCanvasBg(parentEl: any): void {
  * Initiate a menu panel for selecting items
  * @param parentEl The parent entity
  */
-function initMenu(parentEl: any): void {
-    const menuEl: any = document.createElement('a-entity');
+function initMenu(menuEl: any, parentEl: any): void {
     menuEl.setAttribute('id', 'menu-world');
     menuEl.setAttribute('geometry', {
         primitive: 'plane',
@@ -87,11 +91,10 @@ function initMenu(parentEl: any): void {
     parentEl.appendChild(menuEl);
 
     initButtons(menuEl);
-    loadItems(menuEl, 'button-0');
 }
 
 /**
- * Initate submenu buttons for switching objects
+ * Initiate submenu buttons for switching objects
  * @param menuEl The menu entity
  */
 function initButtons(menuEl: any): void {
@@ -111,6 +114,21 @@ function initButtons(menuEl: any): void {
         menuEl.appendChild(bnEl);
         bnEl.object3D.position.set(offset.x, offset.y - buttonSize.height * i, offset.z);
     });
+}
+
+/**
+ * Initiate menu description
+ * @param desEl Text entity
+ * @param parentEl Parent entity to attach to
+ */
+function initDes(desEl: any, parentEl: any): void {
+    desEl.setAttribute('id', 'description-world');
+    parentEl.appendChild(desEl);
+    desEl.setAttribute('text', {
+        align: 'center',
+        wrapCount: 25,
+    });
+    desEl.object3D.position.set(0, menuSize.height/2 - buttonSize.height/2, 0);
 }
 
 /**
@@ -149,4 +167,9 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         menuEl.appendChild(itemEl);
         itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, offset.z);
     }
+}
+
+
+function setDescription(desEl: any, des: string): void {
+    desEl.setAttribute('text', 'value', des);
 }

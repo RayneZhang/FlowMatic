@@ -15,6 +15,7 @@
         <script src="vendor/threex.geometricglowmesh.js"></script>
         <script src="vendor/threex.dilategeometry.js"></script>
         <script src="vendor/threex.atmospherematerial.js"></script>
+        <script src="vendor/rounded.js"></script>
     </head>
     <body>
         <a-scene physics="gravity: 0; debug: false">
@@ -167,7 +168,8 @@
             <a-entity id="gun" class="movable weapon" scale="0.0001 0.0001 0.0001" gltf-model="#gun-gltf"></a-entity>
             <a-entity id="cruise" scale="15 15 15" gltf-model="#cruise-gltf" mtl-lighting></a-entity>
             <a-entity id="platform" position="0 0 -10" scale="0.01 0.01 0.01" gltf-model="#platform-gltf" mtl-lighting></a-entity>
-            
+            <a-entity id="canvas" rounded="width: 1.6; height: 1; radius: 0.2; color: #35353D;" position="0 2 -3"></a-entity>
+
             <!-- Utils -->
             <a-entity id="edges"></a-entity>
             <a-entity id="redux" state-binding></a-entity>

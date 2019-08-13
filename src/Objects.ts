@@ -6,11 +6,16 @@
 export const RANDOM_COLOR = 'Random Color';
 
 // Operators
+export const PLUS = 'plus';
+export const SUB = 'subtract';
+export const SNAPSHOT = 'snapshot';
+export const CREATE = 'create';
+export const DESTROY = 'destroy';
+export const TRANSLATE = 'translate';
+
 export const COLLISION_DETECTOR = 'Collision Detector';
 export const CONDITIONAL_EVENT = 'Conditional Event';
 export const VELOCITY = 'Velocity';
-export const PLUS = 'Plus';
-export const SUB = 'Subtract';
 export const VEC2NUM = 'Vector2Number';
 export const NUM2VEC = 'Number2Vector';
 export const COND_BOOL = 'Condition: Bool';
@@ -44,6 +49,7 @@ export const objects = {
             type: "primitive",
             url: "",
             attributes: [
+                {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]
@@ -53,6 +59,7 @@ export const objects = {
             type: "primitive",
             url: "",
             attributes: [
+                {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]
@@ -62,6 +69,7 @@ export const objects = {
             type: "primitive",
             url: "",
             attributes: [
+                {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]
@@ -71,6 +79,7 @@ export const objects = {
             type: "primitive",
             url: "",
             attributes: [
+                {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]
@@ -80,6 +89,7 @@ export const objects = {
             type: "primitive",
             url: "",
             attributes: [
+                {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]
@@ -89,6 +99,7 @@ export const objects = {
             type: "primitive",
             url: "",
             attributes: [
+                {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]

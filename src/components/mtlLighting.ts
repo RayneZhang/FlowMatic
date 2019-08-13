@@ -1,11 +1,16 @@
-import * as AFRAME from 'aframe'
+import * as AFRAME from 'aframe';
 
 const mtlLighting = AFRAME.registerComponent('mtl-lighting', {
     init: function(): void {
-        this.el.addEventListener('model-loaded', (event) => {
-            const loadedModel: any = event.detail.model;
-            console.log(loadedModel);
-        });        
+        this.el.sceneEl.renderer.gammaInput = true;
+        this.el.sceneEl.renderer.gammaOutput = true;
+        // this.el.addEventListener('model-loaded', (event) => {
+        //     this.el.object3D.traverse((o) => {
+        //         if (o.isMesh) {
+        //             o.material.emissiveIntensity = 100;
+        //         }
+        //     });
+        // });        
     }
 });
 

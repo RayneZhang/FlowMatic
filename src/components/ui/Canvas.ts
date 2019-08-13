@@ -25,8 +25,8 @@ export const itemSize = {
 
 export const canvasColor = {
     background: '#292827',
-    unselected: '#252423',
-    hovered: '#979593',
+    unselected: '#24252a',
+    hovered: '#19b5fe',
     selected: '#0078d4'
 };
 
@@ -117,8 +117,21 @@ function initButtons(menuEl: any): void {
             color: canvasColor.unselected,
             side: 'double'
         });
+
+        // Place the button
         menuEl.appendChild(bnEl);
         bnEl.object3D.position.set(offset.x, offset.y - buttonSize.height * i, offset.z);
+
+        // Add reactions to the button
+        bnEl.classList.add('ui');
+        bnEl.addEventListener('raycaster-intersected', (event) => {
+            bnEl.setAttribute('material', 'color', canvasColor.hovered);
+            setDescription(key);
+        });
+
+        bnEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            bnEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
     });
 }
 
@@ -188,7 +201,10 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
     }
 }
 
-
+/**
+ * Set the text of description panel on the menu
+ * @param des Text value
+ */
 function setDescription(des: string): void {
     const desEl: any = document.querySelector('#description-world');
     desEl.setAttribute('text', 'value', des);

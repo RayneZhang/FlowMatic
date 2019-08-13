@@ -106,6 +106,37 @@ export const objects = {
         }
     ],
     Data:[],
-    Operators:[],
+    Operators:[
+        {
+            name: PLUS,
+            type: "obj",
+            url: "#processor-obj"
+        },
+        {
+            name: SUB,
+            type: "obj",
+            url: "#processor-obj"
+        },
+        {
+            name: SNAPSHOT,
+            type: "obj",
+            url: "#processor-obj"
+        },
+        {
+            name: CREATE,
+            type: "obj",
+            url: "#processor-obj"
+        },
+        {
+            name: DESTROY,
+            type: "obj",
+            url: "#processor-obj"
+        },
+        {
+            name: TRANSLATE,
+            type: "obj",
+            url: "#processor-obj"
+        }
+    ],
     Avatars:[]
 }

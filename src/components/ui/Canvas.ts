@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
-import { Vector3 } from 'three';
+import { Vector3, Math as THREEMath } from 'three';
 import { resize } from '../../utils/SizeConstraints';
 
 export const canvasSize = {
@@ -58,7 +58,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initCanvasBg(canvasEl, this.el);
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
-        loadItems(menuEl, 'button-0');
+        loadItems(menuEl, 'button-2');
     }
 });
 
@@ -171,20 +171,41 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         // Fetch the Item from objects
         const item: Item = objects[submenuName][itemIndex + i];
         const itemEl: any = document.createElement('a-entity');
+        itemEl.setAttribute('id', item.name);
 
-        // Set up item geometry and material
         if (item.type === 'primitive') {
-            itemEl.setAttribute('id', item.name);
+            // Set up item geometry and material
             itemEl.setAttribute('geometry', 'primitive', item.name);
             itemEl.setAttribute('material', {
                 color: itemColor.unselected,
                 transparent: true,
                 opacity: 0.8
             });
-        }
 
-        // Resize the model into item size
-        resize(itemEl, itemSize.width);
+            // Resize the model into item size
+            itemEl.addEventListener('loaded', () => {
+                resize(itemEl, itemSize.width);
+            });
+        }
+        else {
+            // Set up item geometry and material
+            if (item.type === 'obj') {
+                itemEl.setAttribute('obj-model', {
+                    obj: item.url
+                });
+                itemEl.setAttribute('material', {
+                    color: itemColor.unselected,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                itemEl.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+            }
+
+            // Resize the model into item size
+            itemEl.addEventListener('model-loaded', () => {
+                resize(itemEl, itemSize.width);
+            });
+        }
 
         // Place the item
         menuEl.appendChild(itemEl);

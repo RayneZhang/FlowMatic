@@ -23,6 +23,13 @@ export const itemSize = {
     height: 0.2
 }
 
+export const canvasConstraint = {
+    negx: -canvasSize.width/2,
+    posx: canvasSize.width/2,
+    negy: -canvasSize.height/2,
+    posy: canvasSize.height/2
+}
+
 export const canvasColor = {
     background: '#292827',
     unselected: '#ffffff',
@@ -137,6 +144,7 @@ function initButtons(menuEl: any): void {
 
         bnEl.addEventListener('clicked', (event) => {
             bnEl.setAttribute('material', 'color', canvasColor.selected);
+            loadItems(menuEl, bnEl.getAttribute('id'));
         });
 
         bnEl.addEventListener('clicked-cleared', (event) => {
@@ -166,12 +174,20 @@ function initDes(desEl: any, parentEl: any): void {
  * @param itemIndex Starting intem index since each page can only display 9 items
  */
 function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
+    // Clear items on the current page if there are any.
+    const oldItemList: any = document.querySelector('#item-list');
+    if (oldItemList) oldItemList.parentNode.removeChild(oldItemList);
+
     const itemLimit: number = 9;
     const offset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width + itemSize.width/2, menuSize.height/2 - buttonSize.height - itemSize.height/2, itemSize.width/2);
 
     // Extract submenu's name based on buttonID
     const submenuID: number = Number(buttonID.split('-')[1]);
     const submenuName: string = Object.keys(objects)[submenuID];
+
+    const itemList: any = document.createElement('a-entity');
+    itemList.setAttribute('id', 'item-list');
+    menuEl.appendChild(itemList);
 
     for (let i = 0; i < itemLimit; i++) {
         if (itemIndex + i >= objects[submenuName].length) break;
@@ -216,7 +232,7 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         }
 
         // Place the item
-        menuEl.appendChild(itemEl);
+        itemList.appendChild(itemEl);
         itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, offset.z);
 
         // Add reaction to the item.
@@ -247,4 +263,9 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
 function setDescription(des: string): void {
     const desEl: any = document.querySelector('#description-world');
     desEl.setAttribute('text', 'value', des);
+}
+
+
+function createInstance(instanceName: string): void {
+
 }

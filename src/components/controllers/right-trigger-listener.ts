@@ -21,6 +21,8 @@ const rightTriggerListener = {
         this.lineId = 0;
         this.curEdgeEntity = null;
 
+        this.clickedEntity = null;
+
         // Handle trigger down.
         this.el.addEventListener('triggerdown', (event) => {
             this.triggering = true;
@@ -29,6 +31,10 @@ const rightTriggerListener = {
             const intersectedEl = getIntersectedEl(this.el);
             const intersections = getIntersections(this.el);
             if (!intersectedEl || !intersections) return;
+
+            // Emit a "clicked" event on target entity.
+            intersectedEl.emit('clicked');
+            this.clickedEntity = intersectedEl;
 
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
@@ -158,6 +164,11 @@ const rightTriggerListener = {
             this.hueDown = false;
             this.sliding = false;
             this.vector = false;
+
+            if (this.clickedEntity) {
+                this.clickedEntity.emit('clicked-cleared');
+                this.clickedEntity = null;
+            }
 
             const intersectedEl = getIntersectedEl(this.el);
             const intersections = getIntersections(this.el);

@@ -134,6 +134,14 @@ function initButtons(menuEl: any): void {
         bnEl.addEventListener('raycaster-intersected-cleared', (event) => {
             bnEl.setAttribute('material', 'color', canvasColor.unselected);
         });
+
+        bnEl.addEventListener('clicked', (event) => {
+            bnEl.setAttribute('material', 'color', canvasColor.selected);
+        });
+
+        bnEl.addEventListener('clicked-cleared', (event) => {
+            bnEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
     });
 }
 
@@ -219,6 +227,14 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         });
 
         itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            itemEl.setAttribute('material', 'color', itemColor.unselected);
+        });
+
+        itemEl.addEventListener('clicked', (event) => {
+            itemEl.setAttribute('material', 'color', itemColor.selected);
+        });
+
+        itemEl.addEventListener('clicked-cleared', (event) => {
             itemEl.setAttribute('material', 'color', itemColor.unselected);
         });
     }

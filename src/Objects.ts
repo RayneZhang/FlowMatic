@@ -38,9 +38,9 @@ export const SLIDER = 'Slider';
 export const LIGHT = 'Light';
 
 // Avatars
-export const HEADSET = 'Light';
-export const L_CONTROLLER = 'Left Controller';
-export const R_CONTROLLER = 'Right Controller';
+export const HEADSET = 'headset';
+export const L_CONTROLLER = 'left controller';
+export const R_CONTROLLER = 'right controller';
 
 export const objects = {
     Models:[
@@ -138,5 +138,21 @@ export const objects = {
             url: "#processor-obj"
         }
     ],
-    Avatars:[]
+    Avatars:[
+        {
+            name: HEADSET,
+            type: "obj",
+            url: "#headset-obj"
+        },
+        {
+            name: L_CONTROLLER,
+            type: "obj",
+            url: "#controller-left-obj"
+        },
+        {
+            name: R_CONTROLLER,
+            type: "obj",
+            url: "#controller-right-obj"
+        }
+    ]
 }

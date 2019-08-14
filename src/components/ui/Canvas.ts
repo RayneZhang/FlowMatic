@@ -65,7 +65,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initCanvasBg(canvasEl, this.el);
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
-        loadItems(menuEl, 'button-2');
+        loadItems(menuEl, 'button-3');
     }
 });
 
@@ -222,7 +222,7 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
                     transparent: true,
                     opacity: 0.8
                 });
-                itemEl.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+                itemEl.object3D.rotation.set(THREEMath.degToRad(90), 0, 0);
             }
 
             // Resize the model into item size

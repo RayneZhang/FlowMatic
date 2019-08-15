@@ -1,5 +1,6 @@
 import { getIntersectedEl, getIntersections } from '../../utils/raycast'
-import { Object3D, Mesh, Material, MeshBasicMaterial} from 'three'
+import { Object3D, Mesh, Math as THREEMath} from 'three'
+import { canvasConstraint } from '../ui/Canvas';
 
 const rightGripListener = {
     schema: {
@@ -77,8 +78,11 @@ const rightGripListener = {
             this.el.object3D.updateMatrixWorld();
             const updatedTargetPosition: any = this.el.object3D.localToWorld(this.localPosition.clone());
 
-            // Modify position at three.js level for better performance. (Better than setAttribute)
-            followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
+            if (followingEl.classList.contains('canvasObj')) {
+                followingEl.object3D.position.set(THREEMath.clamp(updatedTargetPosition.x, canvasConstraint.negx, canvasConstraint.posx), THREEMath.clamp(updatedTargetPosition.y, canvasConstraint.negy, canvasConstraint.posy), canvasConstraint.constz);
+            }
+            else 
+                followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
         }
 
     }

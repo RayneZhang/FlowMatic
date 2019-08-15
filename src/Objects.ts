@@ -147,12 +147,30 @@ export const objects = {
         {
             name: L_CONTROLLER,
             type: "obj",
-            url: "#controller-left-obj"
+            url: "#controller-left-obj",
+            inputs: [],
+            outputs: [
+                {name: "object", type: "object", observable: false},
+                {name: "gripdown", type: "boolean", observable: true}, 
+                {name: "triggerdown", type: "boolean", observable: true},
+                {name: "xbuttondown", type: "boolean", observable: true},
+                {name: "ybuttondown", type: "boolean", observable: true},
+                {name: "position", type: "vector3", observable: true}
+            ]
         },
         {
             name: R_CONTROLLER,
             type: "obj",
-            url: "#controller-right-obj"
+            url: "#controller-right-obj",
+            inputs: [],
+            outputs: [
+                {name: "object", type: "object", observable: false},
+                {name: "gripdown", type: "boolean", observable: true}, 
+                {name: "triggerdown", type: "boolean", observable: true},
+                {name: "abuttondown", type: "boolean", observable: true},
+                {name: "bbuttondown", type: "boolean", observable: true},
+                {name: "position", type: "vector3", observable: true}
+            ]
         }
     ]
 }

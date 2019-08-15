@@ -27,7 +27,8 @@ export const canvasConstraint = {
     negx: -canvasSize.width/2,
     posx: canvasSize.width/2,
     negy: -canvasSize.height/2,
-    posy: canvasSize.height/2
+    posy: canvasSize.height/2,
+    constz: itemSize.width/2
 }
 
 export const canvasColor = {
@@ -46,7 +47,9 @@ export const itemColor = {
 export interface Item {
     name: string,
     type: string,
-    url: string
+    url: string,
+    inputs?: {name: string, type: string, observable: boolean}[],
+    outputs?: {name: string, type: string, observable: boolean}[]
 }
 
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
@@ -248,6 +251,11 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
 
         itemEl.addEventListener('clicked', (event) => {
             itemEl.setAttribute('material', 'color', itemColor.selected);
+            // Use different methods of visualization when the item is an operator
+            if (submenuID != 2)
+                instantiateObj(item)
+            else
+                instantiateObj(item);
         });
 
         itemEl.addEventListener('clicked-cleared', (event) => {
@@ -265,7 +273,77 @@ function setDescription(des: string): void {
     desEl.setAttribute('text', 'value', des);
 }
 
+/**
+ * Create an instance on the canvas after clicking on the item
+ * @param item The item
+ */
+function instantiateObj(item: Item): void {
+    const instanceEl: any = document.createElement('a-entity');
+    const canvas: any = document.querySelector('#canvas-world');
+    canvas.appendChild(instanceEl);
 
-function createInstance(instanceName: string): void {
+    // Set up item geometry and material
+    if (item.type === 'obj') {
+        instanceEl.setAttribute('obj-model', {
+            obj: item.url
+        });
+        instanceEl.setAttribute('material', {
+            color: itemColor.unselected,
+            transparent: true,
+            opacity: 0.8
+        });
+        instanceEl.object3D.rotation.set(THREEMath.degToRad(90), 0, 0);
+    }
 
+    // Resize the model into item size
+    instanceEl.addEventListener('model-loaded', () => {
+        resize(instanceEl, itemSize.width);
+    });
+
+    // Visualize attributes for objects
+    const attrHeight: number = itemSize.height / item.outputs.length;
+    const attrWidth: number = 0.08;
+    item.outputs.forEach((output: {name: string, type: string}, i: number) => {
+        const attrEl: any = document.createElement('a-entity');
+        instanceEl.appendChild(attrEl);
+        
+        // Set up geometry and material of the attribute
+        attrEl.setAttribute('geometry', {
+            primitive: 'plane', 
+            width: attrWidth,
+            height: attrHeight
+        });
+        attrEl.setAttribute('material', {
+            color: 'black',
+            side: 'double'
+        });
+        attrEl.setAttribute('text', {
+            value: `${output.name}`,
+            side: 'double',
+            wrapCount: 10,
+            align: 'center'
+        });
+
+        // Place the attribute
+        attrEl.object3D.position.set(itemSize.width - attrWidth/2, 0, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
+        attrEl.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+    });
+    
+
+    // TODO: Add a new node into the scene
+
+    // TODO: Place the model
+    instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
+
+    // TODO: Add reactions when gripping
+    instanceEl.classList.add('canvasObj');
+    instanceEl.classList.add('movable');
+    instanceEl.addEventListener('raycaster-intersected', (event) => {
+        instanceEl.setAttribute('material', 'color', itemColor.hovered);
+        setDescription(item.name);
+    });
+
+    instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
+        instanceEl.setAttribute('material', 'color', itemColor.unselected);
+    });
 }

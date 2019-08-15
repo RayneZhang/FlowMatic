@@ -48,8 +48,8 @@ export interface Item {
     name: string,
     type: string,
     url: string,
-    inputs?: {name: string, type: string, observable: boolean}[],
-    outputs?: {name: string, type: string, observable: boolean}[]
+    inputs?: {name: string, type: string}[],
+    outputs?: {name: string, type: string}[]
 }
 
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
@@ -253,9 +253,9 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
             itemEl.setAttribute('material', 'color', itemColor.selected);
             // Use different methods of visualization when the item is an operator
             if (submenuID != 2)
-                instantiateObj(item)
-            else
                 instantiateObj(item);
+            else
+                instantiateOp(item);
         });
 
         itemEl.addEventListener('clicked-cleared', (event) => {
@@ -274,7 +274,7 @@ function setDescription(des: string): void {
 }
 
 /**
- * Create an instance on the canvas after clicking on the item
+ * Create an instance object on the canvas after clicking on the item
  * @param item The item
  */
 function instantiateObj(item: Item): void {
@@ -345,5 +345,50 @@ function instantiateObj(item: Item): void {
 
     instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
         instanceEl.setAttribute('material', 'color', itemColor.unselected);
+    });
+}
+
+/**
+ * Create an instance operator on the canvas after clicking on the item
+ * @param item The item
+ */
+function instantiateOp(item: Item): void {
+    const opEl: any = document.createElement('a-entity');
+    const canvas: any = document.querySelector('#canvas-world');
+    canvas.appendChild(opEl);
+
+    // Set up item geometry and material
+    const functionInputs: Array<string> = new Array<string>();
+    const functionOutputs: Array<string> = new Array<string>();
+    item.inputs.forEach((input: {name: string, type: string}) => {
+        functionInputs.push(input.name);
+    });
+    item.outputs.forEach((output: {name: string, type: string}) => {
+        functionOutputs.push(output.name);
+    });
+    opEl.setAttribute('operator-model', 'functionName', item.name);
+    opEl.setAttribute('operator-model', 'functionInputs', functionInputs);
+    opEl.setAttribute('operator-model', 'functionOutputs', functionOutputs);
+
+    // Resize the model into item size
+    opEl.addEventListener('model-loaded', () => {
+        resize(opEl, itemSize.width);
+    });
+
+    // TODO: Add a new node into the scene
+
+    // TODO: Place the model
+    opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
+
+    // TODO: Add reactions when gripping
+    opEl.classList.add('canvasObj');
+    opEl.classList.add('movable');
+    opEl.addEventListener('raycaster-intersected', (event) => {
+        opEl.setAttribute('material', 'color', itemColor.hovered);
+        setDescription(item.name);
+    });
+
+    opEl.addEventListener('raycaster-intersected-cleared', (event) => {
+        opEl.setAttribute('material', 'color', itemColor.unselected);
     });
 }

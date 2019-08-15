@@ -31,7 +31,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         let i: number = 0;
         for (const inputName of this.data.functionInputs) {
             this.createOnePlug(inputName, this.boxHeight/2 - this.lineHeight*(i+0.5), true);
-            if (this.data.functionInputs.length > 1)
+            if (this.data.functionInputs.length >= 1)
                 this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
             i++;
         }
@@ -40,7 +40,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         let j: number = 0;
         for (const outputName of this.data.functionOutputs) {
             this.createOnePlug(outputName, this.boxHeight/2 - this.lineHeight*(j+0.5), false);
-            if (this.data.functionOutputs.length > 1)
+            if (this.data.functionOutputs.length >= 1)
                 this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), 0));
             j++;
         }

@@ -110,32 +110,74 @@ export const objects = {
         {
             name: PLUS,
             type: "obj",
-            url: "#processor-obj"
+            url: "#processor-obj",
+            inputs: [
+                {name: "input", type: "any"}
+            ],
+            outputs: [
+                {name: "output", type: "any"}
+            ]
         },
         {
             name: SUB,
             type: "obj",
-            url: "#processor-obj"
+            url: "#processor-obj",
+            inputs: [
+                {name: "input", type: "any"}
+            ],
+            outputs: [
+                {name: "output", type: "any"}
+            ]
         },
         {
             name: SNAPSHOT,
             type: "obj",
-            url: "#processor-obj"
+            url: "#processor-obj",
+            inputs: [
+                {name: "signal", type: "any"},
+                {name: "event", type: "any"}
+            ],
+            outputs: [
+                {name: "output", type: "any"}
+            ]
         },
         {
             name: CREATE,
             type: "obj",
-            url: "#processor-obj"
+            url: "#processor-obj",
+            inputs: [
+                {name: "object", type: "object"},
+                {name: "event", type: "any"}
+            ],
+            outputs: [
+                {name: "output", type: "object"}
+            ]
         },
         {
             name: DESTROY,
             type: "obj",
-            url: "#processor-obj"
+            url: "#processor-obj",
+            inputs: [
+                {name: "object", type: "object"},
+                {name: "event", type: "any"}
+            ],
+            outputs: [
+                {name: "output", type: "object"}
+            ]
         },
         {
             name: TRANSLATE,
             type: "obj",
-            url: "#processor-obj"
+            url: "#processor-obj",
+            inputs: [
+                {name: "object", type: "object"},
+                {name: "from", type: "vector3"},
+                {name: "to", type: "vector3"},
+                {name: "speed", type: "number"}
+            ],
+            outputs: [
+                {name: "output", type: "object"}
+            ]
         }
     ],
     Avatars:[
@@ -150,12 +192,12 @@ export const objects = {
             url: "#controller-left-obj",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", observable: false},
-                {name: "gripdown", type: "boolean", observable: true}, 
-                {name: "triggerdown", type: "boolean", observable: true},
-                {name: "xbuttondown", type: "boolean", observable: true},
-                {name: "ybuttondown", type: "boolean", observable: true},
-                {name: "position", type: "vector3", observable: true}
+                {name: "object", type: "object" },
+                {name: "gripdown", type: "boolean" }, 
+                {name: "triggerdown", type: "boolean" },
+                {name: "xbuttondown", type: "boolean" },
+                {name: "ybuttondown", type: "boolean" },
+                {name: "position", type: "vector3" }
             ]
         },
         {
@@ -164,12 +206,12 @@ export const objects = {
             url: "#controller-right-obj",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", observable: false},
-                {name: "gripdown", type: "boolean", observable: true}, 
-                {name: "triggerdown", type: "boolean", observable: true},
-                {name: "abuttondown", type: "boolean", observable: true},
-                {name: "bbuttondown", type: "boolean", observable: true},
-                {name: "position", type: "vector3", observable: true}
+                {name: "object", type: "object" },
+                {name: "gripdown", type: "boolean" }, 
+                {name: "triggerdown", type: "boolean" },
+                {name: "abuttondown", type: "boolean" },
+                {name: "bbuttondown", type: "boolean" },
+                {name: "position", type: "vector3" }
             ]
         }
     ]

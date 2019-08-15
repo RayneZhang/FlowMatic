@@ -49,6 +49,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                   });
                   newEntity.setAttribute('obj-attributes-list', 'attrNames', attrList);
 
+                  newEntity.classList.add('data-receiver');
+
                   if (objects.Models[i].type === 'primitive') {
                      newEntity.setAttribute('geometry', 'primitive', targetObjName);
                      newEntity.object3D.scale.set(0.1, 0.1, 0.1);

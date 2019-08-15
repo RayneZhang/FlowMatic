@@ -245,8 +245,7 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
         const thumbDescripEl: any = document.querySelector('#description_text');
         const subMenuName: string = Object.keys(objects)[this.data.selectedSubMenuId];
         const instance: Item = objects[subMenuName][_buttonId];
-        if (!instance.name) {
-            // console.log('The selected button is out of range. buttonId: ' + _buttonId);
+        if (!instance) {
             return;
         }
         else

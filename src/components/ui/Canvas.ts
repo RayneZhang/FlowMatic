@@ -47,7 +47,7 @@ export const itemColor = {
 export interface Item {
     name: string,
     type: string,
-    url: string,
+    itemUrl: string,
     inputs?: {name: string, type: string}[],
     outputs?: {name: string, type: string}[]
 }
@@ -68,7 +68,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initCanvasBg(canvasEl, this.el);
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
-        loadItems(menuEl, 'button-3');
+        loadItems(menuEl, 'button-0');
     }
 });
 
@@ -216,17 +216,15 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         }
         else {
             // Set up item geometry and material
-            if (item.type === 'obj') {
-                itemEl.setAttribute('obj-model', {
-                    obj: item.url
-                });
-                itemEl.setAttribute('material', {
-                    color: itemColor.unselected,
-                    transparent: true,
-                    opacity: 0.8
-                });
-                itemEl.object3D.rotation.set(THREEMath.degToRad(90), 0, 0);
-            }
+            itemEl.setAttribute('obj-model', {
+                obj: item.itemUrl
+            });
+            itemEl.setAttribute('material', {
+                color: itemColor.unselected,
+                transparent: true,
+                opacity: 0.8
+            });
+            itemEl.object3D.rotation.set(THREEMath.degToRad(90), 0, 0);
 
             // Resize the model into item size
             itemEl.addEventListener('model-loaded', () => {
@@ -283,9 +281,9 @@ function instantiateObj(item: Item): void {
     canvas.appendChild(instanceEl);
 
     // Set up item geometry and material
-    if (item.type === 'obj') {
+    if (item.type != 'primitive') {
         instanceEl.setAttribute('obj-model', {
-            obj: item.url
+            obj: item.itemUrl
         });
         instanceEl.setAttribute('material', {
             color: itemColor.unselected,

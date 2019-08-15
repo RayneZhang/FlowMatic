@@ -81,17 +81,17 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
         this.el.appendChild(imgEl);
         switch (this.data.name) {
             case "submenu1" : {
-                imgEl.setAttribute('src', '#source_icon');
+                imgEl.setAttribute('src', '#Data_icon');
                 imgEl.object3D.position.set(-0.16, 0.001, -0.055);
                 break;
             }
             case "submenu2" : {
-                imgEl.setAttribute('src', '#operator_icon');
+                imgEl.setAttribute('src', '#Operators_icon');
                 imgEl.object3D.position.set(-0.16, 0.001, -0.035);
                 break;
             }
             case "submenu3" : {
-                imgEl.setAttribute('src', '#cube_icon');
+                imgEl.setAttribute('src', '#Models_icon');
                 imgEl.object3D.position.set(-0.16, 0.001, -0.015);
                 break;
             }
@@ -101,7 +101,7 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
                 break;
             }
             case "submenu5" : {
-                imgEl.setAttribute('src', '#avatar_icon');
+                imgEl.setAttribute('src', '#Avatars_icon');
                 imgEl.object3D.position.set(-0.16, 0.001, 0.025);
                 break;
             }

@@ -29,13 +29,14 @@ export const CYLINDER = 'cylinder';
 export const CIRCLE = 'circle';
 export const PLANE = 'plane';
 
-
+// Values
 export const VECTOR = 'Vector';
 export const SWITCH = 'Switch';
 export const SLIDER = 'Slider';
 
-// Lights
+// Models
 export const LIGHT = 'Light';
+export const GUN = 'gun';
 
 // Avatars
 export const HEADSET = 'headset';
@@ -47,8 +48,9 @@ export const objects = {
         {
             name: BOX,
             type: "primitive",
-            url: "",
-            attributes: [
+            itemUrl: "",
+            inputs: [],
+            outputs: [
                 {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
@@ -57,8 +59,9 @@ export const objects = {
         {
             name: SPHERE,
             type: "primitive",
-            url: "",
-            attributes: [
+            itemUrl: "",
+            inputs: [],
+            outputs: [
                 {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
@@ -67,8 +70,9 @@ export const objects = {
         {
             name: CONE,
             type: "primitive",
-            url: "",
-            attributes: [
+            itemUrl: "",
+            inputs: [],
+            outputs: [
                 {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
@@ -77,8 +81,9 @@ export const objects = {
         {
             name: CYLINDER,
             type: "primitive",
-            url: "",
-            attributes: [
+            itemUrl: "",
+            inputs: [],
+            outputs: [
                 {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
@@ -87,8 +92,9 @@ export const objects = {
         {
             name: CIRCLE,
             type: "primitive",
-            url: "",
-            attributes: [
+            itemUrl: "",
+            inputs: [],
+            outputs: [
                 {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
@@ -97,8 +103,21 @@ export const objects = {
         {
             name: PLANE,
             type: "primitive",
-            url: "",
-            attributes: [
+            itemUrl: "",
+            inputs: [],
+            outputs: [
+                {name: "object", type: "object"},
+                {name: "color", type: "string"}, 
+                {name: "position", type: "vector3"}
+            ]
+        },
+        {
+            name: GUN,
+            type: "gltf",
+            itemUrl: "#gun-obj",
+            url: "#gun-gltf",
+            inputs: [],
+            outputs: [
                 {name: "object", type: "object"},
                 {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
@@ -110,7 +129,7 @@ export const objects = {
         {
             name: PLUS,
             type: "obj",
-            url: "#processor-obj",
+            itemUrl: "#processor-obj",
             inputs: [
                 {name: "input", type: "any"}
             ],
@@ -121,7 +140,7 @@ export const objects = {
         {
             name: SUB,
             type: "obj",
-            url: "#processor-obj",
+            itemUrl: "#processor-obj",
             inputs: [
                 {name: "input", type: "any"}
             ],
@@ -132,7 +151,7 @@ export const objects = {
         {
             name: SNAPSHOT,
             type: "obj",
-            url: "#processor-obj",
+            itemUrl: "#processor-obj",
             inputs: [
                 {name: "signal", type: "any"},
                 {name: "event", type: "any"}
@@ -144,7 +163,7 @@ export const objects = {
         {
             name: CREATE,
             type: "obj",
-            url: "#processor-obj",
+            itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object"},
                 {name: "event", type: "any"}
@@ -156,7 +175,7 @@ export const objects = {
         {
             name: DESTROY,
             type: "obj",
-            url: "#processor-obj",
+            itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object"},
                 {name: "event", type: "any"}
@@ -168,7 +187,7 @@ export const objects = {
         {
             name: TRANSLATE,
             type: "obj",
-            url: "#processor-obj",
+            itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object"},
                 {name: "from", type: "vector3"},
@@ -184,12 +203,12 @@ export const objects = {
         {
             name: HEADSET,
             type: "obj",
-            url: "#headset-obj"
+            itemUrl: "#headset-obj"
         },
         {
             name: L_CONTROLLER,
             type: "obj",
-            url: "#controller-left-obj",
+            itemUrl: "#controller-left-obj",
             inputs: [],
             outputs: [
                 {name: "object", type: "object" },
@@ -203,7 +222,7 @@ export const objects = {
         {
             name: R_CONTROLLER,
             type: "obj",
-            url: "#controller-right-obj",
+            itemUrl: "#controller-right-obj",
             inputs: [],
             outputs: [
                 {name: "object", type: "object" },

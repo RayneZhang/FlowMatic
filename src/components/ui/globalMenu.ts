@@ -1,13 +1,8 @@
 import * as AFRAME from 'aframe';
 import { Math as THREEMath } from 'three';
 import { objects } from '../../Objects';
-
-export interface Item {
-    name: string,
-    type: string,
-    url: string,
-    attributes: Array<object>
-}
+import { Item } from './Canvas';
+import { resize } from '../../utils/SizeConstraints';
 
 const globalMenu = AFRAME.registerComponent('global-menu', {
     schema: {
@@ -221,6 +216,13 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
         if (instance.type === 'primitive') {
             modelInstanceEntity.setAttribute('geometry', 'primitive', instance.name);
             modelInstanceEntity.object3D.scale.set(0.01, 0.01, 0.01);
+        }
+        else {
+            modelInstanceEntity.setAttribute('obj-model', 'obj', instance.itemUrl);
+            // Resize the model into item size
+            modelInstanceEntity.addEventListener('model-loaded', () => {
+                resize(modelInstanceEntity, 0.01);
+            });
         }
         
         modelInstanceEntity.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);

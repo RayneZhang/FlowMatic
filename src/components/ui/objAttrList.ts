@@ -57,23 +57,16 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         }
 
         // We can only access the mesh after it is loaded.
-        if (this.el.getAttribute('obj-model') || this.el.getAttribute('gltf-model'))
-            this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
-        else
-            this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
+        this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
+        this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
     },
 
     // The listener when x-button is down.
     onModelLoaded(event): void {
         // Set position of the listEntity.
         let width: number = this.calWidth(this.el);
-        if (this.el.getAttribute('id') == "sword")
-            width = width * 3;
-        if (this.el.getAttribute('id') == "plant")
-            this.listEntity.object3D.scale.set(width * 2 , width* 2, width * 2);
-
-        this.listEntity.object3D.scale.set(10*width, 10*width, 10*width);
-        this.listEntity.object3D.position.set(10*width, 0, 0);
+        this.listEntity.object3D.scale.set(width, width, width);
+        this.listEntity.object3D.position.set(width, 0, 0);
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
 

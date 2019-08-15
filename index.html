@@ -26,10 +26,14 @@
                 <a-asset-item id="plant-gltf" src="assets/models/plant_gltf/scene.gltf"></a-asset-item>
                 <a-asset-item id="sword-gltf" src="assets/models/sword/sword.glb"></a-asset-item>
                 <a-asset-item id="panel-gltf" src="assets/models/panel.glb"></a-asset-item>
-                <a-asset-item id="gun-gltf" src="assets/models/pistol/scene.gltf"></a-asset-item>
                 <a-asset-item id="cruise-gltf" src="assets/models/sky_cruiser/scene.gltf"></a-asset-item>
                 <a-asset-item id="platform-gltf" src="assets/models/sci-fi_platforms/scene.gltf"></a-asset-item>
                 <a-asset-item id="processor-obj" src="assets/models/processor/processor.obj"></a-asset-item>
+
+                <!-- Models -->
+                <a-asset-item id="gun-obj" src="assets/models/pistol/gun.obj"></a-asset-item>
+                <a-asset-item id="gun-mtl" src="assets/models/pistol/gun.mtl"></a-asset-item>
+                <a-asset-item id="gun-gltf" src="assets/models/pistol/scene.gltf"></a-asset-item>
 
                 <img id='skybox-universe' src="assets/images/universe.png" crossorigin="anonymous">
                 <img id="uinormal" src="assets/images/ui-normal.png" crossorigin="anonymous">
@@ -165,7 +169,7 @@
 
             <!-- Scene #3 -->
             <a-entity id="skybox" cubemap="ext:png; folder: /assets/images/blue/"></a-entity>
-            <a-entity id="gun" class="movable weapon" scale="0.0001 0.0001 0.0001" gltf-model="#gun-gltf"></a-entity>
+            <a-entity id="gun" class="movable weapon" obj-model="obj: #gun-gltf; mtl: #gun-mtl"></a-entity>
             <a-entity id="cruise" scale="15 15 15" gltf-model="#cruise-gltf" mtl-lighting></a-entity>
             <a-entity id="platform" position="0 0 -10" scale="0.01 0.01 0.01" gltf-model="#platform-gltf" mtl-lighting></a-entity>
             <a-entity id="canvas" canvas-generator></a-entity>

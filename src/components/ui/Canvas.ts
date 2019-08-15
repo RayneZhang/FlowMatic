@@ -377,15 +377,15 @@ function instantiateOp(item: Item): void {
 
     // TODO: Add a new node into the scene
 
-    // TODO: Place the model
+    // Place the model
     opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
 
-    // TODO: Add reactions when gripping
+    // Add reactions when gripping
     opEl.classList.add('canvasObj');
     opEl.classList.add('movable');
+    opEl.classList.add('operator');
     opEl.addEventListener('raycaster-intersected', (event) => {
         opEl.setAttribute('material', 'color', itemColor.hovered);
-        setDescription(item.name);
     });
 
     opEl.addEventListener('raycaster-intersected-cleared', (event) => {

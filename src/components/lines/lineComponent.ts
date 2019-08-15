@@ -8,14 +8,14 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         sourceEntity: {type: 'selector', default: null},
         targetEntity: {type: 'selector', default: null},
         sourceProp: {type: 'string', default: ""},
-        targetProp: {type: 'string', default: ""},
-        divisions: {type: 'number', default: 20}
+        targetProp: {type: 'string', default: ""}
     },
 
     init: function(): void {
-        const positionSize = (this.data.divisions + 1) * 3;
+        this.divisions = 20;
+        const positionSize: number = ( this.divisions + 1) * 3;
         // Position and Color Data
-        var positions = this.positions = new Array<number>(positionSize);
+        this.positions = new Array<number>(positionSize);
 
         this.sourcePosition = new THREE.Vector3();
         this.targetPosition = new THREE.Vector3();
@@ -92,7 +92,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
 
     setPositions: function(): void {
         const curvePoints = this.getCurvePoints();
-        for (let i = 0; i < this.data.divisions + 1; i++) {
+        for (let i = 0; i <  this.divisions + 1; i++) {
             const {x, y, z} = curvePoints[i];
             this.positions[i * 3] = x;
             this.positions[i * 3 + 1] = y;
@@ -110,7 +110,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             endPoint
         ]);
 
-        return curve.getPoints(this.data.divisions);
+        return curve.getPoints( this.divisions);
     },
 
     // Draw the arrow at the end of the line indicating the dataflow direction.

@@ -92,11 +92,11 @@ const rightTriggerListener = {
                 this.curEdgeEntity.setAttribute('line-component', 'endPoint', endP);
 
                 // Next we need to find out the from and to entity
-                let fromEntity: any;
-                let fromProp: string;
+                let fromEntity: any = null;
+                let fromProp: string = null;
                 
                 // input/output -> operator.
-                if (intersectedEl.parentNode && intersectedEl.parentNode.classList.contains('data-filter')) {
+                if (intersectedEl.parentNode && (intersectedEl.parentNode.classList.contains('operator') || intersectedEl.parentNode.classList.contains('data-filter'))) {
                     fromEntity = intersectedEl.parentNode;
                     if (intersectedEl.firstChild.getAttribute('text')) {
                         fromProp = intersectedEl.firstChild.getAttribute('text').value;
@@ -121,7 +121,7 @@ const rightTriggerListener = {
             }
 
             // Check if the intersected object is a movable object.
-            if (intersectedEl.classList.contains('movable')) {
+            if (intersectedEl.classList.contains('movable') && !intersectedEl.classList.contains('canvasObj')) {
                 if (this.data.selectedEl) {
                     this.showOrHideWireframe(this.data.selectedEl, false);
                     if (this.data.selectedEl == intersectedEl) {

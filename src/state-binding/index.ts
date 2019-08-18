@@ -3,7 +3,6 @@
 
 import * as AFRAME from 'aframe'
 import store from '../store'
-import * as OBJLABELS from '../Objects'
 import { objects } from '../Objects'
 import { scene } from '../index'
 import { resize } from '../utils/SizeConstraints';
@@ -12,7 +11,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         objects: {type: 'array', default: []}
     },
 
-    init: function(): void {
+    init: function(): void { 
         console.log(store.getState());
         this.data.objects = store.getState().objects.present;
         this.id = 0;
@@ -70,6 +69,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('gltf-model', objects.Models[i].url);
                      newEntity.addEventListener('model-loaded', () => {
                         resize(newEntity, 0.2);
+                     });
+
+                     // Create a node in frp-backend
+                     const objNode = scene.addObj(targetObjName, [{name: 'position', default: position}]);
+                     newEntity.setAttribute('id', objNode.getID());
+                     objNode.pluckOutput('position').subscribe((value) => {
+                        console.log(`${objNode.getLabel()} position is now: ${value}`);
                      });
                     break;
                   }

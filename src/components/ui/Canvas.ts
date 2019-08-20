@@ -307,8 +307,32 @@ function instantiateObj(item: Item): void {
         });
     }
 
+    // Visualize attributes for objects as well as connectors
+    initObjAttri(instanceEl, item);
+    
+    // TODO: Add a new node into the scene
 
-    // Visualize attributes for objects
+    // TODO: Place the model
+    instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
+
+    // TODO: Add reactions when gripping
+    instanceEl.classList.add('canvasObj');
+    instanceEl.classList.add('movable');
+    instanceEl.addEventListener('raycaster-intersected', (event) => {
+        instanceEl.setAttribute('material', 'color', itemColor.hovered);
+        setDescription(item.name);
+    });
+
+    instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
+        instanceEl.setAttribute('material', 'color', itemColor.unselected);
+    });
+}
+
+/**
+ * Initiate the attribute list for the selected object
+ * @param item The selected item
+ */
+function initObjAttri(instanceEl: any, item: Item): void {
     const attrHeight: number = itemSize.height / item.outputs.length;
     const attrWidth: number = 0.08;
     item.outputs.forEach((output: {name: string, type: string}, i: number) => {
@@ -334,24 +358,56 @@ function instantiateObj(item: Item): void {
 
         // Place the attribute
         attrEl.object3D.position.set(itemSize.width - attrWidth/2, itemSize.height/2 - attrHeight/2 - (i*attrHeight), 0);
-    });
+
+        // Create in connector and out connector along with their geometries and materials
+        const inCon: any = document.createElement('a-entity');
+        const outCon: any = document.createElement('a-entity');
+        inCon.setAttribute('geometry', {
+            primitive: 'cone', 
+            height: 0.15 * itemSize.width,
+            radiusTop: 0,
+            radiusBottom: 0.1 * itemSize.width
+        });
+        inCon.setAttribute('material', 'color', itemColor.unselected);
+
+        outCon.setAttribute('geometry', {
+            primitive: 'cone', 
+            height: 0.15 * itemSize.width,
+            radiusTop: 0,
+            radiusBottom: 0.1 * itemSize.width
+        });
+        outCon.setAttribute('material', 'color', itemColor.unselected);
+
+        // Set connectors' positions and add reactions.
+        attrEl.appendChild(inCon);
+        attrEl.appendChild(outCon);
+        inCon.object3D.position.set(-0.8 * attrWidth, 0, 0);
+        outCon.object3D.position.set(0.8 * attrWidth, 0, 0);
+        inCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
+        outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
     
+        inCon.classList.add('connectable');
+        outCon.classList.add('connectable');
 
-    // TODO: Add a new node into the scene
+        inCon.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
+            inCon.setAttribute('material', 'color', itemColor.hovered);
+        });
+    
+        inCon.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
+            inCon.setAttribute('material', 'color', itemColor.unselected);
+        });
 
-    // TODO: Place the model
-    instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
-
-    // TODO: Add reactions when gripping
-    instanceEl.classList.add('canvasObj');
-    instanceEl.classList.add('movable');
-    instanceEl.addEventListener('raycaster-intersected', (event) => {
-        instanceEl.setAttribute('material', 'color', itemColor.hovered);
-        setDescription(item.name);
-    });
-
-    instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
-        instanceEl.setAttribute('material', 'color', itemColor.unselected);
+        outCon.addEventListener('raycaster-intersected', (event) => {
+            event.stopPropagation();
+            outCon.setAttribute('material', 'color', itemColor.hovered);
+        });
+    
+        outCon.addEventListener('raycaster-intersected-cleared', (event) => {
+            event.stopPropagation();
+            outCon.setAttribute('material', 'color', itemColor.unselected);
+        });
     });
 }
 

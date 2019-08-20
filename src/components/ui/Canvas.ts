@@ -69,6 +69,13 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
         loadItems(menuEl, 'button-0');
+
+        // Event Listener to open and close menu.
+        this.el.object3D.visible = false;
+        const listeningEl = document.querySelector('#leftHand');
+        listeningEl.addEventListener('xbuttondown', (event) => {
+            this.el.object3D.visible = !this.el.object3D.visible;
+        });
     }
 });
 

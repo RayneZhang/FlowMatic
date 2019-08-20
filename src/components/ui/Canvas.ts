@@ -224,7 +224,6 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
                 transparent: true,
                 opacity: 0.8
             });
-            itemEl.object3D.rotation.set(THREEMath.degToRad(90), 0, 0);
 
             // Resize the model into item size
             itemEl.addEventListener('model-loaded', () => {
@@ -290,13 +289,24 @@ function instantiateObj(item: Item): void {
             transparent: true,
             opacity: 0.8
         });
-        instanceEl.object3D.rotation.set(THREEMath.degToRad(90), 0, 0);
+
+        // Resize the model into item size
+        instanceEl.addEventListener('model-loaded', () => {
+            resize(instanceEl, itemSize.width);
+        });
+    } else {
+        instanceEl.setAttribute('geometry', 'primitive', item.name);
+        instanceEl.setAttribute('material', {
+            color: itemColor.unselected,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        instanceEl.addEventListener('loaded', () => {
+            resize(instanceEl, itemSize.width);
+        });
     }
 
-    // Resize the model into item size
-    instanceEl.addEventListener('model-loaded', () => {
-        resize(instanceEl, itemSize.width);
-    });
 
     // Visualize attributes for objects
     const attrHeight: number = itemSize.height / item.outputs.length;
@@ -323,8 +333,7 @@ function instantiateObj(item: Item): void {
         });
 
         // Place the attribute
-        attrEl.object3D.position.set(itemSize.width - attrWidth/2, 0, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
-        attrEl.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+        attrEl.object3D.position.set(itemSize.width - attrWidth/2, itemSize.height/2 - attrHeight/2 - (i*attrHeight), 0);
     });
     
 

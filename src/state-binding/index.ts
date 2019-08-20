@@ -47,7 +47,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      attrList.push(output.name);
                   });
                   newEntity.setAttribute('obj-attributes-list', 'attrNames', attrList);
-
                   newEntity.classList.add('data-receiver');
 
                   if (objects.Models[i].type === 'primitive') {

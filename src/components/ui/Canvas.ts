@@ -453,6 +453,7 @@ function instantiateOp(item: Item): void {
     // Add reactions when gripping
     opEl.classList.add('canvasObj');
     opEl.classList.add('movable');
+    // Add class for identifying operators
     opEl.classList.add('operator');
     opEl.addEventListener('raycaster-intersected', (event) => {
         opEl.setAttribute('material', 'color', itemColor.hovered);

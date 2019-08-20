@@ -191,7 +191,7 @@ const rightTriggerListener = {
             let toProp: string;
 
             // input/output->Object
-            if (intersectedEl.parentNode.classList.contains('data-filter')) {
+            if (intersectedEl.parentNode.classList.contains('operator')) {
                 toEntity = intersectedEl.parentNode;
                 if (intersectedEl.firstChild.getAttribute('text')) {
                     toProp = intersectedEl.firstChild.getAttribute('text').value;
@@ -223,13 +223,12 @@ const rightTriggerListener = {
             this.curEdgeEntity.setAttribute('line-component', 'targetProp', toProp);
             this.curEdgeEntity.setAttribute('id', 'line' + this.lineId);
 
-            // Add an edge in frp-backend
-            this.addEdge(fromEntity, fromProp, toEntity, toProp);
-
             // Handle data for next line.
             this.curEdgeEntity = null;
             this.lineId++;
-            
+
+            // Add an edge in frp-backend
+            this.addEdge(fromEntity, fromProp, toEntity, toProp);
         });
     },
 

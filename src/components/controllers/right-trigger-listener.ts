@@ -1,5 +1,5 @@
 import store from '../../store'
-import { scene } from '../../index'
+import { scene } from 'frp-backend'
 import { Node } from 'frp-backend'
 import { getIntersectedEl, getIntersections } from '../../utils/raycast'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
@@ -104,6 +104,9 @@ const rightTriggerListener = {
                 }
                 // Dot -> prompt -> bottle. For data sources such as bottles.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
+                    fromEntity = intersectedEl.parentNode.parentNode;
+                }
+                if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-receiver')) {
                     fromEntity = intersectedEl.parentNode.parentNode;
                 }
                 // Dot -> prompt -> attributeName -> objects.

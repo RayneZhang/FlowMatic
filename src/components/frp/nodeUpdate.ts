@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe'
-import { scene } from '../../index'
+import { scene } from 'frp-backend'
 
 export const nodeUpdate = AFRAME.registerComponent('node-update', {
     schema: {

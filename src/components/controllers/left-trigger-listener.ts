@@ -1,6 +1,6 @@
 import store from '../../store'
 import { addObj } from '../../actions'
-import { scene } from '../../index'
+import { scene } from 'frp-backend'
 declare const THREE:any;
 
 const leftTriggerListener = {

@@ -4,7 +4,7 @@
 import * as AFRAME from 'aframe'
 import store from '../store'
 import { objects } from '../Objects'
-import { scene } from '../index'
+import { scene } from 'frp-backend'
 import { resize } from '../utils/SizeConstraints';
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {

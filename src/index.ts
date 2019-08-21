@@ -116,9 +116,6 @@ mtlLighting;
 import { canvasGenerator } from './components/ui/Canvas';
 canvasGenerator;
 
-import { Scene } from 'frp-backend';
-export const scene = new Scene();
-
 // const a = scene.addConstant(2000);
 // const gen = scene.addOp('gen');
 // scene.addEdge(a, {node: gen, prop: 'delay'})

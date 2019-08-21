@@ -2,6 +2,7 @@ import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
 import { Vector3, Math as THREEMath } from 'three';
 import { resize } from '../../utils/SizeConstraints';
+import { scene, Node, ObjNode } from 'frp-backend'
 
 export const canvasSize = {
     width: 1.6, 
@@ -318,6 +319,8 @@ function instantiateObj(item: Item): void {
     initObjAttri(instanceEl, item);
     
     // TODO: Add a new node into the scene
+    const objNode = scene.addObj(item.name, item.outputs);
+    instanceEl.setAttribute('id', objNode.getID());
 
     // TODO: Place the model
     instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
@@ -325,6 +328,7 @@ function instantiateObj(item: Item): void {
     // TODO: Add reactions when gripping
     instanceEl.classList.add('canvasObj');
     instanceEl.classList.add('movable');
+    instanceEl.classList.add('data-receiver');
     instanceEl.addEventListener('raycaster-intersected', (event) => {
         instanceEl.setAttribute('material', 'color', itemColor.hovered);
         setDescription(item.name);
@@ -445,7 +449,9 @@ function instantiateOp(item: Item): void {
         resize(opEl, itemSize.width);
     });
 
-    // TODO: Add a new node into the scene
+    // TODO: Add a new node into the scene and assign the id to the entity
+    const opNode: Node = scene.addOp(item.name);
+    opEl.setAttribute('id', opNode.getID());
 
     // Place the model
     opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);

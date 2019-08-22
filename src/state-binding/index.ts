@@ -54,7 +54,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.object3D.scale.set(0.1, 0.1, 0.1);
 
                      // Create a node in frp-backend
-                     const objNode = scene.addObj(targetObjName, [{name: 'color', default: color}, {name: 'position', default: position}]);
+                     const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
 
                      newEntity.setAttribute('id', objNode.getID());
                      objNode.pluckOutput('color').subscribe((value) => {

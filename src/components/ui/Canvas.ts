@@ -320,14 +320,19 @@ function instantiateObj(item: Item, submenuID: number): void {
     initObjAttri(instanceEl, item);
     
     // TODO: Add a new object node into the scene. Prompting data is object-driven.
-    if ( submenuID === 3 )
+    if ( submenuID === 3 ) // When the node is avatars
         instanceEl.setAttribute('avatar-node-update', 'name', item.name);
-    
+    // When the node is generic objects or data sources
+    else {
+        // Create a generic object node in frp-backend.
+        const genericNode = scene.addObj(item.name, [{name: 'object', type: 'object', default: item.name}]);
+        instanceEl.setAttribute('id', genericNode.getID());
+    }
 
-    // TODO: Place the model
+    // Place the model
     instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
 
-    // TODO: Add reactions when gripping
+    // Add reactions when gripping
     instanceEl.classList.add('canvasObj');
     instanceEl.classList.add('movable');
     // Add class for identifying objects
@@ -453,11 +458,7 @@ function instantiateOp(item: Item): void {
     });
 
     // TODO: Add a new node into the scene and assign the id to the entity
-    const opNode: Node = scene.addOp(item.name);
-    opEl.setAttribute('id', opNode.getID());
-    opNode.pluckOutput('output').subscribe((value) => {
-        console.log(`${opNode.getLabel()} trigger is now: `, value);
-    });
+    opEl.setAttribute('op-node-update', 'name', item.name);
 
     // Place the model
     opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);

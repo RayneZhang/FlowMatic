@@ -119,6 +119,8 @@ import { objNodeUpdate } from './components/frp/ObjNodeUpdate';
 objNodeUpdate;
 import { avatarNodeUpdate } from './components/frp/AvatarNodeUpdate';
 avatarNodeUpdate;
+import { opNodeUpdate } from './components/frp/OpNodeUpdate';
+opNodeUpdate;
 
 // const a = scene.addConstant(2000);
 // const gen = scene.addOp('gen');

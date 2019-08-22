@@ -108,6 +108,7 @@ const rightTriggerListener = {
                 }
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-receiver')) {
                     fromEntity = intersectedEl.parentNode.parentNode;
+                    fromProp = intersectedEl.parentNode.getAttribute('text').value;
                 }
                 // Dot -> prompt -> attributeName -> objects.
                 if (intersectedEl.parentNode.parentNode.parentNode && intersectedEl.parentNode.parentNode.parentNode.classList.contains('data-receiver')) {
@@ -231,6 +232,8 @@ const rightTriggerListener = {
             this.lineId++;
 
             // Add an edge in frp-backend
+            console.log(fromEntity, fromProp);
+            console.log(toEntity, toProp);
             this.addEdge(fromEntity, fromProp, toEntity, toProp);
         });
     },

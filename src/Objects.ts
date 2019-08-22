@@ -165,10 +165,10 @@ export const objects = {
             itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object"},
-                {name: "event", type: "any"}
+                {name: "position", type: "any"}
             ],
             outputs: [
-                {name: "output", type: "object"}
+                {name: "object", type: "object"}
             ]
         },
         {

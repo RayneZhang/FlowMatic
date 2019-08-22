@@ -455,6 +455,9 @@ function instantiateOp(item: Item): void {
     // TODO: Add a new node into the scene and assign the id to the entity
     const opNode: Node = scene.addOp(item.name);
     opEl.setAttribute('id', opNode.getID());
+    opNode.pluckOutput('output').subscribe((value) => {
+        console.log(`${opNode.getLabel()} trigger is now: `, value);
+    });
 
     // Place the model
     opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);

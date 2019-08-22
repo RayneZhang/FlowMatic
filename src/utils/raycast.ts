@@ -15,7 +15,7 @@ export const getIntersections = (entity: any) => {
     // Retrieve all intersections through raycaster.
     const intersections = entity.components.raycaster.intersections;
     if (!Array.isArray(intersections) || !intersections.length) {
-        console.log('There is NO intersections when triggering');
+        // console.log('There is NO intersections when triggering');
         return null;
     }
     return intersections;

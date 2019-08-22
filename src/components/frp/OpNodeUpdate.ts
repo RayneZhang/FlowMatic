@@ -1,7 +1,8 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode } from 'frp-backend'
-import { objects, CREATE } from '../../Objects';
+import { objects, CREATE, TRANSLATE } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
+import { Vector3 as THREEVector3} from 'three'
 
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     schema: {
@@ -19,6 +20,16 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 create(object, pos);
             });
         }
+        if (this.data.name === TRANSLATE) {
+            opNode.pluckInputs().subscribe((input) => {
+                console.log("Translate start", input);
+                const object: string = input[0];
+                const from: THREEVector3 = input[1];
+                const to: THREEVector3 = input[2];
+                const speed: number = input[3];
+                translate(object, from, to, speed);
+            });
+        }
             
     },
 
@@ -29,6 +40,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 
 function create(object: string, pos: any): void {
     const el: any = document.createElement('a-entity');
+    el.setAttribute('id', `node-${Node.getNodeCount()}`);
     const parentEl: any = document.querySelector('#redux');
     parentEl.appendChild(el);
 
@@ -39,5 +51,17 @@ function create(object: string, pos: any): void {
     el.object3D.position.copy(pos);
     el.addEventListener('loaded', () => {
         resize(el, 0.05);
+    });
+}
+
+function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number): void {
+    const el: any = document.querySelector(`#${object}`);
+
+    const distance: number = from.distanceTo(to);
+    el.setAttribute('animation', {
+        property: "position",
+        from: {x: from.x, y: from.y, z: from.z},
+        to: {x: to.x, y: to.y, z: to.z},
+        dur: distance/speed * 1000
     });
 }

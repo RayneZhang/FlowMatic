@@ -318,7 +318,7 @@ function instantiateObj(item: Item): void {
     // Visualize attributes for objects as well as connectors
     initObjAttri(instanceEl, item);
     
-    // TODO: Add a new node into the scene
+    // TODO: Add a new object node into the scene. Prompting data is object-driven.
     const objNode = scene.addObj(item.name, item.outputs);
     instanceEl.setAttribute('id', objNode.getID());
 
@@ -328,6 +328,7 @@ function instantiateObj(item: Item): void {
     // TODO: Add reactions when gripping
     instanceEl.classList.add('canvasObj');
     instanceEl.classList.add('movable');
+    // Add class for identifying objects
     instanceEl.classList.add('data-receiver');
     instanceEl.addEventListener('raycaster-intersected', (event) => {
         instanceEl.setAttribute('material', 'color', itemColor.hovered);

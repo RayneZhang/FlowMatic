@@ -119,7 +119,6 @@ export const objects = {
             inputs: [],
             outputs: [
                 {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
                 {name: "position", type: "vector3"}
             ]
         }

@@ -4,7 +4,7 @@
 import * as AFRAME from 'aframe'
 import store from '../store'
 import { objects } from '../Objects'
-import { scene } from 'frp-backend'
+import { scene, Node } from 'frp-backend'
 import { resize } from '../utils/SizeConstraints';
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {
@@ -55,6 +55,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                      // Create a node in frp-backend
                      const objNode = scene.addObj(targetObjName, [{name: 'color', default: color}, {name: 'position', default: position}]);
+
                      newEntity.setAttribute('id', objNode.getID());
                      objNode.pluckOutput('color').subscribe((value) => {
                         console.log(`${objNode.getLabel()} color is now: ${value}`);
@@ -70,12 +71,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         resize(newEntity, 0.2);
                      });
 
-                     // Create a node in frp-backend
-                     const objNode = scene.addObj(targetObjName, [{name: 'position', default: position}]);
+                     // Create a object node in frp-backend, attribute updates are front-end driven.
+                     const objNode = scene.addObj(targetObjName, [{ name: 'object', default: `node-${Node.getNodeCount() + 1}` }, { name: 'position', default: position }]);
                      newEntity.setAttribute('id', objNode.getID());
-                     objNode.pluckOutput('position').subscribe((value) => {
-                        console.log(`${objNode.getLabel()} position is now: ${value}`);
-                     });
+                     newEntity.setAttribute('node-update', null);
+                    //  objNode.pluckOutput('position').subscribe((value) => {
+                    //     console.log(`${objNode.getLabel()} position is now: `, value);
+                    //  });
                     break;
                   }
 

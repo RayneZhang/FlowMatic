@@ -115,6 +115,8 @@ import mtlLighting from './components/mtlLighting';
 mtlLighting;
 import { canvasGenerator } from './components/ui/Canvas';
 canvasGenerator;
+import { nodeUpdate } from './components/frp/nodeUpdate';
+nodeUpdate;
 
 // const a = scene.addConstant(2000);
 // const gen = scene.addOp('gen');

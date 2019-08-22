@@ -258,7 +258,7 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
             itemEl.setAttribute('material', 'color', itemColor.selected);
             // Use different methods of visualization when the item is an operator
             if (submenuID != 2)
-                instantiateObj(item);
+                instantiateObj(item, submenuID);
             else
                 instantiateOp(item);
         });
@@ -281,8 +281,9 @@ function setDescription(des: string): void {
 /**
  * Create an instance object on the canvas after clicking on the item
  * @param item The item
+ * @param submenuID Current submenuID
  */
-function instantiateObj(item: Item): void {
+function instantiateObj(item: Item, submenuID: number): void {
     const instanceEl: any = document.createElement('a-entity');
     const canvas: any = document.querySelector('#canvas-world');
     canvas.appendChild(instanceEl);
@@ -319,8 +320,9 @@ function instantiateObj(item: Item): void {
     initObjAttri(instanceEl, item);
     
     // TODO: Add a new object node into the scene. Prompting data is object-driven.
-    const objNode = scene.addObj(item.name, item.outputs);
-    instanceEl.setAttribute('id', objNode.getID());
+    if ( submenuID === 3 )
+        instanceEl.setAttribute('avatar-node-update', 'name', item.name);
+    
 
     // TODO: Place the model
     instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);

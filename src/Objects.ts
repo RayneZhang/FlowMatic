@@ -225,10 +225,8 @@ export const objects = {
             inputs: [],
             outputs: [
                 {name: "object", type: "object" },
-                {name: "gripdown", type: "boolean" }, 
-                {name: "triggerdown", type: "boolean" },
-                {name: "abuttondown", type: "boolean" },
-                {name: "bbuttondown", type: "boolean" },
+                {name: "gripdown", type: "boolean", default: false}, 
+                {name: "triggerdown", type: "boolean", default: false},
                 {name: "position", type: "vector3" }
             ]
         }

@@ -72,9 +72,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      });
 
                      // Create a object node in frp-backend, attribute updates are front-end driven.
-                     const objNode = scene.addObj(targetObjName, [{ name: 'object', default: `node-${Node.getNodeCount() + 1}` }, { name: 'position', default: position }]);
+                     const objNode = scene.addObj(targetObjName, [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }]);
                      newEntity.setAttribute('id', objNode.getID());
-                     newEntity.setAttribute('node-update', null);
+                     newEntity.setAttribute('obj-node-update', null);
                     //  objNode.pluckOutput('position').subscribe((value) => {
                     //     console.log(`${objNode.getLabel()} position is now: `, value);
                     //  });

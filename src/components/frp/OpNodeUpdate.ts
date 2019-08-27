@@ -22,7 +22,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         }
         if (this.data.name === TRANSLATE) {
             opNode.pluckInputs().subscribe((input) => {
-                console.log("Translate start", input);
+                // console.log("Translate start", input);
                 const object: string = input[0];
                 const from: THREEVector3 = input[1];
                 const to: THREEVector3 = input[2];

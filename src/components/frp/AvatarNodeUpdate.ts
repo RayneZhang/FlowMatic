@@ -33,9 +33,9 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
             this.targetEntity.addEventListener('triggerdown', (event) => {
                 objNode.update('triggerdown', true);
             });
-            objNode.pluckOutput('triggerdown').subscribe((value) => {
-                console.log(`${objNode.getLabel()} trigger is now: `, value);
-            });
+            // objNode.pluckOutput('triggerdown').subscribe((value) => {
+            //     console.log(`${objNode.getLabel()} trigger is now: `, value);
+            // });
         }
     },
 

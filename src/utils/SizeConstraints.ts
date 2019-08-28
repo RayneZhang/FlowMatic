@@ -8,6 +8,5 @@ export const resize = (entity: any, constraint: number) => {
     const objectSize = new Vector3();
     box.getSize(objectSize);
     const maxLength: number = Math.max(objectSize.x, objectSize.y, objectSize.z);
-    
     mesh.scale.set(0.8*constraint/maxLength, 0.8*constraint/maxLength, 0.8*constraint/maxLength);
 };

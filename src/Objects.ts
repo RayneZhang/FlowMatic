@@ -119,7 +119,8 @@ export const objects = {
             inputs: [],
             outputs: [
                 {name: "object", type: "object"},
-                {name: "position", type: "vector3"}
+                {name: "position", type: "vector3"},
+                {name: "tip_position", type: "vector3"}
             ]
         }
     ],

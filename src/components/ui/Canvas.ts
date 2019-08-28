@@ -78,20 +78,18 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         const listeningEl = document.querySelector('#leftHand');
         listeningEl.addEventListener('xbuttondown', (event) => {
             this.el.object3D.visible = !this.el.object3D.visible;
+            const edges: any = document.querySelector('#edges');
+            edges.object3D.visible = this.el.object3D.visible;
+            if (this.el.object3D.visible) {
+                this.mainCam.object3D.updateMatrix();
+                this.mainCam.object3D.updateWorldMatrix();
+                const position = this.mainCam.object3D.localToWorld(new Vector3(0, 0, -1.5));
+                const rotation = this.mainCam.object3D.rotation.y;
+                
+                this.el.object3D.position.copy(position);
+                this.el.object3D.setRotationFromEuler(new Euler(0, rotation, 0));
+            }
         });
-    },
-
-    tick: function(): void {
-        // If the canvas is visible, do not change its position.
-        if (this.el.object3D.visible) return;
-
-        this.mainCam.object3D.updateMatrix();
-        this.mainCam.object3D.updateWorldMatrix();
-        const position = this.mainCam.object3D.localToWorld(new Vector3(0, 0, -1.5));
-        const rotation = this.mainCam.object3D.rotation.y;
-        
-        this.el.object3D.position.copy(position);
-        this.el.object3D.setRotationFromEuler(new Euler(0, rotation, 0));
     }
 });
 

@@ -1,9 +1,10 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3} from 'three'
 
+// This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     schema: {
         name: {type: 'string', default: ''},
@@ -30,7 +31,14 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 translate(object, from, to, speed);
             });
         }
-            
+        if (this.data.name === DESTROY) {
+            opNode.pluckInputs().subscribe((input) => {
+                // console.log("Translate start", input);
+                const object: string = input[0];
+                const event: any = input[1];
+                destroy(object, event);
+            });
+        }   
     },
 
     tick: function(time, timeDelta): void {
@@ -62,6 +70,18 @@ function translate(object: string, from: THREEVector3, to: THREEVector3, speed: 
         property: "position",
         from: {x: from.x, y: from.y, z: from.z},
         to: {x: to.x, y: to.y, z: to.z},
-        dur: distance/speed * 1000
+        dur: distance/5 * 1000
     });
+}
+
+function destroy(object: string, event: any): void {
+    if (!event) return;
+    const targetEl: any = document.querySelector(`#${object}`);
+    if (!targetEl) {
+        console.log('Cannot find the target entity at destroy operation.');
+        return
+    }
+    targetEl.parentNode.removeChild(targetEl);
+
+    // TODO: Handle the edges associated with the target entity.
 }

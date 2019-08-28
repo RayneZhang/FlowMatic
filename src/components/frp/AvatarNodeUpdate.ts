@@ -32,6 +32,7 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
         if (this.data.name === R_CONTROLLER) {
             this.targetEntity.addEventListener('triggerdown', (event) => {
                 objNode.update('triggerdown', true);
+                objNode.update('triggerdown', false);
             });
             // objNode.pluckOutput('triggerdown').subscribe((value) => {
             //     console.log(`${objNode.getLabel()} trigger is now: `, value);

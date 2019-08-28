@@ -1,5 +1,5 @@
 import { getIntersectedEl, getIntersections } from '../../utils/raycast'
-import { Object3D, Mesh, Math as THREEMath} from 'three'
+import { Object3D, Mesh, Math as THREEMath, Vector3} from 'three'
 import { canvasConstraint } from '../ui/Canvas';
 
 const rightGripListener = {
@@ -40,7 +40,9 @@ const rightGripListener = {
 
             this.el.object3D.updateMatrix();
             this.el.object3D.updateMatrixWorld();
-            this.localPosition = this.el.object3D.worldToLocal(intersectedEl.object3D.position.clone());
+            intersectedEl.object3D.updateMatrix();
+            intersectedEl.object3D.updateMatrixWorld();
+            this.localPosition = this.el.object3D.worldToLocal(intersectedEl.object3D.localToWorld(new Vector3(0, 0, 0)));
 
             // Set the intersected object as the following object.
             this.data.followingEl = intersectedEl;
@@ -79,10 +81,18 @@ const rightGripListener = {
             const updatedTargetPosition: any = this.el.object3D.localToWorld(this.localPosition.clone());
 
             if (followingEl.classList.contains('canvasObj')) {
-                followingEl.object3D.position.set(THREEMath.clamp(updatedTargetPosition.x, canvasConstraint.negx, canvasConstraint.posx), THREEMath.clamp(updatedTargetPosition.y, canvasConstraint.negy, canvasConstraint.posy), canvasConstraint.constz);
+                const canvasWorld: any = document.querySelector('#canvas-world');
+                canvasWorld.object3D.updateMatrix();
+                canvasWorld.object3D.updateMatrixWorld();
+                const localCanvasPosition: any = canvasWorld.object3D.worldToLocal(updatedTargetPosition);
+                // console.log(localCanvasPosition);
+                followingEl.object3D.position.set(THREEMath.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
+                    THREEMath.clamp(localCanvasPosition.y, canvasConstraint.negy, canvasConstraint.posy), 
+                    canvasConstraint.constz);
             }
-            else 
+            else {
                 followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
+            }       
         }
 
     }

@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
-import { Vector3, Math as THREEMath } from 'three';
+import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend'
 
@@ -59,6 +59,8 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
     },
 
     init: function(): void {
+        this.mainCam = document.querySelector('#head');
+
         const canvasEl: any = document.createElement('a-entity');
         const menuEl: any = document.createElement('a-entity');
         const desEl: any = document.createElement('a-entity');
@@ -77,6 +79,19 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         listeningEl.addEventListener('xbuttondown', (event) => {
             this.el.object3D.visible = !this.el.object3D.visible;
         });
+    },
+
+    tick: function(): void {
+        // If the canvas is visible, do not change its position.
+        if (this.el.object3D.visible) return;
+
+        this.mainCam.object3D.updateMatrix();
+        this.mainCam.object3D.updateWorldMatrix();
+        const position = this.mainCam.object3D.localToWorld(new Vector3(0, 0, -1.5));
+        const rotation = this.mainCam.object3D.rotation.y;
+        
+        this.el.object3D.position.copy(position);
+        this.el.object3D.setRotationFromEuler(new Euler(0, rotation, 0));
     }
 });
 

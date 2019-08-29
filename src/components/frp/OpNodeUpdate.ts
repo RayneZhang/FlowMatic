@@ -11,14 +11,15 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     },
 
     init: function(): void {
-        const opNode: OpNode = scene.addOp(this.data.name);
+        const opNode: OpNode = this.opNode = scene.addOp(this.data.name);
         this.el.setAttribute('id', opNode.getID());
         
         if (this.data.name === CREATE) {
             opNode.pluckInputs().subscribe((input) => {
+                console.log(input);
                 const object: string = input[0];
                 const pos: any = input[1];
-                create(object, pos);
+                create(object, pos, opNode);
             });
         }
         if (this.data.name === TRANSLATE) {
@@ -28,7 +29,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 const from: THREEVector3 = input[1];
                 const to: THREEVector3 = input[2];
                 const speed: number = input[3];
-                translate(object, from, to, speed);
+                translate(object, from, to, speed, opNode);
             });
         }
         if (this.data.name === DESTROY) {
@@ -38,7 +39,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 const event: any = input[1];
                 destroy(object, event);
             });
-        }   
+        }
     },
 
     tick: function(time, timeDelta): void {
@@ -46,7 +47,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     }
 });
 
-function create(object: string, pos: any): void {
+function create(object: string, pos: any, opNode: OpNode): void {
+    // console.log(`node-${Node.getNodeCount()}`);
     const el: any = document.createElement('a-entity');
     el.setAttribute('id', `node-${Node.getNodeCount()}`);
     const parentEl: any = document.querySelector('#redux');
@@ -62,7 +64,7 @@ function create(object: string, pos: any): void {
     });
 }
 
-function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number): void {
+function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number, opNode: OpNode): void {
     const el: any = document.querySelector(`#${object}`);
 
     const distance: number = from.distanceTo(to);
@@ -71,6 +73,12 @@ function translate(object: string, from: THREEVector3, to: THREEVector3, speed: 
         from: {x: from.x, y: from.y, z: from.z},
         to: {x: to.x, y: to.y, z: to.z},
         dur: distance/5 * 1000
+    });
+
+    el.addEventListener('animationcomplete', (event) => {
+        console.log("Animation completed!");
+        opNode.updateOutput('end', true);
+        opNode.updateOutput('end', false);
     });
 }
 

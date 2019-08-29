@@ -3,6 +3,7 @@ import { scene, Node, ObjNode, OpNode } from 'frp-backend'
 import { objects, CREATE, TRANSLATE, DESTROY } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3} from 'three'
+import { take } from 'rxjs/operators'
 
 // This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
@@ -49,19 +50,24 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 
 function create(object: string, pos: any, opNode: OpNode): void {
     // console.log(`node-${Node.getNodeCount()}`);
-    const el: any = document.createElement('a-entity');
-    el.setAttribute('id', `node-${Node.getNodeCount()}`);
-    const parentEl: any = document.querySelector('#redux');
-    parentEl.appendChild(el);
+    opNode.pluckOutput('object').pipe(
+        take(1)
+    ).subscribe((nodeID) => {
+        const el: any = document.createElement('a-entity');
+        el.setAttribute('id', nodeID);
+        const parentEl: any = document.querySelector('#redux');
+        parentEl.appendChild(el);
 
-    // Set up geometry and material
-    el.setAttribute('geometry', 'primitive', object);
+        // Set up geometry and material
+        el.setAttribute('geometry', 'primitive', object);
 
-    // Set up position, rotation, and scale
-    el.object3D.position.copy(pos);
-    el.addEventListener('loaded', () => {
-        resize(el, 0.05);
+        // Set up position, rotation, and scale
+        el.object3D.position.copy(pos);
+        el.addEventListener('loaded', () => {
+            resize(el, 0.05);
+        });
     });
+    
 }
 
 function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number, opNode: OpNode): void {

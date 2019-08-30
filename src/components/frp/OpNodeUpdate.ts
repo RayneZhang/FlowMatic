@@ -35,7 +35,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         }
         if (this.data.name === DESTROY) {
             opNode.pluckInputs().subscribe((input) => {
-                // console.log("Translate start", input);
+                // console.log("Destroy start", input);
                 const object: string = input[0];
                 const event: any = input[1];
                 destroy(object, event);
@@ -49,25 +49,26 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 });
 
 function create(object: string, pos: any, opNode: OpNode): void {
-    // console.log(`node-${Node.getNodeCount()}`);
-    opNode.pluckOutput('object').pipe(
-        take(1)
-    ).subscribe((nodeID) => {
-        const el: any = document.createElement('a-entity');
-        el.setAttribute('id', nodeID);
-        const parentEl: any = document.querySelector('#redux');
-        parentEl.appendChild(el);
+    const createdNode = scene.addObj(object, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: pos}]);
+    const el: any = document.createElement('a-entity');
+    el.setAttribute('id', createdNode.getID());
+    const parentEl: any = document.querySelector('#redux');
+    parentEl.appendChild(el);
 
-        // Set up geometry and material
-        el.setAttribute('geometry', 'primitive', object);
+    // Set up geometry and material
+    el.setAttribute('geometry', 'primitive', object);
 
-        // Set up position, rotation, and scale
-        el.object3D.position.copy(pos);
-        el.addEventListener('loaded', () => {
-            resize(el, 0.05);
-        });
+    // Set up position, rotation, and scale
+    el.object3D.position.copy(pos);
+    el.addEventListener('loaded', () => {
+        resize(el, 0.05);
     });
-    
+
+    // After creating both the node and the entity, emit the nodeID as output
+    opNode.updateOutput('object', createdNode.getID());
+    // opNode.pluckOutput('object').subscribe((val) => {
+    //     console.log("Create output is ", val);
+    // });
 }
 
 function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number, opNode: OpNode): void {
@@ -81,8 +82,12 @@ function translate(object: string, from: THREEVector3, to: THREEVector3, speed: 
         dur: distance/5 * 1000
     });
 
+    // opNode.pluckOutput('end').subscribe((val) => {
+    //     console.log("Translate end is ", val);
+    // });
+
     el.addEventListener('animationcomplete', (event) => {
-        console.log("Animation completed!");
+        // console.log("Animation completed!");
         opNode.updateOutput('end', true);
         opNode.updateOutput('end', false);
     });

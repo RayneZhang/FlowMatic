@@ -181,7 +181,7 @@ export const objects = {
                 {name: "event", type: "any"}
             ],
             outputs: [
-                {name: "output", type: "object"}
+                {name: "end", type: "object"}
             ]
         },
         {
@@ -195,7 +195,7 @@ export const objects = {
                 {name: "speed", type: "number"}
             ],
             outputs: [
-                {name: "output", type: "object"}
+                {name: "end", type: "object"}
             ]
         }
     ],

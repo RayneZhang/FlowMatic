@@ -11,7 +11,7 @@ const rightGripListener = {
 
     init(): void {
 
-        this.el.addEventListener('gripdown', (event) => {
+        this.el.addEventListener('triggerdown', (event) => {
             this.data.gripping = true;
             
            // Fetch the intersected object and intersections
@@ -48,7 +48,7 @@ const rightGripListener = {
             this.data.followingEl = intersectedEl;
         });
 
-        this.el.addEventListener('gripup', (event) => {
+        this.el.addEventListener('triggerup', (event) => {
             this.data.gripping = false;
 
             // If the user is holding a weapon...

@@ -64,9 +64,6 @@ conditionLarger;
 import lineComponent from './components/lines/lineComponent';
 lineComponent;
 
-import leftGripListener from './components/controllers/left-grip-listener'
-leftGripListener;
-
 import stateBinding from './state-binding/index'
 stateBinding;
 

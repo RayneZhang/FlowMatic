@@ -2,7 +2,7 @@ declare const THREE:any;
 
 const scaleController = {
     schema: {
-        speed: {type: 'number', default: 1},
+        speed: {type: 'number', default: 0.1},
         hand: {type: 'string', default: ''}
     },
 

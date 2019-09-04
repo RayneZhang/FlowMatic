@@ -60,6 +60,8 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         if (!this.el.hasChildNodes()) {
             const lineBody: any = this.lineBody = document.createElement('a-entity');
             const arrow: any = this.arrow = document.createElement('a-entity');
+            this.lineBody.classList.add('line');
+            
             arrow.setAttribute('geometry', {
                 primitive: 'cone',
                 height: 0.06,

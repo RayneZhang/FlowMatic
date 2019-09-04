@@ -1,47 +1,27 @@
+import store from '../../store'
+import { addObj } from '../../actions'
+import * as AFRAME from 'aframe'
 declare const THREE:any;
 
-const rightAButtonListener = {
+export const rightAButtonListener = AFRAME.registerComponent('right-abutton-listener', {
+    schema: {
+        targetModel: {type: 'string', default: ''},
+        color: {type: 'string', default: ''}
+    },
+
     init: function(): void {
-        // Handle a button down.
-        this.el.addEventListener('abuttondown', (event) => {
-            // Retrieve all intersected Elements through raycaster.
-            const intersectedEls = this.el.components.raycaster.intersectedEls;
+        this.el.addEventListener('abuttondown', (event) => {  
+            // Add position component to the entity.
+            const controllerPos: any = this.el.object3D.position;
+            const cameraRig: any = document.querySelector("#cameraRig");
+            const position = new THREE.Vector3(cameraRig.object3D.position.x + controllerPos.x, cameraRig.object3D.position.y + controllerPos.y, cameraRig.object3D.position.z + controllerPos.z);
 
-            // Check if there is intersected object.
-            if (!Array.isArray(intersectedEls) || !intersectedEls.length) {
-                console.log('Nothing is intersected when pressing a button');
-                return;
-            }
-
-            // Fetch the intersected object.
-            const intersectedEl = intersectedEls[0];
-
-            // Handle object attributes.
-            if (intersectedEl.classList.contains("obj-attr-list")) {
-                intersectedEl.setAttribute("obj-attributes-list", "freeze", !intersectedEl.getAttribute("obj-attributes-list").freeze);
-                return;
-            }
-            // Handle bottle description.
-            if (intersectedEl.classList.contains("data-source")) {
-                intersectedEl.setAttribute("bottle-description", "freeze", !intersectedEl.getAttribute("bottle-description").freeze);
-                return;
-            }
-            // Handle filter description.
-            if (intersectedEl.classList.contains("data-filter")) {
-                intersectedEl.setAttribute("filter-description", "freeze", !intersectedEl.getAttribute("filter-description").freeze);
-                return;
-            }
-
-            console.log('The intersected object has no description.');
-            return;
-
-            
+            // Dispatch a task to reducer
+            store.dispatch(addObj(this.data.targetModel, position, this.data.color));
         });
     },
 
     tick: function(time, timeDelta): void {
 
     }
-}
-
-export default rightAButtonListener;
+});

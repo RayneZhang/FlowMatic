@@ -15,13 +15,15 @@ import * as cubemap from 'aframe-cubemap-component';
 cubemap;
 
 import rightGripListener from './components/controllers/right-grip-listener';
-import leftTriggerListener from './components/controllers/left-trigger-listener';
 import rightTriggerListener from './components/controllers/right-trigger-listener';
-import rightAButtonListener from './components/controllers/right-abutton-listener';
 import collisionListener from './components/controllers/collision-listener';
 import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 import tooltipListener from './components/controllers/tooltip-listener';
+
+import { rightAButtonListener } from './components/controllers/right-abutton-listener';
+rightAButtonListener;
+
 import controllerMaterial from './components/controllers/controller-material-controller';
 controllerMaterial;
 import entityFollow from './components/utils/entityFollow';
@@ -94,8 +96,6 @@ gridGlitchShader;
 
 AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
-AFRAME.registerComponent('left-trigger-listener', leftTriggerListener);
-AFRAME.registerComponent('right-abutton-listener', rightAButtonListener);
 AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
 AFRAME.registerComponent('scale-controller', scaleController);

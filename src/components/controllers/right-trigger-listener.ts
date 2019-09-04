@@ -434,8 +434,8 @@ const rightTriggerListener = {
         const rgb: any = this.hsv2rgb(hsv);
         const color = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
         
-        const leftHand: any = document.querySelector('#leftHand');
-        leftHand.setAttribute('left-trigger-listener', 'color', color);
+        const rightHand: any = document.querySelector('#rightHand');
+        rightHand.setAttribute('right-abutton-listener', 'color', color);
 
         const globalMenu: any = document.querySelector('[global-menu]');
         const globalMenuComponent = globalMenu.components['global-menu'];

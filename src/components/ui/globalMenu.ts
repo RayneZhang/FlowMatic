@@ -280,8 +280,8 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
 
         // Pass the id for left hand to create the corresponding object.
         const instance: Item = objects[subMenuName][_buttonId];
-        const leftHand: any = document.querySelector('#leftHand');
-        leftHand.setAttribute('left-trigger-listener', 'targetModel', instance.name);
+        const rightHand: any = document.querySelector('#rightHand');
+        rightHand.setAttribute('right-abutton-listener', 'targetModel', instance.name);
     },
 
     // Set the selected subMenu id.

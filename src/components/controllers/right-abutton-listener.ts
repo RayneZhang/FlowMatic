@@ -2,7 +2,6 @@ import store from '../../store'
 import { addObj } from '../../actions'
 import * as AFRAME from 'aframe'
 import { Vector3 } from 'three'
-declare const THREE:any;
 
 export const rightAButtonListener = AFRAME.registerComponent('right-abutton-listener', {
     schema: {

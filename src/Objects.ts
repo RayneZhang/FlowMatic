@@ -120,7 +120,8 @@ export const objects = {
             outputs: [
                 {name: "object", type: "object"},
                 {name: "position", type: "vector3"},
-                {name: "tip_position", type: "vector3"}
+                {name: "tip_position", type: "vector3"},
+                {name: "gun_direction", type: "vector3"}
             ]
         }
     ],

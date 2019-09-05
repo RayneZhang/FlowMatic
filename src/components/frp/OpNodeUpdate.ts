@@ -73,8 +73,8 @@ function create(object: string, pos: any, opNode: OpNode): void {
 
 function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number, opNode: OpNode): void {
     const el: any = document.querySelector(`#${object}`);
-
     const distance: number = from.distanceTo(to);
+    if (!el) return;
     el.setAttribute('animation', {
         property: "position",
         from: {x: from.x, y: from.y, z: from.z},
@@ -94,6 +94,7 @@ function translate(object: string, from: THREEVector3, to: THREEVector3, speed: 
 }
 
 function destroy(object: string, event: any): void {
+    console.log(event);
     if (!event) return;
     const targetEl: any = document.querySelector(`#${object}`);
     if (!targetEl) {

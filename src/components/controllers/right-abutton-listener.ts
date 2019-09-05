@@ -1,6 +1,7 @@
 import store from '../../store'
 import { addObj } from '../../actions'
 import * as AFRAME from 'aframe'
+import { Vector3 } from 'three'
 declare const THREE:any;
 
 export const rightAButtonListener = AFRAME.registerComponent('right-abutton-listener', {
@@ -12,9 +13,9 @@ export const rightAButtonListener = AFRAME.registerComponent('right-abutton-list
     init: function(): void {
         this.el.addEventListener('abuttondown', (event) => {  
             // Add position component to the entity.
-            const controllerPos: any = this.el.object3D.position;
-            const cameraRig: any = document.querySelector("#cameraRig");
-            const position = new THREE.Vector3(cameraRig.object3D.position.x + controllerPos.x, cameraRig.object3D.position.y + controllerPos.y, cameraRig.object3D.position.z + controllerPos.z);
+            this.el.object3D.updateMatrix();
+            this.el.object3D.updateMatrixWorld();
+            const position = this.el.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
 
             // Dispatch a task to reducer
             store.dispatch(addObj(this.data.targetModel, position, this.data.color));

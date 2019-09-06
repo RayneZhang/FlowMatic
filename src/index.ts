@@ -18,7 +18,6 @@ import rightTriggerListener from './components/controllers/right-trigger-listene
 import collisionListener from './components/controllers/collision-listener';
 import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
-import tooltipListener from './components/controllers/tooltip-listener';
 
 import { rightAButtonListener } from './components/controllers/right-abutton-listener';
 rightAButtonListener;
@@ -96,7 +95,6 @@ AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
 AFRAME.registerComponent('scale-controller', scaleController);
-AFRAME.registerComponent('tooltip-listener', tooltipListener);
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);

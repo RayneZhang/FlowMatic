@@ -12,6 +12,9 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
     },
 
     init(): void {
+        const grabbingTips: any = document.querySelector('#grabbing-tips');
+        const nonGrabbingTips: any = document.querySelector('#non-grabbing-tips');
+
         this.el.addEventListener('gripdown', (event) => {
             this.data.gripping = true;
             
@@ -51,15 +54,18 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
             // Check if the intersected object is a movable object.
             if (intersectedEl.classList.contains('movable') && !intersectedEl.classList.contains('canvasObj')) {
                 showOrHideWireframe(intersectedEl, true);
+                grabbingTips.setAttribute('visible', true);
+                nonGrabbingTips.setAttribute('visible', false);
             }
         });
 
         this.el.addEventListener('gripup', (event) => {
-            this.data.gripping = false;
-
             if (this.data.grabbedEl) {
                 showOrHideWireframe(this.data.grabbedEl, false);
             }
+
+            grabbingTips.setAttribute('visible', false);
+            nonGrabbingTips.setAttribute('visible', true);
 
             // If the user is holding a weapon...
             if (this.data.weaponEl) {
@@ -77,7 +83,9 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
                 }
             }
 
-            this.el.setAttribute('right-grip-listener', {grabbedEl: null, gripping: 'false', weaponEl: null});
+            this.data.gripping = false;
+            this.data.grabbedEl = null;
+            this.data.weaponEl = null;
         });
     },
 

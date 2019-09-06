@@ -97,31 +97,35 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" collision-listener oculus-touch-controls="hand: right" controller-material-controller tooltip-listener
-                right-trigger-listener right-grip-listener right-abutton-listener thumb-controls="hand: right" scale-controller="hand: right" rotation-controller="hand: right" 
+                <a-entity id="rightHand" collision-listener oculus-touch-controls="hand: right" controller-material-controller thumb-controls="hand: right" 
+                right-trigger-listener right-grip-listener right-abutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
                 raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .line, .canvasObj, .connectable, .Arrow, .Switch, .Slider; far: 5" 
                 line="color: red" >
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
-                        <a-entity tooltip="text: Create Object; width: 0.08; height: 0.015; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
-                            position="-0.06 0.005 0.003">
+                        <a-entity id="non-grabbing-tips" visible="true">
+                            <a-entity tooltip="text: Create Object; width: 0.08; height: 0.015; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
+                                position="-0.06 0.005 0.003">
+                            </a-entity>
+                            <a-entity tooltip="text: Select; width: 0.05; height: 0.015; targetPosition: -0.005 -0.032 -0.015; lineHorizontalAlign: left; rotation: -90 0 0; src: assets/images/tooltip.png"
+                                position="0.02 -0.02 -0.045">
+                            </a-entity>
+                            <a-entity tooltip="text: Hold; width: 0.04; height: 0.015; targetPosition: -0.005 -0.015 0.027; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
+                                position="-0.04 0 0.055">
+                            </a-entity>
                         </a-entity>
-                        <!-- <a-entity tooltip="text: Turn on/off instructions; width: 0.12; height: 0.03; targetPosition: -0.02 -0.015 -0.001; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
-                            position="-0.059 0.015 -0.028">
-                        </a-entity> -->
-                        <a-entity tooltip="text: Rotate/Scale; width: 0.08; height: 0.015; targetPosition: 0.004 0.00 -0.01; lineHorizontalAlign: center; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
-                            position="0.055 0.005 -0.01">
-                        </a-entity>
-                        <a-entity tooltip="text: Select; width: 0.05; height: 0.015; targetPosition: -0.005 -0.032 -0.015; lineHorizontalAlign: left; rotation: -90 0 0; src: assets/images/tooltip.png"
-                            position="0.02 -0.02 -0.045">
-                        </a-entity>
-                        <a-entity tooltip="text: Hold; width: 0.04; height: 0.015; targetPosition: -0.005 -0.015 0.027; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
-                            position="-0.04 0 0.055">
+                        
+                        <a-entity id="grabbing-tips" visible="false">
+                            <a-entity tooltip="text: Put Away; width: 0.06; height: 0.015; targetPosition: -0.02 -0.015 -0.001; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
+                                position="-0.055 -0.005 -0.025">
+                            </a-entity>
+                            <a-entity tooltip="text: Rotate/Scale; width: 0.08; height: 0.015; targetPosition: 0.004 0.00 -0.01; lineHorizontalAlign: center; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
+                                position="0.055 0.005 -0.01">
+                            </a-entity>
                         </a-entity>
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" oculus-touch-controls="hand: left" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton"
-                 left-grip-listener>
+                <a-entity id="leftHand" oculus-touch-controls="hand: left" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
                     <a-entity id="menu" global-menu></a-entity>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">
                         <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.015; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"

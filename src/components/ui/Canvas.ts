@@ -84,10 +84,12 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
                 this.mainCam.object3D.updateMatrix();
                 this.mainCam.object3D.updateWorldMatrix();
                 const position = this.mainCam.object3D.localToWorld(new Vector3(0, 0, -1.5));
+                const camPosition = this.mainCam.object3D.localToWorld(new Vector3(0, 0, 0));
                 const rotation = this.mainCam.object3D.rotation.y;
                 
                 this.el.object3D.position.copy(position);
                 this.el.object3D.setRotationFromEuler(new Euler(0, rotation, 0));
+                this.el.object3D.position.set(position.x, camPosition.y, position.z);
             }
         });
     }

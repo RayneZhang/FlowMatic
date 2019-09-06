@@ -1,16 +1,16 @@
-import { getIntersectedEl, getIntersections } from '../../utils/raycast'
-import { Object3D, Mesh, Math as THREEMath, Vector3} from 'three'
+import { getIntersectedEl, getIntersections } from '../../utils/raycast';
+import { Object3D, Mesh, Math as THREEMath, Vector3, WireframeGeometry, LineSegments, EdgesGeometry, Line} from 'three';
 import { canvasConstraint } from '../ui/Canvas';
+import * as AFRAME from 'aframe';
 
-const rightGripListener = {
+export const rightGripListener = AFRAME.registerComponent('right-grip-listener', {
     schema: {
-        followingEl: {type: 'selector', default: null},
+        grabbedEl: {type: 'selector', default: null},
         gripping: {type: 'boolean', default: false},
         weaponEl: {type: 'selector', default: null}
     },
 
     init(): void {
-
         this.el.addEventListener('gripdown', (event) => {
             this.data.gripping = true;
             
@@ -45,11 +45,20 @@ const rightGripListener = {
             this.localPosition = this.el.object3D.worldToLocal(intersectedEl.object3D.localToWorld(new Vector3(0, 0, 0)));
 
             // Set the intersected object as the following object.
-            this.data.followingEl = intersectedEl;
+            this.data.grabbedEl = intersectedEl;
+
+            // Check if the intersected object is a movable object.
+            if (intersectedEl.classList.contains('movable') && !intersectedEl.classList.contains('canvasObj')) {
+                showOrHideWireframe(intersectedEl, true);
+            }
         });
 
         this.el.addEventListener('gripup', (event) => {
             this.data.gripping = false;
+
+            if (this.data.grabbedEl) {
+                showOrHideWireframe(this.data.grabbedEl, false);
+            }
 
             // If the user is holding a weapon...
             if (this.data.weaponEl) {
@@ -67,13 +76,13 @@ const rightGripListener = {
                 }
             }
 
-            this.el.setAttribute('right-grip-listener', {followingEl: null, gripping: 'false', weaponEl: null});
+            this.el.setAttribute('right-grip-listener', {grabbedEl: null, gripping: 'false', weaponEl: null});
         });
     },
 
     tick(time, timeDelta): void {
         const gripping = this.data.gripping;
-        const followingEl = this.data.followingEl;
+        const followingEl = this.data.grabbedEl;
 
         if (gripping && followingEl) {
             this.el.object3D.updateMatrix();
@@ -96,6 +105,57 @@ const rightGripListener = {
         }
 
     }
-}
+});
 
-export default rightGripListener;
+function showOrHideWireframe(targetEl: any, _show: boolean): void {
+    const mesh: Mesh = targetEl.getObject3D('mesh');
+    if (!mesh) {
+        console.log("The mesh of the selected object is null!");
+        return;
+    }
+    // console.log(mesh); // For debugging
+    // if (mesh.type == "Mesh") {
+    //     if (_show) {
+    //         const geometry: any = mesh.geometry;
+    //         if (!geometry) {
+    //             console.log("The geometry of the selected object is null");
+    //             return;
+    //         }
+
+    //         const wireframe: any = new WireframeGeometry(geometry);
+    //         const line: any = new LineSegments(wireframe);
+    //         line.material.depthTest = false;
+    //         targetEl.setObject3D('wireframe', line);
+    //     }
+    //     else {
+    //         targetEl.removeObject3D('wireframe');
+    //     }
+    // }
+    
+    // if (mesh.type == "Group") {
+    //     if (_show) {
+    //         this.lines = [];
+    //         for (const child of mesh.children) {
+    //             const geometry: any = child.geometry;
+    //             if (!geometry) {
+    //                 console.log("The geometry of the selected object is null");
+    //                 continue;
+    //             }
+    //             else {
+    //                 if (geometry.type != "BufferGeometry" || child.type != "Mesh")
+    //                     continue;
+    //                 const wireframe: any = new EdgesGeometry(geometry);
+    //                 const line = new LineSegments(wireframe);
+    //                 line.material.depthTest = false;
+    //                 mesh.add(line);
+    //                 this.lines.push(line);
+    //             }
+    //         }
+    //     }
+    //     else {
+    //         for (const line of this.lines) {
+    //             mesh.remove(line);
+    //         }
+    //     }
+    // }
+}

@@ -14,14 +14,14 @@ const rotationController = {
         const rightHand: any = document.querySelector("#rightHand");
         const listeningEl: any = document.querySelector("#" + this.data.hand + "Hand");
         listeningEl.addEventListener('thumbrightstart', (event) => {
-            this.targetEntity = rightHand.components['right-trigger-listener'].data.selectedEl;
+            this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity) {
                 this.rotating = true;
                 this.degPerFr = 1;
             }
         });
         listeningEl.addEventListener('thumbleftstart', (event) => {
-            this.targetEntity = rightHand.components['right-trigger-listener'].data.selectedEl;
+            this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity) {
                 this.rotating = true;
                 this.degPerFr = -1;

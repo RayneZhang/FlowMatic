@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/RayneZhang/VRBehavior#readme",
   "dependencies": {
-    "aframe": "^0.9.0",
+    "aframe": "^0.9.2",
     "aframe-cubemap-component": "^0.1.4",
     "aframe-environment-component": "^2.0.0",
     "aframe-extras": "^6.0.0",

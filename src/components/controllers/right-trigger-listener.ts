@@ -7,7 +7,7 @@ declare const THREE:any;
 
 const rightTriggerListener = {
     schema: {
-        selectedEl: {type: 'selector', default: null}
+        
     },
 
     init: function(): void {
@@ -122,19 +122,6 @@ const rightTriggerListener = {
 
                 this.curEdgeEntity.setAttribute('line-component', 'sourceEntity', fromEntity);
                 this.curEdgeEntity.setAttribute('line-component', 'sourceProp', fromProp);
-            }
-
-            // Check if the intersected object is a movable object.
-            if (intersectedEl.classList.contains('movable') && !intersectedEl.classList.contains('canvasObj')) {
-                if (this.data.selectedEl) {
-                    this.showOrHideWireframe(this.data.selectedEl, false);
-                    if (this.data.selectedEl == intersectedEl) {
-                        this.data.selectedEl = null;
-                        return;
-                    }
-                }
-                this.data.selectedEl = intersectedEl;
-                this.showOrHideWireframe(intersectedEl, true);
             }
             
             // Check if the intersected object is an arrow of a vector system.
@@ -332,59 +319,6 @@ const rightTriggerListener = {
             if (intersectedEl.classList.contains('connectable')) {
                 const EP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
                 this.curEdgeEntity.setAttribute('line-component', 'endPoint', EP);
-            }
-        }
-    },
-
-    showOrHideWireframe: function(_targetObj: any, _show: boolean) {
-        const mesh: any = _targetObj.getObject3D('mesh');
-        if (!mesh) {
-            console.log("The mesh of the selected object is null!");
-            return;
-        }
-        // console.log(mesh); // For debugging
-        if (mesh.type == "Mesh") {
-            if (_show) {
-                const geometry: any = mesh.geometry;
-                if (!geometry) {
-                    console.log("The geometry of the selected object is null");
-                    return;
-                }
-    
-                const wireframe: any = new THREE.WireframeGeometry(geometry);
-                this.line = new THREE.LineSegments(wireframe);
-                this.line.material.depthTest = false;
-                mesh.add(this.line);
-            }
-            else {
-                mesh.remove(this.line);
-            }
-        }
-        
-        if (mesh.type == "Group") {
-            if (_show) {
-                this.lines = [];
-                for (const child of mesh.children) {
-                    const geometry: any = child.geometry;
-                    if (!geometry) {
-                        console.log("The geometry of the selected object is null");
-                        continue;
-                    }
-                    else {
-                        if (geometry.type != "BufferGeometry" || child.type != "Mesh")
-                            continue;
-                        const wireframe: any = new THREE.EdgesGeometry(geometry);
-                        const line = new THREE.LineSegments(wireframe);
-                        line.material.depthTest = false;
-                        mesh.add(line);
-                        this.lines.push(line);
-                    }
-                }
-            }
-            else {
-                for (const line of this.lines) {
-                    mesh.remove(line);
-                }
             }
         }
     },

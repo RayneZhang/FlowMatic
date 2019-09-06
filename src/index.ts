@@ -14,7 +14,6 @@ PHYSICSEx;
 import * as cubemap from 'aframe-cubemap-component';
 cubemap;
 
-import rightGripListener from './components/controllers/right-grip-listener';
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import collisionListener from './components/controllers/collision-listener';
 import rotationController from './components/controllers/rotation-controller';
@@ -23,6 +22,8 @@ import tooltipListener from './components/controllers/tooltip-listener';
 
 import { rightAButtonListener } from './components/controllers/right-abutton-listener';
 rightAButtonListener;
+import { rightGripListener } from './components/controllers/right-grip-listener';
+rightGripListener;
 
 import controllerMaterial from './components/controllers/controller-material-controller';
 controllerMaterial;
@@ -91,7 +92,6 @@ rightController;
 import gridGlitchShader from './shaders/test'
 gridGlitchShader;
 
-AFRAME.registerComponent('right-grip-listener', rightGripListener);
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);

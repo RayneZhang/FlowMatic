@@ -60,7 +60,7 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
         });
 
         this.el.addEventListener('gripup', (event) => {
-            if (this.data.grabbedEl) {
+            if (this.data.grabbedEl && this.data.grabbedEl.classList.contains('movable') && !this.data.grabbedEl.classList.contains('canvasObj')) {
                 showOrHideWireframe(this.data.grabbedEl, false);
             }
 
@@ -83,9 +83,8 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
                 }
             }
 
-            this.data.gripping = false;
-            this.data.grabbedEl = null;
-            this.data.weaponEl = null;
+            
+            this.el.setAttribute('right-grip-listener', {'gripping': false, 'grabbedEl': null, 'weaponEl': null});
         });
     },
 

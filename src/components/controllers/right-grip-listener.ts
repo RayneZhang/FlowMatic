@@ -1,7 +1,8 @@
 import { getIntersectedEl, getIntersections } from '../../utils/raycast';
-import { Object3D, Mesh, Math as THREEMath, Vector3, WireframeGeometry, LineSegments, EdgesGeometry, Line} from 'three';
+import { Object3D, Mesh, Math as THREEMath, Vector3 } from 'three';
 import { canvasConstraint } from '../ui/Canvas';
 import * as AFRAME from 'aframe';
+import { getRadius } from '../../utils/SizeConstraints';
 
 export const rightGripListener = AFRAME.registerComponent('right-grip-listener', {
     schema: {
@@ -113,49 +114,23 @@ function showOrHideWireframe(targetEl: any, _show: boolean): void {
         console.log("The mesh of the selected object is null!");
         return;
     }
-    // console.log(mesh); // For debugging
-    // if (mesh.type == "Mesh") {
-    //     if (_show) {
-    //         const geometry: any = mesh.geometry;
-    //         if (!geometry) {
-    //             console.log("The geometry of the selected object is null");
-    //             return;
-    //         }
 
-    //         const wireframe: any = new WireframeGeometry(geometry);
-    //         const line: any = new LineSegments(wireframe);
-    //         line.material.depthTest = false;
-    //         targetEl.setObject3D('wireframe', line);
-    //     }
-    //     else {
-    //         targetEl.removeObject3D('wireframe');
-    //     }
-    // }
-    
-    // if (mesh.type == "Group") {
-    //     if (_show) {
-    //         this.lines = [];
-    //         for (const child of mesh.children) {
-    //             const geometry: any = child.geometry;
-    //             if (!geometry) {
-    //                 console.log("The geometry of the selected object is null");
-    //                 continue;
-    //             }
-    //             else {
-    //                 if (geometry.type != "BufferGeometry" || child.type != "Mesh")
-    //                     continue;
-    //                 const wireframe: any = new EdgesGeometry(geometry);
-    //                 const line = new LineSegments(wireframe);
-    //                 line.material.depthTest = false;
-    //                 mesh.add(line);
-    //                 this.lines.push(line);
-    //             }
-    //         }
-    //     }
-    //     else {
-    //         for (const line of this.lines) {
-    //             mesh.remove(line);
-    //         }
-    //     }
-    // }
+    if (_show) {
+        const selectionRing: any = document.createElement('a-entity');
+        selectionRing.setAttribute('id', 'selection-ring');
+        targetEl.appendChild(selectionRing);
+        const radius: number = getRadius(targetEl);
+        const outerRadius: number = 1.5 * radius / targetEl.object3D.scale.y;
+        selectionRing.setAttribute('geometry', {
+            primitive: 'torus',
+            radiusTubular: 0.001 / targetEl.object3D.scale.y,
+            radius: outerRadius
+        });
+        selectionRing.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+    }
+    else {
+        const selectionRing: any = document.querySelector('#selection-ring');
+        selectionRing.parentNode.removeChild(selectionRing);
+        selectionRing.destroy();
+    }
 }

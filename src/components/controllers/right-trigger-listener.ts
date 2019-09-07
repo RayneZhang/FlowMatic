@@ -214,13 +214,16 @@ const rightTriggerListener = {
             this.curEdgeEntity.setAttribute('line-component', 'targetProp', toProp);
             this.curEdgeEntity.setAttribute('id', 'line' + this.lineId);
 
+            const outgoingEdges = fromEntity.getAttribute('stored-edges') ? fromEntity.getAttribute('stored-edges').outgoingEdges : [];
+            fromEntity.setAttribute('stored-edges', 'outgoingEdges', [...outgoingEdges, `line${this.lineId}`]);
+            const incomingEdges = toEntity.getAttribute('stored-edges') ? toEntity.getAttribute('stored-edges').incomingEdges : [];
+            toEntity.setAttribute('stored-edges', 'incomingEdges', [...incomingEdges, `line${this.lineId}`]);
+
             // Handle data for next line.
             this.curEdgeEntity = null;
             this.lineId++;
 
             // Add an edge in frp-backend
-            console.log(fromEntity, fromProp);
-            console.log(toEntity, toProp);
             this.addEdge(fromEntity, fromProp, toEntity, toProp);
         });
     },

@@ -63,8 +63,10 @@ conditionBool;
 import conditionLarger from './components/dataflow/operators/conditionLarger'
 conditionLarger;
 
-import lineComponent from './components/lines/lineComponent';
+import lineComponent from './components/lines/LineComponent';
 lineComponent;
+import { storedEdges } from './components/lines/StoredEdges';
+storedEdges;
 
 import stateBinding from './state-binding/index'
 stateBinding;

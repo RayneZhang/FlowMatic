@@ -15,6 +15,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         const opNode: OpNode = this.opNode = scene.addOp(this.data.name);
         this.el.setAttribute('id', opNode.getID());
         
+        this.el.setAttribute('stored-edges', null);
+        
         if (this.data.name === CREATE) {
             opNode.pluckInputs().subscribe((input) => {
                 console.log(input);

@@ -14,6 +14,8 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
         else if (this.data.name === HEADSET) { this.targetEntity = document.querySelector('#head'); this.props = objects.Avatars[0].outputs; }
         else { console.log(`AvatarNodeUpdate initiation cannot find target entity.`); return; }
 
+        this.el.setAttribute('stored-edges', null);
+        
         this.targetEntity.object3D.updateMatrix();
         this.targetEntity.object3D.updateWorldMatrix();
         const worldPos = this.targetEntity.object3D.localToWorld(new THREEVector3(0, 0, 0));

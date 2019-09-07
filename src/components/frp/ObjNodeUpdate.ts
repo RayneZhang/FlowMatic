@@ -4,12 +4,15 @@ import { Vector3 } from 'three';
 
 export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
-        
+        incomingEdges: {type: 'array', default: []},
+        outgoingEdges: {type: 'array', default: []}
     },
 
     init: function(): void {
         this.node = scene.getNode(this.el.getAttribute('id'));
-        // this.tipOffset = new Vector3(1.50 / 3.548, 2.25 / 3.548, -0.25 / 3.548);
+        
+        this.el.setAttribute('stored-edges', null);
+
         this.tipOffset = new Vector3(0.07, 0.101, -0.012);
         this.shootDirection = new Vector3(0.149, 0.044, 0).normalize();
     },

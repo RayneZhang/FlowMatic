@@ -11,12 +11,25 @@ export const rightBButtonListener = AFRAME.registerComponent('right-bbutton-list
                 const targetNode: Node = scene.getNode(targetEntity.getAttribute('id'));
                 scene.removeNode(targetNode);
 
+                // Remove the edges associated with the object
+                const incomingEdges = targetEntity.getAttribute('stored-edges') ? targetEntity.getAttribute('stored-edges').incomingEdges : [];
+                incomingEdges.forEach((edgeID: string) => {
+                    const edge: any = document.querySelector('#' + edgeID);
+                    edge.parentNode.removeChild(edge);
+                    edge.destroy();
+                });
+
+                const outgoingEdges = targetEntity.getAttribute('stored-edges') ? targetEntity.getAttribute('stored-edges').outgoingEdges : [];
+                outgoingEdges.forEach((edgeID: string) => {
+                    const edge: any = document.querySelector('#' + edgeID);
+                    edge.parentNode.removeChild(edge);
+                    edge.destroy();
+                });
+
                 // If grabbed entity exists, then delete the object from the scene
                 targetEntity.parentNode.removeChild(targetEntity);
                 targetEntity.destroy();
                 rightHand.setAttribute('right-grip-listener', 'grabbedEl', null);
-
-                // TODO: Manage the edges associated with the object
             }
         });
     }

@@ -21,6 +21,8 @@ import scaleController from './components/controllers/scale-controller';
 
 import { rightAButtonListener } from './components/controllers/right-abutton-listener';
 rightAButtonListener;
+import { rightBButtonListener } from './components/controllers/right-bbutton-listener';
+rightBButtonListener;
 import { rightGripListener } from './components/controllers/right-grip-listener';
 rightGripListener;
 

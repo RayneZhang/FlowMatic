@@ -127,7 +127,7 @@ function showOrHideWireframe(targetEl: any, _show: boolean): void {
         selectionRing.setAttribute('id', 'selection-ring');
         targetEl.appendChild(selectionRing);
         const radius: number = getRadius(targetEl);
-        const outerRadius: number = 1.5 * radius / targetEl.object3D.scale.y;
+        const outerRadius: number = 1.2 * radius / targetEl.object3D.scale.y;
         selectionRing.setAttribute('geometry', {
             primitive: 'torus',
             radiusTubular: 0.001 / targetEl.object3D.scale.y,

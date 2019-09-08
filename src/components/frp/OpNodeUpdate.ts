@@ -19,7 +19,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         
         if (this.data.name === CREATE) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
-                console.log(input);
+                // console.log(input);
                 const object: string = input[0];
                 const pos: any = input[1];
                 create(object, pos, opNode);

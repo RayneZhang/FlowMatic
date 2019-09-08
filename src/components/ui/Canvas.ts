@@ -90,6 +90,19 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
                 this.el.object3D.position.copy(position);
                 this.el.object3D.setRotationFromEuler(new Euler(0, rotation, 0));
                 this.el.object3D.position.set(position.x, camPosition.y, position.z);
+
+                // Show all the attributes
+                const els = document.querySelectorAll('.obj-attr-list');
+                els.forEach((el: any) => {
+                    el.object3D.visible = true;
+                });
+            }
+            else {
+                // Hide all the attributes
+                const els = document.querySelectorAll('.obj-attr-list');
+                els.forEach((el: any) => {
+                    el.object3D.visible = false;
+                });
             }
         });
     }

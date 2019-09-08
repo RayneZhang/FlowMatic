@@ -8,11 +8,11 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
     },
 
     init: function(): void {
-        // Add to the entity's class list.
-        this.el.classList.add("obj-attr-list");       
         // Create a menu entity and append it to the controller.
         const ListEntity: any = this.listEntity = document.createElement('a-entity'); 
         this.el.appendChild(this.listEntity); 
+        // Add to the entity's class list.
+        ListEntity.classList.add("obj-attr-list"); 
 
         // layout offset of the attributes.
         let offset: number = 0.35;

@@ -23,5 +23,9 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         this.node.update('position', this.el.object3D.position.clone());
         this.node.update('tip_position', this.el.object3D.localToWorld(this.tipOffset.clone()));
         this.node.update('gun_direction', this.el.object3D.localToWorld(this.shootDirection.clone()).sub(this.el.object3D.position));
+    },
+
+    remove: function(): void {
+        
     }
 });

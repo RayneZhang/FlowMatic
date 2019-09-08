@@ -18,7 +18,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         this.el.setAttribute('stored-edges', null);
         
         if (this.data.name === CREATE) {
-            opNode.pluckInputs().subscribe((input) => {
+            this.subscription = opNode.pluckInputs().subscribe((input) => {
                 console.log(input);
                 const object: string = input[0];
                 const pos: any = input[1];
@@ -26,7 +26,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             });
         }
         if (this.data.name === TRANSLATE) {
-            opNode.pluckInputs().subscribe((input) => {
+            this.subscription = opNode.pluckInputs().subscribe((input) => {
                 // console.log("Translate start", input);
                 const object: string = input[0];
                 const from: THREEVector3 = input[1];
@@ -36,7 +36,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             });
         }
         if (this.data.name === DESTROY) {
-            opNode.pluckInputs().subscribe((input) => {
+            this.subscription = opNode.pluckInputs().subscribe((input) => {
                 // console.log("Destroy start", input);
                 const object: string = input[0];
                 const event: any = input[1];
@@ -45,8 +45,9 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         }
     },
 
-    tick: function(time, timeDelta): void {
-        
+    remove: function(): void {
+        if (this.subscription)
+            this.subscription.unsubscribe();
     }
 });
 

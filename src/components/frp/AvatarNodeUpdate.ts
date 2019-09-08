@@ -42,7 +42,7 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
         }
     },
 
-    tick: function(time, timeDelta): void {
+    remove: function(): void {
         
     }
 });

@@ -32,6 +32,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 const from: THREEVector3 = input[1];
                 const to: THREEVector3 = input[2];
                 const speed: number = input[3];
+
+                // TODO: Translate runs three times when object, from, and to are updated
                 translate(object, from, to, speed, opNode);
             });
         }
@@ -97,11 +99,11 @@ function translate(object: string, from: THREEVector3, to: THREEVector3, speed: 
 }
 
 function destroy(object: string, event: any): void {
-    console.log(event);
+    // console.log(event);
     if (!event) return;
     const targetEl: any = document.querySelector(`#${object}`);
     if (!targetEl) {
-        console.log('Cannot find the target entity at destroy operation.');
+        // console.log('Cannot find the target entity at destroy operation.');
         return
     }
     targetEl.parentNode.removeChild(targetEl);

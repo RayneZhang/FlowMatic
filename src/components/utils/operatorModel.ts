@@ -59,8 +59,10 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         plug.classList.add('connectable');
 
         plug.setAttribute('geometry', {
-            primitive: 'sphere',
-            radius: 0.015
+            primitive: 'box',
+            width: 0.03,
+            height: 0.03,
+            depth: 0.15
         });
         plug.setAttribute('material', 'color', '#ffffff');
         plug.addEventListener('raycaster-intersected', (event) => {

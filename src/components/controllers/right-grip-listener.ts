@@ -52,10 +52,15 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
             this.data.grabbedEl = intersectedEl;
 
             // Check if the intersected object is a movable object.
-            if (intersectedEl.classList.contains('movable') && !intersectedEl.classList.contains('canvasObj')) {
-                showOrHideWireframe(intersectedEl, true);
+            if (intersectedEl.classList.contains('movable')) {
+                const rotateScaleTip: any = document.querySelector('#rotate-scale-tip');
                 grabbingTips.setAttribute('visible', true);
                 nonGrabbingTips.setAttribute('visible', false);
+                if (intersectedEl.classList.contains('canvasObj')) rotateScaleTip.setAttribute('visible', false);
+                else {
+                    rotateScaleTip.setAttribute('visible', true);
+                    showOrHideWireframe(intersectedEl, true);
+                }
             }
         });
 

@@ -85,17 +85,15 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         plugDescription.setAttribute('text', {
             value: _inputName,
             side: 'double',
-            wrapCount: 100,
+            wrapCount: 70,
             align: 'center',
-            color: '#2e3131'
+            color: '#ffffff'
         });
 
-
         if (_input)
-            plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(-90), 0);
+            plugDescription.object3D.position.set(0.06, 0, 0.05);
         else 
-            plugDescription.object3D.rotation.set(0, THREE.Math.degToRad(90), 0);
-        plugDescription.object3D.position.set(0, 0.3*this.lineHeight, 0);
+            plugDescription.object3D.position.set(-0.06, 0, 0.05);
     },
 
     // Create pipes.

@@ -1,7 +1,8 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode } from 'frp-backend'
 import { objects, L_CONTROLLER, R_CONTROLLER, HEADSET } from '../../Objects';
-import { Vector3 as THREEVector3} from 'three'
+import { Vector3 as THREEVector3} from 'three';
+import { emitData } from '../../utils/EdgeVisualEffect';
 
 export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
     schema: {
@@ -35,6 +36,14 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
             this.targetEntity.addEventListener('triggerdown', (event) => {
                 objNode.update('triggerdown', true);
                 objNode.update('triggerdown', false);
+                // Search for the edge...
+                const edges = this.el.getAttribute('stored-edges').outgoingEdges;
+                edges.forEach((edgeID: string) => {
+                    const edgeEl: any = document.querySelector('#'+edgeID);
+                    if (edgeEl && edgeEl.getAttribute('line-component').sourceProp == 'triggerdown') {
+                        emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
+                    }
+                });
             });
             // objNode.pluckOutput('triggerdown').subscribe((value) => {
             //     console.log(`${objNode.getLabel()} trigger is now: `, value);

@@ -77,6 +77,10 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             height: bodyHeight,
             radius: 0.005
         });
+        this.lineBody.setAttribute('material', {
+            transparent: true,
+            opacity: 0.7
+        });
         const dir = endPoint.clone().sub(startPoint).normalize();
         const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
         this.lineBody.object3D.position.copy(bodyPos);

@@ -33,7 +33,7 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
             const edges = this.el.getAttribute('stored-edges').outgoingEdges;
             edges.forEach((edgeID: string) => {
                 const edgeEl: any = document.querySelector('#'+edgeID);
-                if (edgeEl && edgeEl.getAttribute('line-component').sourceProp == 'tip_position') {
+                if (edgeEl) {
                     emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
                 }
             });

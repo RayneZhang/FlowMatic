@@ -1,9 +1,9 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3} from 'three'
-import { take } from 'rxjs/operators'
+import { emitData } from '../../utils/EdgeVisualEffect';
 
 // This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
@@ -24,6 +24,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 const pos: any = input[1];
                 create(object, pos, opNode);
             });
+
+            opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         if (this.data.name === TRANSLATE) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
@@ -36,6 +38,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 // TODO: Translate runs three times when object, from, and to are updated
                 translate(object, from, to, speed, opNode);
             });
+
+            opNode.pluckOutput('end').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         if (this.data.name === DESTROY) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
@@ -45,6 +49,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 destroy(object, event);
             });
         }
+        opNode.pluckOutput('output').subscribe((val: any) => {dataTransmit(this.el, val)});
     },
 
     remove: function(): void {
@@ -107,6 +112,16 @@ function destroy(object: string, event: any): void {
         return
     }
     targetEl.parentNode.removeChild(targetEl);
+}
 
-    // TODO: Handle the edges associated with the target entity.
+function dataTransmit(el: any, val: any): void {
+    if (!val) return;
+    // Search for the edge...
+    const edges = el.getAttribute('stored-edges').outgoingEdges;
+    edges.forEach((edgeID: string) => {
+        const edgeEl: any = document.querySelector('#'+edgeID);
+        if (edgeEl) {
+            emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
+        }
+    });
 }

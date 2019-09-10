@@ -1,4 +1,5 @@
 import * as AFRAME from 'aframe';
+import { Vector3 } from 'three';
 declare const THREE:any;
 
 const lineComponent = AFRAME.registerComponent('line-component', {
@@ -7,6 +8,8 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
         sourceEntity: {type: 'selector', default: null},
         targetEntity: {type: 'selector', default: null},
+        sourcePropEl: {type: 'selector', default: null},
+        targetPropEl: {type: 'selector', default: null},
         sourceProp: {type: 'string', default: ""},
         targetProp: {type: 'string', default: ""}
     },
@@ -17,46 +20,27 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         // Position and Color Data
         this.positions = new Array<number>(positionSize);
 
-        this.sourcePosition = new THREE.Vector3();
-        this.targetPosition = new THREE.Vector3();
-        this.updatedSourcePosition = new THREE.Vector3();
-        this.updatedTargetPosition = new THREE.Vector3();
-
         this.arrow = null;
         this.lineBody = null;
     },
 
     tick: function(): void {
         if (this.data.sourceEntity && this.data.targetEntity) {
-            this.data.sourceEntity.object3D.getWorldPosition(this.updatedSourcePosition);
-            this.data.targetEntity.object3D.getWorldPosition(this.updatedTargetPosition);
-            if (this.sourcePosition.equals(this.updatedSourcePosition) && this.targetPosition.equals(this.updatedTargetPosition)) {
-                return;
+            if (this.data.sourcePropEl && this.data.targetPropEl) {
+                const startingPos: Vector3 = new Vector3();
+                const endPos: Vector3 = new Vector3();
+                this.data.sourcePropEl.object3D.getWorldPosition(startingPos);
+                this.data.targetPropEl.object3D.getWorldPosition(endPos);
+
+                const SP = {x:startingPos.x, y:startingPos.y, z:startingPos.z};
+                const EP = {x:endPos.x, y:endPos.y, z:endPos.z};
+                this.el.setAttribute('line-component', 'startPoint', SP);
+                this.el.setAttribute('line-component', 'endPoint', EP);
             }
-            const deltaSource = this.updatedSourcePosition.clone().sub(this.sourcePosition);
-            const deltaTarget = this.updatedTargetPosition.clone().sub(this.targetPosition);
-
-            const SP = {x: this.data.startPoint.x + deltaSource.x, y: this.data.startPoint.y + deltaSource.y, z: this.data.startPoint.z + deltaSource.z};
-            const EP = {x: this.data.endPoint.x + deltaTarget.x, y: this.data.endPoint.y + deltaTarget.y, z: this.data.endPoint.z + deltaTarget.z};
-            this.el.setAttribute('line-component', 'startPoint', SP);
-            this.el.setAttribute('line-component', 'endPoint', EP);
-
-            this.sourcePosition = this.updatedSourcePosition.clone();
-            this.targetPosition = this.updatedTargetPosition.clone();
-
-            //this.setArrow();
         }
     },
 
     update: function (oldDate): void {
-        // Initiate entities positions for line updates.
-        if (this.data.sourceEntity) {
-            this.data.sourceEntity.object3D.getWorldPosition(this.sourcePosition);
-        }
-        if (this.data.targetEntity) {
-            this.data.targetEntity.object3D.getWorldPosition(this.targetPosition);
-        }
-        
         if (!this.el.hasChildNodes()) {
             const lineBody: any = this.lineBody = document.createElement('a-entity');
             const arrow: any = this.arrow = document.createElement('a-entity');

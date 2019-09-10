@@ -121,6 +121,7 @@ const rightTriggerListener = {
                 }
 
                 this.curEdgeEntity.setAttribute('line-component', 'sourceEntity', fromEntity);
+                this.curEdgeEntity.setAttribute('line-component', 'sourcePropEl', intersectedEl);
                 this.curEdgeEntity.setAttribute('line-component', 'sourceProp', fromProp);
             }
             
@@ -211,6 +212,7 @@ const rightTriggerListener = {
 
             // Set the connected two entities in the current line entity.
             this.curEdgeEntity.setAttribute('line-component', 'targetEntity', toEntity);
+            this.curEdgeEntity.setAttribute('line-component', 'targetPropEl', intersectedEl);
             this.curEdgeEntity.setAttribute('line-component', 'targetProp', toProp);
             this.curEdgeEntity.setAttribute('id', 'line' + this.lineId);
 

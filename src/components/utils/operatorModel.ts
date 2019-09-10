@@ -23,6 +23,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         });
 
         this.el.setAttribute('material', {
+            color: '#FCA044',
             transparent: true,
             opacity: 0.8
         });

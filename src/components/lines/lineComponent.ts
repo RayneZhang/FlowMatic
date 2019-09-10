@@ -64,6 +64,9 @@ const lineComponent = AFRAME.registerComponent('line-component', {
                 radiusBottom: 0.025,
                 radiusTop: 0
             });
+            arrow.setAttribute('material', {
+                color: '#58D854'
+            });
             this.el.appendChild(lineBody);
             this.el.appendChild(arrow);
         }

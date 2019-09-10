@@ -40,9 +40,14 @@ export const canvasColor = {
 }
 
 export const itemColor = {
-    unselected: '#0D6D8C',
+    unselected: '#3CBCFC',
     hovered: '#8C2C0D',
-    selected: '#EC5C2D',
+    selected: '#EC5C2D'
+}
+
+export const objColor = {
+    unselected: '#3CBCFC',
+    hovered: '#0078F8'
 }
 
 export interface Item {
@@ -334,7 +339,7 @@ function instantiateObj(item: Item, submenuID: number): void {
     } else {
         instanceEl.setAttribute('geometry', 'primitive', item.name);
         instanceEl.setAttribute('material', {
-            color: itemColor.unselected,
+            color: objColor.unselected,
             transparent: true,
             opacity: 0.8
         });
@@ -366,12 +371,12 @@ function instantiateObj(item: Item, submenuID: number): void {
     // Add class for identifying objects
     instanceEl.classList.add('data-receiver');
     instanceEl.addEventListener('raycaster-intersected', (event) => {
-        instanceEl.setAttribute('material', 'color', itemColor.hovered);
+        instanceEl.setAttribute('material', 'color', objColor.hovered);
         setDescription(item.name);
     });
 
     instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
-        instanceEl.setAttribute('material', 'color', itemColor.unselected);
+        instanceEl.setAttribute('material', 'color', objColor.unselected);
     });
 }
 
@@ -496,11 +501,4 @@ function instantiateOp(item: Item): void {
     opEl.classList.add('movable');
     // Add class for identifying operators
     opEl.classList.add('operator');
-    opEl.addEventListener('raycaster-intersected', (event) => {
-        opEl.setAttribute('material', 'color', itemColor.hovered);
-    });
-
-    opEl.addEventListener('raycaster-intersected-cleared', (event) => {
-        opEl.setAttribute('material', 'color', itemColor.unselected);
-    });
 }

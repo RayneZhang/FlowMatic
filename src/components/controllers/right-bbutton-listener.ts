@@ -17,7 +17,8 @@ export const rightBButtonListener = AFRAME.registerComponent('right-bbutton-list
                     const edge: any = document.querySelector('#' + edgeID);
                     if (edge) {
                         edge.parentNode.removeChild(edge);
-                        edge.destroy();
+                        setTimeout(() => {edge.destroy();}, 500);
+                        
                     }
                 });
 
@@ -26,7 +27,7 @@ export const rightBButtonListener = AFRAME.registerComponent('right-bbutton-list
                     const edge: any = document.querySelector('#' + edgeID);
                     if (edge) {
                         edge.parentNode.removeChild(edge);
-                        edge.destroy();
+                        setTimeout(() => {edge.destroy();}, 500);
                     }
                 });
 

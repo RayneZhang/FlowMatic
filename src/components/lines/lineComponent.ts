@@ -46,8 +46,8 @@ const lineComponent = AFRAME.registerComponent('line-component', {
                 const SP = {x:startingPos.x, y:startingPos.y, z:startingPos.z};
                 const EP = {x:endPos.x, y:endPos.y, z:endPos.z};
 
-                // this.el.setAttribute('line-component', 'startPoint', SP);
-                // this.el.setAttribute('line-component', 'endPoint', EP);
+                this.el.setAttribute('line-component', 'startPoint', SP);
+                this.el.setAttribute('line-component', 'endPoint', EP);
             }
         }
     },

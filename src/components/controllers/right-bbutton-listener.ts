@@ -15,15 +15,19 @@ export const rightBButtonListener = AFRAME.registerComponent('right-bbutton-list
                 const incomingEdges = targetEntity.getAttribute('stored-edges') ? targetEntity.getAttribute('stored-edges').incomingEdges : [];
                 incomingEdges.forEach((edgeID: string) => {
                     const edge: any = document.querySelector('#' + edgeID);
-                    edge.parentNode.removeChild(edge);
-                    edge.destroy();
+                    if (edge) {
+                        edge.parentNode.removeChild(edge);
+                        edge.destroy();
+                    }
                 });
 
                 const outgoingEdges = targetEntity.getAttribute('stored-edges') ? targetEntity.getAttribute('stored-edges').outgoingEdges : [];
                 outgoingEdges.forEach((edgeID: string) => {
                     const edge: any = document.querySelector('#' + edgeID);
-                    edge.parentNode.removeChild(edge);
-                    edge.destroy();
+                    if (edge) {
+                        edge.parentNode.removeChild(edge);
+                        edge.destroy();
+                    }
                 });
 
                 // If grabbed entity exists, then delete the object from the scene

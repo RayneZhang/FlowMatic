@@ -20,9 +20,16 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         // Position and Color Data
         this.positions = new Array<number>(positionSize);
 
+        this.sourcePosition = new Vector3(0, 0, 0);
+        this.targetPosition = new Vector3(0, 0, 0);
         this.arrow = null;
         this.lineBody = null;
     },
+
+    // remove: function(): void {
+    //     this.el.setAttribute('line-component', 'sourceEntity', null);
+    //     this.el.setAttribute('line-component', 'targetEntity', null);
+    // },
 
     tick: function(): void {
         if (this.data.sourceEntity && this.data.targetEntity) {
@@ -32,10 +39,15 @@ const lineComponent = AFRAME.registerComponent('line-component', {
                 this.data.sourcePropEl.object3D.getWorldPosition(startingPos);
                 this.data.targetPropEl.object3D.getWorldPosition(endPos);
 
+                if (startingPos.equals(this.sourcePosition) && endPos.equals(this.targetPosition)) return;
+
+                this.sourcePosition = startingPos.clone();
+                this.targetPosition = endPos.clone();
                 const SP = {x:startingPos.x, y:startingPos.y, z:startingPos.z};
                 const EP = {x:endPos.x, y:endPos.y, z:endPos.z};
-                this.el.setAttribute('line-component', 'startPoint', SP);
-                this.el.setAttribute('line-component', 'endPoint', EP);
+
+                // this.el.setAttribute('line-component', 'startPoint', SP);
+                // this.el.setAttribute('line-component', 'endPoint', EP);
             }
         }
     },

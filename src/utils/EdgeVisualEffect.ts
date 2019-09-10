@@ -5,12 +5,15 @@ export const emitData = (el: any, from: any, to: any) => {
     const data: any = document.createElement('a-entity');
     data.setAttribute('geometry', {
         primitive: 'sphere',
-        radius: 0.007
+        radius: 0.01
     });
     data.setAttribute('material', {
         color: 'yellow',
         emissive: 'yellow',
-        emissiveIntensity: 10
+        emissiveIntensity: 20,
+        metalness: 1,
+        roughness: 0.2,
+        fog: true
     });
     el.appendChild(data);
     const fromVector3: Vector3 = new Vector3(from.x, from.y, from.z);
@@ -20,7 +23,7 @@ export const emitData = (el: any, from: any, to: any) => {
         property: "position",
         from: {x: from.x, y: from.y, z: from.z},
         to: {x: to.x, y: to.y, z: to.z},
-        dur: distance/5 * 1000
+        dur: distance * 1000
     });
 
     data.addEventListener('animationcomplete', (event) => {

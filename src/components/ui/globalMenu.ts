@@ -22,7 +22,6 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
 
         this.loadModelGroup();
         this.createSubEntity();
-        this.createTrash();
         this.initTextLabel();
         this.initInstanceDescription();
         this.setSelectedSubMenuId(0);
@@ -99,18 +98,6 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
                 });
             }
         }
-    },
-
-    // Create trash bin model.
-    createTrash(): void {
-        const trashEl: any = document.createElement('a-entity');
-        this.menuEl.appendChild(trashEl);
-        trashEl.setAttribute('id', 'trash');
-        trashEl.classList.add('ui');
-        trashEl.setAttribute('gltf-model', '#trash-glb');
-        trashEl.object3D.position.set(-0.06, 0, 0.06);
-        trashEl.object3D.rotation.set(0, THREEMath.degToRad(90), THREEMath.degToRad(-90));
-        trashEl.object3D.scale.set(2, 2, 2);
     },
 
     // Load description of undo/redo button.

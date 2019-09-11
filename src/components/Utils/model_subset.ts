@@ -9,7 +9,7 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
     },
 
     init: function() {
-        const NotReactUI: Array<string> = ["hue", "currentcolor", "menu", "description"];
+        const NotReactUI: Array<string> = ["hue", "huecursor", "currentcolor", "menu", "description"];
 
         this.data.target.addEventListener('model-loaded', (event) => {
             const model = event.detail.model;

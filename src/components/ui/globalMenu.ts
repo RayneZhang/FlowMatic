@@ -90,8 +90,6 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
             else {
                 subMenuEl.setAttribute('material', {
                     color: '#22313f',
-                    flatShading: true,
-                    shader: 'flat',
                     transparent: true
                 });
             }
@@ -166,9 +164,9 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
         this.menuEl.appendChild(listEl);
         listEl.setAttribute('id', "items-list");
 
-        const xOffset: number = 0.03;
+        const xOffset: number = 0.05;
         const yOffset: number = 0;
-        const zOffset: number = 0.03;
+        const zOffset: number = 0.05;
         for (let i=0; i<9; i++) {
             if (this.data.pageNumber == Math.floor(objects['Models'].length/9) && (pageNum*9 + i) >= objects['Models'].length%9) {
                 break;
@@ -176,7 +174,8 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
             // Create the item.
             const itemEl: any = document.createElement('a-entity');
             listEl.appendChild(itemEl);
-            itemEl.object3D.position.set(-0.13 + xOffset*(i%3), 0.015 + yOffset*(i%3), -0.03 + zOffset*Math.floor(i/3));
+            itemEl.object3D.position.set(-0.22 + xOffset*(i%3), 0.025 + yOffset*(i%3), -0.05 + zOffset*Math.floor(i/3));
+            itemEl.setAttribute('id', 'instance-'+i);
             this.loadModelInstance(itemEl, pageNum*9 + i);
         }
 
@@ -188,13 +187,13 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
 
         if (instance.type === 'primitive') {
             _itemEl.setAttribute('geometry', 'primitive', instance.name);
-            _itemEl.object3D.scale.set(0.01, 0.01, 0.01);
+            _itemEl.object3D.scale.set(0.02, 0.02, 0.02);
         }
         else {
             _itemEl.setAttribute('obj-model', 'obj', instance.itemUrl);
             // Resize the model into item size
             _itemEl.addEventListener('model-loaded', () => {
-                resize(_itemEl, 0.01);
+                resize(_itemEl, 0.02);
             });
         }
         
@@ -253,6 +252,12 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
     setCurrentColor(_color: string): void {
         const currentColor: any = document.querySelector('#currentcolor');
         currentColor.setAttribute('material', 'color', _color);
+        if (this.data.pageNumber === 0) {
+            for (let i: number = 0; i < 6; i++) {
+                const ins: any = document.querySelector('#instance-'+i);
+                ins.setAttribute('material', 'color', _color);
+            }
+        }
     }
 });
 

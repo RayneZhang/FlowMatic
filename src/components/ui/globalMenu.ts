@@ -32,10 +32,6 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
         // Event Listener to open and close menu.
         const listeningEl = document.querySelector('#leftHand');
         listeningEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
-
-        // this.el.addEventListener('model-loaded', (event) => {
-        //     event.stopPropagation();
-        // });
     },
 
     // ==========For internal call only.==========

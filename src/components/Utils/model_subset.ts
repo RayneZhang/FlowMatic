@@ -22,18 +22,12 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
             if (this.data.name === 'hue') 
                 this.initColorWheel();
 
-            // Handle submenu initiation.
-            if (this.data.name.indexOf('submenu') != -1) {
-                this.el.classList.add('submenu');
-                this.initSubmenuImg();
-            }
-
             // Handle instance initiation.
             if (this.data.name.indexOf('button') != -1) 
                 this.el.classList.add('instance');
         });
 
-        // Handle material when hover. Objects including submenus & buttons.
+        // Handle material when hover. Objects including buttons.
         this.el.addEventListener('raycaster-intersected', (event) => {
             event.stopPropagation();
             // Set raycasted for handling hue down event.
@@ -49,10 +43,6 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
                     const buttonId: number = Number(EntityId.substr(-1, 1)) - 1;
                     globalMenuComponent.setInstanceDescription(buttonId);
                 }
-                if (this.el.classList.contains('submenu')) {
-                    const buttonId: number = Number(EntityId.substr(-1, 1)) - 1;
-                    globalMenuComponent.setSubMenuDescription(buttonId);
-                }
             }
         })
 
@@ -64,49 +54,12 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
             const menu: any = document.querySelector("#menu");
             const globalMenuComponent = menu.components['global-menu'];
             const selectedButtonId: number = menu.getAttribute('global-menu').selectedButtonId;
-            const selectedSubMenuId: number = menu.getAttribute('global-menu').selectedSubMenuId;
             if (NotReactUI.indexOf(this.data.name) === -1 && 
-            this.el.getAttribute('id') != 'button' + String(selectedButtonId+1) &&
-            this.el.getAttribute('id') != 'submenu' + String(selectedSubMenuId+1)) {
+            this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) {
                 this.el.setAttribute('material', 'color', '#22313f');
                 globalMenuComponent.setInstanceDescription(selectedButtonId);
             }
         })
-    },
-
-    initSubmenuImg(): void {
-        const imgEl: any = document.createElement('a-image');
-        imgEl.setAttribute('height', 0.012);
-        imgEl.setAttribute('width', 0.012);
-        this.el.appendChild(imgEl);
-        switch (this.data.name) {
-            case "submenu1" : {
-                imgEl.setAttribute('src', '#Data_icon');
-                imgEl.object3D.position.set(-0.16, 0.001, -0.055);
-                break;
-            }
-            case "submenu2" : {
-                imgEl.setAttribute('src', '#Operators_icon');
-                imgEl.object3D.position.set(-0.16, 0.001, -0.035);
-                break;
-            }
-            case "submenu3" : {
-                imgEl.setAttribute('src', '#Models_icon');
-                imgEl.object3D.position.set(-0.16, 0.001, -0.015);
-                break;
-            }
-            case "submenu4" : {
-                imgEl.setAttribute('src', '#light_icon');
-                imgEl.object3D.position.set(-0.16, 0.001, 0.005);
-                break;
-            }
-            case "submenu5" : {
-                imgEl.setAttribute('src', '#Avatars_icon');
-                imgEl.object3D.position.set(-0.16, 0.001, 0.025);
-                break;
-            }
-        }
-        imgEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
     },
 
     initColorWheel(): void {

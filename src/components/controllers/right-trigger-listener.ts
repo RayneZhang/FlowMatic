@@ -46,13 +46,6 @@ const rightTriggerListener = {
                     const buttonId: number = Number(id.substr(-1, 1)) - 1;
                     globalMenuComponent.setSelectedButtonId(buttonId);
                 }
-
-                if (intersectedEl.classList.contains('submenu')) {
-                    const globalMenu: any = document.querySelector('[global-menu]');
-                    const globalMenuComponent = globalMenu.components['global-menu'];
-                    const buttonId: number = Number(id.substr(-1, 1)) - 1;
-                    globalMenuComponent.setSelectedSubMenuId(buttonId);
-                }
                 
                 switch(id) {
                     case 'hue': case 'huecursor': {
@@ -61,14 +54,6 @@ const rightTriggerListener = {
                         const {x, y, z} = intersections[0].point;
                         const WorldPos = new THREE.Vector3(x, y, z);
                         this.onHueDown(WorldPos.clone());
-                        break;
-                    }
-                    case 'undo': {
-                        store.dispatch(UndoActionCreators.undo());
-                        break;
-                    }
-                    case 'redo': {
-                        store.dispatch(UndoActionCreators.redo());
                         break;
                     }
                 }

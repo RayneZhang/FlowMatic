@@ -68,7 +68,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                   if (objects.Models[i].type === 'gltf') {
                      newEntity.setAttribute('gltf-model', objects.Models[i].url);
                      newEntity.addEventListener('model-loaded', () => {
-                        resize(newEntity, 0.2);
+                        resize(newEntity, 0.25);
                      });
 
                      // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file

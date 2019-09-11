@@ -15,8 +15,8 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         this.el.setAttribute('stored-edges', null);
         this.timeSpam = 500;
         this.timeInterval = 0;
-        this.tipOffset = new Vector3(0.07, 0.101, -0.012);
-        this.shootDirection = new Vector3(0.149, 0.044, 0).normalize();
+        this.tipOffset = new Vector3(0.133, 0.033, 0.005);
+        this.shootDirection = new Vector3(1, 0, 0);
     },
 
     tick: function(time, timeDelta): void {

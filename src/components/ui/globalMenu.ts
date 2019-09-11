@@ -107,14 +107,14 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
 
         // Initiate tht panel content.
         runLabel.setAttribute('text', {
-            value: 'Undo',
-            wrapCount: 200,
+            value: 'Run',
+            wrapCount: 150,
             align: 'center'
         });
         // Initiate tht panel content.
         stopLabel.setAttribute('text', {
-            value: 'Redo',
-            wrapCount: 200,
+            value: 'Stop',
+            wrapCount: 150,
             align: 'center'
         });
 
@@ -122,8 +122,8 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
         runLabel.object3D.rotation.x += THREEMath.degToRad(-90);
         stopLabel.object3D.rotation.x += THREEMath.degToRad(-90);
         // Set the description position.
-        runLabel.object3D.position.set(-0.145, 0, 0.06);
-        stopLabel.object3D.position.set(-0.1, 0, 0.06);
+        runLabel.object3D.position.set(-0.21, 0, 0.1);
+        stopLabel.object3D.position.set(-0.125, 0, 0.1);
     },
 
     // Load description of thumbnails panel.
@@ -137,14 +137,14 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
         // Initiate tht panel content.
         descripText.setAttribute('text', {
             value: '',
-            wrapCount: 200,
+            wrapCount: 120,
             align: 'center'
         });
 
         // Set the description rotation.
         descripText.object3D.rotation.x += THREEMath.degToRad(-90);
         // Set the description position.
-        descripText.object3D.position.set(-0.1, 0, -0.055);
+        descripText.object3D.position.set(-0.167, 0, -0.1);
 
         // Set the value of the description.
         this.setInstanceDescription(this.data.selectedButtonId);
@@ -174,7 +174,7 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
             // Create the item.
             const itemEl: any = document.createElement('a-entity');
             listEl.appendChild(itemEl);
-            itemEl.object3D.position.set(-0.22 + xOffset*(i%3), 0.025 + yOffset*(i%3), -0.05 + zOffset*Math.floor(i/3));
+            itemEl.object3D.position.set(-0.217 + xOffset*(i%3), 0.025 + yOffset*(i%3), -0.05 + zOffset*Math.floor(i/3));
             itemEl.setAttribute('id', 'instance-'+i);
             this.loadModelInstance(itemEl, pageNum*9 + i);
         }

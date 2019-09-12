@@ -3,6 +3,7 @@ import { scene, Node, ObjNode } from 'frp-backend'
 import { objects, L_CONTROLLER, R_CONTROLLER, HEADSET } from '../../Objects';
 import { Vector3 as THREEVector3} from 'three';
 import { emitData } from '../../utils/EdgeVisualEffect';
+import { run } from '../../utils/App';
 
 export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
     schema: {
@@ -34,9 +35,12 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
         // Read label and bind button events to updates.
         if (this.data.name === R_CONTROLLER) {
             this.targetEntity.addEventListener('triggerdown', (event) => {
-                objNode.update('triggerdown', true);
-                objNode.update('triggerdown', false);
-                // Search for the edge...
+                if (run) {
+                    objNode.update('triggerdown', true);
+                    objNode.update('triggerdown', false);
+                }
+                
+                // Edge Visual Effect
                 const edges = this.el.getAttribute('stored-edges').outgoingEdges;
                 edges.forEach((edgeID: string) => {
                     const edgeEl: any = document.querySelector('#'+edgeID);
@@ -45,9 +49,6 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
                     }
                 });
             });
-            // objNode.pluckOutput('triggerdown').subscribe((value) => {
-            //     console.log(`${objNode.getLabel()} trigger is now: `, value);
-            // });
         }
     },
 

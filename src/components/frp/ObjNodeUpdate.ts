@@ -2,6 +2,7 @@ import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode } from 'frp-backend'
 import { Vector3 } from 'three';
 import { emitData } from '../../utils/EdgeVisualEffect';
+import { run } from '../../utils/App';
 
 export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
@@ -22,10 +23,13 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     tick: function(time, timeDelta): void {
         this.el.object3D.updateMatrix();
         this.el.object3D.updateMatrixWorld();
-        this.node.update('position', this.el.object3D.position.clone());
-        this.node.update('tip_position', this.el.object3D.localToWorld(this.tipOffset.clone()));
-        this.node.update('gun_direction', this.el.object3D.localToWorld(this.shootDirection.clone()).sub(this.el.object3D.position));
-
+        if (run) {
+            this.node.update('position', this.el.object3D.position.clone());
+            this.node.update('tip_position', this.el.object3D.localToWorld(this.tipOffset.clone()));
+            this.node.update('gun_direction', this.el.object3D.localToWorld(this.shootDirection.clone()).sub(this.el.object3D.position));
+        }
+        
+        // Edge Visual Effect
         this.timeInterval += timeDelta;
         if (this.timeInterval >= this.timeSpam) {
             this.timeInterval = 0;

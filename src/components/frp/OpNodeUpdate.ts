@@ -4,6 +4,7 @@ import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
+import { run } from '../../utils/App';
 
 // This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
@@ -19,36 +20,42 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         
         if (this.data.name === CREATE) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
-                // console.log(input);
-                const object: string = input[0];
-                const pos: any = input[1];
-                create(object, pos, opNode);
+                if (run) {
+                    // console.log(input);
+                    const object: string = input[0];
+                    const pos: any = input[1];
+                    create(object, pos, opNode);
+                }
             });
 
             opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         if (this.data.name === TRANSLATE) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
-                // console.log("Translate start", input);
-                const object: string = input[0];
-                const from: THREEVector3 = input[1];
-                const to: THREEVector3 = input[2];
-                const speed: number = input[3];
-
-                // TODO: Translate runs three times when object, from, and to are updated
-                translate(object, from, to, speed, opNode);
+                if (run) {
+                    // console.log("Translate start", input);
+                    const object: string = input[0];
+                    const from: THREEVector3 = input[1];
+                    const to: THREEVector3 = input[2];
+                    const speed: number = input[3];
+                    // TODO: Translate runs three times when object, from, and to are updated
+                    translate(object, from, to, speed, opNode);
+                }
             });
 
             opNode.pluckOutput('end').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         if (this.data.name === DESTROY) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
-                // console.log("Destroy start", input);
-                const object: string = input[0];
-                const event: any = input[1];
-                destroy(object, event);
+                if (run) {
+                    // console.log("Destroy start", input);
+                    const object: string = input[0];
+                    const event: any = input[1];
+                    destroy(object, event);
+                }
             });
         }
+
         opNode.pluckOutput('output').subscribe((val: any) => {dataTransmit(this.el, val)});
     },
 

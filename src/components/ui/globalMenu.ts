@@ -3,6 +3,7 @@ import { Math as THREEMath } from 'three';
 import { objects } from '../../Objects';
 import { Item } from './Canvas';
 import { resize } from '../../utils/SizeConstraints';
+import { setAppStatus } from '../../utils/App';
 
 const globalMenu = AFRAME.registerComponent('global-menu', {
     schema: {
@@ -94,7 +95,8 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
                     const runEl: any = document.querySelector('#run');
                     runEl.setAttribute('material', 'color', '#22313f');
 
-                    // TODO: Set global switch
+                    // Set App status
+                    setAppStatus(false);
                 });
                 
             }
@@ -109,7 +111,8 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
                     const stopEl: any = document.querySelector('#stop');
                     stopEl.setAttribute('material', 'color', '#22313f');
 
-                    // TODO: Set global switch
+                    // Set App status
+                    setAppStatus(true);
                 });
             }
             else {

@@ -64,8 +64,12 @@ const lineComponent = AFRAME.registerComponent('line-component', {
                 radiusBottom: 0.025,
                 radiusTop: 0
             });
+            let arrowColor: string = "FED650";
+            if (this.data.sourcePropEl)
+                arrowColor = this.data.sourcePropEl.getAttribute('material').color;
+                
             arrow.setAttribute('material', {
-                color: '#FED650'
+                color: arrowColor
             });
             this.el.appendChild(lineBody);
             this.el.appendChild(arrow);

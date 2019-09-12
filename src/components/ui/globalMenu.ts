@@ -64,7 +64,7 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
                 target: modelGroup,
                 name: subEntityName
             });
-            // Set a different material component for currentcolor.
+            // Initiate different materials for different model-part.
             if (subEntityName == "currentcolor") {
                 subMenuEl.setAttribute('material', {
                     color: '#ffffff',
@@ -83,11 +83,37 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
                     src: '#uinormal'
                 });
             }
-            else {
-                subMenuEl.setAttribute('material', {
-                    color: '#22313f',
-                    transparent: true
+            else if (subEntityName == 'stop') {
+                subMenuEl.setAttribute('material', 'color', '#F10310');
+
+                subMenuEl.addEventListener('clicked', () => {
+                    // When run button is clicked
+                    subMenuEl.setAttribute('material', 'color', '#F10310');
+
+                    // Set run button back to normal
+                    const runEl: any = document.querySelector('#run');
+                    runEl.setAttribute('material', 'color', '#22313f');
+
+                    // TODO: Set global switch
                 });
+                
+            }
+            else if (subEntityName == 'run') {
+                subMenuEl.setAttribute('material', 'color', '#22313f');
+
+                subMenuEl.addEventListener('clicked', () => {
+                    // When run button is clicked
+                    subMenuEl.setAttribute('material', 'color', '#00B800');
+
+                    // Set stop button back to normal
+                    const stopEl: any = document.querySelector('#stop');
+                    stopEl.setAttribute('material', 'color', '#22313f');
+
+                    // TODO: Set global switch
+                });
+            }
+            else {
+                subMenuEl.setAttribute('material', 'color', '#22313f');
             }
         }
     },

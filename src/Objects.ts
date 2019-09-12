@@ -51,9 +51,9 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
-                {name: "position", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "color", type: "string", behavior: "signal"}, 
+                {name: "position", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -62,9 +62,9 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
-                {name: "position", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "color", type: "string", behavior: "signal"}, 
+                {name: "position", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -73,9 +73,9 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
-                {name: "position", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "color", type: "string", behavior: "signal"}, 
+                {name: "position", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -84,9 +84,9 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
-                {name: "position", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "color", type: "string", behavior: "signal"}, 
+                {name: "position", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -95,9 +95,9 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
-                {name: "position", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "color", type: "string", behavior: "signal"}, 
+                {name: "position", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -106,9 +106,9 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "color", type: "string"}, 
-                {name: "position", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "color", type: "string", behavior: "signal"}, 
+                {name: "position", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -118,10 +118,10 @@ export const objects = {
             url: "#gun-gltf",
             inputs: [],
             outputs: [
-                {name: "object", type: "object"},
-                {name: "position", type: "vector3"},
-                {name: "tip_position", type: "vector3"},
-                {name: "gun_direction", type: "vector3"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "tip_position", type: "vector3", behavior: "signal"},
+                {name: "gun_direction", type: "vector3", behavior: "signal"}
             ]
         }
     ],
@@ -132,10 +132,10 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "input", type: "any"}
+                {name: "input", type: "any", behavior: ""}
             ],
             outputs: [
-                {name: "output", type: "any"}
+                {name: "output", type: "any", behavior: ""}
             ]
         },
         {
@@ -143,11 +143,11 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "+", type: "any"},
-                {name: "-", type: "any"}
+                {name: "+", type: "any", behavior: ""},
+                {name: "-", type: "any", behavior: ""}
             ],
             outputs: [
-                {name: "output", type: "any"}
+                {name: "output", type: "any", behavior: ""}
             ]
         },
         {
@@ -155,11 +155,11 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "signal", type: "any"},
-                {name: "event", type: "boolean"}
+                {name: "signal", type: "any", behavior: "signal"},
+                {name: "event", type: "boolean", behavior: "event"}
             ],
             outputs: [
-                {name: "output", type: "any"}
+                {name: "output", type: "any", behavior: "event"}
             ]
         },
         {
@@ -167,11 +167,11 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "object", type: "object"},
-                {name: "position", type: "any"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "position", type: "any", behavior: "event"}
             ],
             outputs: [
-                {name: "object", type: "object"}
+                {name: "object", type: "object", behavior: "event"}
             ]
         },
         {
@@ -179,11 +179,11 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "object", type: "object"},
-                {name: "event", type: "any"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "event", type: "any", behavior: "event"}
             ],
             outputs: [
-                {name: "end", type: "object"}
+                {name: "end", type: "object", behavior: "event"}
             ]
         },
         {
@@ -191,13 +191,13 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "object", type: "object"},
-                {name: "from", type: "vector3"},
-                {name: "to", type: "vector3"},
-                {name: "speed", type: "number"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "from", type: "vector3", behavior: "event"},
+                {name: "to", type: "vector3", behavior: "event"},
+                {name: "speed", type: "number", behavior: "event"}
             ],
             outputs: [
-                {name: "end", type: "object"}
+                {name: "end", type: "object", behavior: "event"}
             ]
         }
     ],
@@ -213,12 +213,12 @@ export const objects = {
             itemUrl: "#controller-left-obj",
             inputs: [],
             outputs: [
-                {name: "object", type: "object" },
-                {name: "gripdown", type: "boolean" }, 
-                {name: "triggerdown", type: "boolean" },
-                {name: "xbuttondown", type: "boolean" },
-                {name: "ybuttondown", type: "boolean" },
-                {name: "position", type: "vector3" }
+                {name: "object", type: "object", behavior: "event" },
+                {name: "gripdown", type: "boolean", behavior: "event" }, 
+                {name: "triggerdown", type: "boolean", behavior: "event" },
+                {name: "xbuttondown", type: "boolean", behavior: "event" },
+                {name: "ybuttondown", type: "boolean", behavior: "event" },
+                {name: "position", type: "vector3", behavior: "signal" }
             ]
         },
         {
@@ -227,10 +227,10 @@ export const objects = {
             itemUrl: "#controller-right-obj",
             inputs: [],
             outputs: [
-                {name: "object", type: "object" },
-                {name: "gripdown", type: "boolean", default: false}, 
-                {name: "triggerdown", type: "boolean", default: false},
-                {name: "position", type: "vector3" }
+                {name: "object", type: "object", behavior: "event" },
+                {name: "gripdown", type: "boolean", default: false, behavior: "event"}, 
+                {name: "triggerdown", type: "boolean", default: false, behavior: "event"},
+                {name: "position", type: "vector3", behavior: "signal" }
             ]
         }
     ]

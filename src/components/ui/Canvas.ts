@@ -54,8 +54,8 @@ export interface Item {
     name: string,
     type: string,
     itemUrl: string,
-    inputs?: {name: string, type: string}[],
-    outputs?: {name: string, type: string}[]
+    inputs?: {name: string, type: string, behavior: string}[],
+    outputs?: {name: string, type: string, behavior: string}[]
 }
 
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
@@ -356,8 +356,8 @@ function instantiateObj(item: Item, submenuID: number): void {
         // Visualize attributes for objects as well as connectors
         const attrHeight: number = itemSize.height / item.outputs.length;
         const attrWidth: number = 0.08;
-        item.outputs.forEach((output: {name: string, type: string}, i: number) => {
-            createAttr(instanceEl, output.name, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
+        item.outputs.forEach((output: {name: string, type: string, behavior: string}, i: number) => {
+            createAttr(instanceEl, output.name, output.behavior, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
         });
     }
     // When the node is Generic Models/Data/Avatars
@@ -368,7 +368,7 @@ function instantiateObj(item: Item, submenuID: number): void {
 
         const attrHeight: number = itemSize.height / item.outputs.length;
         const attrWidth: number = 0.08;
-        createAttr(instanceEl, "object", attrHeight, attrWidth);
+        createAttr(instanceEl, "object", "event", attrHeight, attrWidth);
     }
 
     // Place the model
@@ -393,11 +393,12 @@ function instantiateObj(item: Item, submenuID: number): void {
  * Create an attribute for the selected node (Generic Models/Data/Avatars)
  * @param instanceEl The instance entity
  * @param name The label of the attribute
+ * @param behavior Whether it's a signal or an event
  * @param attrHeight The geometry height
  * @param attrWidth The geometry width
  * @param posY The position Y of the attribute
  */
-function createAttr(instanceEl: any, name: string, attrHeight: number, attrWidth: number, posY: number = 0): void {
+function createAttr(instanceEl: any, name: string, behavior: string, attrHeight: number, attrWidth: number, posY: number = 0): void {
     const attrEl: any = document.createElement('a-entity');
     instanceEl.appendChild(attrEl);
     
@@ -428,8 +429,7 @@ function createAttr(instanceEl: any, name: string, attrHeight: number, attrWidth
         primitive: 'sphere', 
         radius: 0.1 * itemSize.width
     });
-    outCon.setAttribute('material', 'color', itemColor.unselected);
-
+    
     // Set connectors' positions and add reactions.
     attrEl.appendChild(outCon);
     outCon.object3D.position.set(0.8 * attrWidth, 0, 0);
@@ -437,14 +437,29 @@ function createAttr(instanceEl: any, name: string, attrHeight: number, attrWidth
 
     outCon.classList.add('connectable');
 
+    let unselectedColor: string = itemColor.unselected;
+    let hoveredColor: string = itemColor.hovered;
+
+    if (behavior === 'signal') {
+        unselectedColor = '#78C13B';
+        hoveredColor = '#3A940E';
+    }
+        
+    if (behavior === 'event') {
+        unselectedColor = '#FC7391';
+        hoveredColor = '#FB3862';
+    }
+
+    outCon.setAttribute('material', 'color', unselectedColor);
+
     outCon.addEventListener('raycaster-intersected', (event) => {
         event.stopPropagation();
-        outCon.setAttribute('material', 'color', itemColor.hovered);
+        outCon.setAttribute('material', 'color', hoveredColor);
     });
 
     outCon.addEventListener('raycaster-intersected-cleared', (event) => {
         event.stopPropagation();
-        outCon.setAttribute('material', 'color', itemColor.unselected);
+        outCon.setAttribute('material', 'color', unselectedColor);
     });
 }
 
@@ -459,16 +474,22 @@ function instantiateOp(item: Item): void {
 
     // Set up item geometry and material
     const functionInputs: Array<string> = new Array<string>();
+    const behaviorInputs: Array<string> = new Array<string>();
     const functionOutputs: Array<string> = new Array<string>();
-    item.inputs.forEach((input: {name: string, type: string}) => {
+    const behaviorOutputs: Array<string> = new Array<string>();
+    item.inputs.forEach((input: {name: string, type: string, behavior: string}) => {
         functionInputs.push(input.name);
+        behaviorInputs.push(input.behavior);
     });
-    item.outputs.forEach((output: {name: string, type: string}) => {
+    item.outputs.forEach((output: {name: string, type: string, behavior: string}) => {
         functionOutputs.push(output.name);
+        behaviorOutputs.push(output.behavior);
     });
     opEl.setAttribute('operator-model', 'functionName', item.name);
     opEl.setAttribute('operator-model', 'functionInputs', functionInputs);
     opEl.setAttribute('operator-model', 'functionOutputs', functionOutputs);
+    opEl.setAttribute('operator-model', 'behaviorInputs', behaviorInputs);
+    opEl.setAttribute('operator-model', 'behaviorOutputs', behaviorOutputs);
 
     // Resize the model into item size
     opEl.addEventListener('model-loaded', () => {

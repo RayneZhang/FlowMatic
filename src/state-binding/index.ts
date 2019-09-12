@@ -43,10 +43,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                if (objects.Models[i].name === targetObjName) {
 
                   let attrList: Array<string> = new Array<string>();
-                  objects.Models[i].outputs.forEach((output: {name: string, type: string}) => {
+                  let behaviorList: Array<string> = new Array<string>();
+                  objects.Models[i].outputs.forEach((output: {name: string, type: string, behavior: string}) => {
                      attrList.push(output.name);
+                     behaviorList.push(output.behavior);
                   });
                   newEntity.setAttribute('obj-attributes-list', 'attrNames', attrList);
+                  newEntity.setAttribute('obj-attributes-list', 'attrBehaviors', behaviorList);
                   newEntity.classList.add('data-receiver');
 
                   if (objects.Models[i].type === 'primitive') {

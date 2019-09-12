@@ -4,7 +4,8 @@ import * as AFRAME from 'aframe';
 const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
     schema: {
         freeze: {type: "boolean", default: false},
-        attrNames: {type: 'array', default: []}
+        attrNames: {type: 'array', default: []},
+        attrBehaviors: {type: 'array', default: []}
     },
 
     init: function(): void {
@@ -19,6 +20,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         let currentY: number = 0;
          
         // Create list of attributes elements.
+        let i: number = 0;
         for (const attrName of this.data.attrNames) {
             const curEntity: any = document.createElement('a-entity');
             ListEntity.appendChild(curEntity);
@@ -52,8 +54,9 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
 
             // Creat dots for each obj attr.
             const posOffset = new THREE.Vector3(0.35, 0, 0);
-            this.createDotEntity(curEntity, 'left', posOffset.clone());
-            this.createDotEntity(curEntity, 'right', posOffset.clone());
+            // this.createDotEntity(curEntity, 'left', posOffset.clone());
+            this.createDotEntity(curEntity, 'right', this.data.attrBehaviors[i], posOffset.clone());
+            i++;
         }
 
         // We can only access the mesh after it is loaded.
@@ -70,7 +73,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
 
-    createDotEntity: function(appendEntity: any, lr: string, offset: any): void {
+    createDotEntity: function(appendEntity: any, lr: string, behavior:string, offset: any): void {
         if (lr != 'left' && lr != 'right') {return;}
 
         // Create dot entity and append it to the prompt of the bottle.
@@ -85,21 +88,32 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
             radius: 0.06
         });
 
-        // Set color of the sphere to white.
-        curDot.setAttribute('material', 'color', 'white');
-
         // Set the dot position according to the left or right.
         if (lr === 'left')
             curDot.object3D.position.x -= offset.x;
         if (lr === 'right')
             curDot.object3D.position.x += offset.x;
 
+        // Set color of the sphere to white.
+        let unselectedColor: string = 'white';
+        let hoveredColor: string = 'yellow';
+
+        if (behavior === 'signal') {
+            unselectedColor = '#78C13B';
+            hoveredColor = '#3A940E';
+        }
+            
+        if (behavior === 'event') {
+            unselectedColor = '#FC7391';
+            hoveredColor = '#FB3862';
+        }
+        curDot.setAttribute('material', 'color', unselectedColor);
         curDot.addEventListener('raycaster-intersected', (event) => {
-            curDot.setAttribute('material', 'color', 'yellow');
+            curDot.setAttribute('material', 'color', hoveredColor);
         });
 
         curDot.addEventListener('raycaster-intersected-cleared', (event) => {
-            curDot.setAttribute('material', 'color', 'white');
+            curDot.setAttribute('material', 'color', unselectedColor);
         });
     },
 

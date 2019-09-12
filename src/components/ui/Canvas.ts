@@ -290,10 +290,11 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         itemEl.addEventListener('clicked', (event) => {
             itemEl.setAttribute('material', 'color', itemColor.selected);
             // Use different methods of visualization when the item is an operator
-            if (submenuID != 2)
-                instantiateObj(item, submenuID);
-            else
+            // 0: Models; 1: Data; 2: Operators; 3: Avatars
+            if (submenuID == 2)
                 instantiateOp(item);
+            else
+                instantiateObj(item, submenuID);
         });
 
         itemEl.addEventListener('clicked-cleared', (event) => {
@@ -348,18 +349,26 @@ function instantiateObj(item: Item, submenuID: number): void {
             resize(instanceEl, itemSize.width);
         });
     }
-
-    // Visualize attributes for objects as well as connectors
-    initObjAttri(instanceEl, item);
     
-    // TODO: Add a new object node into the scene. Prompting data is object-driven.
-    if ( submenuID === 3 ) // When the node is avatars
+    // 0: Models; 1: Data; 2: Operators; 3: Avatars
+    if ( submenuID === 3 )  {
         instanceEl.setAttribute('avatar-node-update', 'name', item.name);
-    // When the node is generic objects or data sources
+        // Visualize attributes for objects as well as connectors
+        const attrHeight: number = itemSize.height / item.outputs.length;
+        const attrWidth: number = 0.08;
+        item.outputs.forEach((output: {name: string, type: string}, i: number) => {
+            createAttr(instanceEl, output.name, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
+        });
+    }
+    // When the node is Generic Models/Data/Avatars
     else {
         // Create a generic object node in frp-backend.
         const genericNode = scene.addObj(item.name, [{name: 'object', type: 'object', default: item.name}]);
         instanceEl.setAttribute('id', genericNode.getID());
+
+        const attrHeight: number = itemSize.height / item.outputs.length;
+        const attrWidth: number = 0.08;
+        createAttr(instanceEl, "object", attrHeight, attrWidth);
     }
 
     // Place the model
@@ -381,85 +390,61 @@ function instantiateObj(item: Item, submenuID: number): void {
 }
 
 /**
- * Initiate the attribute list for the selected object
- * @param item The selected item
+ * Create an attribute for the selected node (Generic Models/Data/Avatars)
+ * @param instanceEl The instance entity
+ * @param name The label of the attribute
+ * @param attrHeight The geometry height
+ * @param attrWidth The geometry width
+ * @param posY The position Y of the attribute
  */
-function initObjAttri(instanceEl: any, item: Item): void {
-    const attrHeight: number = itemSize.height / item.outputs.length;
-    const attrWidth: number = 0.08;
-    item.outputs.forEach((output: {name: string, type: string}, i: number) => {
-        const attrEl: any = document.createElement('a-entity');
-        instanceEl.appendChild(attrEl);
-        
-        // Set up geometry and material of the attribute
-        attrEl.setAttribute('geometry', {
-            primitive: 'plane', 
-            width: attrWidth,
-            height: attrHeight
-        });
-        attrEl.setAttribute('material', {
-            color: 'black',
-            side: 'double'
-        });
-        attrEl.setAttribute('text', {
-            value: `${output.name}`,
-            side: 'double',
-            wrapCount: 10,
-            align: 'center'
-        });
+function createAttr(instanceEl: any, name: string, attrHeight: number, attrWidth: number, posY: number = 0): void {
+    const attrEl: any = document.createElement('a-entity');
+    instanceEl.appendChild(attrEl);
+    
+    // Set up geometry and material of the attribute
+    attrEl.setAttribute('geometry', {
+        primitive: 'plane', 
+        width: attrWidth,
+        height: attrHeight
+    });
+    attrEl.setAttribute('material', {
+        color: 'black',
+        side: 'double'
+    });
+    attrEl.setAttribute('text', {
+        value: name,
+        side: 'double',
+        wrapCount: 10,
+        align: 'center'
+    });
 
-        // Place the attribute
-        attrEl.object3D.position.set(itemSize.width - attrWidth/2, itemSize.height/2 - attrHeight/2 - (i*attrHeight), 0);
+    // Place the attribute
+    attrEl.object3D.position.set(itemSize.width - attrWidth/2, posY, 0);
 
-        // Create in connector and out connector along with their geometries and materials
-        const inCon: any = document.createElement('a-entity');
-        const outCon: any = document.createElement('a-entity');
-        inCon.setAttribute('geometry', {
-            primitive: 'cone', 
-            height: 0.15 * itemSize.width,
-            radiusTop: 0,
-            radiusBottom: 0.1 * itemSize.width
-        });
-        inCon.setAttribute('material', 'color', itemColor.unselected);
+    // Create only one connector along with their geometries and materials
+    const outCon: any = document.createElement('a-entity');
 
-        outCon.setAttribute('geometry', {
-            primitive: 'cone', 
-            height: 0.15 * itemSize.width,
-            radiusTop: 0,
-            radiusBottom: 0.1 * itemSize.width
-        });
+    outCon.setAttribute('geometry', {
+        primitive: 'sphere', 
+        radius: 0.1 * itemSize.width
+    });
+    outCon.setAttribute('material', 'color', itemColor.unselected);
+
+    // Set connectors' positions and add reactions.
+    attrEl.appendChild(outCon);
+    outCon.object3D.position.set(0.8 * attrWidth, 0, 0);
+    outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
+
+    outCon.classList.add('connectable');
+
+    outCon.addEventListener('raycaster-intersected', (event) => {
+        event.stopPropagation();
+        outCon.setAttribute('material', 'color', itemColor.hovered);
+    });
+
+    outCon.addEventListener('raycaster-intersected-cleared', (event) => {
+        event.stopPropagation();
         outCon.setAttribute('material', 'color', itemColor.unselected);
-
-        // Set connectors' positions and add reactions.
-        attrEl.appendChild(inCon);
-        attrEl.appendChild(outCon);
-        inCon.object3D.position.set(-0.8 * attrWidth, 0, 0);
-        outCon.object3D.position.set(0.8 * attrWidth, 0, 0);
-        inCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
-        outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
-    
-        inCon.classList.add('connectable');
-        outCon.classList.add('connectable');
-
-        inCon.addEventListener('raycaster-intersected', (event) => {
-            event.stopPropagation();
-            inCon.setAttribute('material', 'color', itemColor.hovered);
-        });
-    
-        inCon.addEventListener('raycaster-intersected-cleared', (event) => {
-            event.stopPropagation();
-            inCon.setAttribute('material', 'color', itemColor.unselected);
-        });
-
-        outCon.addEventListener('raycaster-intersected', (event) => {
-            event.stopPropagation();
-            outCon.setAttribute('material', 'color', itemColor.hovered);
-        });
-    
-        outCon.addEventListener('raycaster-intersected-cleared', (event) => {
-            event.stopPropagation();
-            outCon.setAttribute('material', 'color', itemColor.unselected);
-        });
     });
 }
 

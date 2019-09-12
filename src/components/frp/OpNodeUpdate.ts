@@ -69,6 +69,7 @@ function create(object: string, pos: any, opNode: OpNode): void {
     const createdNode = scene.addObj(object, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: pos}]);
     const el: any = document.createElement('a-entity');
     el.setAttribute('id', createdNode.getID());
+    el.classList.add('dynamic-create');
     const parentEl: any = document.querySelector('#redux');
     parentEl.appendChild(el);
 

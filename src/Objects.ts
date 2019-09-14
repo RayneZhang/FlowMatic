@@ -123,6 +123,18 @@ export const objects = {
                 {name: "tip_position", type: "vector3", behavior: "signal"},
                 {name: "gun_direction", type: "vector3", behavior: "signal"}
             ]
+        },
+        {
+            name: LIGHT,
+            type: "gltf",
+            itemUrl: "#light-01-obj",
+            url: "#light-01-glb",
+            inputs: [],
+            outputs: [
+                {name: "object", type: "object", behavior: "event"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "light_direction", type: "vector3", behavior: "signal"}
+            ]
         }
     ],
     Data:[],

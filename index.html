@@ -33,6 +33,7 @@
                 <a-asset-item id="city-gltf" src="assets/models/city/scene.gltf"></a-asset-item>
                 <a-asset-item id="singer-glb" src="assets/models/performers/singer.glb"></a-asset-item>
                 <a-asset-item id="guitarist-glb" src="assets/models/performers/guitarist.glb"></a-asset-item>
+                <a-asset-item id="drummer-glb" src="assets/models/performers/drummer.glb"></a-asset-item>
 
                 <!-- Speakers -->
                 <a-asset-item id="speaker-shell-obj" src="assets/models/speakers/01_speaker/speaker_shell.obj"></a-asset-item>
@@ -160,8 +161,9 @@
             <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity>
             <a-entity id="stage" position="0 -0.2 -10" scale="0.8 0.8 0.8" obj-model="obj: #stage-obj; mtl: #stage-mtl" mtl-lighting></a-entity>
             <a-entity id="city"  position="0 0 -10" gltf-model="#city-gltf" mtl-lighting></a-entity>
-            <a-entity id="singer"  position="0 1.7 -5" scale="2.5 2.5 2.5" gltf-model="#singer-glb" mtl-lighting></a-entity>
-            <a-entity id="guitarist"  position="-3.5 1.25 -7" scale="2.5 2.5 2.5" gltf-model="#guitarist-glb" mtl-lighting></a-entity>
+            <a-entity id="singer"  position="0 1.7 -5" scale="2.5 2.5 2.5" gltf-model="#singer-glb"></a-entity>
+            <a-entity id="guitarist"  position="-3.5 1.25 -7" scale="2.5 2.5 2.5" gltf-model="#guitarist-glb"></a-entity>
+            <a-entity id="drummer"  position="3.5 1.4 -8" scale="2.5 2.5 2.5" gltf-model="#drummer-glb"></a-entity>
 
             <!-- Scene #2 -->
             <!-- <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>

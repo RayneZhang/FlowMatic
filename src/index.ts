@@ -79,9 +79,10 @@ import slider from './components/utils/slider'
 slider;
 import operatorModel from './components/utils/operatorModel'
 operatorModel;
-
 import spotLight from './components/lights/spotlight'
 spotLight;
+import { objInit } from './components/Utils/ObjInit';
+objInit;
 
 import headset from './components/avatars/headset'
 headset;
@@ -89,10 +90,6 @@ import leftController from './components/avatars/leftController'
 leftController;
 import rightController from './components/avatars/rightController'
 rightController;
-
-import gridGlitchShader from './shaders/test'
-gridGlitchShader;
-
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
@@ -108,7 +105,7 @@ conditionalEvent;
 import eventReceiver from './components/frp/eventReceiver';
 eventReceiver;
 
-import mtlLighting from './components/mtlLighting';
+import mtlLighting from './components/Utils/mtlLighting';
 mtlLighting;
 import { canvasGenerator } from './components/ui/Canvas';
 canvasGenerator;

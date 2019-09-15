@@ -1,5 +1,4 @@
 import * as AFRAME from 'aframe'
-import pointLightShader from '../../shaders/PointLight';
 declare const THREE:any;
 declare const THREEx:any;
 
@@ -8,9 +7,6 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         color: {type: 'string', default: 'white'},
         direction: {type: 'string', default: ''},
         switch: {type: 'boolean', default: true},
-        sourceAttributes: {type: 'array', default: []},
-        targetEntities: {type: 'array', default: []},
-        targetAttributes: {type: 'array', default: []}
     },
 
     init: function(): void {
@@ -18,24 +14,6 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         this.initLight();
 
         this.el.classList.add('data-receiver');
-        this.el.addEventListener('target-update', (event) => {
-            const targetEntity: string = event.detail.targetEntity;
-            const targetAttribute: string = event.detail.targetAttribute;
-            const sourceAttribute: string = event.detail.sourceAttribute;
-            // If the targetEntities is null, we need to reset the type.
-            if (!Array.isArray(this.data.targetEntities) || !this.data.targetEntities.length) {
-                this.data.targetEntities = [];
-            }
-            if (!Array.isArray(this.data.targetAttributes) || !this.data.targetAttributes.length) {
-                this.data.targetAttributes = [];
-            }
-            if (!Array.isArray(this.data.sourceAttributes) || !this.data.sourceAttributes.length) {
-                this.data.sourceAttributes = [];
-            }
-            this.data.targetEntities.push(targetEntity);
-            this.data.targetAttributes.push(targetAttribute);
-            this.data.sourceAttributes.push(sourceAttribute);
-        });
         
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
@@ -106,8 +84,9 @@ const spotLight = AFRAME.registerComponent('spotlight', {
             color: '#fff',
             shader: 'flat'
         });
-        lightBulbEntity.object3D.position.set(0, 0.02, 0.04);
+        lightBulbEntity.object3D.position.set(0, 0.05, 0.1);
         lightBulbEntity.object3D.rotation.set(THREE.Math.degToRad(70), 0, 0);
+        lightBulbEntity.object3D.scale.set(2.5, 2.5, 2.5);
 
         // Create a volumetric entity.
         const volumetricEntity: any = this.volumetricEntity = document.createElement('a-entity');
@@ -125,37 +104,12 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         volumetricEntity.setObject3D('mesh', mesh);
         volumetricEntity.object3D.rotation.set(THREE.Math.degToRad(-15), 0, 0);
         this.setVolumetricLightColor('white');
+        volumetricEntity.object3D.scale.set(2.5, 2.5, 2.5);
     },
 
     setVolumetricLightColor: function(_color: string): void {
         const material = this.volumetricEntity.getObject3D('mesh').material;
         material.uniforms.lightColor.value.set(_color);
-    },
-
-    // Even receivers can emit events.
-    tick: function(time, timeDelta): void {
-        const targetEntities = this.data.targetEntities;
-        // Check if there is target object.
-        if (!Array.isArray(targetEntities) || !targetEntities.length) {
-            return;
-        }
-
-        let i: number = 0;
-        for (const curId of targetEntities) {
-            const curTarget: any = document.querySelector('#' + curId);
-            if (curTarget) {
-                switch (this.data.sourceAttributes[i]) {
-                    case "Position": {
-                        this.dataType = 'vector';
-                        const val: string = this.el.object3D.position as string;
-                        this.dataValue = val;
-                        break;
-                    }
-                }
-                curTarget.emit('attribute-update', {dataType: this.dataType, dataValue: this.dataValue, attribute: this.data.targetAttributes[i], sourceEntityId: this.el.getAttribute('id')}, false);
-                i++;
-            }
-        }
     }
 });
 

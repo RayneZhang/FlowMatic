@@ -81,8 +81,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      });
                      // Using JSON does not seem efficient
                      const objNode = scene.addObj(targetObjName, props);
-                     newEntity.setAttribute('id', objNode.getID());
-                     newEntity.setAttribute('obj-node-update', null);
+                     newEntity.setAttribute('id', objNode.getID()); // Set up node ID
+                     newEntity.setAttribute('obj-node-update', null); // Set up node update for frp
+                     newEntity.setAttribute('obj-init', 'name', targetObjName);
                     break;
                   }
                }

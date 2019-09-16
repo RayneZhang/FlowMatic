@@ -133,7 +133,10 @@ export const objects = {
             outputs: [
                 {name: "object", type: "object", behavior: "event"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "light_direction", type: "vector3", behavior: "signal"}
+                {name: "light_direction", type: "vector3", behavior: "signal"},
+                {name: "light_color", type: "string", behavior: "signal"},
+                {name: "light_on", type: "boolean", behavior: "event"},
+                {name: "light_off", type: "boolean", behavior: "event"}
             ]
         }
     ],

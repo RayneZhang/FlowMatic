@@ -153,7 +153,7 @@
             <a-plane id="floor" static-body position="0 -1.7 0" rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
 
             <!-- Scene #1 -->
-            <a-entity id="env" environment="preset: default; lighting: none; ground: none; fog: 0"></a-entity> -->
+            <a-entity id="env" environment="preset: default; lighting: none; ground: none; fog: 0"></a-entity>
             <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.6; type: hemisphere"></a-entity>
             <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity>
             <a-entity id="stage" position="0 -0.2 -10" scale="0.8 0.8 0.8" obj-model="obj: #stage-obj; mtl: #stage-mtl" mtl-lighting></a-entity>
@@ -177,6 +177,7 @@
             <a-entity id="skybox" cubemap="ext:png; folder: /assets/images/blue/"></a-entity>
             <a-entity id="cruise" scale="15 15 15" gltf-model="#cruise-gltf" mtl-lighting></a-entity>
             <a-entity id="platform" position="0 0 -10" scale="0.01 0.01 0.01" gltf-model="#platform-gltf" mtl-lighting></a-entity> -->
+            
             <a-entity id="canvas" canvas-generator></a-entity>
 
             <!-- Utils -->

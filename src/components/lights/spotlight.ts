@@ -1,4 +1,5 @@
-import * as AFRAME from 'aframe'
+import * as AFRAME from 'aframe';
+import { scene } from 'frp-backend'
 declare const THREE:any;
 declare const THREEx:any;
 
@@ -10,24 +11,23 @@ const spotLight = AFRAME.registerComponent('spotlight', {
     },
 
     init: function(): void {
-        // Set up light type for the entity.
-        this.initLight();
+        this.node = scene.getNode(this.el.getAttribute('id'));
 
-        this.el.classList.add('data-receiver');
-        
+        // Set up light type for the entity.
+        this.initLight();        
         this.el.addEventListener('attribute-update', (event) => {
             const dataType: string = event.detail.dataType;
             const dataValue: string = event.detail.dataValue;
 
-            if (dataValue === undefined || dataValue === null)
+            if (dataValue === undefined || dataValue === null || dataValue === '')
                 return;
 
             if (dataType === 'vector') {
                 const attribute: string = event.detail.attribute;
-                if (attribute === 'Light Direction') {
+                if (attribute === 'light_direction') {
                     this.el.setAttribute('spotlight', 'direction', dataValue);
                     if (this.data.switch) {
-                        const Dir = new THREE.Vector3().copy(this.data.direction);
+                        const Dir = new THREE.Vector3().copy(dataValue);
                         Dir.add(this.el.object3D.position.clone());
                         this.el.object3D.lookAt(Dir);
                         this.el.object3D.rotateX(THREE.Math.degToRad(15));

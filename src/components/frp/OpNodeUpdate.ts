@@ -1,8 +1,8 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
-import { Vector3 as THREEVector3} from 'three'
+import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
 
@@ -52,6 +52,20 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const object: string = input[0];
                     const event: any = input[1];
                     destroy(object, event);
+                }
+            });
+        }
+        if (this.data.name === SUB) {
+            this.vec1 = new Vector3();
+            this.vec2 = new Vector3();
+            this.subscription = opNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    const vec1: Vector3 = input[0];
+                    const vec2: Vector3 = input[1];
+                    if (vec1.equals(this.vec1) && vec2.equals(this.vec2)) return;
+                    this.vec1 = vec1.clone();
+                    this.vec2 = vec2.clone();
+                    opNode.updateOutput('output', vec1.clone().sub(vec2.clone()));
                 }
             });
         }

@@ -1,13 +1,16 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode } from 'frp-backend'
-import { Vector3 } from 'three';
+import { Vector3, Vector } from 'three';
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
+import { GUN, LIGHT } from '../../Objects';
+import { distinctUntilChanged } from 'rxjs/operators'
 
 export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
         incomingEdges: {type: 'array', default: []},
-        outgoingEdges: {type: 'array', default: []}
+        outgoingEdges: {type: 'array', default: []},
+        name: {type: 'string', default: ""}
     },
 
     init: function(): void {
@@ -16,8 +19,20 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         this.el.setAttribute('stored-edges', null);
         this.timeSpam = 500;
         this.timeInterval = 0;
-        this.tipOffset = new Vector3(0.133, 0.033, 0.005);
+        this.tipOffset = new Vector3(0.22, 0.05, 0);
         this.shootDirection = new Vector3(1, 0, 0);
+        switch (this.data.name) {
+            case LIGHT: {
+                this.light_direction = new Vector3();
+                this.node.pluckOutput('light_direction').pipe().subscribe((value: Vector3) => {
+                    if (!value) return;
+                    if (value.equals(this.light_direction)) return;
+                    this.light_direction = value;
+                    this.el.emit('attribute-update', {dataType: 'vector', dataValue: value, attribute: 'light_direction'});
+                });
+                break;
+            }
+        }
     },
 
     tick: function(time, timeDelta): void {
@@ -25,8 +40,19 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         this.el.object3D.updateMatrixWorld();
         if (run) {
             this.node.update('position', this.el.object3D.position.clone());
-            this.node.update('tip_position', this.el.object3D.localToWorld(this.tipOffset.clone()));
-            this.node.update('gun_direction', this.el.object3D.localToWorld(this.shootDirection.clone()).sub(this.el.object3D.position));
+            switch (this.data.name) {
+                case GUN: {
+                    this.node.update('tip_position', this.el.object3D.localToWorld(this.tipOffset.clone()));
+                    this.node.update('gun_direction', this.el.object3D.localToWorld(this.shootDirection.clone()).sub(this.el.object3D.position));
+                    break;
+                }
+                case LIGHT: {
+                    // this.node.update('light_direction', this.el.getAttribute('spotlight').direction);
+                    this.node.update('light_color', this.el.getAttribute('spotlight').color);
+                    break;
+                }
+            }
+            
         }
         
         // Edge Visual Effect

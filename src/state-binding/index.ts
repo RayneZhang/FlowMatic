@@ -6,6 +6,7 @@ import store from '../store'
 import { objects } from '../Objects'
 import { scene, Node } from 'frp-backend'
 import { resize } from '../utils/SizeConstraints';
+import { Vector3 } from 'three';
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {
         objects: {type: 'array', default: []}
@@ -30,8 +31,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
         if (presentObjects.length > this.data.objects.length) {
             const addedObj: any = presentObjects[presentObjects.length - 1];
             const targetObjName: string = addedObj.targetModel;
-            const position: any = addedObj.position;
-            const color: any = addedObj.color;
+            const position: Vector3 = addedObj.position;
+            const color: string = addedObj.color;
 
              // Create an entity and append it to AFRAME scene.
              let newEntity: any = document.createElement('a-entity');
@@ -76,13 +77,15 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      objects.Models[i].outputs.forEach((o) => {
                          if (o.name != 'object' && o.name != 'position') {
                             o['default'] = ''; 
+                            delete o['behavior'];
+                            console.log(o);
                             props.push(o);
                          }
                      });
                      // Using JSON does not seem efficient
                      const objNode = scene.addObj(targetObjName, props);
                      newEntity.setAttribute('id', objNode.getID()); // Set up node ID
-                     newEntity.setAttribute('obj-node-update', null); // Set up node update for frp
+                     newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
                      newEntity.setAttribute('obj-init', 'name', targetObjName);
                     break;
                   }

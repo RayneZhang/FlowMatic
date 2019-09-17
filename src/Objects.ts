@@ -220,7 +220,12 @@ export const objects = {
         {
             name: HEADSET,
             type: "obj",
-            itemUrl: "#headset-obj"
+            itemUrl: "#headset-obj",
+            inputs: [],
+            outputs: [
+                {name: "object", type: "object", behavior: "event" },
+                {name: "position", type: "vector3", behavior: "signal" }
+            ]
         },
         {
             name: L_CONTROLLER,
@@ -229,10 +234,8 @@ export const objects = {
             inputs: [],
             outputs: [
                 {name: "object", type: "object", behavior: "event" },
-                {name: "gripdown", type: "boolean", behavior: "event" }, 
-                {name: "triggerdown", type: "boolean", behavior: "event" },
-                {name: "xbuttondown", type: "boolean", behavior: "event" },
-                {name: "ybuttondown", type: "boolean", behavior: "event" },
+                {name: "triggerup", type: "boolean", default: false, behavior: "event" },
+                {name: "triggerdown", type: "boolean", default: false, behavior: "event" },
                 {name: "position", type: "vector3", behavior: "signal" }
             ]
         },
@@ -243,7 +246,7 @@ export const objects = {
             inputs: [],
             outputs: [
                 {name: "object", type: "object", behavior: "event" },
-                {name: "gripdown", type: "boolean", default: false, behavior: "event"}, 
+                {name: "triggerup", type: "boolean", default: false, behavior: "event" }, 
                 {name: "triggerdown", type: "boolean", default: false, behavior: "event"},
                 {name: "position", type: "vector3", behavior: "signal" }
             ]

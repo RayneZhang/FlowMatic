@@ -1,11 +1,11 @@
 declare const THREE:any;
 import * as AFRAME from 'aframe';
+import { objects } from '../../Objects';
 
 const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
     schema: {
         freeze: {type: "boolean", default: false},
-        attrNames: {type: 'array', default: []},
-        attrBehaviors: {type: 'array', default: []}
+        targetModelName: {type: "string", default: ""}
     },
 
     init: function(): void {
@@ -14,14 +14,28 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         this.el.appendChild(this.listEntity); 
         // Add to the entity's class list.
         ListEntity.classList.add("obj-attr-list"); 
+        let index: number = 0;
+        for ( let i = 0; i < objects.Models.length; i++) {
+            if (objects.Models[i].name == this.data.targetModelName) { 
+                index = i;
+                this.attrList = new Array<string>();
+                this.behaviorList = new Array<string>();
+                // console.log(objects.Models[index].outputs);
+                objects.Models[index].outputs.forEach((output) => {
+                    this.attrList.push(output.name);
+                    this.behaviorList.push(output.behavior);
+                });
+            }
+        }
+        
 
         // layout offset of the attributes.
         let offset: number = 0.35;
         let currentY: number = 0;
          
         // Create list of attributes elements.
-        let i: number = 0;
-        for (const attrName of this.data.attrNames) {
+        let j: number = 0;
+        for (const attrName of this.attrList) {
             const curEntity: any = document.createElement('a-entity');
             ListEntity.appendChild(curEntity);
 
@@ -55,8 +69,8 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
             // Creat dots for each obj attr.
             const posOffset = new THREE.Vector3(0.35, 0, 0);
             // this.createDotEntity(curEntity, 'left', posOffset.clone());
-            this.createDotEntity(curEntity, 'right', this.data.attrBehaviors[i], posOffset.clone());
-            i++;
+            this.createDotEntity(curEntity, 'right', this.behaviorList[j], posOffset.clone());
+            j++;
         }
 
         // We can only access the mesh after it is loaded.
@@ -98,12 +112,12 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         let unselectedColor: string = 'white';
         let hoveredColor: string = 'yellow';
 
-        if (behavior === 'signal') {
+        if (behavior == 'signal') {
             unselectedColor = '#78C13B';
             hoveredColor = '#3A940E';
         }
             
-        if (behavior === 'event') {
+        if (behavior == 'event') {
             unselectedColor = '#FC7391';
             hoveredColor = '#FB3862';
         }

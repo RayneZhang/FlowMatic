@@ -4,7 +4,6 @@ import { Vector3, Vector } from 'three';
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
 import { GUN, LIGHT } from '../../Objects';
-import { distinctUntilChanged } from 'rxjs/operators'
 
 export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
@@ -24,12 +23,23 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         switch (this.data.name) {
             case LIGHT: {
                 this.light_direction = new Vector3();
-                this.node.pluckOutput('light_direction').pipe().subscribe((value: Vector3) => {
+                this.node.pluckOutput('light_direction').subscribe((value: Vector3) => {
                     if (!value) return;
                     if (value.equals(this.light_direction)) return;
                     this.light_direction = value;
                     this.el.emit('attribute-update', {dataType: 'vector', dataValue: value, attribute: 'light_direction'});
                 });
+
+                this.node.pluckOutput('light_off').subscribe((value: boolean) => {
+                    if (!value) return;
+                    this.el.emit('attribute-update', {dataType: 'boolean', dataValue: !value, attribute: 'light_on_off'});
+                });
+
+                this.node.pluckOutput('light_on').subscribe((value: boolean) => {
+                    if (!value) return;
+                    this.el.emit('attribute-update', {dataType: 'boolean', dataValue: value, attribute: 'light_on_off'});
+                });
+
                 break;
             }
         }

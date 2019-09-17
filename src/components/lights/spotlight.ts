@@ -48,7 +48,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
             }
             if (dataType === 'boolean') {
                 const attribute: string = event.detail.attribute;
-                if (attribute === 'Light On/Off') {
+                if (attribute === 'light_on_off') {
                     this.el.setAttribute('spotlight', 'switch', dataValue);
                     // Set up switch.
                     this.spotLightEntity.setAttribute('visible', dataValue);

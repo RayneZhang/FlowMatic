@@ -42,15 +42,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
              newEntity.classList.add("movable");
              for (let i = 0; i < objects.Models.length; i++) {
                if (objects.Models[i].name === targetObjName) {
-
-                  let attrList: Array<string> = new Array<string>();
-                  let behaviorList: Array<string> = new Array<string>();
-                  objects.Models[i].outputs.forEach((output: {name: string, type: string, behavior: string}) => {
-                     attrList.push(output.name);
-                     behaviorList.push(output.behavior);
-                  });
-                  newEntity.setAttribute('obj-attributes-list', 'attrNames', attrList);
-                  newEntity.setAttribute('obj-attributes-list', 'attrBehaviors', behaviorList);
+                  newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
                   newEntity.classList.add('data-receiver');
 
                   if (objects.Models[i].type === 'primitive') {
@@ -77,8 +69,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      objects.Models[i].outputs.forEach((o) => {
                          if (o.name != 'object' && o.name != 'position') {
                             o['default'] = ''; 
-                            delete o['behavior'];
-                            console.log(o);
                             props.push(o);
                          }
                      });

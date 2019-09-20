@@ -12,6 +12,8 @@ export const SNAPSHOT = 'snapshot';
 export const CREATE = 'create';
 export const DESTROY = 'destroy';
 export const TRANSLATE = 'translate';
+export const COLLIDE = 'collide';
+
 
 export const COLLISION_DETECTOR = 'Collision Detector';
 export const CONDITIONAL_EVENT = 'Conditional Event';
@@ -37,6 +39,7 @@ export const SLIDER = 'Slider';
 // Models
 export const LIGHT = 'Light';
 export const GUN = 'gun';
+export const GIFT = 'gift';
 
 // Avatars
 export const HEADSET = 'headset';
@@ -138,6 +141,18 @@ export const objects = {
                 {name: "light_on", type: "boolean", behavior: "event"},
                 {name: "light_off", type: "boolean", behavior: "event"}
             ]
+        },
+        {
+            name: GIFT,
+            type: "gltf",
+            itemUrl: "#gift-obj",
+            url: "#gift-gltf",
+            inputs: [],
+            outputs: [
+                {name: "object", type: "object", behavior: "event"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "open", type: "boolean", behavior: "event"}
+            ]
         }
     ],
     Data:[],
@@ -213,6 +228,19 @@ export const objects = {
             ],
             outputs: [
                 {name: "end", type: "object", behavior: "event"}
+            ]
+        },
+        {
+            name: COLLIDE,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "object-1", type: "object", behavior: "event"},
+                {name: "object-2", type: "object", behavior: "event"}
+            ],
+            outputs: [
+                {name: "collision-start", type: "boolean", behavior: "event"},
+                {name: "collision-end", type: "boolean", behavior: "event"}
             ]
         }
     ],

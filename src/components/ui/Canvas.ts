@@ -406,16 +406,18 @@ function createAttr(instanceEl: any, name: string, behavior: string, attrHeight:
     attrEl.setAttribute('geometry', {
         primitive: 'plane', 
         width: attrWidth,
-        height: attrHeight
+        height: attrHeight * 0.95
     });
     attrEl.setAttribute('material', {
-        color: 'black',
-        side: 'double'
+        color: 'grey',
+        side: 'double',
+        transparent: true,
+        opacity: 0.5
     });
     attrEl.setAttribute('text', {
         value: name,
         side: 'double',
-        wrapCount: 10,
+        wrapCount: 9,
         align: 'center'
     });
 
@@ -427,7 +429,7 @@ function createAttr(instanceEl: any, name: string, behavior: string, attrHeight:
 
     outCon.setAttribute('geometry', {
         primitive: 'sphere', 
-        radius: 0.1 * itemSize.width
+        radius: 0.085 * itemSize.width
     });
     
     // Set connectors' positions and add reactions.

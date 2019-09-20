@@ -218,7 +218,7 @@ const globalMenu = AFRAME.registerComponent('global-menu', {
             _itemEl.setAttribute('obj-model', 'obj', instance.itemUrl);
             // Resize the model into item size
             _itemEl.addEventListener('model-loaded', () => {
-                resize(_itemEl, 0.02);
+                resize(_itemEl, 0.05);
             });
         }
         

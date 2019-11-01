@@ -115,23 +115,3 @@ import { avatarNodeUpdate } from './components/frp/AvatarNodeUpdate';
 avatarNodeUpdate;
 import { opNodeUpdate } from './components/frp/OpNodeUpdate';
 opNodeUpdate;
-
-// const a = scene.addConstant(2000);
-// const gen = scene.addOp('gen');
-// scene.addEdge(a, {node: gen, prop: 'delay'})
-// const b = scene.addConstant(10);
-// const p = scene.addOp('+');
-// scene.addEdge(b, p);
-// scene.addEdge(gen, p);
-// const t = scene.addOp('take');
-// const three = scene.addConstant(5);
-// scene.addEdge(p, {node: t, prop: 'stream'});
-// scene.addEdge(three, {node: t, prop: 'count'});
-// const delay = scene.addOp('delay');
-// scene.addEdge(t, {node: delay, prop: 'stream'});
-// const d2 = scene.addConstant(700);
-// scene.addEdge(d2, {node: delay, prop: 'delay'});
-
-// p.pluckOutput().subscribe(function (value) {
-//     console.log("add output is", value);
-// });

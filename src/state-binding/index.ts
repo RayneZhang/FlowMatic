@@ -96,7 +96,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                      newEntity.setAttribute('animation-mixer', {
                         clip: 'Open',
-                        loop: 'repeat'
+                        loop: 'once',
+                        timeScale: 0.5
                     });
                      newEntity.addEventListener('collisions', (e) => {
                         console.log("Collisions triggered! " + newEntity.getAttribute('id'));
@@ -104,7 +105,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         if (e.detail.els.length > 0) {
                             newEntity.setAttribute('animation-mixer', {
                                 clip: 'Open',
-                                loop: 'once'
+                                loop: 'once',
+                                timeScale: 0.5
                             });
                         }
                         console.log(e.detail.clearedEls);

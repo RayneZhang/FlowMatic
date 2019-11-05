@@ -87,9 +87,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      })
                      newEntity.setAttribute('shape__main', {
                          shape: 'cylinder',
-                         height: 1,
-                         radiusTop: 1,
-                         radiusBottom: 1
+                         height: 0.8,
+                         radiusTop: 0.2,
+                         radiusBottom: 0.2
                      })
                      newEntity.setAttribute('physics-collider', 'ignoreSleep', true);
                      newEntity.setAttribute('collision-filter', 'collisionForces', false);

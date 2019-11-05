@@ -94,9 +94,19 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('physics-collider', 'ignoreSleep', true);
                      newEntity.setAttribute('collision-filter', 'collisionForces', false);
 
+                     newEntity.setAttribute('animation-mixer', {
+                        clip: 'Open',
+                        loop: 'repeat'
+                    });
                      newEntity.addEventListener('collisions', (e) => {
                         console.log("Collisions triggered! " + newEntity.getAttribute('id'));
                         console.log(e.detail.els);
+                        if (e.detail.els.length > 0) {
+                            newEntity.setAttribute('animation-mixer', {
+                                clip: 'Open',
+                                loop: 'once'
+                            });
+                        }
                         console.log(e.detail.clearedEls);
                     });
                     break;

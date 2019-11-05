@@ -35,7 +35,7 @@
                 <a-asset-item id="guitarist-glb" src="assets/models/performers/guitarist.glb"></a-asset-item>
                 <a-asset-item id="drummer-glb" src="assets/models/performers/drummer.glb"></a-asset-item>
 
-                <a-asset-item id="gift-gltf" src="assets/models/gift/gift.glb"></a-asset-item>
+                <a-asset-item id="gift-gltf" src="assets/models/gift/scene.gltf"></a-asset-item>
                 <a-asset-item id="gift-obj" src="assets/models/gift/gift.obj"></a-asset-item>
                 <a-asset-item id="room-gltf" src="assets/models/big_room/scene.gltf"></a-asset-item>
 
@@ -171,6 +171,8 @@
             <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.6; type: hemisphere"></a-entity>
             <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity>
             <a-entity id="room" scale="0.05 0.05 0.05" position="-30 0 20" gltf-model="#room-gltf"></a-entity>
+            <a-entity id="gift" scale="0.1 0.1 0.1" position="-30 0 20" gltf-model="#gift-gltf" animation-mixer="clip: Open"></a-entity> 
+
 
             <!-- Scene #2 -->
             <!-- <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>

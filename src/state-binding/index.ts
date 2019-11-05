@@ -72,11 +72,33 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                             props.push(o);
                          }
                      });
+
                      // Using JSON does not seem efficient
                      const objNode = scene.addObj(targetObjName, props);
                      newEntity.setAttribute('id', objNode.getID()); // Set up node ID
                      newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
                      newEntity.setAttribute('obj-init', 'name', targetObjName);
+
+                     // Set up bounding boxes for the object
+
+                     newEntity.setAttribute('body', {
+                         type: 'static',
+                         shape: 'none'
+                     })
+                     newEntity.setAttribute('shape__main', {
+                         shape: 'cylinder',
+                         height: 1,
+                         radiusTop: 1,
+                         radiusBottom: 1
+                     })
+                     newEntity.setAttribute('physics-collider', 'ignoreSleep', true);
+                     newEntity.setAttribute('collision-filter', 'collisionForces', false);
+
+                     newEntity.addEventListener('collisions', (e) => {
+                        console.log("Collisions triggered! " + newEntity.getAttribute('id'));
+                        console.log(e.detail.els);
+                        console.log(e.detail.clearedEls);
+                    });
                     break;
                   }
                }

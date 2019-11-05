@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
@@ -68,6 +68,9 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     opNode.updateOutput('output', vec1.clone().sub(vec2.clone()));
                 }
             });
+        }
+        if (this.data.name === COLLIDE) {
+            // TODO: Add Reactions to Collide.
         }
 
         opNode.pluckOutput('output').subscribe((val: any) => {dataTransmit(this.el, val)});

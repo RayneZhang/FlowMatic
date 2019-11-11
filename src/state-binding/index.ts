@@ -3,9 +3,8 @@
 
 import * as AFRAME from 'aframe'
 import store from '../store'
-import { objects, GIFT } from '../Objects'
+import { objects } from '../Objects'
 import { scene, Node } from 'frp-backend'
-import { resize } from '../utils/SizeConstraints';
 import { Vector3 } from 'three';
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {
@@ -79,42 +78,8 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
                      newEntity.setAttribute('obj-init', 'name', targetObjName);
 
-                     // Set up bounding boxes for the object
-
-                     newEntity.setAttribute('body', {
-                         type: 'static',
-                         shape: 'none'
-                     })
-                     newEntity.setAttribute('shape__main', {
-                         shape: 'cylinder',
-                         height: 0.8,
-                         radiusTop: 0.2,
-                         radiusBottom: 0.2
-                     })
-                     newEntity.setAttribute('physics-collider', 'ignoreSleep', true);
-                     newEntity.setAttribute('collision-filter', 'collisionForces', false);
-
-                     newEntity.setAttribute('animation-mixer', {
-                        clip: 'Open',
-                        loop: 'once',
-                        timeScale: 0.5
-                    });
-                    if (targetObjName == GIFT) {
-                        newEntity.addEventListener('collisions', (e) => {
-                            console.log("Collisions triggered! " + newEntity.getAttribute('id'));
-                            console.log(e.detail.els);
-                            if (e.detail.els.length > 0) {
-                                console.log('enter');
-                                newEntity.setAttribute('animation-mixer', {
-                                    clip: 'Open',
-                                    loop: 'once',
-                                    timeScale: 0.5
-                                });
-                            }
-                            console.log(e.detail.clearedEls);
-                        });
-                    }
                      
+
                     break;
                   }
                }

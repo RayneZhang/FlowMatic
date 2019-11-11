@@ -3,7 +3,7 @@
 
 import * as AFRAME from 'aframe'
 import store from '../store'
-import { objects } from '../Objects'
+import { objects, GIFT } from '../Objects'
 import { scene, Node } from 'frp-backend'
 import { resize } from '../utils/SizeConstraints';
 import { Vector3 } from 'three';
@@ -99,18 +99,22 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         loop: 'once',
                         timeScale: 0.5
                     });
-                     newEntity.addEventListener('collisions', (e) => {
-                        console.log("Collisions triggered! " + newEntity.getAttribute('id'));
-                        console.log(e.detail.els);
-                        if (e.detail.els.length > 0) {
-                            newEntity.setAttribute('animation-mixer', {
-                                clip: 'Open',
-                                loop: 'once',
-                                timeScale: 0.5
-                            });
-                        }
-                        console.log(e.detail.clearedEls);
-                    });
+                    if (targetObjName == GIFT) {
+                        newEntity.addEventListener('collisions', (e) => {
+                            console.log("Collisions triggered! " + newEntity.getAttribute('id'));
+                            console.log(e.detail.els);
+                            if (e.detail.els.length > 0) {
+                                console.log('enter');
+                                newEntity.setAttribute('animation-mixer', {
+                                    clip: 'Open',
+                                    loop: 'once',
+                                    timeScale: 0.5
+                                });
+                            }
+                            console.log(e.detail.clearedEls);
+                        });
+                    }
+                     
                     break;
                   }
                }

@@ -7,6 +7,8 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         functionOutputs: {type: 'array', default: []},
         behaviorInputs: {type: 'array', default: []},
         behaviorOutputs: {type: 'array', default: []},
+        typeInputs: {type: 'array', default: []},
+        typeOutputs: {type: 'array', default: []},
         functionName: {type: 'string', default: "Example Function"}
     },
 
@@ -34,7 +36,8 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         let i: number = 0;
         for (const inputName of this.data.functionInputs) {
             const behavior: string = this.data.behaviorInputs[i];
-            this.createOnePlug(inputName, behavior, this.boxHeight/2 - this.lineHeight*(i+0.5), true);
+            const type: string = this.data.typeInputs[i];
+            this.createOnePlug(inputName, type, behavior, this.boxHeight/2 - this.lineHeight*(i+0.5), true);
             if (this.data.functionInputs.length >= 1)
                 this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
             i++;
@@ -44,7 +47,8 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         let j: number = 0;
         for (const outputName of this.data.functionOutputs) {
             const behavior: string = this.data.behaviorOutputs[j];
-            this.createOnePlug(outputName, behavior, this.boxHeight/2 - this.lineHeight*(j+0.5), false);
+            const type: string = this.data.typeOutputs[j];
+            this.createOnePlug(outputName, type, behavior, this.boxHeight/2 - this.lineHeight*(j+0.5), false);
             if (this.data.functionOutputs.length >= 1)
                 this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), 0));
             j++;
@@ -57,18 +61,60 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
     },
 
     // Create a plug for a certain input
-    createOnePlug: function(_inputName: string, _behavior: string,  _yOffset: number, _input: boolean): void {
+    createOnePlug: function(_inputName: string, _type: string, _behavior: string,  _yOffset: number, _input: boolean): void {
         // Create a plug first.
         const plug: any = document.createElement('a-entity');
         this.el.appendChild(plug);
         plug.classList.add('connectable');
 
-        plug.setAttribute('geometry', {
-            primitive: 'box',
-            width: 0.03,
-            height: 0.03,
-            depth: 0.15
-        });
+        switch (_type) {
+            case 'boolean': {
+                plug.setAttribute('geometry', {
+                    primitive: 'cone',
+                    height: 0.03,
+                    radiusTop: 0,
+                    radiusBottom: 0.05
+                });
+                if (_input)
+                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+                else 
+                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+            }
+            case 'object': {
+                plug.setAttribute('geometry', {
+                    primitive: 'sphere',
+                    radius: 0.02,
+                });
+            }
+            case 'vector3': {
+                plug.setAttribute('geometry', {
+                    primitive: 'cylinder',
+                    height: 0.03,
+                    radius: 0.02
+                });
+                if (_input)
+                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+                else 
+                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+            }
+            case 'number': {
+                plug.setAttribute('geometry', {
+                    primitive: 'box',
+                    width: 0.03,
+                    height: 0.03,
+                    depth: 0.03
+                });
+            }
+            case 'any': {
+                plug.setAttribute('geometry', {
+                    primitive: 'box',
+                    width: 0.03,
+                    height: 0.03,
+                    depth: 0.15
+                });
+            }
+        }
+
         let unselectedColor: string = '#ffffff';
         let hoveredColor: string = 'yellow';
 

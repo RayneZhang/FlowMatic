@@ -477,21 +477,28 @@ function instantiateOp(item: Item): void {
     // Set up item geometry and material
     const functionInputs: Array<string> = new Array<string>();
     const behaviorInputs: Array<string> = new Array<string>();
+    const typeInputs: Array<string> = new Array<string>();
     const functionOutputs: Array<string> = new Array<string>();
     const behaviorOutputs: Array<string> = new Array<string>();
+    const typeOutputs: Array<string> = new Array<string>();
+
     item.inputs.forEach((input: {name: string, type: string, behavior: string}) => {
         functionInputs.push(input.name);
         behaviorInputs.push(input.behavior);
+        typeInputs.push(input.type);
     });
     item.outputs.forEach((output: {name: string, type: string, behavior: string}) => {
         functionOutputs.push(output.name);
         behaviorOutputs.push(output.behavior);
+        typeOutputs.push(output.type);
     });
     opEl.setAttribute('operator-model', 'functionName', item.name);
     opEl.setAttribute('operator-model', 'functionInputs', functionInputs);
     opEl.setAttribute('operator-model', 'functionOutputs', functionOutputs);
     opEl.setAttribute('operator-model', 'behaviorInputs', behaviorInputs);
     opEl.setAttribute('operator-model', 'behaviorOutputs', behaviorOutputs);
+    opEl.setAttribute('operator-model', 'typeInputs', typeInputs);
+    opEl.setAttribute('operator-model', 'typeOutputs', typeOutputs);
 
     // Resize the model into item size
     opEl.addEventListener('model-loaded', () => {

@@ -78,8 +78,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                      newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
                      newEntity.setAttribute('obj-init', 'name', targetObjName);
 
-                     
-
                     break;
                   }
                }

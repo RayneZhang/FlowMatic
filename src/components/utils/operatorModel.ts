@@ -67,6 +67,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         this.el.appendChild(plug);
         plug.classList.add('connectable');
 
+        console.log(_type);
         switch (_type) {
             case 'boolean': {
                 plug.setAttribute('geometry', {
@@ -79,12 +80,14 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
                     plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
                 else 
                     plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+                break;
             }
             case 'object': {
                 plug.setAttribute('geometry', {
                     primitive: 'sphere',
                     radius: 0.02,
                 });
+                break;
             }
             case 'vector3': {
                 plug.setAttribute('geometry', {
@@ -96,6 +99,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
                     plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
                 else 
                     plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+                break;
             }
             case 'number': {
                 plug.setAttribute('geometry', {
@@ -104,6 +108,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
                     height: 0.03,
                     depth: 0.03
                 });
+                break;
             }
             case 'any': {
                 plug.setAttribute('geometry', {
@@ -112,6 +117,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
                     height: 0.03,
                     depth: 0.15
                 });
+                break;
             }
         }
 

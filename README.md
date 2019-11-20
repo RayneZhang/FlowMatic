@@ -15,29 +15,29 @@ Some of the interaction technqiues was inspired by Microsoft Maquette.
 It appears that the first way alone is not satisfying for FlowMatic. Perhaps we will add the third way into count.
 
 - **Transportation**: 
- - Dragging the whole world: L_Grab & R_Grab pressed.
- - Rotate Camera: with R_Grab pressed, push R_thumbstick to left/right.
- - Forward & Backward: with R_Grab pressed, push R_thumbstick to up/down.
- - Teleportation: with R_Grab pressed, press R_trigger to teleport.
+  - Dragging the whole world: L_Grab & R_Grab pressed.
+  - Rotate Camera: with R_Grab pressed, push R_thumbstick to left/right.
+  - Forward & Backward: with R_Grab pressed, push R_thumbstick to up/down.
+  - Teleportation: with R_Grab pressed, press R_trigger to teleport.
 
 - **Create Object**: Use raycast to select an object, use R_trigger/R_grab to import it.
- - Model Preview.
- - Search from Google Poly.
+  - Model Preview.
+  - Search from Google Poly.
 
 - **Position, Scale, Rotation**:
- - Orbit control for rotation.
- - [Low Priority] Supports one-dimensional scaling.
- - [Low Priority] Supports one-dimensional translating.
+  - Orbit control for rotation.
+  - [Low Priority] Supports one-dimensional scaling.
+  - [Low Priority] Supports one-dimensional translating.
 
 - **Tools**:
- - Select
- - Deselect
- - Erasing
- - [Low Priority] Drawing
- - [Low Priority] Eye dropper
- - [Low Priority] Painting
- - [Low Priority] Text
- - [Low Priority] Camera
+  - Select
+  - Deselect
+  - Erasing
+  - [Low Priority] Drawing
+  - [Low Priority] Eye dropper
+  - [Low Priority] Painting
+  - [Low Priority] Text
+  - [Low Priority] Camera
 
 
 ### Type Visualization and Constraints

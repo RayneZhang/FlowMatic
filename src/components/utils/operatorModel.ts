@@ -67,14 +67,13 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         this.el.appendChild(plug);
         plug.classList.add('connectable');
 
-        console.log(_type);
         switch (_type) {
             case 'boolean': {
                 plug.setAttribute('geometry', {
                     primitive: 'cone',
-                    height: 0.03,
+                    height: 0.05,
                     radiusTop: 0,
-                    radiusBottom: 0.05
+                    radiusBottom: 0.03
                 });
                 if (_input)
                     plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
@@ -200,6 +199,7 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
                 bevelSize: 0.5,
                 bevelSegments: 3
             } );
+            
             geometry.computeBoundingBox();
             geometry.computeVertexNormals();
             geometry.center();

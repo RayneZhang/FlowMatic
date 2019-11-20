@@ -474,7 +474,7 @@ function instantiateOp(item: Item): void {
     const canvas: any = document.querySelector('#canvas-world');
     canvas.appendChild(opEl);
 
-    // Set up item geometry and material
+    // Initiate `operator-model` component
     const functionInputs: Array<string> = new Array<string>();
     const behaviorInputs: Array<string> = new Array<string>();
     const typeInputs: Array<string> = new Array<string>();

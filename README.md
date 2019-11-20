@@ -8,9 +8,9 @@ This section includes some design ideas and procedures.
 Some of the interaction technqiues was inspired by Microsoft Maquette.
 
 - **Selection**: 
- - Raycast pointing selection; 
- - Raycast cross selection (see: https://dl.acm.org/citation.cfm?id=3300848); 
- - Touch based selection. 
+  - Raycast pointing selection; 
+  - Raycast cross selection (see: https://dl.acm.org/citation.cfm?id=3300848); 
+  - Touch based selection. 
 
 It appears that the first way alone is not satisfying for FlowMatic. Perhaps we will add the third way into count.
 

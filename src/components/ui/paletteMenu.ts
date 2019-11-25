@@ -51,62 +51,82 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 src: '#palette-menu-gltf',
                 part: subEntityName
             });
-            // Initiate different materials for different model-part.
-            if (subEntityName == "currentcolor") {
-                subMenuEl.setAttribute('material', {
-                    color: '#ffffff',
-                    flatShading: true,
-                    shader: 'flat',
-                    transparent: false
-                });
-            }
-            else if (subEntityName == 'hue' || subEntityName == 'huecursor') {
-                subMenuEl.setAttribute('material', {
-                    flatShading: true,
-                    shader: 'flat',
-                    transparent: true,
-                    src: '#uinormal'
-                });
 
-                if (subEntityName == 'hue') {
-                    subMenuEl.addEventListener('object3dset', (event) => {
-                        this.initColorWheel(subMenuEl);
+            // Initiate material according to widget name.
+            switch (subEntityName) {
+                case 'currentcolor': {
+                    subMenuEl.setAttribute('material', {
+                        color: '#ffffff',
+                        flatShading: true,
+                        shader: 'flat',
+                        transparent: false
                     });
+                    break;
                 }
-            }
-            else if (subEntityName == 'stop') {
-                subMenuEl.setAttribute('material', 'color', '#F10310');
 
-                subMenuEl.addEventListener('clicked', () => {
-                    // When run button is clicked
+                case 'hue': {
+                    subMenuEl.addEventListener('object3dset', (event) => {
+                        subMenuEl.setAttribute('material', {
+                            flatShading: true,
+                            shader: 'flat',
+                            transparent: true,
+                            src: '#uinormal'
+                        }); 
+                        initColorWheel(subMenuEl);
+                    });
+                    break;
+                }
+
+                case 'huecursor': {
+                    subMenuEl.setAttribute('material', {
+                        color: '#ffffff',
+                        flatShading: true,
+                        shader: 'flat',
+                        transparent: true,
+                        fog: false,
+                        src: '#uinormal'
+                    });
+                    break;
+                }
+
+                case 'stop': {
                     subMenuEl.setAttribute('material', 'color', '#F10310');
 
-                    // Set run button back to normal
-                    const runEl: any = document.querySelector('#run');
-                    runEl.setAttribute('material', 'color', '#22313f');
+                    subMenuEl.addEventListener('clicked', () => {
+                        // When run button is clicked
+                        subMenuEl.setAttribute('material', 'color', '#F10310');
 
-                    // Set App status
-                    setAppStatus(false);
-                });
-                
-            }
-            else if (subEntityName == 'run') {
-                subMenuEl.setAttribute('material', 'color', '#22313f');
+                        // Set run button back to normal
+                        const runEl: any = document.querySelector('#run');
+                        runEl.setAttribute('material', 'color', '#22313f');
 
-                subMenuEl.addEventListener('clicked', () => {
-                    // When run button is clicked
-                    subMenuEl.setAttribute('material', 'color', '#00B800');
+                        // Set App status
+                        setAppStatus(false);
+                    });
+                    break;
+                }
 
-                    // Set stop button back to normal
-                    const stopEl: any = document.querySelector('#stop');
-                    stopEl.setAttribute('material', 'color', '#22313f');
+                case 'run': {
+                    subMenuEl.setAttribute('material', 'color', '#22313f');
 
-                    // Set App status
-                    setAppStatus(true);
-                });
-            }
-            else {
-                subMenuEl.setAttribute('material', 'color', '#22313f');
+                    subMenuEl.addEventListener('clicked', () => {
+                        // When run button is clicked
+                        subMenuEl.setAttribute('material', 'color', '#00B800');
+
+                        // Set stop button back to normal
+                        const stopEl: any = document.querySelector('#stop');
+                        stopEl.setAttribute('material', 'color', '#22313f');
+
+                        // Set App status
+                        setAppStatus(true);
+                    });
+                    break;
+                }
+
+                default: {
+                    subMenuEl.setAttribute('material', 'color', '#22313f');
+                    break;
+                }
             }
 
             subMenuEl.addEventListener('raycaster-intersected', (event) => {
@@ -236,54 +256,6 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
     },
 
-    initColorWheel(hueEl: any): void {
-        const vertexShader = '\
-          varying vec2 vUv;\
-          void main() {\
-            vUv = uv;\
-            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);\
-            gl_Position = projectionMatrix * mvPosition;\
-          }\
-          ';
-    
-        const fragmentShader = '\
-          #define M_PI2 6.28318530718\n \
-          uniform float brightness;\
-          varying vec2 vUv;\
-          vec3 hsb2rgb(in vec3 c){\
-              vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, \
-                               0.0, \
-                               1.0 );\
-              rgb = rgb * rgb * (3.0 - 2.0 * rgb);\
-              return c.z * mix( vec3(1.0), rgb, c.y);\
-          }\
-          \
-          void main() {\
-            vec2 toCenter = vec2(0.5) - vUv;\
-            float angle = atan(toCenter.y, toCenter.x);\
-            float radius = length(toCenter) * 2.0;\
-            vec3 color = hsb2rgb(vec3((angle / M_PI2) + 0.5, radius, brightness));\
-            gl_FragColor = vec4(color, 1.0);\
-          }\
-          ';
-    
-        const material = new THREE.ShaderMaterial({
-          uniforms: { brightness: { type: 'f', value: 1.0 } },
-          vertexShader: vertexShader,
-          fragmentShader: fragmentShader
-        });
-    
-        const mesh = hueEl.getObject3D('mesh');
-    
-        if (mesh) {
-            console.log(mesh); // Mesh Basic Material
-            console.log(mesh.material); // Mesh Standard Material
-            // mesh.material = material;
-            console.log(mesh.material);
-            console.log(mesh);
-        }
-    },
-
     // ==========Also for external call.==========
     // Set description of the panel.
     setInstanceDescription(_buttonId: number): void {
@@ -334,5 +306,48 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     }
 });
 
+function initColorWheel(hueEl: any): void {
+    const vertexShader = '\
+      varying vec2 vUv;\
+      void main() {\
+        vUv = uv;\
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);\
+        gl_Position = projectionMatrix * mvPosition;\
+      }\
+      ';
+
+    const fragmentShader = '\
+      #define M_PI2 6.28318530718\n \
+      uniform float brightness;\
+      varying vec2 vUv;\
+      vec3 hsb2rgb(in vec3 c){\
+          vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, \
+                           0.0, \
+                           1.0 );\
+          rgb = rgb * rgb * (3.0 - 2.0 * rgb);\
+          return c.z * mix( vec3(1.0), rgb, c.y);\
+      }\
+      \
+      void main() {\
+        vec2 toCenter = vec2(0.5) - vUv;\
+        float angle = atan(toCenter.y, toCenter.x);\
+        float radius = length(toCenter) * 2.0;\
+        vec3 color = hsb2rgb(vec3((angle / M_PI2) + 0.5, radius, brightness));\
+        gl_FragColor = vec4(color, 1.0);\
+      }\
+      ';
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: { brightness: { type: 'f', value: 1.0 } },
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader
+    });
+
+    const mesh = hueEl.getObject3D('mesh');
+
+    if (mesh) {
+        mesh.material = material;
+    }
+}
 
 export default paletteMenu;

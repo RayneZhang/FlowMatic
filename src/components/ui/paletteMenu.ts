@@ -8,6 +8,7 @@ declare const THREE:any;
 
 // The sub-menu elements' names in the 3D obj.
 const subEntitiesNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next'];
+const NotReactUI: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
 
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
     schema: {
@@ -52,6 +53,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 part: subEntityName
             });
 
+            
             // Initiate material according to widget name.
             switch (subEntityName) {
                 case 'currentcolor': {
@@ -129,14 +131,32 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
             }
 
+            if (subEntityName.indexOf('button') != -1) 
+                subMenuEl.classList.add('instance');
+            
             subMenuEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
                 
+                if (NotReactUI.indexOf(subEntityName) === -1) {
+                    // Set responsive color.
+                    subMenuEl.setAttribute('material', 'color', '#22a7f0'); 
+                    // Set description value.
+                    if (subMenuEl.classList.contains('instance')) {
+                        const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
+                        this.setInstanceDescription(buttonId);
+                    }
+                }
             })
 
             subMenuEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
                 
+                const selectedButtonId: number = this.data.selectedButtonId;
+                if (NotReactUI.indexOf(subEntityName) === -1 && 
+                subEntityName != 'button' + String(selectedButtonId+1)) {
+                    subMenuEl.setAttribute('material', 'color', '#22313f');
+                    this.setInstanceDescription(selectedButtonId);
+                }
             })
         }
     },

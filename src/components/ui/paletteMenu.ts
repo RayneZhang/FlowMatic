@@ -274,11 +274,13 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         });
     
         const mesh = hueEl.getObject3D('mesh');
-        console.log(hueEl.getAttribute('id'));
     
         if (mesh) {
-            mesh.material = material;
-            console.log(material);
+            console.log(mesh); // Mesh Basic Material
+            console.log(mesh.material); // Mesh Standard Material
+            // mesh.material = material;
+            console.log(mesh.material);
+            console.log(mesh);
         }
     },
 

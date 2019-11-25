@@ -41,8 +41,8 @@ const rightTriggerListener = {
                 const id = intersectedEl.getAttribute('id');
 
                 if (intersectedEl.classList.contains('instance')) {
-                    const globalMenu: any = document.querySelector('[global-menu]');
-                    const globalMenuComponent = globalMenu.components['global-menu'];
+                    const globalMenu: any = document.querySelector('palette-menu');
+                    const globalMenuComponent = globalMenu.components['palette-menu'];
                     const buttonId: number = Number(id.substr(-1, 1)) - 1;
                     globalMenuComponent.setSelectedButtonId(buttonId);
                 }
@@ -361,8 +361,8 @@ const rightTriggerListener = {
         const rightHand: any = document.querySelector('#rightHand');
         rightHand.setAttribute('right-abutton-listener', 'color', color);
 
-        const globalMenu: any = document.querySelector('[global-menu]');
-        const globalMenuComponent = globalMenu.components['global-menu'];
+        const globalMenu: any = document.querySelector('palette-menu');
+        const globalMenuComponent = globalMenu.components['palette-menu'];
         globalMenuComponent.setCurrentColor(color);
     },
 

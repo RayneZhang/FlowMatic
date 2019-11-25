@@ -72,9 +72,7 @@
                 <img id="Operators_icon" src="assets/images/operator.png" crossorigin="anonymous">
                 <img id="Avatars_icon" src="assets/images/avatar.png" crossorigin="anonymous">
 
-                <a-asset-item id="menu-obj" src="assets/models/menu/menu.obj"></a-asset-item>
-                <a-asset-item id="blue-obj" src="assets/models/bottles/objs/blue_bottle.obj"></a-asset-item>
-                <a-asset-item id="blue-mtl" src="assets/models/bottles/objs/blue_bottle.mtl"></a-asset-item>
+                <a-asset-item id="palette-menu-gltf" src="assets/models/menu/palette.gltf"></a-asset-item>
                 
                 <a-asset-item id="switch-obj" src="assets/models/switch/switch.obj"></a-asset-item>
                 <a-asset-item id="switch-base-obj" src="assets/models/switch/switch_base.obj"></a-asset-item>
@@ -132,7 +130,7 @@
 
                 <a-entity id="leftHand" physics-collider static-body="shape: sphere; sphereRadius: 0.02" 
                 oculus-touch-controls="hand: left" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
-                    <a-entity id="menu" global-menu></a-entity>
+                    <a-entity id="menu" palette-menu></a-entity>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">
                         <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.015; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
                                 position="0.070 0.0 0.0">

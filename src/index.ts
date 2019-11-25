@@ -13,6 +13,8 @@ import * as PHYSICSEx from 'aframe-physics-extras';
 PHYSICSEx;
 import * as cubemap from 'aframe-cubemap-component';
 cubemap;
+import * as gltfpart from 'aframe-gltf-part-component';
+gltfpart;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import collisionListener from './components/controllers/collision-listener';
@@ -33,8 +35,8 @@ entityFollow;
 
 import modelSubset from './components/utils/model_subset';
 modelSubset;
-import globalMenu from './components/ui/globalMenu';
-globalMenu;
+import paletteMenu from './components/ui/paletteMenu';
+paletteMenu;
 import objAttrList from './components/ui/objAttrList';
 objAttrList;
 import bottleDescription from './components/ui/bottleDescrip';

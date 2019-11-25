@@ -37,8 +37,8 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
                 this.el.setAttribute('material', 'color', '#22a7f0'); 
                 // Set description value.
                 const EntityId = this.el.getAttribute('id');
-                const globalMenu: any = document.querySelector('[global-menu]');
-                const globalMenuComponent = globalMenu.components['global-menu'];
+                const globalMenu: any = document.querySelector('palette-menu');
+                const globalMenuComponent = globalMenu.components['palette-menu'];
                 if (this.el.classList.contains('instance')) {
                     const buttonId: number = Number(EntityId.substr(-1, 1)) - 1;
                     globalMenuComponent.setInstanceDescription(buttonId);
@@ -52,8 +52,8 @@ const modelSubset = AFRAME.registerComponent('model-subset', {
             // Set raycasted for handling hue down event.
             this.data.raycasted = false;
             const menu: any = document.querySelector("#menu");
-            const globalMenuComponent = menu.components['global-menu'];
-            const selectedButtonId: number = menu.getAttribute('global-menu').selectedButtonId;
+            const globalMenuComponent = menu.components['palette-menu'];
+            const selectedButtonId: number = menu.getAttribute('palette-menu').selectedButtonId;
             if (NotReactUI.indexOf(this.data.name) === -1 && 
             this.el.getAttribute('id') != 'button' + String(selectedButtonId+1)) {
                 this.el.setAttribute('material', 'color', '#22313f');

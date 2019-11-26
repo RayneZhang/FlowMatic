@@ -300,10 +300,6 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         itemEl.addEventListener('clicked-cleared', (event) => {
             itemEl.setAttribute('material', 'color', itemColor.unselected);
         });
-
-        if (i == 2) {
-            instantiateOp(item);
-        }
     }
 }
 

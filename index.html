@@ -100,76 +100,29 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" physics-collider static-body="shape: sphere; sphereRadius: 0.02" 
-                collision-listener oculus-touch-controls="hand: right" controller-material-controller thumb-controls="hand: right" 
-                right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
-                raycaster="origin: 0, -0.01, 0; direction: 0, -0.8, -1; showLine: true; objects: .movable, .ui, .line, .canvasObj, .connectable, .Arrow, .Switch, .Slider; far: 5" 
-                line="color: red" >
-                    <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
-                        <a-entity id="non-grabbing-tips" visible="true">
-                            <a-entity tooltip="text: Create Object; width: 0.08; height: 0.015; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
-                                position="-0.06 0.005 0.003">
-                            </a-entity>
-                            <a-entity tooltip="text: Select; width: 0.05; height: 0.015; targetPosition: -0.005 -0.032 -0.015; lineHorizontalAlign: left; rotation: -90 0 0; src: assets/images/tooltip.png"
-                                position="0.02 -0.02 -0.045">
-                            </a-entity>
-                            <a-entity tooltip="text: Hold; width: 0.04; height: 0.015; targetPosition: -0.005 -0.015 0.027; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
-                                position="-0.04 0 0.055">
-                            </a-entity>
-                        </a-entity>
-                        
-                        <a-entity id="grabbing-tips" visible="false">
-                            <a-entity id="put-away-tip" tooltip="text: Put Away; width: 0.06; height: 0.015; targetPosition: -0.02 -0.015 -0.001; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
-                                position="-0.055 -0.005 -0.025">
-                            </a-entity>
-                            <a-entity id="rotate-scale-tip" tooltip="text: Rotate/Scale; width: 0.08; height: 0.015; targetPosition: 0.004 0.00 -0.01; lineHorizontalAlign: center; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
-                                position="0.055 0.005 -0.01">
-                            </a-entity>
-                        </a-entity>
-                    </a-entity>
-                </a-entity>
+                <a-entity id="rightHand" sphere-collider="objects: a-box" super-hands hand-controls="right"></a-entity>
 
-                <a-entity id="leftHand" physics-collider static-body="shape: sphere; sphereRadius: 0.02" 
-                oculus-touch-controls="hand: left" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
-                    <a-entity id="menu" palette-menu></a-entity>
-                    <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">
-                        <a-entity tooltip="text: Main Menu; width: 0.07; height: 0.015; targetPosition: 0.012 0.0 0.003; rotation: -90 0 0; src: assets/images/tooltip.png"
-                                position="0.070 0.0 0.0">
-                        </a-entity>
-                        <!-- <a-entity tooltip="text: Teleport; width: 0.06; height: 0.03; targetPosition: 0.018 -0.010 -0.011; rotation: -90 0 0; src: assets/images/tooltip.png"
-                            position="0.059 0.015 -0.028">
-                        </a-entity> -->
-                        <a-entity tooltip="text: Move; width: 0.09; height: 0.015; targetPosition: -0.004 0.00 -0.01; lineHorizontalAlign: right; lineVerticalAlign: top; rotation: -90 0 0; src: assets/images/tooltip.png"
-                            position="-0.07 0.01 -0.01">
-                        </a-entity>
-                        <!-- <a-entity tooltip="text: Press to create an object!; width: 0.14; height: 0.04; targetPosition: 0.002 -0.03 -0.015; lineHorizontalAlign: right; rotation: -90 0 0; src: assets/images/tooltip.png"
-                            position="-0.09 0.020 -0.05">
-                        </a-entity> -->
-                        <!-- <a-entity tooltip="text: Undo; width: 0.05; height: 0.03; targetPosition: 0.005 -0.022 0.027; rotation: -90 0 0; src: assets/images/tooltip.png"
-                            position="0.058 -0.01 0.055">
-                        </a-entity> -->
-                    </a-entity>
-                </a-entity>
+                <a-entity id="leftHand" sphere-collider="objects: a-box" super-hands hand-controls="left"></a-entity>
             </a-entity>
 
             <!-- Floor -->
             <a-plane id="floor" static-body position="0 -1.7 0" rotation="-90 0 0" width=100 height=100 material="transparent: true; opacity: 0"></a-plane>
 
             <!-- Scene #1 -->
-            <!-- <a-entity id="env" environment="preset: default; lighting: none; ground: none; fog: 0"></a-entity>
+            <a-entity id="env" environment="preset: default; lighting: none; ground: none; fog: 0"></a-entity>
             <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.6; type: hemisphere"></a-entity>
             <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity>
             <a-entity id="stage" position="0 -0.2 -10" scale="0.8 0.8 0.8" obj-model="obj: #stage-obj; mtl: #stage-mtl" mtl-lighting></a-entity>
             <a-entity id="city"  position="0 0 -10" gltf-model="#city-gltf" mtl-lighting></a-entity>
             <a-entity id="singer"  position="0 1.7 -5" scale="2.5 2.5 2.5" gltf-model="#singer-glb"></a-entity>
             <a-entity id="guitarist"  position="-3.5 1.25 -7" scale="2.5 2.5 2.5" gltf-model="#guitarist-glb"></a-entity>
-            <a-entity id="drummer"  position="3.5 1.4 -8" scale="2.5 2.5 2.5" gltf-model="#drummer-glb"></a-entity> -->
+            <a-entity id="drummer"  position="3.5 1.4 -8" scale="2.5 2.5 2.5" gltf-model="#drummer-glb"></a-entity>
 
             <!-- Scene #2 -->
-            <a-entity id="env" environment="preset: default; lighting: none; ground: none; fog: 0"></a-entity>
+            <!-- <a-entity id="env" environment="preset: default; lighting: none; ground: none; fog: 0"></a-entity>
             <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.6; type: hemisphere"></a-entity>
             <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity>
-            <a-entity id="room" scale="0.05 0.05 0.05" position="-30 0 20" gltf-model="#room-gltf"></a-entity>
+            <a-entity id="room" scale="0.05 0.05 0.05" position="-30 0 20" gltf-model="#room-gltf"></a-entity> -->
             <!-- <a-entity id="env" environment="preset: default; ground: none; lighting: none"></a-entity>
             <a-entity id="western" gltf-model="#western-gltf"></a-entity> 
             <a-entity id="mushroom" class="movable" scale="0.1 0.1 0.1" position="0 -1.22 0" gltf-model="#mushroom-gltf"></a-entity>
@@ -184,6 +137,7 @@
             <a-entity id="platform" position="0 0 -10" scale="0.01 0.01 0.01" gltf-model="#platform-gltf" mtl-lighting></a-entity> -->
             
             <a-entity id="canvas" canvas-generator></a-entity>
+            <a-box hoverable grabbable stretchable draggable dropppable color="blue" position="0 0 -1"></a-box>
 
             <!-- Utils -->
             <a-entity id="edges"></a-entity>

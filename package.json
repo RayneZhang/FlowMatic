@@ -33,6 +33,7 @@
     "redux": "^4.0.1",
     "redux-undo": "^1.0.0-beta9-9-7",
     "rxjs": "^6.5.2",
+    "super-hands": "^3.0.0",
     "three": "^0.105.2",
     "three-to-cannon": "^2.0.0",
     "ts-loader": "^5.2.0",

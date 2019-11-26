@@ -15,6 +15,8 @@ import * as cubemap from 'aframe-cubemap-component';
 cubemap;
 import * as gltfpart from 'aframe-gltf-part-component';
 gltfpart;
+import * as superhands from 'super-hands';
+superhands;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import collisionListener from './components/controllers/collision-listener';

@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe';
-import { Math as THREEMath, ShaderMaterial, Mesh } from 'three';
+import { Math as THREEMath, ShaderMaterial, Mesh, TextureLoader } from 'three';
 import { objects } from '../../Objects';
 import { Item } from './Canvas';
 import { resize } from '../../utils/SizeConstraints';
@@ -61,20 +61,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         color: '#ffffff',
                         flatShading: true,
                         shader: 'flat',
-                        transparent: false
-                    });
-                    break;
-                }
-
-                case 'hue': {
-                    subMenuEl.addEventListener('object3dset', (event) => {
-                        subMenuEl.setAttribute('material', {
-                            flatShading: true,
-                            shader: 'flat',
-                            transparent: true,
-                            src: '#uinormal'
-                        }); 
-                        initColorWheel(subMenuEl);
+                        transparent: true
                     });
                     break;
                 }
@@ -87,6 +74,37 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         transparent: true,
                         fog: false,
                         src: '#uinormal'
+                    });
+                    subMenuEl.addEventListener('object3dset', (event) => {
+                        var texture = new THREE.TextureLoader().load('#uinormal');
+                        const material = new THREE.MeshStandardMaterial({
+                            color: '#ffffff',
+                            flatShading: true,
+                            transparent: true,
+                            fog: false,
+                            map: '#uinormal'
+                          });
+                      
+                          const mesh = subMenuEl.getObject3D('mesh');
+                          if (mesh) {
+                              mesh.material = material;
+                              console.log(material);
+                              console.log(mesh);
+                          }
+                    });
+                    
+                    break;
+                }
+
+                case 'hue': {
+                    subMenuEl.addEventListener('object3dset', (event) => {
+                        subMenuEl.setAttribute('material', {
+                            flatShading: true,
+                            shader: 'flat',
+                            transparent: true,
+                            src: '#uinormal'
+                        }); 
+                        initColorWheel(subMenuEl);
                     });
                     break;
                 }

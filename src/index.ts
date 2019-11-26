@@ -33,8 +33,6 @@ controllerMaterial;
 import entityFollow from './components/utils/entityFollow';
 entityFollow;
 
-import modelSubset from './components/utils/model_subset';
-modelSubset;
 import paletteMenu from './components/ui/paletteMenu';
 paletteMenu;
 import objAttrList from './components/ui/objAttrList';

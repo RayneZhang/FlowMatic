@@ -52,6 +52,10 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
 
 ### More Complex Applications
 
+### 3D Dataflow Interactions
+
+- **Abstractions of operators**
+  - The ability of dragging an operator to see the logic inside as well as the ability to create user-defined operator by putting existing operators inside one box.
 
 ## Resources
 ### Assets

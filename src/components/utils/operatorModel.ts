@@ -147,6 +147,9 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         else
             plug.object3D.position.set(this.boxWidth/2, _yOffset, 0);
 
+
+        plug.setAttribute('type-constraint');
+
         // Create plug description.
         const plugDescription: any = document.createElement('a-entity');
         plug.appendChild(plugDescription);

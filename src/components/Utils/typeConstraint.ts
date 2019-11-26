@@ -11,10 +11,24 @@ export const typeConstraint = AFRAME.registerComponent('type-constraint', {
     init: function(): void {
         const initColor = this.el.getAttribute('material').color;
 
-        // Fetch position of the right controller.
-        const ctlrPos: Vector3 = new Vector3();
-        const r_ctlr: any = document.querySelector('rightHand');
-        r_ctlr.object3D.getWorldPosition(ctlrPos);
+        this.el.setAttribute('body', {
+            type: 'static',
+            shape: 'none'
+        })
+        this.el.setAttribute('shape__main', {
+            shape: 'sphere',
+            radius: 1.0
+        })
+        this.el.setAttribute('physics-collider', 'ignoreSleep', true);
+        this.el.setAttribute('collision-filter', 'collisionForces', false);
+
+        this.el.addEventListener('collisions', (e) => {
+            console.log("Plug Collisions Triggered!");
+            console.log(e.detail.els);
+            if (e.detail.els.length > 0) {
+                this.el.setAttribute('material', 'color', 'grey');
+            }
+        });
     },
 
     tick: function(time, timeDelta): void {

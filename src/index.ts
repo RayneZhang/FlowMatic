@@ -115,3 +115,6 @@ import { avatarNodeUpdate } from './components/frp/AvatarNodeUpdate';
 avatarNodeUpdate;
 import { opNodeUpdate } from './components/frp/OpNodeUpdate';
 opNodeUpdate;
+
+import { typeConstraint } from './components/Utils/typeConstraint';
+typeConstraint;

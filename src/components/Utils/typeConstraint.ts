@@ -11,13 +11,9 @@ export const typeConstraint = AFRAME.registerComponent('type-constraint', {
     init: function(): void {
         const initColor = this.el.getAttribute('material').color;
 
-        this.el.setAttribute('body', {
-            type: 'static',
-            shape: 'none'
-        })
-        this.el.setAttribute('shape__main', {
+        this.el.setAttribute('static-body', {
             shape: 'sphere',
-            radius: 1.0
+            sphereRadius: 1.0
         })
 
         // this.el.setAttribute('sleepy', 'allowSleep', true);
@@ -28,11 +24,11 @@ export const typeConstraint = AFRAME.registerComponent('type-constraint', {
             console.log("Plug Collisions Triggered!");
             console.log(e.detail.els);
             if (e.detail.els.length > 0) {
-                if (e.detail.els[0].getAttribute('id') == 'leftHand')
+                if (e.detail.els[0].getAttribute('id') == 'rightHand')
                     this.el.setAttribute('material', 'color', 'grey');
             }
             if (e.detail.clearedEls.length > 0) {
-                if (e.detail.clearedEls[0].getAttribute('id') == 'leftHand')
+                if (e.detail.clearedEls[0].getAttribute('id') == 'rightHand')
                     this.el.setAttribute('material', 'color', initColor);
             }
         });

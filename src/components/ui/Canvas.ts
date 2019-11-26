@@ -301,7 +301,7 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
             itemEl.setAttribute('material', 'color', itemColor.unselected);
         });
 
-        if (i == 0) {
+        if (i == 2) {
             instantiateOp(item);
         }
     }

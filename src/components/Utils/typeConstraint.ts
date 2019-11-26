@@ -12,14 +12,15 @@ export const typeConstraint = AFRAME.registerComponent('type-constraint', {
         const initColor = this.el.getAttribute('material').color;
 
         this.el.setAttribute('body', {
-            type: 'static',
+            type: 'dynamic',
             shape: 'none'
         })
         this.el.setAttribute('shape__main', {
             shape: 'sphere',
             radius: 1.0
         })
-        this.el.setAttribute('physics-collider', 'ignoreSleep', true);
+
+        this.el.setAttribute('sleepy', 'allowSleep', true);
         this.el.setAttribute('collision-filter', 'collisionForces', false);
 
         this.el.addEventListener('collisions', (e) => {

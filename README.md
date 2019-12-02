@@ -16,9 +16,9 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
 
 - **Transportation**: 
   - Dragging the whole world: L_Grab & R_Grab pressed.
-  - Rotate Camera: with R_Grab pressed, push R_thumbstick to left/right.
-  - Forward & Backward: with R_Grab pressed, push R_thumbstick to up/down.
-  - Teleportation: with R_Grab pressed, press R_trigger to teleport.
+  - :heavy_check_mark: Rotate Camera: with R_Grab pressed, push R_thumbstick to left/right.
+  - :heavy_check_mark: Forward & Backward: with R_Grab pressed, push R_thumbstick to up/down.
+  - :heavy_check_mark: Teleportation: with R_Grab pressed, press R_trigger to teleport.
 
 - **Create Object**: Use raycast to select an object, use R_trigger/R_grab to import it.
   - Model Preview.

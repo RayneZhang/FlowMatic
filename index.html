@@ -100,10 +100,9 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" physics-collider static-body="shape: sphere; sphereRadius: 0.02"
+                <a-entity id="rightHand" raycast-controller="hand: right" collider-controller
                 oculus-touch-controls="hand: right" controller-material-controller thumb-controls="hand: right" 
-                right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right" 
-                raycast-controller="hand: right">
+                right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right">
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
                         <a-entity id="non-grabbing-tips" visible="true">
                             <a-entity tooltip="text: Create Object; width: 0.08; height: 0.015; targetPosition: -0.01 0.0 0.004; rotation: -90 0 0; lineHorizontalAlign: right; src: assets/images/tooltip.png"
@@ -128,7 +127,7 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" physics-collider static-body="shape: sphere; sphereRadius: 0.02" 
+                <a-entity id="leftHand" collider-controller 
                 oculus-touch-controls="hand: left" controller-material-controller teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
                     <a-entity id="menu" palette-menu></a-entity>
                     <a-entity id="leftTooltips" class="oculus-tooltips" visible="true">

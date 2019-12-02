@@ -33,6 +33,8 @@ import entityFollow from './components/utils/entityFollow';
 entityFollow;
 import { raycastController } from './components/controllers/raycast-controller';
 raycastController;
+import { colliderController } from './components/controllers/collider-controller';
+colliderController;
 
 import paletteMenu from './components/ui/paletteMenu';
 paletteMenu;

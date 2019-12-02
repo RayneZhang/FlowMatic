@@ -17,7 +17,6 @@ import * as gltfpart from 'aframe-gltf-part-component';
 gltfpart;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
-import collisionListener from './components/controllers/collision-listener';
 import rotationController from './components/controllers/rotation-controller';
 import scaleController from './components/controllers/scale-controller';
 
@@ -93,7 +92,6 @@ leftController;
 import rightController from './components/avatars/rightController'
 rightController;
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
-AFRAME.registerComponent('collision-listener', collisionListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
 AFRAME.registerComponent('scale-controller', scaleController);
 AFRAME.registerComponent('data-source', dataSource);

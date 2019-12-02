@@ -15,8 +15,6 @@ import * as cubemap from 'aframe-cubemap-component';
 cubemap;
 import * as gltfpart from 'aframe-gltf-part-component';
 gltfpart;
-import * as superhands from 'super-hands';
-superhands;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import collisionListener from './components/controllers/collision-listener';
@@ -34,6 +32,8 @@ import controllerMaterial from './components/controllers/controller-material-con
 controllerMaterial;
 import entityFollow from './components/utils/entityFollow';
 entityFollow;
+import { raycastController } from './components/controllers/raycast-controller';
+raycastController;
 
 import paletteMenu from './components/ui/paletteMenu';
 paletteMenu;

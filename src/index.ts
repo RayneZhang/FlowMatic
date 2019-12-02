@@ -35,6 +35,8 @@ import { raycastController } from './components/controllers/raycast-controller';
 raycastController;
 import { colliderController } from './components/controllers/collider-controller';
 colliderController;
+import {cameraRotation} from './components/controllers/camera-rotation';
+cameraRotation;
 
 import paletteMenu from './components/ui/paletteMenu';
 paletteMenu;

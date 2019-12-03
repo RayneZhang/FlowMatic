@@ -25,6 +25,6 @@ class GooglePoly {
             }
         });
     };
-}
+};
 
-export default GooglePoly;
+export const googlePoly = new GooglePoly();

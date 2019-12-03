@@ -122,7 +122,3 @@ opNodeUpdate;
 
 import { typeConstraint } from './components/Utils/typeConstraint';
 typeConstraint;
-
-import GooglePoly from './utils/GooglePoly';
-const googlePoly = new GooglePoly();
-googlePoly.list();

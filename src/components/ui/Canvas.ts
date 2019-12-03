@@ -2,7 +2,7 @@ import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
 import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize } from '../../utils/SizeConstraints';
-import { scene, Node, ObjNode } from 'frp-backend'
+import { scene, Node, ObjNode } from 'frp-backend';
 
 export const canvasSize = {
     width: 1.6, 

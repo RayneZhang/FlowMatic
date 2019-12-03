@@ -245,6 +245,7 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
             console.log(status);
             if (status == 'success') {
                 const assets = data.assets;
+                console.log(assets);
 
                 assets.forEach((asset, i: number)=>{
                     const itemEl: any = document.createElement('a-entity');
@@ -257,12 +258,11 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
                         height: itemSize.height
                     });
                     itemEl.setAttribute('material', {
-                        src: asset.thumbnail.url + asset.thumbnail.relativePath
+                        src: asset.thumbnail.url
                     });
-                    console.log(asset.thumbnail.url + asset.thumbnail.relativePath);
 
                     // Place the item
-                    itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, offset.z);
+                    itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, 0.001);
 
                     // Add reaction to the item.
                     itemEl.classList.add('ui');
@@ -279,7 +279,12 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
                         itemEl.setAttribute('material', 'color', itemColor.selected);
                         // Use different methods of visualization when the item is an operator
                         // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
-                        
+                        const polyEl: any = document.createElement('a-entity');
+                        polyEl.setAttribute('id', asset.displayName);
+                        const redux: any = document.querySelector('#redux');
+                        redux.appendChild(polyEl);
+
+                        polyEl.setAttribute('gltf-model', 'url('+asset.format.resources.url+'/'+asset.format.resources.relativePath+')');
                     });
 
                     itemEl.addEventListener('clicked-cleared', (event) => {

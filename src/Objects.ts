@@ -279,5 +279,6 @@ export const objects = {
                 {name: "position", type: "vector3", behavior: "signal" }
             ]
         }
-    ]
+    ],
+    Poly:[]
 }

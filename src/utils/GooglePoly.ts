@@ -13,7 +13,7 @@ class GooglePoly {
         this.url = 'https://poly.googleapis.com/v1/assets?key=AIzaSyBXpyLrGL-CW-5N1UAMhAcmrhuxZV4qj4s';
     };
 
-    list(keywords='', format='GLTF', pageSize=9) {
+    list(keywords='', format='GLTF', pageSize=9): void {
         const param: object = {
             keywords: keywords,
             format: format,

@@ -13,7 +13,7 @@ class GooglePoly {
         this.url = 'https://poly.googleapis.com/v1/assets?key=AIzaSyBXpyLrGL-CW-5N1UAMhAcmrhuxZV4qj4s';
     };
 
-    list(keywords='', format='GLTF', pageSize=9): void {
+    list(keywords='', format='GLTF', pageSize=9): any {
         const param: object = {
             keywords: keywords,
             format: format,
@@ -21,10 +21,14 @@ class GooglePoly {
         }
         $.get(this.url, param, function (data,status,xhr) {
             if (status == 'success') {
-                console.log(data);
+                return data;
             }
         });
     };
+
+    getUrl(): string {
+        return this.url;
+    }
 };
 
 export const googlePoly = new GooglePoly();

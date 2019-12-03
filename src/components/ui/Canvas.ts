@@ -3,6 +3,8 @@ import { objects } from '../../Objects';
 import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
+import * as $ from 'jquery';
+import { googlePoly } from '../../utils/GooglePoly';
 
 export const canvasSize = {
     width: 1.6, 
@@ -76,7 +78,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initCanvasBg(canvasEl, this.el);
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
-        loadItems(menuEl, 'button-2');
+        loadItems(menuEl, 'button-4');
 
         // Event Listener to open and close menu.
         // this.el.object3D.visible = false;
@@ -232,6 +234,64 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
     const itemList: any = document.createElement('a-entity');
     itemList.setAttribute('id', 'item-list');
     menuEl.appendChild(itemList);
+
+    if (submenuID == 4) {
+        const param: object = {
+            keywords: '',
+            format: 'GLTF',
+            pageSize: 9
+        }
+        $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
+            console.log(status);
+            if (status == 'success') {
+                const assets = data.assets;
+
+                assets.forEach((asset, i: number)=>{
+                    const itemEl: any = document.createElement('a-entity');
+                    itemEl.setAttribute('id', 'poly'+i);
+                    itemList.appendChild(itemEl);
+
+                    itemEl.setAttribute('geometry', {
+                        primitive: 'plane',
+                        width: itemSize.width,
+                        height: itemSize.height
+                    });
+                    itemEl.setAttribute('material', {
+                        src: asset.thumbnail.url + asset.thumbnail.relativePath
+                    });
+                    console.log(asset.thumbnail.url + asset.thumbnail.relativePath);
+
+                    // Place the item
+                    itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, offset.z);
+
+                    // Add reaction to the item.
+                    itemEl.classList.add('ui');
+                    itemEl.addEventListener('raycaster-intersected', (event) => {
+                        itemEl.setAttribute('material', 'color', itemColor.hovered);
+                        setDescription(asset.displayName);
+                    });
+
+                    itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                        itemEl.setAttribute('material', 'color', itemColor.unselected);
+                    });
+
+                    itemEl.addEventListener('clicked', (event) => {
+                        itemEl.setAttribute('material', 'color', itemColor.selected);
+                        // Use different methods of visualization when the item is an operator
+                        // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
+                        
+                    });
+
+                    itemEl.addEventListener('clicked-cleared', (event) => {
+                        itemEl.setAttribute('material', 'color', itemColor.unselected);
+                    });
+                });
+                
+            }
+        });
+
+        return;
+    }
 
     for (let i = 0; i < itemLimit; i++) {
         if (itemIndex + i >= objects[submenuName].length) break;

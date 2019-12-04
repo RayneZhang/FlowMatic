@@ -162,10 +162,10 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "input", type: "any", behavior: ""}
+                {name: "input", type: "vector3", behavior: ""}
             ],
             outputs: [
-                {name: "output", type: "any", behavior: ""}
+                {name: "output", type: "vector3", behavior: ""}
             ]
         },
         {
@@ -173,11 +173,11 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "+", type: "any", behavior: ""},
-                {name: "-", type: "any", behavior: ""}
+                {name: "+", type: "vector3", behavior: ""},
+                {name: "-", type: "vector3", behavior: ""}
             ],
             outputs: [
-                {name: "output", type: "any", behavior: ""}
+                {name: "output", type: "vector3", behavior: ""}
             ]
         },
         {
@@ -198,7 +198,7 @@ export const objects = {
             itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object", behavior: "event"},
-                {name: "position", type: "any", behavior: "event"}
+                {name: "position", type: "vector3", behavior: "event"}
             ],
             outputs: [
                 {name: "object", type: "object", behavior: "event"}

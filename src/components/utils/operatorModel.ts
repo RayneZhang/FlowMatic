@@ -67,71 +67,56 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
         this.el.appendChild(plug);
         plug.classList.add('connectable');
 
-        switch (_type) {
-            case 'boolean': {
-                plug.setAttribute('geometry', {
-                    primitive: 'cone',
-                    height: 0.05,
-                    radiusTop: 0,
-                    radiusBottom: 0.03
-                });
-                if (_input)
-                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
-                else 
-                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
-                break;
-            }
-            case 'object': {
-                plug.setAttribute('geometry', {
-                    primitive: 'sphere',
-                    radius: 0.02,
-                });
-                break;
-            }
-            case 'vector3': {
-                plug.setAttribute('geometry', {
-                    primitive: 'cylinder',
-                    height: 0.03,
-                    radius: 0.02
-                });
-                if (_input)
-                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
-                else 
-                    plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
-                break;
-            }
-            case 'number': {
-                plug.setAttribute('geometry', {
-                    primitive: 'box',
-                    width: 0.03,
-                    height: 0.03,
-                    depth: 0.03
-                });
-                break;
-            }
-            case 'any': {
-                plug.setAttribute('geometry', {
-                    primitive: 'box',
-                    width: 0.03,
-                    height: 0.03,
-                    depth: 0.15
-                });
-                break;
-            }
-        }
-
-        let unselectedColor: string = '#ffffff';
-        let hoveredColor: string = 'yellow';
-
         if (_behavior === 'signal') {
-            unselectedColor = '#78C13B';
-            hoveredColor = '#3A940E';
+            plug.setAttribute('geometry', {
+                primitive: 'cone',
+                height: 0.05,
+                radiusTop: 0,
+                radiusBottom: 0.03
+            });
+            if (_input)
+                plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+            else 
+                plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
         }
             
         if (_behavior === 'event') {
-            unselectedColor = '#FC7391';
-            hoveredColor = '#FB3862';
+            plug.setAttribute('geometry', {
+                primitive: 'sphere',
+                radius: 0.02,
+            });
+            
         }
+
+        let unselectedColor: string = 'white';
+        let hoveredColor: string = 'yellow';
+        switch (_type) {
+            case 'boolean': {
+                unselectedColor = '#78C13B';
+                hoveredColor = '#3A940E';
+                break;
+            }
+            case 'object': {
+                unselectedColor = '#FC7391';
+                hoveredColor = '#FB3862';
+                break;
+            }
+            case 'vector3': {
+                unselectedColor = '#D85C1F';
+                hoveredColor = '#D8431F';
+                break;
+            }
+            case 'number': {
+                unselectedColor = '#68E4E5';
+                hoveredColor = '#68E5D5';
+                break;
+            }
+            case 'any': {
+                break;
+            }
+        }
+
+        
             
         plug.setAttribute('material', 'color', unselectedColor);
         plug.addEventListener('raycaster-intersected', (event) => {

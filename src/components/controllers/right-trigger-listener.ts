@@ -170,10 +170,7 @@ const rightTriggerListener = {
             const endP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
             this.curEdgeEntity.setAttribute('line-component', 'endPoint', endP);
 
-            if (getTypeByColor(intersectedEl.getAttribute('material').color) == 'any') {
-                const unselectedColor: string = getColorsByType(this.curEdgeEntity.getAttribute('line-component').sourceType)[0];
-                intersectedEl.setAttribute('material', 'color', unselectedColor);
-            }
+            
 
             // Push the id into target entities.
             const fromEntity: any = this.curEdgeEntity.getAttribute('line-component').sourceEntity;
@@ -207,6 +204,18 @@ const rightTriggerListener = {
                 this.curEdgeEntity.parentNode.removeChild(this.curEdgeEntity);
                 this.curEdgeEntity = null;
                 return;
+            }
+
+            if (getTypeByColor(intersectedEl.getAttribute('material').color) == 'any') {
+                const unselectedColor: string = getColorsByType(this.curEdgeEntity.getAttribute('line-component').sourceType)[0];
+                intersectedEl.setAttribute('material', 'color', unselectedColor);
+                
+                const connectors = toEntity.querySelectorAll('.connectable');
+                connectors.forEach((connector: any) => {
+                    if (getTypeByColor(connector.getAttribute('material').color) == 'any') {
+                        connector.setAttribute('material', 'color', unselectedColor);
+                    }
+                });
             }
 
             // Set the connected two entities in the current line entity.

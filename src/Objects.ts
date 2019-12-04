@@ -210,7 +210,7 @@ export const objects = {
             itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object", behavior: "event"},
-                {name: "event", type: "any", behavior: "event"}
+                {name: "event", type: "boolean", behavior: "event"}
             ],
             outputs: [
                 {name: "end", type: "object", behavior: "event"}

@@ -3,7 +3,7 @@ import { scene } from 'frp-backend'
 import { Node } from 'frp-backend'
 import { getIntersectedEl, getIntersections } from '../../utils/raycast'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import { getTypeByColor, getBehaviorByShape } from '../Utils/typeVis'
+import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../Utils/typeVis'
 import { disableConnectors, enableConnectors } from '../Utils/typeConstraint'
 declare const THREE:any;
 
@@ -111,7 +111,11 @@ const rightTriggerListener = {
                 this.curEdgeEntity.setAttribute('line-component', 'sourceEntity', fromEntity);
                 this.curEdgeEntity.setAttribute('line-component', 'sourcePropEl', intersectedEl);
                 this.curEdgeEntity.setAttribute('line-component', 'sourceProp', fromProp);
-                disableConnectors(getTypeByColor(intersectedEl.getAttribute('material').color), getBehaviorByShape(intersectedEl.getAttribute('geometry').primitive));
+                const sourceType: string = getTypeByColor(intersectedEl.getAttribute('material').color);
+                const sourceBehavior: string = getBehaviorByShape(intersectedEl.getAttribute('geometry').primitive);
+                this.curEdgeEntity.setAttribute('line-component', 'sourceType', sourceType);
+                this.curEdgeEntity.setAttribute('line-component', 'sourceBehavior', sourceBehavior);
+                disableConnectors(sourceType, sourceBehavior);
             }
             
             // Check if the intersected object is an arrow of a vector system.
@@ -165,6 +169,11 @@ const rightTriggerListener = {
 
             const endP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
             this.curEdgeEntity.setAttribute('line-component', 'endPoint', endP);
+
+            if (getTypeByColor(intersectedEl.getAttribute('material').color) == 'any') {
+                const unselectedColor: string = getColorsByType(this.curEdgeEntity.getAttribute('line-component').sourceType)[0];
+                intersectedEl.setAttribute('material', 'color', unselectedColor);
+            }
 
             // Push the id into target entities.
             const fromEntity: any = this.curEdgeEntity.getAttribute('line-component').sourceEntity;

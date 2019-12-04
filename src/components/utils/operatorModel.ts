@@ -1,5 +1,6 @@
-import * as AFRAME from 'aframe'
+import * as AFRAME from 'aframe';
 declare const THREE:any;
+import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../Utils/typeVis'
 
 const operatorModel = AFRAME.registerComponent('operator-model', {
     schema: {
@@ -120,11 +121,15 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
             
         plug.setAttribute('material', 'color', unselectedColor);
         plug.addEventListener('raycaster-intersected', (event) => {
-            plug.setAttribute('material', 'color', hoveredColor);
+            const type: string = getTypeByColor(plug.getAttribute('material').color);
+            const updatedHoveredColor: string = getColorsByType(type)[1];
+            plug.setAttribute('material', 'color', updatedHoveredColor);
         });
 
         plug.addEventListener('raycaster-intersected-cleared', (event) => {
-            plug.setAttribute('material', 'color', unselectedColor);
+            const type: string = getTypeByColor(plug.getAttribute('material').color);
+            const updatedUnselectedColor: string = getColorsByType(type)[0];
+            plug.setAttribute('material', 'color', updatedUnselectedColor);
         });
         // Set up plug position.
         if (_input)

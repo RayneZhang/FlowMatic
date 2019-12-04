@@ -18,6 +18,37 @@ export const getTypeByColor = (color: string) => {
     }
 };
 
+export const getColorsByType = (type: string) => {
+    let unselectedColor: string = 'white';
+    let hoveredColor: string = 'yellow';
+    switch (type) {
+        case 'boolean': {
+            unselectedColor = '#78C13B';
+            hoveredColor = '#3A940E';
+            break;
+        }
+        case 'object': {
+            unselectedColor = '#FC7391';
+            hoveredColor = '#FB3862';
+            break;
+        }
+        case 'vector3': {
+            unselectedColor = '#D85C1F';
+            hoveredColor = '#D8431F';
+            break;
+        }
+        case 'number': {
+            unselectedColor = '#68E4E5';
+            hoveredColor = '#68E5D5';
+            break;
+        }
+        case 'any': {
+            break;
+        }
+    }
+    return [unselectedColor, hoveredColor];
+};
+
 export const getBehaviorByShape = (shape: string) => {
     switch (shape) {
         case 'cone': {

@@ -6,6 +6,8 @@ const lineComponent = AFRAME.registerComponent('line-component', {
     schema: {
         startPoint: {type: 'vec3', default: {x: -1, y: 1, z: -1}},
         endPoint: {type: 'vec3', default: {x: 1, y: 1, z: -1}},
+        sourceType: {type: 'string', default: ""},
+        sourceBehavior: {type: 'string', default: ""},
         sourceEntity: {type: 'selector', default: null},
         targetEntity: {type: 'selector', default: null},
         sourcePropEl: {type: 'selector', default: null},

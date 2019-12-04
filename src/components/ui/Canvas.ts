@@ -242,7 +242,6 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
             pageSize: 9
         }
         $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
-            console.log(status);
             if (status == 'success') {
                 const assets = data.assets;
                 console.log(assets);
@@ -279,12 +278,27 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
                         itemEl.setAttribute('material', 'color', itemColor.selected);
                         // Use different methods of visualization when the item is an operator
                         // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
-                        const polyEl: any = document.createElement('a-entity');
-                        polyEl.setAttribute('id', asset.displayName);
-                        const redux: any = document.querySelector('#redux');
-                        redux.appendChild(polyEl);
+                        
 
-                        polyEl.setAttribute('gltf-model', 'url('+asset.format.resources.url+'/'+asset.format.resources.relativePath+')');
+                        const formats = asset.formats;
+                        for (let i = 0; i < formats.length; i++) {
+                            if (formats[i].formatType == 'GLTF2' ) {
+                                const polyEl: any = document.createElement('a-entity');
+                                polyEl.setAttribute('id', asset.displayName);
+                                const redux: any = document.querySelector('#redux');
+                                redux.appendChild(polyEl);
+                                polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
+
+                                const rightHand: any = document.querySelector('#rightHand');
+                                rightHand.object3D.updateMatrix();
+                                rightHand.object3D.updateMatrixWorld();
+                                const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
+                                polyEl.object3D.position.copy(position.clone());
+                                polyEl.classList.add('movable');
+
+                                break;
+                            }
+                        }
                     });
 
                     itemEl.addEventListener('clicked-cleared', (event) => {

@@ -305,7 +305,6 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
                         itemEl.setAttribute('material', 'color', itemColor.unselected);
                     });
                 });
-                
             }
         });
 

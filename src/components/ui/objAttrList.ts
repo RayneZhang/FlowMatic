@@ -20,10 +20,12 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
                 index = i;
                 this.attrList = new Array<string>();
                 this.behaviorList = new Array<string>();
+                this.typeList = new Array<string>();
                 // console.log(objects.Models[index].outputs);
                 objects.Models[index].outputs.forEach((output) => {
                     this.attrList.push(output.name);
                     this.behaviorList.push(output.behavior);
+                    this.typeList.push(output.type);
                 });
             }
         }
@@ -68,8 +70,8 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
 
             // Creat dots for each obj attr.
             const posOffset = new THREE.Vector3(0.35, 0, 0);
-            // this.createDotEntity(curEntity, 'left', posOffset.clone());
-            this.createDotEntity(curEntity, 'right', this.behaviorList[j], posOffset.clone());
+
+            this.createDotEntity(curEntity, 'right', this.behaviorList[j], this.typeList[j], posOffset.clone());
             j++;
         }
 
@@ -87,7 +89,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
 
-    createDotEntity: function(appendEntity: any, lr: string, behavior:string, offset: any): void {
+    createDotEntity: function(appendEntity: any, lr: string, behavior:string, type:string, offset: any): void {
         if (lr != 'left' && lr != 'right') {return;}
 
         // Create dot entity and append it to the prompt of the bottle.
@@ -96,12 +98,6 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         curDot.setAttribute('id', this.el.getAttribute('id') + '-' + lr + '-dot');
         curDot.classList.add('connectable');
 
-        // Set geometry of the dot - sphere.
-        curDot.setAttribute('geometry', {
-            primitive: 'sphere',
-            radius: 0.06
-        });
-
         // Set the dot position according to the left or right.
         if (lr === 'left')
             curDot.object3D.position.x -= offset.x;
@@ -109,18 +105,52 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
             curDot.object3D.position.x += offset.x;
 
         // Set color of the sphere to white.
-        let unselectedColor: string = 'white';
-        let hoveredColor: string = 'yellow';
-
-        if (behavior == 'signal') {
-            unselectedColor = '#78C13B';
-            hoveredColor = '#3A940E';
+        if (behavior === 'signal') {
+            curDot.setAttribute('geometry', {
+                primitive: 'cone',
+                height: 0.15,
+                radiusTop: 0,
+                radiusBottom: 0.09
+            });
+            curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
         }
             
-        if (behavior == 'event') {
-            unselectedColor = '#FC7391';
-            hoveredColor = '#FB3862';
+        if (behavior === 'event') {
+            curDot.setAttribute('geometry', {
+                primitive: 'sphere',
+                radius: 0.06,
+            });
+            
         }
+
+        let unselectedColor: string = 'white';
+        let hoveredColor: string = 'yellow';
+        switch (type) {
+            case 'boolean': {
+                unselectedColor = '#78C13B';
+                hoveredColor = '#3A940E';
+                break;
+            }
+            case 'object': {
+                unselectedColor = '#FC7391';
+                hoveredColor = '#FB3862';
+                break;
+            }
+            case 'vector3': {
+                unselectedColor = '#D85C1F';
+                hoveredColor = '#D8431F';
+                break;
+            }
+            case 'number': {
+                unselectedColor = '#68E4E5';
+                hoveredColor = '#68E5D5';
+                break;
+            }
+            case 'any': {
+                break;
+            }
+        }
+
         curDot.setAttribute('material', 'color', unselectedColor);
         curDot.addEventListener('raycaster-intersected', (event) => {
             curDot.setAttribute('material', 'color', hoveredColor);

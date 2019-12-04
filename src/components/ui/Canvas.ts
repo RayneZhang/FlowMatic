@@ -435,7 +435,7 @@ function instantiateObj(item: Item, submenuID: number): void {
         const attrHeight: number = itemSize.height / item.outputs.length;
         const attrWidth: number = 0.08;
         item.outputs.forEach((output: {name: string, type: string, behavior: string}, i: number) => {
-            createAttr(instanceEl, output.name, output.behavior, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
+            createAttr(instanceEl, output.name, output.behavior, output.type, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
         });
     }
     // When the node is Generic Models/Data/Avatars
@@ -446,7 +446,7 @@ function instantiateObj(item: Item, submenuID: number): void {
 
         const attrHeight: number = itemSize.height / item.outputs.length;
         const attrWidth: number = 0.08;
-        createAttr(instanceEl, "object", "event", attrHeight, attrWidth);
+        createAttr(instanceEl, "object", "event", "object", attrHeight, attrWidth);
     }
 
     // Place the model
@@ -476,7 +476,7 @@ function instantiateObj(item: Item, submenuID: number): void {
  * @param attrWidth The geometry width
  * @param posY The position Y of the attribute
  */
-function createAttr(instanceEl: any, name: string, behavior: string, attrHeight: number, attrWidth: number, posY: number = 0): void {
+function createAttr(instanceEl: any, name: string, behavior: string, type: string, attrHeight: number, attrWidth: number, posY: number = 0): void {
     const attrEl: any = document.createElement('a-entity');
     instanceEl.appendChild(attrEl);
     
@@ -517,17 +517,50 @@ function createAttr(instanceEl: any, name: string, behavior: string, attrHeight:
 
     outCon.classList.add('connectable');
 
-    let unselectedColor: string = itemColor.unselected;
-    let hoveredColor: string = itemColor.hovered;
-
     if (behavior === 'signal') {
-        unselectedColor = '#78C13B';
-        hoveredColor = '#3A940E';
+        outCon.setAttribute('geometry', {
+            primitive: 'cone',
+            height: 0.05,
+            radiusTop: 0,
+            radiusBottom: 0.03
+        });
+        outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
     }
         
     if (behavior === 'event') {
-        unselectedColor = '#FC7391';
-        hoveredColor = '#FB3862';
+        outCon.setAttribute('geometry', {
+            primitive: 'sphere', 
+            radius: 0.085 * itemSize.width
+        });
+        
+    }
+
+    let unselectedColor: string = 'white';
+    let hoveredColor: string = 'yellow';
+    switch (type) {
+        case 'boolean': {
+            unselectedColor = '#78C13B';
+            hoveredColor = '#3A940E';
+            break;
+        }
+        case 'object': {
+            unselectedColor = '#FC7391';
+            hoveredColor = '#FB3862';
+            break;
+        }
+        case 'vector3': {
+            unselectedColor = '#D85C1F';
+            hoveredColor = '#D8431F';
+            break;
+        }
+        case 'number': {
+            unselectedColor = '#68E4E5';
+            hoveredColor = '#68E5D5';
+            break;
+        }
+        case 'any': {
+            break;
+        }
     }
 
     outCon.setAttribute('material', 'color', unselectedColor);

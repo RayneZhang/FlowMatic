@@ -3,6 +3,8 @@ import { scene } from 'frp-backend'
 import { Node } from 'frp-backend'
 import { getIntersectedEl, getIntersections } from '../../utils/raycast'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
+import { getTypeByColor, getBehaviorByShape } from '../Utils/typeVis'
+import { disableConnectors, enableConnectors } from '../Utils/typeConstraint'
 declare const THREE:any;
 
 const rightTriggerListener = {
@@ -67,6 +69,7 @@ const rightTriggerListener = {
                 const EdgesEntity: any = document.querySelector("#edges");
                 this.curEdgeEntity = document.createElement('a-entity');
                 EdgesEntity.appendChild(this.curEdgeEntity);
+                this.curEdgeEntity.setAttribute('id', 'line-tmp');
                 this.curEdgeEntity.setAttribute('line-component');
                 
                 // Default drawing hand is the right hand
@@ -108,6 +111,7 @@ const rightTriggerListener = {
                 this.curEdgeEntity.setAttribute('line-component', 'sourceEntity', fromEntity);
                 this.curEdgeEntity.setAttribute('line-component', 'sourcePropEl', intersectedEl);
                 this.curEdgeEntity.setAttribute('line-component', 'sourceProp', fromProp);
+                disableConnectors(getTypeByColor(intersectedEl.getAttribute('material').color), getBehaviorByShape(intersectedEl.getAttribute('geometry').primitive));
             }
             
             // Check if the intersected object is an arrow of a vector system.
@@ -141,6 +145,7 @@ const rightTriggerListener = {
             this.hueDown = false;
             this.sliding = false;
             this.vector = false;
+            enableConnectors();
 
             if (this.clickedEntity) {
                 this.clickedEntity.emit('clicked-cleared');

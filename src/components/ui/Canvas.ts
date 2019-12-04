@@ -532,7 +532,6 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
             primitive: 'sphere', 
             radius: 0.085 * itemSize.width
         });
-        
     }
 
     let unselectedColor: string = 'white';

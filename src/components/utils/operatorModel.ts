@@ -152,10 +152,21 @@ const operatorModel = AFRAME.registerComponent('operator-model', {
             color: '#ffffff'
         });
 
-        if (_input)
+        if (_input){
             plugDescription.object3D.position.set(0.06, 0, 0.05);
-        else 
+            if (_behavior === 'signal') {
+                plugDescription.object3D.position.set(0, -0.06, 0.05);
+                plugDescription.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+            }
+        }
+        else {
             plugDescription.object3D.position.set(-0.06, 0, 0.05);
+            if (_behavior === 'signal') {
+                plugDescription.object3D.position.set(0, -0.06, 0.05);
+                plugDescription.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+            }
+        }
+            
     },
 
     // Create pipes.

@@ -227,7 +227,7 @@ export const objects = {
                 {name: "speed", type: "number", behavior: "event"}
             ],
             outputs: [
-                {name: "end", type: "object", behavior: "event"}
+                {name: "end", type: "boolean", behavior: "event"}
             ]
         },
         {

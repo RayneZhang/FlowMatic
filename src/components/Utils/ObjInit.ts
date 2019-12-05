@@ -15,6 +15,7 @@ export const objInit = AFRAME.registerComponent('obj-init', {
         switch (this.data.name) {
             case LIGHT: {
                 this.el.setAttribute('spotlight', 'color', 'white');
+                break;
             }
             case GIFT: {
                 // Set up bounding boxes for the object
@@ -44,6 +45,8 @@ export const objInit = AFRAME.registerComponent('obj-init', {
                     }
                     console.log(e.detail.clearedEls);
                 });
+
+                break;
             }
         }
     }

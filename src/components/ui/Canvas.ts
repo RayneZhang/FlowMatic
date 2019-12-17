@@ -219,7 +219,7 @@ function initDes(desEl: any, parentEl: any): void {
  * @param buttonID The ID of submenu button
  * @param itemIndex Starting intem index since each page can only display 9 items
  */
-function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
+export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, pageToken: string = ''): void {
     // Clear items on the current page if there are any.
     const oldItemList: any = document.querySelector('#item-list');
     if (oldItemList) oldItemList.parentNode.removeChild(oldItemList);
@@ -239,11 +239,14 @@ function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0): void {
         const param: object = {
             keywords: '',
             format: 'GLTF',
-            pageSize: 9
+            pageSize: 9,
+            pageToken: pageToken
         }
         $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
             if (status == 'success') {
                 const assets = data.assets;
+                googlePoly.lastPageToken = googlePoly.nextPageToken;
+                googlePoly.nextPageToken = data.nextPageToken;
                 console.log(assets);
 
                 assets.forEach((asset, i: number)=>{

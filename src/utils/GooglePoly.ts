@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 */
 class GooglePoly {
     url: string = '';
+    lastPageToken: string = '';
     nextPageToken: string = '';
 
     constructor() {

@@ -60,6 +60,10 @@ export interface Item {
     outputs?: {name: string, type: string, behavior: string}[]
 }
 
+export const itemLimit: number = 9;
+export const itemOffset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width + itemSize.width/2, menuSize.height/2 - buttonSize.height - itemSize.height/2, itemSize.width/2);
+
+
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
     schema: {
         
@@ -224,9 +228,6 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
     const oldItemList: any = document.querySelector('#item-list');
     if (oldItemList) oldItemList.parentNode.removeChild(oldItemList);
 
-    const itemLimit: number = 9;
-    const offset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width + itemSize.width/2, menuSize.height/2 - buttonSize.height - itemSize.height/2, itemSize.width/2);
-
     // Extract submenu's name based on buttonID
     const submenuID: number = Number(buttonID.split('-')[1]);
     const submenuName: string = Object.keys(objects)[submenuID];
@@ -236,82 +237,7 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
     menuEl.appendChild(itemList);
 
     if (submenuID == 4) {
-        const param: object = {
-            keywords: '',
-            format: 'GLTF',
-            pageSize: 9,
-            pageToken: pageToken
-        }
-        $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
-            if (status == 'success') {
-                const assets = data.assets;
-                googlePoly.lastPageToken = googlePoly.nextPageToken;
-                googlePoly.nextPageToken = data.nextPageToken;
-                console.log(assets);
-
-                assets.forEach((asset, i: number)=>{
-                    const itemEl: any = document.createElement('a-entity');
-                    itemEl.setAttribute('id', 'poly'+i);
-                    itemList.appendChild(itemEl);
-
-                    itemEl.setAttribute('geometry', {
-                        primitive: 'plane',
-                        width: itemSize.width,
-                        height: itemSize.height
-                    });
-                    itemEl.setAttribute('material', {
-                        src: asset.thumbnail.url
-                    });
-
-                    // Place the item
-                    itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, 0.001);
-
-                    // Add reaction to the item.
-                    itemEl.classList.add('ui');
-                    itemEl.addEventListener('raycaster-intersected', (event) => {
-                        itemEl.setAttribute('material', 'color', itemColor.hovered);
-                        setDescription(asset.displayName);
-                    });
-
-                    itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                        itemEl.setAttribute('material', 'color', itemColor.unselected);
-                    });
-
-                    itemEl.addEventListener('clicked', (event) => {
-                        itemEl.setAttribute('material', 'color', itemColor.selected);
-                        // Use different methods of visualization when the item is an operator
-                        // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
-                        
-
-                        const formats = asset.formats;
-                        for (let i = 0; i < formats.length; i++) {
-                            if (formats[i].formatType == 'GLTF2' ) {
-                                const polyEl: any = document.createElement('a-entity');
-                                polyEl.setAttribute('id', asset.displayName);
-                                const redux: any = document.querySelector('#redux');
-                                redux.appendChild(polyEl);
-                                polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
-
-                                const rightHand: any = document.querySelector('#rightHand');
-                                rightHand.object3D.updateMatrix();
-                                rightHand.object3D.updateMatrixWorld();
-                                const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
-                                polyEl.object3D.position.copy(position.clone());
-                                polyEl.classList.add('movable');
-
-                                break;
-                            }
-                        }
-                    });
-
-                    itemEl.addEventListener('clicked-cleared', (event) => {
-                        itemEl.setAttribute('material', 'color', itemColor.unselected);
-                    });
-                });
-            }
-        });
-
-        return;
+        loadPoly(itemList, pageToken);
     }
 
     for (let i = 0; i < itemLimit; i++) {
@@ -355,7 +281,7 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
 
         // Place the item
         itemList.appendChild(itemEl);
-        itemEl.object3D.position.set(offset.x +  (i%3) * itemSize.width, offset.y - Math.floor(i/3) * itemSize.height, offset.z);
+        itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, itemOffset.z);
 
         // Add reaction to the item.
         itemEl.classList.add('ui');
@@ -382,6 +308,90 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
             itemEl.setAttribute('material', 'color', itemColor.unselected);
         });
     }
+}
+
+/**
+ * Load Google Poly Items based on selected submenu
+ * @param itemList The item list entity
+ * @param pageToken pageToken defines the which page to load
+ */
+export function loadPoly(itemList: any, pageToken: string): void {
+    const param: object = {
+        keywords: '',
+        format: 'GLTF',
+        pageSize: 9,
+        pageToken: pageToken
+    }
+    $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
+        if (status == 'success') {
+            const assets = data.assets;
+            googlePoly.lastPageToken = googlePoly.nextPageToken;
+            googlePoly.nextPageToken = data.nextPageToken;
+            console.log(assets);
+
+            assets.forEach((asset, i: number)=>{
+                const itemEl: any = document.createElement('a-entity');
+                itemEl.setAttribute('id', 'poly'+i);
+                itemList.appendChild(itemEl);
+
+                itemEl.setAttribute('geometry', {
+                    primitive: 'plane',
+                    width: itemSize.width,
+                    height: itemSize.height
+                });
+                itemEl.setAttribute('material', {
+                    src: asset.thumbnail.url
+                });
+
+                // Place the item
+                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
+
+                // Add reaction to the item.
+                itemEl.classList.add('ui');
+                itemEl.addEventListener('raycaster-intersected', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.hovered);
+                    setDescription(asset.displayName);
+                });
+
+                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+
+                itemEl.addEventListener('clicked', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.selected);
+                    // Use different methods of visualization when the item is an operator
+                    // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
+                    
+
+                    const formats = asset.formats;
+                    for (let i = 0; i < formats.length; i++) {
+                        if (formats[i].formatType == 'GLTF2' ) {
+                            const polyEl: any = document.createElement('a-entity');
+                            polyEl.setAttribute('id', asset.displayName);
+                            const redux: any = document.querySelector('#redux');
+                            redux.appendChild(polyEl);
+                            polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
+
+                            const rightHand: any = document.querySelector('#rightHand');
+                            rightHand.object3D.updateMatrix();
+                            rightHand.object3D.updateMatrixWorld();
+                            const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
+                            polyEl.object3D.position.copy(position.clone());
+                            polyEl.classList.add('movable');
+
+                            break;
+                        }
+                    }
+                });
+
+                itemEl.addEventListener('clicked-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+            });
+        }
+    });
+
+    return;
 }
 
 /**

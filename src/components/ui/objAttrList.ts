@@ -5,7 +5,10 @@ import { objects } from '../../Objects';
 const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
     schema: {
         freeze: {type: "boolean", default: false},
-        targetModelName: {type: "string", default: ""}
+        targetModelName: {type: "string", default: ""},
+        attrList: {type: "array", default: []},
+        behaviorList: {type: "array", default: []},
+        typeList: {type: "array", default: []}
     },
 
     init: function(): void {
@@ -18,14 +21,11 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         for ( let i = 0; i < objects.Models.length; i++) {
             if (objects.Models[i].name == this.data.targetModelName) { 
                 index = i;
-                this.attrList = new Array<string>();
-                this.behaviorList = new Array<string>();
-                this.typeList = new Array<string>();
                 // console.log(objects.Models[index].outputs);
                 objects.Models[index].outputs.forEach((output) => {
-                    this.attrList.push(output.name);
-                    this.behaviorList.push(output.behavior);
-                    this.typeList.push(output.type);
+                    this.data.attrList.push(output.name);
+                    this.data.behaviorList.push(output.behavior);
+                    this.data.typeList.push(output.type);
                 });
             }
         }
@@ -37,7 +37,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
          
         // Create list of attributes elements.
         let j: number = 0;
-        for (const attrName of this.attrList) {
+        for (const attrName of this.data.attrList) {
             const curEntity: any = document.createElement('a-entity');
             ListEntity.appendChild(curEntity);
 
@@ -71,7 +71,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
             // Creat dots for each obj attr.
             const posOffset = new THREE.Vector3(0.35, 0, 0);
 
-            this.createDotEntity(curEntity, 'right', this.behaviorList[j], this.typeList[j], posOffset.clone());
+            this.createDotEntity(curEntity, 'right', this.data.behaviorList[j], this.data.typeList[j], posOffset.clone());
             j++;
         }
 

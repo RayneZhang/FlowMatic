@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe';
-import { objects } from '../../Objects';
+import { objects, VECTOR } from '../../Objects';
 import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
@@ -373,7 +373,9 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
 
                             polyEl.addEventListener('model-loaded', () => {
+                                resize(polyEl, 1.0);
                                 recenter(polyEl);
+                                // resize(polyEl, 1.0);
                             });
 
                             const rightHand: any = document.querySelector('#rightHand');
@@ -382,6 +384,12 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
                             polyEl.object3D.position.copy(position.clone());
                             polyEl.classList.add('movable');
+
+                            polyEl.setAttribute('obj-attributes-list', {
+                                attrList: ['position', 'rotation'],
+                                behaviorList: ['signal', 'signal'],
+                                typeList: ['vector3', 'vector3']
+                            });
                             break;
                         }
                     }

@@ -382,7 +382,6 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
                             polyEl.object3D.position.copy(position.clone());
                             polyEl.classList.add('movable');
-                            console.log(polyEl.object3D.position);
                             break;
                         }
                     }

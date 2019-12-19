@@ -390,6 +390,15 @@ export function loadPoly(itemList: any, pageToken: string): void {
                                 behaviorList: ['signal', 'signal'],
                                 typeList: ['vector3', 'vector3']
                             });
+
+                            // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
+                            const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+
+                            // Using JSON does not seem efficient
+                            const objNode = scene.addObj(asset.displayName, props);
+                            polyEl.setAttribute('id', objNode.getID()); // Set up node ID
+                            polyEl.setAttribute('obj-node-update', 'name', asset.displayName); // Set up node update for frp
+                            polyEl.classList.add('data-receiver');
                             break;
                         }
                     }

@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
 import { Vector3, Math as THREEMath, Euler } from 'three';
-import { resize } from '../../utils/SizeConstraints';
+import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
 import * as $ from 'jquery';
 import { googlePoly } from '../../utils/GooglePoly';
@@ -362,15 +362,19 @@ export function loadPoly(itemList: any, pageToken: string): void {
                     // Use different methods of visualization when the item is an operator
                     // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
                     
-
                     const formats = asset.formats;
                     for (let i = 0; i < formats.length; i++) {
                         if (formats[i].formatType == 'GLTF2' ) {
+
                             const polyEl: any = document.createElement('a-entity');
                             polyEl.setAttribute('id', asset.displayName);
                             const redux: any = document.querySelector('#redux');
                             redux.appendChild(polyEl);
                             polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
+
+                            polyEl.addEventListener('model-loaded', () => {
+                                recenter(polyEl);
+                            });
 
                             const rightHand: any = document.querySelector('#rightHand');
                             rightHand.object3D.updateMatrix();
@@ -378,7 +382,7 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
                             polyEl.object3D.position.copy(position.clone());
                             polyEl.classList.add('movable');
-
+                            console.log(polyEl.object3D.position);
                             break;
                         }
                     }

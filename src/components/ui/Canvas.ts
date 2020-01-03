@@ -5,6 +5,7 @@ import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
 import * as $ from 'jquery';
 import { googlePoly } from '../../utils/GooglePoly';
+import { sketchfab } from '../../utils/SketchFab';
 
 export const canvasSize = {
     width: 1.6, 
@@ -237,7 +238,8 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
     menuEl.appendChild(itemList);
 
     if (submenuID == 4) {
-        loadPoly(itemList, pageToken);
+        // loadPoly(itemList, pageToken);
+        loadSketchfab(itemList);
     }
 
     for (let i = 0; i < itemLimit; i++) {
@@ -402,6 +404,99 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             break;
                         }
                     }
+                });
+
+                itemEl.addEventListener('clicked-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+            });
+        }
+    });
+
+    return;
+}
+
+export function loadSketchfab(itemList: any): void {
+    const param: object = {
+        type: 'models',
+        q: '',
+        file_format: 'gltf',
+        downloadable: true,
+        animated: true,
+        count: 9
+    }
+    $.get(sketchfab.getUrl(), param, function (data, status, xhr) {
+        if (status == 'success') {
+            // cursors: {next, previous}, next: url, previous: url, results: []
+            const results = data.results;
+            console.log(data);
+
+            results.forEach((asset, i: number)=>{
+                const itemEl: any = document.createElement('a-entity');
+                itemEl.setAttribute('id', 'sketchfab'+i);
+                itemList.appendChild(itemEl);
+
+                itemEl.setAttribute('geometry', {
+                    primitive: 'plane',
+                    width: itemSize.width,
+                    height: itemSize.height
+                });
+                const len: number = asset.thumbnails.images.length;
+                itemEl.setAttribute('material', {
+                    src: asset.thumbnails.images[len - 1].url
+                });
+
+                // Place the item
+                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
+
+                // Add reaction to the item.
+                itemEl.classList.add('ui');
+                itemEl.addEventListener('raycaster-intersected', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.hovered);
+                    setDescription(asset.name);
+                });
+
+                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+
+                itemEl.addEventListener('clicked', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.selected);
+                    sketchfab.getGLTFUrl(asset.uid);
+                    
+                    // const polyEl: any = document.createElement('a-entity');
+                    // polyEl.setAttribute('id', asset.displayName);
+                    // const redux: any = document.querySelector('#redux');
+                    // redux.appendChild(polyEl);
+                    // polyEl.setAttribute('gltf-model', 'url(' + asset.uri + ')');
+
+                    // polyEl.addEventListener('model-loaded', () => {
+                    //     resize(polyEl, 1.0);
+                    //     recenter(polyEl);
+                    //     // resize(polyEl, 1.0);
+                    // });
+
+                    // const rightHand: any = document.querySelector('#rightHand');
+                    // rightHand.object3D.updateMatrix();
+                    // rightHand.object3D.updateMatrixWorld();
+                    // const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
+                    // polyEl.object3D.position.copy(position.clone());
+                    // polyEl.classList.add('movable');
+
+                    // polyEl.setAttribute('obj-attributes-list', {
+                    //     attrList: ['position', 'rotation'],
+                    //     behaviorList: ['signal', 'signal'],
+                    //     typeList: ['vector3', 'vector3']
+                    // });
+
+                    // // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
+                    // const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+
+                    // // Using JSON does not seem efficient
+                    // const objNode = scene.addObj(asset.displayName, props);
+                    // polyEl.setAttribute('id', objNode.getID()); // Set up node ID
+                    // polyEl.setAttribute('obj-node-update', 'name', asset.displayName); // Set up node update for frp
+                    // polyEl.classList.add('data-receiver');
                 });
 
                 itemEl.addEventListener('clicked-cleared', (event) => {

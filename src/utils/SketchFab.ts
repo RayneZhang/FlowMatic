@@ -1,4 +1,6 @@
 import * as $ from 'jquery';
+import axios from 'axios';
+import * as JSZip from 'jszip';
 
 /*
  *data - contains the resulting data from the request
@@ -26,14 +28,31 @@ class SketchFab {
         }).then(function(data){
             console.log(data);
             const downloadURL: string = data.gltf.url;
+            downloadArchive(downloadURL);
         });
 
         return '';
-    }
+    };
 
     getUrl(): string {
         return this.url;
     };
+};
+
+export function downloadArchive(url: string): void {
+    axios.get(url)
+        .then(function (response) {
+            console.log(response);
+            // here we go !
+            JSZip.loadAsync(response.data).then(function (zip) {
+                return zip.file("content.txt").async("string");
+            }).then(function (text) {
+                console.log(text);
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 };
 
 export const sketchfab = new SketchFab();

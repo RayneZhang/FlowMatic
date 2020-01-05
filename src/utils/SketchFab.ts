@@ -1,7 +1,5 @@
 import * as $ from 'jquery';
-import axios from 'axios';
-import * as JSZip from 'jszip';
-
+declare const zip: any;
 /*
  *data - contains the resulting data from the request
  *status - contains the status of the request ("success", "notmodified", "error", "timeout", or "parsererror")
@@ -40,19 +38,41 @@ class SketchFab {
 };
 
 export function downloadArchive(url: string): void {
-    axios.get(url)
-        .then(function (response) {
-            console.log(response);
-            // here we go !
-            JSZip.loadAsync(response.data).then(function (zip) {
-                return zip.file("content.txt").async("string");
-            }).then(function (text) {
-                console.log(text);
+    zip.workerScriptsPath = '/vendor/';
+    var reader = new zip.HttpReader(url);
+    zip.createReader(
+        reader,
+        function(zipReader) {
+            zipReader.getEntries(function(entries){
+                console.log(entries);
             });
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        },
+        function(error) {
+            console.error(error);
+        }
+    );
 };
+
+export function ParseContent(fileUrl: string, content: string): void {
+    var json = JSON.parse(content);
+
+    console.log(json);
+    // Replace original buffers and images by blob URLs
+    if (json.hasOwnProperty('buffers')) {
+        for (var i = 0; i < json.buffers.length; i++) {
+            json.buffers[i].uri = fileUrl[json.buffers[i].uri];
+        }
+    }
+    
+    if (json.hasOwnProperty('images')) {
+        for (var i = 0; i < json.images.length; i++) {
+            json.images[i].uri = fileUrl[json.images[i].uri];
+        }
+    }
+    
+    var updatedSceneFileContent = JSON.stringify(json, null, 2);
+    var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
+    var updatedUrl = window.URL.createObjectURL(updatedBlob);
+}
 
 export const sketchfab = new SketchFab();

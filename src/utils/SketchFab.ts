@@ -45,6 +45,7 @@ export function downloadArchive(url: string): void {
         function(zipReader) {
             zipReader.getEntries(function(entries){
                 console.log(entries);
+                ParseContent(url, entries);
             });
         },
         function(error) {
@@ -53,26 +54,35 @@ export function downloadArchive(url: string): void {
     );
 };
 
-export function ParseContent(fileUrl: string, content: string): void {
-    var json = JSON.parse(content);
+export function ParseContent(fileUrl: string, entries: Array<any>): void {
 
-    console.log(json);
-    // Replace original buffers and images by blob URLs
-    if (json.hasOwnProperty('buffers')) {
-        for (var i = 0; i < json.buffers.length; i++) {
-            json.buffers[i].uri = fileUrl[json.buffers[i].uri];
-        }
-    }
+    let content: any = "";
+    entries.forEach((entry: any) => {
+        entry.getData(new zip.BlobWriter('text/plain'), function onEnd(data) {
+            var url = window.URL.createObjectURL(data);
+            console.log(url);
+        });
+    });
+
+    // var json = JSON.parse(content);
+
+    // console.log(json);
+    // // Replace original buffers and images by blob URLs
+    // if (json.hasOwnProperty('buffers')) {
+    //     for (var i = 0; i < json.buffers.length; i++) {
+    //         json.buffers[i].uri = fileUrl[json.buffers[i].uri];
+    //     }
+    // }
     
-    if (json.hasOwnProperty('images')) {
-        for (var i = 0; i < json.images.length; i++) {
-            json.images[i].uri = fileUrl[json.images[i].uri];
-        }
-    }
+    // if (json.hasOwnProperty('images')) {
+    //     for (var i = 0; i < json.images.length; i++) {
+    //         json.images[i].uri = fileUrl[json.images[i].uri];
+    //     }
+    // }
     
-    var updatedSceneFileContent = JSON.stringify(json, null, 2);
-    var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
-    var updatedUrl = window.URL.createObjectURL(updatedBlob);
+    // var updatedSceneFileContent = JSON.stringify(json, null, 2);
+    // var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
+    // var updatedUrl = window.URL.createObjectURL(updatedBlob);
 }
 
 export const sketchfab = new SketchFab();

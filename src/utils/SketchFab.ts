@@ -45,7 +45,7 @@ export function downloadArchive(url: string): void {
         function(zipReader) {
             zipReader.getEntries(function(entries){
                 console.log(entries);
-                ParseContent(url, entries);
+                ParseContent(entries);
             });
         },
         function(error) {
@@ -54,35 +54,54 @@ export function downloadArchive(url: string): void {
     );
 };
 
-export function ParseContent(fileUrl: string, entries: Array<any>): void {
+export function ParseContent(entries: Array<any>): void {
 
-    let content: any = "";
-    entries.forEach((entry: any) => {
+    let content: any;
+    let fileUrls: Object = {};
+    entries.forEach((entry: any, i: number) => {
         entry.getData(new zip.BlobWriter('text/plain'), function onEnd(data) {
             var url = window.URL.createObjectURL(data);
+            fileUrls[entry.filename] = url;
             console.log(url);
+            console.log(data);
+        });
+        entry.getData(new zip.TextWriter('text/plain'), function onEnd(data) {
+            // Look at filename
+            const entryNames: Array<string> = entry.filename.split(".");
+            const entryName: string = entryNames[entryNames.length - 1];
+            if (entryName == "gltf") {
+                console.log("Filename correct but content is still empty.");
+                content = data;
+            }
+
+            // Wait till all the entry data are read.
+            if (i === (entries.length - 1)) {
+                console.log(content);
+                console.log(fileUrls);
+            
+                var json = JSON.parse(content);
+                console.log(json);
+                // Replace original buffers and images by blob URLs
+                if (json.hasOwnProperty('buffers')) {
+                    for (var j = 0; j < json.buffers.length; j++) {
+                        json.buffers[j].uri = fileUrls[json.buffers[j].uri];
+                    }
+                }
+                
+                if (json.hasOwnProperty('images')) {
+                    for (var j = 0; j < json.images.length; j++) {
+                        json.images[j].uri = fileUrls[json.images[j].uri];
+                    }
+                }
+                
+                var updatedSceneFileContent = JSON.stringify(json, null, 2);
+                var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
+                var updatedUrl = window.URL.createObjectURL(updatedBlob);
+                console.log(updatedUrl);
+            }
         });
     });
-
-    // var json = JSON.parse(content);
-
-    // console.log(json);
-    // // Replace original buffers and images by blob URLs
-    // if (json.hasOwnProperty('buffers')) {
-    //     for (var i = 0; i < json.buffers.length; i++) {
-    //         json.buffers[i].uri = fileUrl[json.buffers[i].uri];
-    //     }
-    // }
     
-    // if (json.hasOwnProperty('images')) {
-    //     for (var i = 0; i < json.images.length; i++) {
-    //         json.images[i].uri = fileUrl[json.images[i].uri];
-    //     }
-    // }
-    
-    // var updatedSceneFileContent = JSON.stringify(json, null, 2);
-    // var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
-    // var updatedUrl = window.URL.createObjectURL(updatedBlob);
 }
 
 export const sketchfab = new SketchFab();

@@ -1,4 +1,7 @@
 import * as $ from 'jquery';
+import { resize, recenter } from './SizeConstraints';
+import { Vector3 } from 'three';
+import { scene, Node, ObjNode } from 'frp-backend';
 declare const zip: any;
 /*
  *data - contains the resulting data from the request
@@ -98,10 +101,49 @@ export function ParseContent(entries: Array<any>): void {
                 var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
                 var updatedUrl = window.URL.createObjectURL(updatedBlob);
                 console.log(updatedUrl);
+
+                CreateGLTFModel(updatedUrl);
             }
         });
     });
     
-}
+};
+
+export function CreateGLTFModel(url: string): void {
+    const displayName: string = 'test'; // asset.displayName
+    const polyEl: any = document.createElement('a-entity');
+    polyEl.setAttribute('id', displayName);
+    const redux: any = document.querySelector('#redux');
+    redux.appendChild(polyEl);
+    polyEl.setAttribute('gltf-model', 'url(' + url + ')');
+
+    polyEl.addEventListener('model-loaded', () => {
+        resize(polyEl, 1.0);
+        recenter(polyEl);
+        // resize(polyEl, 1.0);
+    });
+
+    const rightHand: any = document.querySelector('#rightHand');
+    rightHand.object3D.updateMatrix();
+    rightHand.object3D.updateMatrixWorld();
+    const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
+    polyEl.object3D.position.copy(position.clone());
+    polyEl.classList.add('movable');
+
+    polyEl.setAttribute('obj-attributes-list', {
+        attrList: ['position', 'rotation'],
+        behaviorList: ['signal', 'signal'],
+        typeList: ['vector3', 'vector3']
+    });
+
+    // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
+    const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+
+    // Using JSON does not seem efficient
+    const objNode = scene.addObj(displayName, props);
+    polyEl.setAttribute('id', objNode.getID()); // Set up node ID
+    polyEl.setAttribute('obj-node-update', 'name', displayName); // Set up node update for frp
+    polyEl.classList.add('data-receiver');
+};
 
 export const sketchfab = new SketchFab();

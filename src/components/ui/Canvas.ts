@@ -469,8 +469,6 @@ export function loadSketchfab(itemList: any): void {
                     itemEl.setAttribute('material', 'color', itemColor.unselected);
                 });
             });
-
-            sketchfab.getGLTFUrl(results[0].uid);
         }
     });
 

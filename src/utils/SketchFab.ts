@@ -65,25 +65,21 @@ export function ParseContent(entries: Array<any>): void {
         entry.getData(new zip.BlobWriter('text/plain'), function onEnd(data) {
             var url = window.URL.createObjectURL(data);
             fileUrls[entry.filename] = url;
-            console.log(url);
-            console.log(data);
         });
         entry.getData(new zip.TextWriter('text/plain'), function onEnd(data) {
             // Look at filename
             const entryNames: Array<string> = entry.filename.split(".");
             const entryName: string = entryNames[entryNames.length - 1];
             if (entryName == "gltf") {
-                console.log("Filename correct but content is still empty.");
                 content = data;
             }
 
             // Wait till all the entry data are read.
             if (i === (entries.length - 1)) {
-                console.log(content);
-                console.log(fileUrls);
+                // console.log(content);
+                // console.log(fileUrls);
             
                 var json = JSON.parse(content);
-                console.log(json);
                 // Replace original buffers and images by blob URLs
                 if (json.hasOwnProperty('buffers')) {
                     for (var j = 0; j < json.buffers.length; j++) {
@@ -101,6 +97,13 @@ export function ParseContent(entries: Array<any>): void {
                 var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
                 var updatedUrl = window.URL.createObjectURL(updatedBlob);
                 console.log(updatedUrl);
+                // console.log(json);
+
+                const animations: Array<any> = json.animations;
+                animations.forEach((animation: any) => {
+                    const animation_name: string = animation.name;
+                    console.log(animation_name);
+                });
 
                 CreateGLTFModel(updatedUrl);
             }

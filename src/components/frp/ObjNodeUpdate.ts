@@ -9,7 +9,8 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
         incomingEdges: {type: 'array', default: []},
         outgoingEdges: {type: 'array', default: []},
-        name: {type: 'string', default: ""}
+        name: {type: 'string', default: ""},
+        animeList: {type: 'array', default: []} // For Sketchfab objects only
     },
 
     init: function(): void {
@@ -41,6 +42,23 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
                 });
 
                 break;
+            }
+
+            // All Sketchfab objects are named anime.
+            case 'anime': {
+                const animeList: Array<string> = this.data.animeList;
+                console.log(this.node);
+                animeList.forEach((animeName: string) => {
+                    this.node.pluckOutput(animeName).subscribe((value: boolean) => {
+                        console.log(value);
+                        if (!value) return;
+                        this.el.setAttribute('animation-mixer', {
+                            clip: animeName,
+                            loop: 'once',
+                            timeScale: 0.5
+                        });
+                    });
+                });
             }
         }
     },

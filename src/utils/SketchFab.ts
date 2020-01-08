@@ -156,7 +156,6 @@ export function CreateGLTFModel(url: string, animationList: Array<string>): void
         behaviorList.push('event');
         typeList.push('boolean');
     });
-    polyEl.setAttribute('obj-node-update', null); // Set up node update for frp
 
     // Using JSON does not seem efficient
     const objNode = scene.addObj(`node-${Node.getNodeCount()}`, props);
@@ -168,6 +167,7 @@ export function CreateGLTFModel(url: string, animationList: Array<string>): void
         typeList: typeList
     });
     polyEl.classList.add('data-receiver');
+    polyEl.setAttribute('obj-node-update', 'name', 'anime'); // Set up node update for frp
 };
 
 export const sketchfab = new SketchFab();

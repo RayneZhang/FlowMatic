@@ -47,11 +47,12 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
             // All Sketchfab objects are named anime.
             case 'anime': {
                 const animeList: Array<string> = this.data.animeList;
-                console.log(this.node);
+
                 animeList.forEach((animeName: string) => {
                     this.node.pluckOutput(animeName).subscribe((value: boolean) => {
-                        console.log(value);
                         if (!value) return;
+                        if (this.el.hasAttribute('animation-mixer'))
+                            this.el.removeAttribute('animation-mixer');
                         this.el.setAttribute('animation-mixer', {
                             clip: animeName,
                             loop: 'once',

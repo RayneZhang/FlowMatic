@@ -116,11 +116,12 @@ export function ParseContent(entries: Array<any>): void {
 
 export function CreateGLTFModel(url: string, animationList: Array<string>): void {
     const polyEl: any = document.createElement('a-entity');
-    const redux: any = document.querySelector('#redux');
-    redux.appendChild(polyEl);
 
     // Attach the gltf model.
     polyEl.setAttribute('gltf-model', 'url(' + url + ')');
+
+    const redux: any = document.querySelector('#redux');
+    redux.appendChild(polyEl);
 
     // Resize the model.
     polyEl.addEventListener('model-loaded', () => {
@@ -167,7 +168,10 @@ export function CreateGLTFModel(url: string, animationList: Array<string>): void
         typeList: typeList
     });
     polyEl.classList.add('data-receiver');
-    polyEl.setAttribute('obj-node-update', 'name', 'anime'); // Set up node update for frp
+    polyEl.setAttribute('obj-node-update', {
+        name: 'anime',
+        animeList: animationList
+    }); // Set up node update for frp
 };
 
 export const sketchfab = new SketchFab();

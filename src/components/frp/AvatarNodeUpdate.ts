@@ -29,7 +29,7 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
                 o['default'] = worldPos;
             return o;
         });
-        console.log(initOutputs);
+        // console.log(initOutputs);
         const objNode = this.node = scene.addObj(this.data.name, initOutputs);
         this.el.setAttribute('id', objNode.getID());
 

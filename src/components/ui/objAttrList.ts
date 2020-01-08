@@ -29,7 +29,6 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
                 });
             }
         }
-        
 
         // layout offset of the attributes.
         let offset: number = 0.35;

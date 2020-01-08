@@ -96,56 +96,77 @@ export function ParseContent(entries: Array<any>): void {
                 var updatedSceneFileContent = JSON.stringify(json, null, 2);
                 var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
                 var updatedUrl = window.URL.createObjectURL(updatedBlob);
-                console.log(updatedUrl);
+                // console.log(updatedUrl);
                 // console.log(json);
 
+                // Fetch animations
                 const animations: Array<any> = json.animations;
+                const animationList: Array<string> = [];
                 animations.forEach((animation: any) => {
                     const animation_name: string = animation.name;
-                    console.log(animation_name);
+                    animationList.push(animation_name);
                 });
 
-                CreateGLTFModel(updatedUrl);
+                CreateGLTFModel(updatedUrl, animationList);
             }
         });
     });
     
 };
 
-export function CreateGLTFModel(url: string): void {
-    const displayName: string = 'test'; // asset.displayName
+export function CreateGLTFModel(url: string, animationList: Array<string>): void {
     const polyEl: any = document.createElement('a-entity');
-    polyEl.setAttribute('id', displayName);
     const redux: any = document.querySelector('#redux');
     redux.appendChild(polyEl);
+
+    // Attach the gltf model.
     polyEl.setAttribute('gltf-model', 'url(' + url + ')');
 
+    // Resize the model.
     polyEl.addEventListener('model-loaded', () => {
         resize(polyEl, 1.0);
         recenter(polyEl);
         // resize(polyEl, 1.0);
     });
 
+    // Set the position of the model.
     const rightHand: any = document.querySelector('#rightHand');
     rightHand.object3D.updateMatrix();
     rightHand.object3D.updateMatrixWorld();
     const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
     polyEl.object3D.position.copy(position.clone());
+
+    // Set movable of the model.
     polyEl.classList.add('movable');
 
-    polyEl.setAttribute('obj-attributes-list', {
-        attrList: ['position', 'rotation'],
-        behaviorList: ['signal', 'signal'],
-        typeList: ['vector3', 'vector3']
-    });
-
+    const attrList: Array<string> = ['object', 'position', 'rotation'];
+    const behaviorList: Array<string> = ['event', 'signal', 'signal'];
+    const typeList: Array<string> = ['object', 'vector3', 'vector3'];
+    
     // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
     const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+    animationList.forEach((animationName: string) => {
+        const attr: object = {};
+        attr['name'] = animationName;
+        attr['type'] = 'boolean';
+        attr['behavior'] = 'event';
+        attr['default'] = ''; 
+        props.push(attr);
+        attrList.push(animationName);
+        behaviorList.push('event');
+        typeList.push('boolean');
+    });
+    polyEl.setAttribute('obj-node-update', null); // Set up node update for frp
 
     // Using JSON does not seem efficient
-    const objNode = scene.addObj(displayName, props);
+    const objNode = scene.addObj(`node-${Node.getNodeCount()}`, props);
     polyEl.setAttribute('id', objNode.getID()); // Set up node ID
-    polyEl.setAttribute('obj-node-update', 'name', displayName); // Set up node update for frp
+    
+    polyEl.setAttribute('obj-attributes-list', {
+        attrList: attrList,
+        behaviorList: behaviorList,
+        typeList: typeList
+    });
     polyEl.classList.add('data-receiver');
 };
 

@@ -42,8 +42,6 @@ import paletteMenu from './components/ui/paletteMenu';
 paletteMenu;
 import objAttrList from './components/ui/objAttrList';
 objAttrList;
-import bottleDescription from './components/ui/bottleDescrip';
-bottleDescription;
 
 import dataSource from './components/dataflow/dataSource';
 import dataFilter from './components/dataflow/dataFilter';

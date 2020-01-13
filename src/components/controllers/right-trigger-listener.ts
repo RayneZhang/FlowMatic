@@ -239,6 +239,8 @@ const rightTriggerListener = {
     },
 
     addEdge: function(fromEntity: any, fromProp: string, toEntity: any, toProp: string): void {
+        console.log(fromEntity.getAttribute('id'));
+        console.log(toEntity.getAttribute('id'));
         const fromNode: Node = scene.getNode(fromEntity.getAttribute('id'));
         const toNode: Node = scene.getNode(toEntity.getAttribute('id'));
         scene.addEdge({node: fromNode, prop: fromProp}, {node: toNode, prop: toProp});

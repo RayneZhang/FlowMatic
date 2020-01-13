@@ -532,10 +532,10 @@ function instantiateObj(item: Item, submenuID: number): void {
             createAttr(instanceEl, output.name, output.behavior, output.type, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
         });
     }
-    // When the node is Generic Models/Data/Avatars
+    // When the node is Generic Models/Data/
     else {
         // Create a generic object node in frp-backend.
-        const genericNode = scene.addObj(item.name, [{name: 'object', type: 'object', default: item.name}]);
+        const genericNode = scene.addObj(item.name, [{name: 'object', default: item.name}]);
         instanceEl.setAttribute('id', genericNode.getID());
 
         const attrHeight: number = itemSize.height / item.outputs.length;

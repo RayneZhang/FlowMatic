@@ -15,8 +15,6 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     },
 
     init: function(): void {
-        
-        
         this.el.setAttribute('stored-edges', null);
         
         if (this.data.name === CREATE) {
@@ -97,7 +95,11 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 pupNode.pluckOutput(output.name).subscribe((val: any) => {dataTransmit(this.el, val)});
             });
         }
-
+        else {
+            const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', opNode.getID());
+            opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
+        }
         
     },
 
@@ -108,6 +110,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 });
 
 function collision(object1: string, object2: string, pupNode: PupNode): void {
+    console.log(object1);
+    console.log(object2);
     // First set bounding box for these two objects.
     const entity1: any = document.querySelector('#' + object1);
     const entity2: any = document.querySelector('#' + object2);

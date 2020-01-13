@@ -30,7 +30,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 
             opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
-        if (this.data.name === TRANSLATE) {
+        else if (this.data.name === TRANSLATE) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log("Translate start", input);
@@ -45,7 +45,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 
             opNode.pluckOutput('end').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
-        if (this.data.name === DESTROY) {
+        else if (this.data.name === DESTROY) {
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log("Destroy start", input);
@@ -55,7 +55,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 }
             });
         }
-        if (this.data.name === SUB) {
+        else if (this.data.name === SUB) {
             this.vec1 = new Vector3();
             this.vec2 = new Vector3();
             this.subscription = opNode.pluckInputs().subscribe((input) => {
@@ -69,7 +69,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 }
             });
         }
-        if (this.data.name === COLLIDE) {
+        else if (this.data.name === COLLIDE) {
             // TODO: Add Reactions to Collide.
         }
 

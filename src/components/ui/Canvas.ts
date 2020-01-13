@@ -709,7 +709,7 @@ function instantiateOp(item: Item): void {
         resize(opEl, itemSize.width);
     });
 
-    // TODO: Add a new node into the scene and assign the id to the entity
+    // Add a new node into the scene and assign the id to the entity
     opEl.setAttribute('op-node-update', 'name', item.name);
 
     // Place the model

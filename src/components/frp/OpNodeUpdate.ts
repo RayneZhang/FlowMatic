@@ -88,6 +88,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             this.el.setAttribute('id', pupNode.getID());
             this.subscription = pupNode.pluckInputs().subscribe((input) => {
                 if (run) {
+                    console.log(input);
                     collision(input[0], input[1], pupNode);
                 }
             });
@@ -111,7 +112,8 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
     const entity1: any = document.querySelector('#' + object1);
     const entity2: any = document.querySelector('#' + object2);
     entity1.setAttribute('static-body', {
-        shape: 'auto'
+        shape: 'sphere',
+        sphereRadius: 0.5
     })
     entity1.setAttribute('physics-collider', 'ignoreSleep', true);
     entity1.setAttribute('collision-filter', 'collisionForces', false);

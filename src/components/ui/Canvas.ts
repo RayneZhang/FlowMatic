@@ -696,13 +696,15 @@ function instantiateOp(item: Item): void {
         behaviorOutputs.push(output.behavior);
         typeOutputs.push(output.type);
     });
-    opEl.setAttribute('operator-model', 'functionName', item.name);
-    opEl.setAttribute('operator-model', 'functionInputs', functionInputs);
-    opEl.setAttribute('operator-model', 'functionOutputs', functionOutputs);
-    opEl.setAttribute('operator-model', 'behaviorInputs', behaviorInputs);
-    opEl.setAttribute('operator-model', 'behaviorOutputs', behaviorOutputs);
-    opEl.setAttribute('operator-model', 'typeInputs', typeInputs);
-    opEl.setAttribute('operator-model', 'typeOutputs', typeOutputs);
+    opEl.setAttribute('operator-model', {
+        functionName: item.name,
+        functionInputs: functionInputs,
+        functionOutputs: functionOutputs,
+        behaviorInputs: behaviorInputs,
+        behaviorOutputs: behaviorOutputs,
+        typeInputs: typeInputs,
+        typeOutputs: typeOutputs
+    });
 
     // Resize the model into item size
     opEl.addEventListener('model-loaded', () => {
@@ -710,7 +712,11 @@ function instantiateOp(item: Item): void {
     });
 
     // Add a new node into the scene and assign the id to the entity
-    opEl.setAttribute('op-node-update', 'name', item.name);
+    opEl.setAttribute('op-node-update', {
+        name: item.name,
+        inputs: item.inputs,
+        outputs: item.outputs
+    });
 
     // Place the model
     opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);

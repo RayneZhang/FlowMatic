@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe'
-import { scene, Node, ObjNode, OpNode } from 'frp-backend'
+import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
 import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
@@ -10,15 +10,18 @@ import { run } from '../../utils/App';
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     schema: {
         name: {type: 'string', default: ''},
+        inputs: {type: 'array', default: []},
+        outputs: {type: 'array', default: []}
     },
 
     init: function(): void {
-        const opNode: OpNode = this.opNode = scene.addOp(this.data.name);
-        this.el.setAttribute('id', opNode.getID());
+        
         
         this.el.setAttribute('stored-edges', null);
         
         if (this.data.name === CREATE) {
+            const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', opNode.getID());
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log(input);
@@ -31,6 +34,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         else if (this.data.name === TRANSLATE) {
+            const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', opNode.getID());
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log("Translate start", input);
@@ -46,6 +51,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             opNode.pluckOutput('end').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         else if (this.data.name === DESTROY) {
+            const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', opNode.getID());
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log("Destroy start", input);
@@ -54,8 +61,12 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     destroy(object, event);
                 }
             });
+
+            opNode.pluckOutput('output').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         else if (this.data.name === SUB) {
+            const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', opNode.getID());
             this.vec1 = new Vector3();
             this.vec2 = new Vector3();
             this.subscription = opNode.pluckInputs().subscribe((input) => {
@@ -68,12 +79,25 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     opNode.updateOutput('output', vec1.clone().sub(vec2.clone()));
                 }
             });
+
+            opNode.pluckOutput('output').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         else if (this.data.name === COLLIDE) {
             // TODO: Add Reactions to Collide.
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    collision(input[0], input[1], pupNode);
+                }
+            });
+
+            this.data.outputs.forEach((output) => {
+                pupNode.pluckOutput(output.name).subscribe((val: any) => {dataTransmit(this.el, val)});
+            });
         }
 
-        opNode.pluckOutput('output').subscribe((val: any) => {dataTransmit(this.el, val)});
+        
     },
 
     remove: function(): void {
@@ -81,6 +105,23 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             this.subscription.unsubscribe();
     }
 });
+
+function collision(object1: string, object2: string, pupNode: PupNode): void {
+    // First set bounding box for these two objects.
+    const entity1: any = document.querySelector('#' + object1);
+    const entity2: any = document.querySelector('#' + object2);
+    entity1.setAttribute('static-body', {
+        shape: 'auto'
+    })
+    entity1.setAttribute('physics-collider', 'ignoreSleep', true);
+    entity1.setAttribute('collision-filter', 'collisionForces', false);
+
+    entity1.addEventListener('collisions', (e) => {
+        console.log("Collisions triggered! " + entity1.getAttribute('id'));
+        console.log(e.detail.els);
+        console.log(e.detail.clearedEls);
+    });
+}
 
 function create(object: string, pos: any, opNode: OpNode): void {
     const createdNode = scene.addObj(object, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: pos}]);

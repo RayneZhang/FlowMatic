@@ -19,7 +19,6 @@ export const objInit = AFRAME.registerComponent('obj-init', {
             }
             case GIFT: {
                 // Set up bounding boxes for the object
-                // TODO: Classify objects that need bounding boxes and thos that do not need.
                 this.el.setAttribute('body', {
                     type: 'static',
                     shape: 'none'

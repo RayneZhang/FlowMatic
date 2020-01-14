@@ -115,16 +115,68 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
     // First set bounding box for these two objects.
     const entity1: any = document.querySelector('#' + object1);
     const entity2: any = document.querySelector('#' + object2);
-    entity1.setAttribute('static-body', {
-        shape: 'sphere',
-        sphereRadius: 0.5
-    })
+    if (entity1.getAttribute('geometry') != undefined) {
+        const primitiveName: string = entity1.getAttribute('geometry').primitive;
+        if (primitiveName == 'sphere') {
+            const radius: number = entity1.getAttribute('geometry').radius;
+            entity1.setAttribute('static-body', {
+                shape: 'sphere',
+                sphereRadius: 0.04
+            })
+        }
+        else if (primitiveName == 'box') {
+            const width: number = entity1.getAttribute('geometry').width;
+            const height: number = entity1.getAttribute('geometry').height;
+            const depth: number = entity1.getAttribute('geometry').depth;
+            entity1.setAttribute('static-body', {
+                shape: 'sphere',
+                sphereRadius: 0.04
+            })
+        }
+    }
+    else {
+        entity1.setAttribute('static-body', {
+            shape: 'sphere',
+            sphereRadius: 0.04
+        })
+    }
+    
     entity1.setAttribute('physics-collider', 'ignoreSleep', true);
     entity1.setAttribute('collision-filter', 'collisionForces', false);
+
+    if (entity2.getAttribute('geometry') != undefined) {
+        const primitiveName: string = entity2.getAttribute('geometry').primitive;
+        if (primitiveName == 'sphere') {
+            const radius: number = entity2.getAttribute('geometry').radius;
+            entity2.setAttribute('static-body', {
+                shape: 'sphere',
+                sphereRadius: 0.04
+            })
+        }
+        else if (primitiveName == 'box') {
+            const scale: number = entity2.object3D.scale.x;
+            entity2.setAttribute('static-body', {
+                shape: 'sphere',
+                sphereRadius: scale,
+            })
+        }
+    }
+    else {
+        entity2.setAttribute('static-body', {
+            shape: 'sphere',
+            sphereRadius: 0.5
+        })
+    }
+    
+    entity2.setAttribute('physics-collider', 'ignoreSleep', true);
+    entity2.setAttribute('collision-filter', 'collisionForces', false);
 
     entity1.addEventListener('collisions', (e) => {
         console.log("Collisions triggered! " + entity1.getAttribute('id'));
         console.log(e.detail.els);
+        if (e.detail.els.length > 0) {
+            entity1.parentNode.removeChild(entity1);
+        }
         console.log(e.detail.clearedEls);
     });
 }

@@ -5,6 +5,7 @@ import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
+import { destroyObj } from '../controllers/right-bbutton-listener';
 
 // This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
@@ -109,6 +110,9 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
     }
 });
 
+let obj1set: Array<string> = [];
+let obj2set: Array<string> = [];
+
 function collision(object1: string, object2: string, pupNode: PupNode): void {
     console.log(object1);
     console.log(object2);
@@ -119,6 +123,8 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
     if (!entity1 || !entity2) {
         return;
     }
+    obj1set.push(object1);
+    obj2set.push(object2);
 
     if (entity1.getAttribute('geometry') != undefined) {
         const primitiveName: string = entity1.getAttribute('geometry').primitive;
@@ -162,14 +168,14 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
             const scale: number = entity2.object3D.scale.x;
             entity2.setAttribute('static-body', {
                 shape: 'sphere',
-                sphereRadius: scale,
+                sphereRadius: 0.04,
             })
         }
     }
     else {
         entity2.setAttribute('static-body', {
             shape: 'sphere',
-            sphereRadius: 0.5
+            sphereRadius: 0.04
         })
     }
     
@@ -180,7 +186,12 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
         console.log("Collisions triggered! " + entity1.getAttribute('id'));
         console.log(e.detail.els);
         if (e.detail.els.length > 0) {
-            entity1.parentNode.removeChild(entity1);
+            e.detail.els.forEach((el: any) => {
+                if (obj2set.indexOf(el.getAttribute('id')) != -1) {
+                    destroyObj(entity1);
+                    destroyObj(el);
+                }
+            });
         }
         console.log(e.detail.clearedEls);
     });

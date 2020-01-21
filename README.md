@@ -52,6 +52,11 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
 
 ### More Complex Applications
 
+- **Dynamically Create Objects**
+  - 
+- **Collision with a class of objects**
+  - 
+
 ### 3D Dataflow Interactions
 
 - **Abstractions of operators**

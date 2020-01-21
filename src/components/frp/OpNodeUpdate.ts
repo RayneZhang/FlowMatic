@@ -161,21 +161,21 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
             const radius: number = entity2.getAttribute('geometry').radius;
             entity2.setAttribute('static-body', {
                 shape: 'sphere',
-                sphereRadius: 0.04
+                sphereRadius: 0.08
             })
         }
         else if (primitiveName == 'box') {
             const scale: number = entity2.object3D.scale.x;
             entity2.setAttribute('static-body', {
                 shape: 'sphere',
-                sphereRadius: 0.04,
+                sphereRadius: 0.08,
             })
         }
     }
     else {
         entity2.setAttribute('static-body', {
             shape: 'sphere',
-            sphereRadius: 0.04
+            sphereRadius: 0.08
         })
     }
     
@@ -210,9 +210,17 @@ function create(object: string, pos: any, opNode: OpNode): void {
 
     // Set up position, rotation, and scale
     el.object3D.position.copy(pos);
-    el.addEventListener('loaded', () => {
-        resize(el, 0.05);
-    });
+    if (object == 'box') {
+        el.addEventListener('loaded', () => {
+            resize(el, 0.1);
+        });
+    }
+    else {
+        el.addEventListener('loaded', () => {
+            resize(el, 0.05);
+        });
+    }
+    
 
     // After creating both the node and the entity, emit the nodeID as output
     opNode.updateOutput('object', createdNode.getID());

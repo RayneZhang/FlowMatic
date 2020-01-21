@@ -110,8 +110,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
 });
 
 function collision(object1: string, object2: string, pupNode: PupNode): void {
-    console.log(object1);
-    console.log(object2);
+    // console.log(object1);
+    // console.log(object2);
     // First set bounding box for these two objects.
     const entity1: any = document.querySelector('#' + object1);
     const entity2: any = document.querySelector('#' + object2);

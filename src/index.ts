@@ -15,6 +15,8 @@ import * as cubemap from 'aframe-cubemap-component';
 cubemap;
 import * as gltfpart from 'aframe-gltf-part-component';
 gltfpart;
+import * as KEYBOARD from 'aframe-super-keyboard';
+KEYBOARD;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import rotationController from './components/controllers/rotation-controller';

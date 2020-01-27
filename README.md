@@ -50,7 +50,7 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
 
 ### Auto Layout
 
-### More Complex Applications
+### More Complex Applications (Pain Points)
 
 - **Dynamically Create Objects**
   - 

@@ -406,7 +406,9 @@ function instantiateData(item: Item): void {
 
     // Set up item geometry and material
     instanceEl.setAttribute('geometry', {
-        primitive: 'box'
+        primitive: 'plane',
+        width: 0.2,
+        height: 0.08
     });
     instanceEl.setAttribute('material', {
         color: itemColor.unselected,
@@ -414,10 +416,7 @@ function instantiateData(item: Item): void {
         opacity: 0.8
     });
 
-    // Resize the model into item size
-    instanceEl.addEventListener('loaded', () => {
-        resize(instanceEl, itemSize.width);
-    });
+    instanceEl.setAttribute('pmt-val', null);
     
     // Place the model
     instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
@@ -427,6 +426,7 @@ function instantiateData(item: Item): void {
     instanceEl.classList.add('movable');
     // Add class for identifying objects
     instanceEl.classList.add('data-receiver');
+
     instanceEl.addEventListener('raycaster-intersected', (event) => {
         instanceEl.setAttribute('material', 'color', objColor.hovered);
         setDescription(item.name);

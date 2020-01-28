@@ -56,6 +56,8 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
   - 
 - **Collision with a class of objects**
   - 
+- **Visualizations of Primitive Values**
+  - 
 
 ### 3D Dataflow Interactions
 

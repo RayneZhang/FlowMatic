@@ -313,9 +313,11 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
             itemEl.setAttribute('material', 'color', itemColor.selected);
             // Use different methods of visualization when the item is an operator
             // 0: Models; 1: Data; 2: Operators; 3: Avatars
-            if (submenuID == 2)
+            if (submenuID == 1) // 1: Data
+                instantiateData(item);
+            else if (submenuID == 2) // 2: Operators
                 instantiateOp(item);
-            else
+            else // 0: Models & 3: Avatars
                 instantiateObj(item, submenuID);
         });
 
@@ -326,175 +328,113 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
 }
 
 /**
- * Load Google Poly Items based on selected submenu
- * @param itemList The item list entity
- * @param pageToken pageToken defines the which page to load
- */
-export function loadPoly(itemList: any, pageToken: string): void {
-    const param: object = {
-        keywords: '',
-        format: 'GLTF',
-        pageSize: 9,
-        pageToken: pageToken
-    }
-    $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
-        if (status == 'success') {
-            const assets = data.assets;
-            googlePoly.lastPageToken = googlePoly.nextPageToken;
-            googlePoly.nextPageToken = data.nextPageToken;
-            console.log(assets);
-
-            assets.forEach((asset, i: number)=>{
-                const itemEl: any = document.createElement('a-entity');
-                itemEl.setAttribute('id', 'poly'+i);
-                itemList.appendChild(itemEl);
-
-                itemEl.setAttribute('geometry', {
-                    primitive: 'plane',
-                    width: itemSize.width,
-                    height: itemSize.height
-                });
-                itemEl.setAttribute('material', {
-                    src: asset.thumbnail.url
-                });
-
-                // Place the item
-                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
-
-                // Add reaction to the item.
-                itemEl.classList.add('ui');
-                itemEl.addEventListener('raycaster-intersected', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.hovered);
-                    setDescription(asset.displayName);
-                });
-
-                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.unselected);
-                });
-
-                itemEl.addEventListener('clicked', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.selected);
-                    // Use different methods of visualization when the item is an operator
-                    // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
-                    
-                    const formats = asset.formats;
-                    for (let i = 0; i < formats.length; i++) {
-                        if (formats[i].formatType == 'GLTF2' ) {
-
-                            const polyEl: any = document.createElement('a-entity');
-                            polyEl.setAttribute('id', asset.displayName);
-                            const redux: any = document.querySelector('#redux');
-                            redux.appendChild(polyEl);
-                            polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
-
-                            polyEl.addEventListener('model-loaded', () => {
-                                resize(polyEl, 1.0);
-                                recenter(polyEl);
-                                // resize(polyEl, 1.0);
-                            });
-
-                            const rightHand: any = document.querySelector('#rightHand');
-                            rightHand.object3D.updateMatrix();
-                            rightHand.object3D.updateMatrixWorld();
-                            const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
-                            polyEl.object3D.position.copy(position.clone());
-                            polyEl.classList.add('movable');
-
-                            polyEl.setAttribute('obj-attributes-list', {
-                                attrList: ['position', 'rotation'],
-                                behaviorList: ['signal', 'signal'],
-                                typeList: ['vector3', 'vector3']
-                            });
-
-                            // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
-                            const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
-
-                            // Using JSON does not seem efficient
-                            const objNode = scene.addObj(asset.displayName, props);
-                            polyEl.setAttribute('id', objNode.getID()); // Set up node ID
-                            polyEl.setAttribute('obj-node-update', 'name', asset.displayName); // Set up node update for frp
-                            polyEl.classList.add('data-receiver');
-                            break;
-                        }
-                    }
-                });
-
-                itemEl.addEventListener('clicked-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.unselected);
-                });
-            });
-        }
-    });
-
-    return;
-}
-
-export function loadSketchfab(itemList: any): void {
-    const param: object = {
-        type: 'models',
-        q: '',
-        file_format: 'gltf',
-        downloadable: true,
-        animated: true,
-        count: 9
-    }
-    $.get(sketchfab.getUrl(), param, function (data, status, xhr) {
-        if (status == 'success') {
-            // cursors: {next, previous}, next: url, previous: url, results: []
-            const results = data.results;
-            console.log(data);
-
-            results.forEach((asset, i: number)=>{
-                const itemEl: any = document.createElement('a-entity');
-                itemEl.setAttribute('id', 'sketchfab'+i);
-                itemList.appendChild(itemEl);
-
-                itemEl.setAttribute('geometry', {
-                    primitive: 'plane',
-                    width: itemSize.width,
-                    height: itemSize.height
-                });
-                const len: number = asset.thumbnails.images.length;
-                itemEl.setAttribute('material', {
-                    src: asset.thumbnails.images[len - 1].url
-                });
-
-                // Place the item
-                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
-
-                // Add reaction to the item.
-                itemEl.classList.add('ui');
-                itemEl.addEventListener('raycaster-intersected', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.hovered);
-                    setDescription(asset.name);
-                });
-
-                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.unselected);
-                });
-
-                itemEl.addEventListener('clicked', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.selected);
-                    sketchfab.getGLTFUrl(asset.uid);
-                });
-
-                itemEl.addEventListener('clicked-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.unselected);
-                });
-            });
-        }
-    });
-
-    return;
-}
-
-/**
  * Set the text of description panel on the menu
  * @param des Text value
  */
 function setDescription(des: string): void {
     const desEl: any = document.querySelector('#description-world');
     desEl.setAttribute('text', 'value', des);
+}
+
+/**
+ * Create an instance operator on the canvas after clicking on the item
+ * @param item The item
+ */
+function instantiateOp(item: Item): void {
+    const opEl: any = document.createElement('a-entity');
+    const canvas: any = document.querySelector('#canvas-world');
+    canvas.appendChild(opEl);
+
+    // Initiate `operator-model` component
+    const functionInputs: Array<string> = new Array<string>();
+    const behaviorInputs: Array<string> = new Array<string>();
+    const typeInputs: Array<string> = new Array<string>();
+    const functionOutputs: Array<string> = new Array<string>();
+    const behaviorOutputs: Array<string> = new Array<string>();
+    const typeOutputs: Array<string> = new Array<string>();
+
+    item.inputs.forEach((input: {name: string, type: string, behavior: string}) => {
+        functionInputs.push(input.name);
+        behaviorInputs.push(input.behavior);
+        typeInputs.push(input.type);
+    });
+    item.outputs.forEach((output: {name: string, type: string, behavior: string}) => {
+        functionOutputs.push(output.name);
+        behaviorOutputs.push(output.behavior);
+        typeOutputs.push(output.type);
+    });
+    opEl.setAttribute('operator-model', {
+        functionName: item.name,
+        functionInputs: functionInputs,
+        functionOutputs: functionOutputs,
+        behaviorInputs: behaviorInputs,
+        behaviorOutputs: behaviorOutputs,
+        typeInputs: typeInputs,
+        typeOutputs: typeOutputs
+    });
+
+    // Resize the model into item size
+    opEl.addEventListener('model-loaded', () => {
+        resize(opEl, itemSize.width);
+    });
+
+    // Add a new node into the scene and assign the id to the entity
+    opEl.setAttribute('op-node-update', {
+        name: item.name,
+        inputs: item.inputs,
+        outputs: item.outputs
+    });
+
+    // Place the model
+    opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
+
+    // Add reactions when gripping
+    opEl.classList.add('canvasObj');
+    opEl.classList.add('movable');
+    // Add class for identifying operators
+    opEl.classList.add('operator');
+}
+
+/**
+ * Instantiate primitive data types on the panel
+ * @param item The itme to initiate
+ */
+function instantiateData(item: Item): void {
+    const instanceEl: any = document.createElement('a-entity');
+    const canvas: any = document.querySelector('#canvas-world');
+    canvas.appendChild(instanceEl);
+
+    // Set up item geometry and material
+    instanceEl.setAttribute('geometry', {
+        primitive: 'box'
+    });
+    instanceEl.setAttribute('material', {
+        color: itemColor.unselected,
+        transparent: true,
+        opacity: 0.8
+    });
+
+    // Resize the model into item size
+    instanceEl.addEventListener('loaded', () => {
+        resize(instanceEl, itemSize.width);
+    });
+    
+    // Place the model
+    instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
+
+    // Add reactions when gripping
+    instanceEl.classList.add('canvasObj');
+    instanceEl.classList.add('movable');
+    // Add class for identifying objects
+    instanceEl.classList.add('data-receiver');
+    instanceEl.addEventListener('raycaster-intersected', (event) => {
+        instanceEl.setAttribute('material', 'color', objColor.hovered);
+        setDescription(item.name);
+    });
+
+    instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
+        instanceEl.setAttribute('material', 'color', objColor.unselected);
+    });
 }
 
 /**
@@ -683,60 +623,164 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
 }
 
 /**
- * Create an instance operator on the canvas after clicking on the item
- * @param item The item
+ * Load Google Poly Items based on selected submenu
+ * @param itemList The item list entity
+ * @param pageToken pageToken defines the which page to load
  */
-function instantiateOp(item: Item): void {
-    const opEl: any = document.createElement('a-entity');
-    const canvas: any = document.querySelector('#canvas-world');
-    canvas.appendChild(opEl);
+export function loadPoly(itemList: any, pageToken: string): void {
+    const param: object = {
+        keywords: '',
+        format: 'GLTF',
+        pageSize: 9,
+        pageToken: pageToken
+    }
+    $.get(googlePoly.getUrl(), param, function (data,status,xhr) {
+        if (status == 'success') {
+            const assets = data.assets;
+            googlePoly.lastPageToken = googlePoly.nextPageToken;
+            googlePoly.nextPageToken = data.nextPageToken;
+            console.log(assets);
 
-    // Initiate `operator-model` component
-    const functionInputs: Array<string> = new Array<string>();
-    const behaviorInputs: Array<string> = new Array<string>();
-    const typeInputs: Array<string> = new Array<string>();
-    const functionOutputs: Array<string> = new Array<string>();
-    const behaviorOutputs: Array<string> = new Array<string>();
-    const typeOutputs: Array<string> = new Array<string>();
+            assets.forEach((asset, i: number)=>{
+                const itemEl: any = document.createElement('a-entity');
+                itemEl.setAttribute('id', 'poly'+i);
+                itemList.appendChild(itemEl);
 
-    item.inputs.forEach((input: {name: string, type: string, behavior: string}) => {
-        functionInputs.push(input.name);
-        behaviorInputs.push(input.behavior);
-        typeInputs.push(input.type);
+                itemEl.setAttribute('geometry', {
+                    primitive: 'plane',
+                    width: itemSize.width,
+                    height: itemSize.height
+                });
+                itemEl.setAttribute('material', {
+                    src: asset.thumbnail.url
+                });
+
+                // Place the item
+                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
+
+                // Add reaction to the item.
+                itemEl.classList.add('ui');
+                itemEl.addEventListener('raycaster-intersected', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.hovered);
+                    setDescription(asset.displayName);
+                });
+
+                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+
+                itemEl.addEventListener('clicked', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.selected);
+                    // Use different methods of visualization when the item is an operator
+                    // 0: Models; 1: Data; 2: Operators; 3: Avatars; 4: Poly
+                    
+                    const formats = asset.formats;
+                    for (let i = 0; i < formats.length; i++) {
+                        if (formats[i].formatType == 'GLTF2' ) {
+
+                            const polyEl: any = document.createElement('a-entity');
+                            polyEl.setAttribute('id', asset.displayName);
+                            const redux: any = document.querySelector('#redux');
+                            redux.appendChild(polyEl);
+                            polyEl.setAttribute('gltf-model', 'url(' + formats[i].root.url + ')');
+
+                            polyEl.addEventListener('model-loaded', () => {
+                                resize(polyEl, 1.0);
+                                recenter(polyEl);
+                                // resize(polyEl, 1.0);
+                            });
+
+                            const rightHand: any = document.querySelector('#rightHand');
+                            rightHand.object3D.updateMatrix();
+                            rightHand.object3D.updateMatrixWorld();
+                            const position = rightHand.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
+                            polyEl.object3D.position.copy(position.clone());
+                            polyEl.classList.add('movable');
+
+                            polyEl.setAttribute('obj-attributes-list', {
+                                attrList: ['position', 'rotation'],
+                                behaviorList: ['signal', 'signal'],
+                                typeList: ['vector3', 'vector3']
+                            });
+
+                            // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
+                            const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+
+                            // Using JSON does not seem efficient
+                            const objNode = scene.addObj(asset.displayName, props);
+                            polyEl.setAttribute('id', objNode.getID()); // Set up node ID
+                            polyEl.setAttribute('obj-node-update', 'name', asset.displayName); // Set up node update for frp
+                            polyEl.classList.add('data-receiver');
+                            break;
+                        }
+                    }
+                });
+
+                itemEl.addEventListener('clicked-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+            });
+        }
     });
-    item.outputs.forEach((output: {name: string, type: string, behavior: string}) => {
-        functionOutputs.push(output.name);
-        behaviorOutputs.push(output.behavior);
-        typeOutputs.push(output.type);
-    });
-    opEl.setAttribute('operator-model', {
-        functionName: item.name,
-        functionInputs: functionInputs,
-        functionOutputs: functionOutputs,
-        behaviorInputs: behaviorInputs,
-        behaviorOutputs: behaviorOutputs,
-        typeInputs: typeInputs,
-        typeOutputs: typeOutputs
+
+    return;
+}
+
+export function loadSketchfab(itemList: any): void {
+    const param: object = {
+        type: 'models',
+        q: '',
+        file_format: 'gltf',
+        downloadable: true,
+        animated: true,
+        count: 9
+    }
+    $.get(sketchfab.getUrl(), param, function (data, status, xhr) {
+        if (status == 'success') {
+            // cursors: {next, previous}, next: url, previous: url, results: []
+            const results = data.results;
+            console.log(data);
+
+            results.forEach((asset, i: number)=>{
+                const itemEl: any = document.createElement('a-entity');
+                itemEl.setAttribute('id', 'sketchfab'+i);
+                itemList.appendChild(itemEl);
+
+                itemEl.setAttribute('geometry', {
+                    primitive: 'plane',
+                    width: itemSize.width,
+                    height: itemSize.height
+                });
+                const len: number = asset.thumbnails.images.length;
+                itemEl.setAttribute('material', {
+                    src: asset.thumbnails.images[len - 1].url
+                });
+
+                // Place the item
+                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
+
+                // Add reaction to the item.
+                itemEl.classList.add('ui');
+                itemEl.addEventListener('raycaster-intersected', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.hovered);
+                    setDescription(asset.name);
+                });
+
+                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+
+                itemEl.addEventListener('clicked', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.selected);
+                    sketchfab.getGLTFUrl(asset.uid);
+                });
+
+                itemEl.addEventListener('clicked-cleared', (event) => {
+                    itemEl.setAttribute('material', 'color', itemColor.unselected);
+                });
+            });
+        }
     });
 
-    // Resize the model into item size
-    opEl.addEventListener('model-loaded', () => {
-        resize(opEl, itemSize.width);
-    });
-
-    // Add a new node into the scene and assign the id to the entity
-    opEl.setAttribute('op-node-update', {
-        name: item.name,
-        inputs: item.inputs,
-        outputs: item.outputs
-    });
-
-    // Place the model
-    opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
-
-    // Add reactions when gripping
-    opEl.classList.add('canvasObj');
-    opEl.classList.add('movable');
-    // Add class for identifying operators
-    opEl.classList.add('operator');
+    return;
 }

@@ -35,6 +35,9 @@ export const PLANE = 'plane';
 export const VECTOR = 'Vector';
 export const SWITCH = 'Switch';
 export const SLIDER = 'Slider';
+export const NUM = 'Number';
+export const STR = 'String';
+export const BOOL = 'Boolean';
 
 // Models
 export const LIGHT = 'Light';
@@ -155,7 +158,36 @@ export const objects = {
             ]
         }
     ],
-    Data:[],
+    Data:[
+        {
+            name: STR,
+            type: "data",
+            itemUrl: "",
+            inputs: [],
+            outputs: []
+        },
+        {
+            name: NUM,
+            type: "data",
+            itemUrl: "",
+            inputs: [],
+            outputs: []
+        },
+        {
+            name: BOOL,
+            type: "data",
+            itemUrl: "",
+            inputs: [],
+            outputs: []
+        },
+        {
+            name: VECTOR,
+            type: "data",
+            itemUrl: "",
+            inputs: [],
+            outputs: []
+        }
+    ],
     Operators:[
         {
             name: PLUS,

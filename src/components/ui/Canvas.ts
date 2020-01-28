@@ -264,6 +264,19 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
                 resize(itemEl, itemSize.width);
             });
         }
+        else if (item.type === 'data') {
+            itemEl.setAttribute('geometry', 'primitive', 'plane');
+            itemEl.setAttribute('material', {
+                color: itemColor.unselected,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            // Resize the model into item size
+            itemEl.addEventListener('loaded', () => {
+                resize(itemEl, itemSize.width);
+            });
+        }
         else {
             // Set up item geometry and material
             itemEl.setAttribute('obj-model', {

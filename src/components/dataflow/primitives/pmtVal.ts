@@ -1,5 +1,6 @@
 import * as AFRAME from 'aframe';
 import { itemColor } from '../../ui/Canvas';
+import { STR, NUM, VECTOR, BOOL } from '../../../Objects';
 
 export const primitiveVal = AFRAME.registerComponent('pmt-val', {
     schema: {
@@ -28,20 +29,38 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
         expandEl.object3D.position.set(-0.16, 0, 0);
         expandEl.classList.add('ui');
         expandEl.addEventListener('clicked', (event) => {
-            const kb: any = document.querySelector(`#${this.data.name}_keyboard`);
-            if (kb) {
-                kb.object3D.visible = !kb.object3D.visible;
-            }
-            else {
-                const kbEl: any = document.createElement('a-entity');
-                kbEl.setAttribute('id', this.data.name + '_keyboard');
-                this.el.appendChild(kbEl);
-                kbEl.setAttribute('super-keyboard', {
-                    hand: '#rightHand',
-                    imagePath: 'assets/images/'
-                });
-                kbEl.object3D.position.set(0, -0.25, 0);
-            }
+            expandOnClick(this.data.name);
         });
     },
 });
+
+/**
+ * Function that handles clicking on expand icon
+ * @param name primitive name (e.g. string, number, vector)
+ */
+function expandOnClick(name: string): void {
+    if (name == STR || name == NUM) {
+        const kb: any = document.querySelector(`#${this.data.name}_keyboard`);
+        if (kb) {
+            kb.object3D.visible = !kb.object3D.visible;
+        }
+        else {
+            const kbEl: any = document.createElement('a-entity');
+            kbEl.setAttribute('id', this.data.name + '_keyboard');
+            this.el.appendChild(kbEl);
+            kbEl.setAttribute('super-keyboard', {
+                hand: '#rightHand',
+                imagePath: 'assets/images/'
+            });
+            kbEl.object3D.position.set(0, -0.25, 0);
+        }
+    }
+    else if (name == VECTOR) {
+        // TODO
+        console.log("Vector expanded");
+    }
+    else if (name == BOOL) {
+        // TODO
+        console.log("Bool expanded");
+    }
+}

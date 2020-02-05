@@ -8,6 +8,9 @@ export const raycastController = AFRAME.registerComponent('raycast-controller', 
 
     init: function(): void {
         if (this.data.hand == 'right') {
+            // this.el.setAttribute('cursor', {
+            //     downEvents: ['triggerdown']
+            // });
             this.el.setAttribute('raycaster', {
                 origin: new Vector3(0, -0.01, 0),
                 direction: new Vector3(0, -0.8, -1), 

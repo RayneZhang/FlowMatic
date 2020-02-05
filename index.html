@@ -108,8 +108,8 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" collider-controller oculus-touch-controls="hand: right" controller-material-controller
-                thumb-controls="hand: right" raycast-controller="hand: right" 
+                <a-entity id="rightHand" collider-controller laser-controls="hand: right" controller-material-controller
+                thumb-controls="hand: right" raycast-controller="hand: right"
                 right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right">
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
                         <a-entity id="non-grabbing-tips" visible="true">
@@ -195,7 +195,6 @@
             <!-- Utils -->
             <a-entity id="edges"></a-entity>
             <a-entity id="redux" state-binding></a-entity>
-            <a-entity id="keyboard" super-keyboard="hand: #rightHand; imagePath: assets/images/"></a-entity>
             
             </a-scene>
     </body>

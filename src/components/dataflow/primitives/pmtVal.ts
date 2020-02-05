@@ -30,10 +30,7 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
         expandEl.addEventListener('clicked', (event) => {
             const kb: any = document.querySelector(`#${this.data.name}_keyboard`);
             if (kb) {
-                if (kb.getAttribute('visible'))
-                    kb.setAttribute('visible', false);
-                else
-                    kb.setAttribute('visible', true);
+                kb.object3D.visible = !kb.object3D.visible;
             }
             else {
                 const kbEl: any = document.createElement('a-entity');

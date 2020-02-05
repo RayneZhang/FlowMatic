@@ -413,10 +413,11 @@ function instantiateData(item: Item): void {
     instanceEl.setAttribute('material', {
         color: itemColor.unselected,
         transparent: true,
+        roughness: 1,
         opacity: 0.8
     });
 
-    instanceEl.setAttribute('pmt-val', null);
+    instanceEl.setAttribute('pmt-val', 'name', item.name);
     
     // Place the model
     instanceEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);

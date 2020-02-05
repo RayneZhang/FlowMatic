@@ -3,12 +3,12 @@ import { itemColor } from '../../ui/Canvas';
 
 export const primitiveVal = AFRAME.registerComponent('pmt-val', {
     schema: {
-        
+        name: {type: 'string', default: ''}
     },
 
     init: function(): void {
-        this.expand = false;
         const expandEl: any = document.createElement('a-entity');
+        expandEl.setAttribute('id', this.data.name + '_expand');
         this.el.appendChild(expandEl);
 
         // Set up item geometry and material
@@ -18,6 +18,7 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
             height: 0.08
         });
         expandEl.setAttribute('material', {
+            src: "#Arrow_Down_icon",
             color: itemColor.unselected,
             transparent: true,
             opacity: 0.8
@@ -25,14 +26,18 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
 
         // Place the model
         expandEl.object3D.position.set(-0.16, 0, 0);
-
         expandEl.classList.add('ui');
-
         expandEl.addEventListener('clicked', (event) => {
-            console.log("Clicked!!!");
-            this.expand = !this.expand;
-            if (this.expand) {
+            const kb: any = document.querySelector(`#${this.data.name}_keyboard`);
+            if (kb) {
+                if (kb.getAttribute('visible'))
+                    kb.setAttribute('visible', false);
+                else
+                    kb.setAttribute('visible', true);
+            }
+            else {
                 const kbEl: any = document.createElement('a-entity');
+                kbEl.setAttribute('id', this.data.name + '_keyboard');
                 this.el.appendChild(kbEl);
                 kbEl.setAttribute('super-keyboard', {
                     hand: '#rightHand',

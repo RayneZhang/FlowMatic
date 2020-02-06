@@ -29,7 +29,7 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
         expandEl.object3D.position.set(-0.16, 0, 0);
         expandEl.classList.add('ui');
         expandEl.addEventListener('clicked', (event) => {
-            expandOnClick(this.data.name);
+            expandOnClick(this.data.name, this.el);
         });
     },
 });
@@ -38,16 +38,16 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
  * Function that handles clicking on expand icon
  * @param name primitive name (e.g. string, number, vector)
  */
-function expandOnClick(name: string): void {
+function expandOnClick(name: string, el: any): void {
     if (name == STR || name == NUM) {
-        const kb: any = document.querySelector(`#${this.data.name}_keyboard`);
+        const kb: any = document.querySelector(`#${name}_keyboard`);
         if (kb) {
             kb.object3D.visible = !kb.object3D.visible;
         }
         else {
             const kbEl: any = document.createElement('a-entity');
-            kbEl.setAttribute('id', this.data.name + '_keyboard');
-            this.el.appendChild(kbEl);
+            kbEl.setAttribute('id', name + '_keyboard');
+            el.appendChild(kbEl);
             kbEl.setAttribute('super-keyboard', {
                 hand: '#rightHand',
                 imagePath: 'assets/images/'

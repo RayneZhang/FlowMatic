@@ -110,7 +110,7 @@
 
                 <!-- Controllers. -->
                 <a-entity id="rightHand" collider-controller laser-controls="hand: right" controller-material-controller
-                thumb-controls="hand: right" raycast-controller="hand: right"
+                thumb-controls="hand: right" raycaster="objects: .movable, .ui, .line, .canvasObj, .connectable, .Arrow, .Switch, .Slider;"
                 right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right">
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
                         <a-entity id="non-grabbing-tips" visible="true">

@@ -33,8 +33,6 @@ import controllerMaterial from './components/controllers/controller-material-con
 controllerMaterial;
 import entityFollow from './components/utils/entityFollow';
 entityFollow;
-import { raycastController } from './components/controllers/raycast-controller';
-raycastController;
 import { colliderController } from './components/controllers/collider-controller';
 colliderController;
 import {cameraRotation} from './components/controllers/camera-rotation';

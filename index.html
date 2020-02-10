@@ -109,7 +109,7 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" collider-controller laser-controls="hand: right" controller-material-controller
+                <a-entity id="rightHand" collider-controller laser-controls="hand: right" controller-material
                 thumb-controls="hand: right" raycaster="objects: .movable, .ui, .line, .canvasObj, .connectable, .Arrow, .Switch, .Slider;"
                 right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right">
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
@@ -136,7 +136,7 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" collider-controller oculus-touch-controls="hand: left" controller-material-controller
+                <a-entity id="leftHand" collider-controller oculus-touch-controls="hand: left" controller-material
                 thumb-controls="hand: left" camera-rotation
                 teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
                     <a-entity id="menu" palette-menu></a-entity>

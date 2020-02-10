@@ -29,7 +29,7 @@ rightBButtonListener;
 import { rightGripListener } from './components/controllers/right-grip-listener';
 rightGripListener;
 
-import controllerMaterial from './components/controllers/controller-material-controller';
+import controllerMaterial from './components/controllers/controller-material';
 controllerMaterial;
 import entityFollow from './components/utils/entityFollow';
 entityFollow;

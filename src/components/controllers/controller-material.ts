@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe'
 declare const THREE:any;
 
-const controllerMaterial = AFRAME.registerComponent('controller-material-controller', {
+const controllerMaterial = AFRAME.registerComponent('controller-material', {
     init: function(): void {
         this.el.addEventListener('model-loaded', (event) => {
             const controllerObject3D: any = event.detail.model;

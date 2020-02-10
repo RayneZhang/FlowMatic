@@ -9,12 +9,14 @@ import { sketchfab } from '../../utils/SketchFab';
 
 export const canvasSize = {
     width: 1.6, 
-    height: 1
+    height: 1,
+    depth: 0.02
 };
 
 export const menuSize = {
     width: 0.7,
-    height: 1
+    height: 1,
+    depth: 0.02
 }
 
 export const buttonSize = {
@@ -125,14 +127,16 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
  */
 function initCanvasBg(canvasEl: any, parentEl: any): void {   
     canvasEl.setAttribute('geometry', {
-        primitive: 'plane',
+        primitive: 'box',
         width: canvasSize.width,
-        height: canvasSize.height
+        height: canvasSize.height,
+        depth: canvasSize.depth
     });
+
     canvasEl.setAttribute('material', {
-        color: canvasColor.background,
-        side: 'double'
+        color: canvasColor.background
     });
+
     parentEl.appendChild(canvasEl);
 }
 
@@ -142,13 +146,13 @@ function initCanvasBg(canvasEl: any, parentEl: any): void {
  */
 function initMenu(menuEl: any, parentEl: any): void {
     menuEl.setAttribute('geometry', {
-        primitive: 'plane',
+        primitive: 'box',
         width: menuSize.width,
-        height: menuSize.height
+        height: menuSize.height,
+        depth: menuSize.depth
     });
     menuEl.setAttribute('material', {
-        color: canvasColor.background,
-        side: 'double'
+        color: canvasColor.background
     });
     const offset: number = canvasSize.width/2 + menuSize.width/2 + 0.1;
     menuEl.object3D.position.set(-offset, 0, 0);
@@ -162,7 +166,7 @@ function initMenu(menuEl: any, parentEl: any): void {
  * @param menuEl The menu entity
  */
 function initButtons(menuEl: any): void {
-    const offset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width/2, menuSize.height/2 - buttonSize.height/2, 0.001);
+    const offset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width/2, menuSize.height/2 - buttonSize.height/2, menuSize.depth + 0.001);
     Object.keys(objects).forEach((key: string, i: number) => {
         const bnEl: any = document.createElement('a-entity');
         bnEl.setAttribute('id', `button-${i}`);
@@ -215,7 +219,7 @@ function initDes(desEl: any, parentEl: any): void {
         align: 'center',
         wrapCount: 25,
     });
-    desEl.object3D.position.set(0, menuSize.height/2 - buttonSize.height/2, 0);
+    desEl.object3D.position.set(0, menuSize.height/2 - buttonSize.height/2, menuSize.depth);
 }
 
 /**
@@ -758,7 +762,7 @@ export function loadSketchfab(itemList: any): void {
                 });
 
                 // Place the item
-                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, 0.001);
+                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, menuSize.depth + 0.001);
 
                 // Add reaction to the item.
                 itemEl.classList.add('ui');

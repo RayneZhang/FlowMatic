@@ -65,6 +65,14 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
   - The ability of dragging an operator to see the logic inside as well as the ability to create user-defined operator by putting existing operators inside one box.
 - **Abstractions of types**
   - Just like the *Interface* feature in Typescript, we can enable users to create new objects as new types (e.g. a sphere with a specialized texture) containing existing types (e.g. int, string). Users can peek into the new type to see the childs and make connections with them.
+  
+- Superhands: Drag primitive objects
+- Add Text to the Scene
+- Integrate scoreboard to the scene
+- BeatSaber Example
+- Expand Diagram
+- Improve Diagram
+- 3D Interactions
 
 ## Resources
 ### Assets

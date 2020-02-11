@@ -7,7 +7,7 @@ import { setAppStatus } from '../../utils/App';
 declare const THREE:any;
 
 // The sub-menu elements' names in the 3D obj.
-const subEntitiesNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next'];
+const subEntitiesNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text'];
 const NotReactUI: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
 
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
@@ -170,8 +170,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 event.stopPropagation();
                 
                 const selectedButtonId: number = this.data.selectedButtonId;
-                if (NotReactUI.indexOf(subEntityName) === -1 && 
-                subEntityName != 'button' + String(selectedButtonId+1)) {
+                if (NotReactUI.indexOf(subEntityName) === -1 && subEntityName != 'button' + String(selectedButtonId+1)) {
                     subMenuEl.setAttribute('material', 'color', '#22313f');
                     this.setInstanceDescription(selectedButtonId);
                 }

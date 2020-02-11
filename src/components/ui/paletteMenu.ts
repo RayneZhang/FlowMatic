@@ -154,8 +154,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     subMenuEl.appendChild(icon);
                     icon.setAttribute('src', `#${subEntityName}_icon`);
                     icon.setAttribute('geometry', {
-                        width: iconSize.width,
-                        height: iconSize.height
+                        width: 0.8 * iconSize.width,
+                        height: 0.8 * iconSize.height
                     });
                     if (subEntityName == 'prev')
                         icon.object3D.position.set(-0.225, 0.0031, -0.091);

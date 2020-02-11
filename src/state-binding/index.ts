@@ -94,7 +94,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                 // Create a node in frp-backend
                 const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
-
+                
                 newEntity.setAttribute('id', objNode.getID());
                 objNode.pluckOutput('color').subscribe((value) => {
                     console.log(`${objNode.getLabel()} color is now: ${value}`);
@@ -105,26 +105,33 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                 newEntity.addEventListener('clicked', (event) => {
                     event.stopPropagation();
-                    const kbEl: any = document.createElement('a-entity');
-                    kbEl.setAttribute('id', objNode.getID() + '_keyboard');
-                    newEntity.appendChild(kbEl);
-                    const val: string = newEntity.getAttribute('text').value;
-                    kbEl.setAttribute('super-keyboard', {
-                        hand: '#rightHand',
-                        imagePath: 'assets/images/',
-                        value: val
-                    });
-                    kbEl.object3D.position.set(-0.35, -0.25, 0);
+                    const kb: any = document.querySelector('#' + objNode.getID() + '_keyboard');
+                    if (kb) {
+                        kb.object3D.visible = !kb.object3D.visible;
+                    }
+                    else {
+                        const kbEl: any = document.createElement('a-entity');
+                        kbEl.setAttribute('id', objNode.getID() + '_keyboard');
+                        newEntity.appendChild(kbEl);
+                        const val: string = newEntity.getAttribute('text').value;
+                        kbEl.setAttribute('super-keyboard', {
+                            hand: '#rightHand',
+                            imagePath: 'assets/images/',
+                            value: val
+                        });
+                        kbEl.object3D.position.set(-0.35, -0.25, 0);
 
-                    // Avoid creating multiple keyboards.
-                    kbEl.addEventListener('clicked', (event) => {
-                        event.stopPropagation();
-                    });
-                    kbEl.addEventListener('superkeyboardchange', (event) => {
-                        event.stopPropagation();
-                        const changedVal: string = kbEl.getAttribute('super-keyboard').value;
-                        newEntity.setAttribute('text', 'value', changedVal);
-                    });
+                        // Avoid creating multiple keyboards.
+                        kbEl.addEventListener('clicked', (event) => {
+                            event.stopPropagation();
+                        });
+                        kbEl.addEventListener('superkeyboardchange', (event) => {
+                            event.stopPropagation();
+                            const changedVal: string = kbEl.getAttribute('super-keyboard').value;
+                            newEntity.setAttribute('text', 'value', changedVal);
+                        });
+                    }
+                    
                 })
             }
         }

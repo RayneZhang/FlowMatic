@@ -90,8 +90,16 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
         }
 
         // We can only access the mesh after it is loaded.
-        this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
-        this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
+        if (this.data.targetModelName == 'text') {
+            let width: number = 0.3;
+            this.listEntity.object3D.scale.set(width, width, width);
+            this.listEntity.object3D.position.set(width, 0, 0);
+            this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
+        }
+        else {
+            this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
+            this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
+        }
     },
 
     // The listener when x-button is down.

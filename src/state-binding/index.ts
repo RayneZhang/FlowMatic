@@ -87,7 +87,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
             // Generate Text.
             if (targetObjName == 'text') {
-                // newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
+                newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
                 newEntity.classList.add('data-receiver');
 
                 newEntity.setAttribute('text', 'value', 'Hello World!');
@@ -108,15 +108,22 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     const kbEl: any = document.createElement('a-entity');
                     kbEl.setAttribute('id', objNode.getID() + '_keyboard');
                     newEntity.appendChild(kbEl);
+                    const val: string = newEntity.getAttribute('text').value;
                     kbEl.setAttribute('super-keyboard', {
                         hand: '#rightHand',
-                        imagePath: 'assets/images/'
+                        imagePath: 'assets/images/',
+                        value: val
                     });
-                    kbEl.object3D.position.set(0, -0.25, 0);
+                    kbEl.object3D.position.set(-0.35, -0.25, 0);
 
                     // Avoid creating multiple keyboards.
                     kbEl.addEventListener('clicked', (event) => {
                         event.stopPropagation();
+                    });
+                    kbEl.addEventListener('superkeyboardchange', (event) => {
+                        event.stopPropagation();
+                        const changedVal: string = kbEl.getAttribute('super-keyboard').value;
+                        newEntity.setAttribute('text', 'value', changedVal);
                     });
                 })
             }

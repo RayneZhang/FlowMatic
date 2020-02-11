@@ -8,7 +8,13 @@ declare const THREE:any;
 
 // The sub-menu elements' names in the 3D obj.
 const subEntitiesNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text'];
+
 const NotReactUI: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
+
+const iconSize = {
+    width: 0.033,
+    height: 0.033
+}
 
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
     schema: {
@@ -143,6 +149,31 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     break;
                 }
 
+                case 'prev': case 'next': case 'primitive': case 'sketchfab': case 'diagram': case 'text': {
+                    const icon: any = document.createElement('a-image');
+                    subMenuEl.appendChild(icon);
+                    icon.setAttribute('src', `#${subEntityName}_icon`);
+                    icon.setAttribute('geometry', {
+                        width: iconSize.width,
+                        height: iconSize.height
+                    });
+                    if (subEntityName == 'prev')
+                        icon.object3D.position.set(-0.225, 0.0031, -0.091);
+                    else if (subEntityName == 'next')
+                        icon.object3D.position.set(-0.11,0.0031, -0.091);
+                    else if (subEntityName == 'primitive')
+                        icon.object3D.position.set(-0.275, 0.0031, -0.091);
+                    else if (subEntityName == 'sketchfab')
+                        icon.object3D.position.set(-0.275, 0.0031, -0.058);
+                    else if (subEntityName == 'diagram')
+                        icon.object3D.position.set(-0.275, 0.0031, -0.025);
+                    else if (subEntityName == 'text')
+                        icon.object3D.position.set(-0.275, 0.0031, 0.008);
+                    
+                    icon.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+                    subMenuEl.setAttribute('material', 'color', '#22313f');
+                    break;
+                }
                 default: {
                     subMenuEl.setAttribute('material', 'color', '#22313f');
                     break;

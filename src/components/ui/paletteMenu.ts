@@ -19,6 +19,7 @@ const iconSize = {
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
     schema: {
         selectedButtonId: {type: 'number', default: 0},
+        selectedToolName: {type: 'string', default: 'primitive'},
         pageNumber: {type: 'number', default: 0}
     },
 
@@ -172,6 +173,15 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     
                     icon.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
                     subMenuEl.setAttribute('material', 'color', '#22313f');
+
+                    subMenuEl.addEventListener('clicked', (event) => {
+                        event.stopPropagation();
+                        subMenuEl.setAttribute('material', 'color', '#22a7f0');
+                        if (subEntityName == 'text') {
+                            const rightHand: any = document.querySelector('#rightHand');
+                            rightHand.setAttribute('right-abutton-listener', 'targetModel', subEntityName);
+                        }
+                    });
                     break;
                 }
                 default: {
@@ -193,6 +203,9 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     if (subMenuEl.classList.contains('instance')) {
                         const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
                         this.setInstanceDescription(buttonId);
+                    }
+                    else if (subMenuEl.classList.contains('tool')) {
+                        this.setToolDescription(subEntityName);
                     }
                 }
             })
@@ -322,6 +335,12 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     // The listener when x-button is down.
     onXButtonDown(event): void {
         this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
+    },
+
+    // Set description of the panel.
+    setToolDescription(toolName: number): void {
+        const thumbDescripEl: any = document.querySelector('#description_text');
+        thumbDescripEl.setAttribute('text', 'value', toolName);
     },
 
     // ==========Also for external call.==========

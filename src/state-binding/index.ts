@@ -33,56 +33,93 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             const position: Vector3 = addedObj.position;
             const color: string = addedObj.color;
 
-             // Create an entity and append it to AFRAME scene.
-             let newEntity: any = document.createElement('a-entity');
-             this.el.appendChild(newEntity);
+            // Create an entity and append it to AFRAME scene.
+            let newEntity: any = document.createElement('a-entity');
+            this.el.appendChild(newEntity);
 
-             newEntity.object3D.position.set(position.x, position.y, position.z);
-             newEntity.classList.add("movable");
-             for (let i = 0; i < objects.Models.length; i++) {
-               if (objects.Models[i].name === targetObjName) {
-                  newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
-                  newEntity.classList.add('data-receiver');
+            newEntity.object3D.position.set(position.x, position.y, position.z);
+            newEntity.classList.add("movable");
 
-                  if (objects.Models[i].type === 'primitive') {
-                     newEntity.setAttribute('geometry', 'primitive', targetObjName);
-                     newEntity.object3D.scale.set(0.1, 0.1, 0.1);
+            // Models that exist in the objects store.
+            for (let i = 0; i < objects.Models.length; i++) {
+                if (objects.Models[i].name === targetObjName) {
+                    newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
+                    newEntity.classList.add('data-receiver');
 
-                     // Create a node in frp-backend
-                     const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
+                    if (objects.Models[i].type === 'primitive') {
+                        newEntity.setAttribute('geometry', 'primitive', targetObjName);
+                        newEntity.object3D.scale.set(0.1, 0.1, 0.1);
 
-                     newEntity.setAttribute('id', objNode.getID());
-                     objNode.pluckOutput('color').subscribe((value) => {
+                        // Create a node in frp-backend
+                        const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
+
+                        newEntity.setAttribute('id', objNode.getID());
+                        objNode.pluckOutput('color').subscribe((value) => {
                         console.log(`${objNode.getLabel()} color is now: ${value}`);
                         // Handle color change.
                         const objEntity: any = document.querySelector(`#${objNode.getID()}`);
                         objEntity.setAttribute('material', 'color', value);
-                     });
-                     break;
-                  }
-                  if (objects.Models[i].type === 'gltf') {
-                     newEntity.setAttribute('gltf-model', objects.Models[i].url);
+                        });
+                        break;
+                    }
+                    if (objects.Models[i].type === 'gltf') {
+                        newEntity.setAttribute('gltf-model', objects.Models[i].url);
 
-                     // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
-                     const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
-                     objects.Models[i].outputs.forEach((o) => {
-                         if (o.name != 'object' && o.name != 'position') {
+                        // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
+                        const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+                        objects.Models[i].outputs.forEach((o) => {
+                            if (o.name != 'object' && o.name != 'position') {
                             o['default'] = ''; 
                             props.push(o);
-                         }
-                     });
+                            }
+                        });
 
-                     // Using JSON does not seem efficient
-                     const objNode = scene.addObj(targetObjName, props);
-                     newEntity.setAttribute('id', objNode.getID()); // Set up node ID
-                     newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
-                     newEntity.setAttribute('obj-init', 'name', targetObjName);
+                        // Using JSON does not seem efficient
+                        const objNode = scene.addObj(targetObjName, props);
+                        newEntity.setAttribute('id', objNode.getID()); // Set up node ID
+                        newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
+                        newEntity.setAttribute('obj-init', 'name', targetObjName);
 
                     break;
-                  }
-               }
+                    }
+                }
             }
-             
+
+            // Generate Text.
+            if (targetObjName == 'text') {
+                // newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
+                newEntity.classList.add('data-receiver');
+
+                newEntity.setAttribute('text', 'value', 'Hello World!');
+
+                // Create a node in frp-backend
+                const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
+
+                newEntity.setAttribute('id', objNode.getID());
+                objNode.pluckOutput('color').subscribe((value) => {
+                    console.log(`${objNode.getLabel()} color is now: ${value}`);
+                    // Handle color change.
+                    const objEntity: any = document.querySelector(`#${objNode.getID()}`);
+                    objEntity.setAttribute('material', 'color', value);
+                });
+
+                newEntity.addEventListener('clicked', (event) => {
+                    event.stopPropagation();
+                    const kbEl: any = document.createElement('a-entity');
+                    kbEl.setAttribute('id', objNode.getID() + '_keyboard');
+                    newEntity.appendChild(kbEl);
+                    kbEl.setAttribute('super-keyboard', {
+                        hand: '#rightHand',
+                        imagePath: 'assets/images/'
+                    });
+                    kbEl.object3D.position.set(0, -0.25, 0);
+
+                    // Avoid creating multiple keyboards.
+                    kbEl.addEventListener('clicked', (event) => {
+                        event.stopPropagation();
+                    });
+                })
+            }
         }
 
         // When deleting an object from the scene...

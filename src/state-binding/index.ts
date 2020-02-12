@@ -104,6 +104,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 newEntity.setAttribute('text', {
                     align: 'center',
                     width: 1,
+                    wrapCount: 12,
                     value: 'Hello World!'
                 });
 
@@ -134,7 +135,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                             imagePath: 'assets/images/',
                             value: val
                         });
-                        kbEl.object3D.position.set(0, -0.25, 0);
+                        kbEl.object3D.position.set(0, -0.35, 0);
 
                         // Avoid creating multiple keyboards.
                         kbEl.addEventListener('clicked', (event) => {

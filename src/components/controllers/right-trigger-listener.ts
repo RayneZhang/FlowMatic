@@ -42,18 +42,13 @@ const rightTriggerListener = {
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
                 const id = intersectedEl.getAttribute('id');
-                
-                switch(id) {
-                    case 'hue': case 'huecursor': {
+                if (id == 'hue' || id == 'huecursor') {
                         this.hueDown = true;
                         // Fetch the intersection point of the first intersected object.
                         const {x, y, z} = intersections[0].point;
                         const WorldPos = new THREE.Vector3(x, y, z);
                         onHueDown(WorldPos.clone());
-                        break;
-                    }
                 }
-
                 return;
             }
             

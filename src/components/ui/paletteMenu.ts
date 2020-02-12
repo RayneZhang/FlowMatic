@@ -81,27 +81,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         flatShading: true,
                         shader: 'flat',
                         transparent: true,
-                        fog: false,
-                        src: '#uinormal'
-                    });
-                    subMenuEl.addEventListener('object3dset', (event) => {
-                        var texture = new THREE.TextureLoader().load('#uinormal');
-                        const material = new THREE.MeshStandardMaterial({
-                            color: '#ffffff',
-                            flatShading: true,
-                            transparent: true,
-                            fog: false,
-                            map: '#uinormal'
-                          });
-                      
-                          const mesh = subMenuEl.getObject3D('mesh');
-                          if (mesh) {
-                              mesh.material = material;
-                              console.log(material);
-                              console.log(mesh);
-                          }
-                    });
-                    
+                        src: '#hue-cursor'
+                    });                 
                     break;
                 }
 

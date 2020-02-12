@@ -103,7 +103,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                 newEntity.setAttribute('text', {
                     align: 'center',
-                    width: 1,
+                    width: 0.6,
                     wrapCount: 12,
                     value: 'Hello World!'
                 });

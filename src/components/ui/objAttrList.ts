@@ -91,7 +91,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
 
         // We can only access the mesh after it is loaded.
         if (this.data.targetModelName == 'text') {
-            let width: number = 0.3;
+            let width: number = 0.6;
             this.listEntity.object3D.scale.set(width, width, width);
             this.listEntity.object3D.position.set(width, 0, 0);
             this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');

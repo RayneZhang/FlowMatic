@@ -87,10 +87,25 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
             // Generate Text.
             if (targetObjName == 'text') {
+                // newEntity(plane) -> textEntity
+                newEntity.setAttribute('geometry', {
+                    primitive: 'plane',
+                    height: 'auto',
+                    width: 'auto'
+                });
+                newEntity.setAttribute('material', {
+                    transparent: true,
+                    opacity: 0.2,
+                    side: 'double'
+                });
                 newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
                 newEntity.classList.add('data-receiver');
 
-                newEntity.setAttribute('text', 'value', 'Hello World!');
+                newEntity.setAttribute('text', {
+                    align: 'center',
+                    width: 1,
+                    value: 'Hello World!'
+                });
 
                 // Create a node in frp-backend
                 const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
@@ -119,7 +134,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                             imagePath: 'assets/images/',
                             value: val
                         });
-                        kbEl.object3D.position.set(-0.35, -0.25, 0);
+                        kbEl.object3D.position.set(0, -0.25, 0);
 
                         // Avoid creating multiple keyboards.
                         kbEl.addEventListener('clicked', (event) => {

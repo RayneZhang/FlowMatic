@@ -54,7 +54,11 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             const subMenuEl: any = document.createElement('a-entity');
             this.menuEl.appendChild(subMenuEl);
             subMenuEl.setAttribute('id', subEntityName);
+
+            // Add class UI so that these subentities can be interacted.
             subMenuEl.setAttribute('class', 'ui');
+
+            // Set the gltf model to the entity.
             subMenuEl.setAttribute('gltf-part', {
                 src: '#palette-menu-gltf',
                 part: subEntityName
@@ -150,6 +154,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     break;
                 }
 
+                // For subentities that come with an icons, set the icons here.
                 case 'prev': case 'next': case 'primitive': case 'sketchfab': case 'diagram': case 'text': {
                     const icon: any = document.createElement('a-image');
                     subMenuEl.appendChild(icon);
@@ -188,11 +193,9 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     subMenuEl.setAttribute('material', 'color', '#22313f');
                     break;
                 }
-            }
-
-            if (subEntityName.indexOf('button') != -1) 
-                subMenuEl.classList.add('instance');
+            };
             
+            // Set up interactions for the subentities.
             subMenuEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
                 
@@ -200,7 +203,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     // Set responsive color.
                     subMenuEl.setAttribute('material', 'color', '#22a7f0'); 
                     // Set description value.
-                    if (subMenuEl.classList.contains('instance')) {
+                    if (subEntityName.indexOf('button') != -1) {
                         const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
                         this.setInstanceDescription(buttonId);
                     }
@@ -208,7 +211,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         this.setToolDescription(subEntityName);
                     }
                 }
-            })
+            });
 
             subMenuEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
@@ -218,7 +221,15 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     subMenuEl.setAttribute('material', 'color', '#22313f');
                     this.setInstanceDescription(selectedButtonId);
                 }
-            })
+            });
+
+            subMenuEl.addEventListener('clicked', (event) => {
+                // Define when a button is clicked
+                if (subEntityName.indexOf('button') != -1) {
+                    const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
+                    this.setSelectedButtonId(buttonId);
+                }
+            });
         }
     },
 

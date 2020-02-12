@@ -41,13 +41,6 @@ const rightTriggerListener = {
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {
                 const id = intersectedEl.getAttribute('id');
-
-                if (intersectedEl.classList.contains('instance')) {
-                    const globalMenu: any = document.querySelector('[palette-menu]');
-                    const globalMenuComponent = globalMenu.components['palette-menu'];
-                    const buttonId: number = Number(id.substr(-1, 1)) - 1;
-                    globalMenuComponent.setSelectedButtonId(buttonId);
-                }
                 
                 switch(id) {
                     case 'hue': case 'huecursor': {

@@ -123,7 +123,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     event.stopPropagation();
                     const kb: any = document.querySelector('#' + objNode.getID() + '_keyboard');
                     if (kb) {
-                        kb.object3D.visible = !kb.object3D.visible;
+                        kb.parentNode.removeChild(kb);
                     }
                     else {
                         const kbEl: any = document.createElement('a-entity');
@@ -145,6 +145,12 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                             event.stopPropagation();
                             const changedVal: string = kbEl.getAttribute('super-keyboard').value;
                             newEntity.setAttribute('text', 'value', changedVal);
+                        });
+                        kbEl.addEventListener('superkeyboarddismiss', (event) => {
+                            kbEl.parentNode.removeChild(kbEl);
+                        });
+                        kbEl.addEventListener('superkeyboardinput', (event) => {
+                            kbEl.parentNode.removeChild(kbEl);
                         });
                     }
                     

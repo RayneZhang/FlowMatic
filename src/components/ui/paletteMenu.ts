@@ -9,7 +9,9 @@ declare const THREE:any;
 // The sub-menu elements' names in the 3D obj.
 const subEntitiesNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text'];
 
-const NotReactUI: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
+const noneReactiveUIs: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
+
+const toolUIs: string[] = ['prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text'];
 
 const iconSize = {
     width: 0.033,
@@ -19,7 +21,7 @@ const iconSize = {
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
     schema: {
         selectedButtonId: {type: 'number', default: 0},
-        selectedToolName: {type: 'string', default: 'primitive'},
+        selectedToolList: {type: 'array', default: []},
         pageNumber: {type: 'number', default: 0}
     },
 
@@ -54,7 +56,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             subMenuEl.setAttribute('id', subEntityName);
 
             // Add class UI so that these subentities can be interacted.
-            subMenuEl.setAttribute('class', 'ui');
+            subMenuEl.classList.add('ui');
+            if (toolUIs.indexOf(subEntityName) != -1) subMenuEl.classList.add('toolUI');
 
             // Set the gltf model to the entity.
             subMenuEl.setAttribute('gltf-part', {
@@ -172,7 +175,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             subMenuEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
                 
-                if (NotReactUI.indexOf(subEntityName) === -1) {
+                if (noneReactiveUIs.indexOf(subEntityName) === -1) {
                     // Set responsive color.
                     subMenuEl.setAttribute('material', 'color', '#22a7f0'); 
                     // Set description value.
@@ -180,7 +183,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
                         this.setInstanceDescription(buttonId);
                     }
-                    else if (subMenuEl.classList.contains('tool')) {
+                    else if (subMenuEl.classList.contains('toolUI')) {
+                        subMenuEl.setAttribute('material', 'color', 'yellow'); 
                         this.setToolDescription(subEntityName);
                     }
                 }
@@ -189,8 +193,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             subMenuEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
                 
+                // If the subentity is not in nonReactiveUI AND it is not the selectedButton AND it is not in selectedToolList, then recover its color.
                 const selectedButtonId: number = this.data.selectedButtonId;
-                if (NotReactUI.indexOf(subEntityName) === -1 && subEntityName != 'button' + String(selectedButtonId+1)) {
+                const selectedToolList: any = this.data.selectedToolList;
+                if (noneReactiveUIs.indexOf(subEntityName) === -1 && subEntityName != 'button' + String(selectedButtonId+1) && selectedToolList.indexOf(subEntityName) ===  -1) {
                     subMenuEl.setAttribute('material', 'color', '#22313f');
                     this.setInstanceDescription(selectedButtonId);
                 }
@@ -201,6 +207,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 if (subEntityName.indexOf('button') != -1) {
                     const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
                     this.setSelectedButtonId(buttonId);
+                }
+                // Define when a toolUI is clicked
+                else if (toolUIs.indexOf(subEntityName) != -1) {
+                    this.onToolClicked(subEntityName);
                 }
             });
         }
@@ -322,7 +332,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     },
 
     // Set description of the panel.
-    setToolDescription(toolName: number): void {
+    setToolDescription(toolName: string): void {
         const thumbDescripEl: any = document.querySelector('#description_text');
         thumbDescripEl.setAttribute('text', 'value', toolName);
     },
@@ -361,6 +371,23 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         const instance: Item = objects['Models'][this.data.pageNumber * 9 + _buttonId];
         const rightHand: any = document.querySelector('#rightHand');
         rightHand.setAttribute('right-abutton-listener', 'targetModel', instance.name);
+    },
+
+    onToolClicked: function(toolName: string): void {
+        // If it is unselecting the tool
+        const idx: number = this.data.selectedToolList.indexOf(toolName);
+        if (idx != -1) {
+            this.data.selectedToolList.splice(idx, 1);
+            const deselectedTool: any = document.querySelector(`#${toolName}`);
+            deselectedTool.setAttribute('material', 'color', '#22313f');
+        }
+        // If it is selecting the tool
+        else {
+            this.data.selectedToolList.push(toolName);
+            const selectedTool: any = document.querySelector(`#${toolName}`);
+            selectedTool.setAttribute('material', 'color', 'yellow');
+        }
+        
     }
 });
 

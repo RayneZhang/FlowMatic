@@ -3,8 +3,6 @@ import * as ENVIRONMENT from 'aframe-environment-component';
 ENVIRONMENT;
 import * as TELEPORT from 'aframe-teleport-controls';
 TELEPORT;
-import * as FPSCOUNTER from 'aframe-fps-counter-component';
-FPSCOUNTER;
 import * as PHYSICS from 'aframe-physics-system';
 PHYSICS;
 import * as EXTRAS from 'aframe-extras';
@@ -17,6 +15,8 @@ import * as gltfpart from 'aframe-gltf-part-component';
 gltfpart;
 import * as KEYBOARD from 'aframe-super-keyboard';
 KEYBOARD;
+import * as HAPTICS from 'aframe-haptics-component';
+HAPTICS;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import rotationController from './components/controllers/rotation-controller';

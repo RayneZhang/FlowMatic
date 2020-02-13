@@ -21,9 +21,6 @@ const rotationController = {
                 this.rotating = true;
                 this.degPerFr = 1;
             }
-
-            const menuEl = document.querySelector('#menu-world');
-            loadItems(menuEl, 'button-4', 0, googlePoly.nextPageToken);
         });
         listeningEl.addEventListener('thumbleftstart', (event) => {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
@@ -31,8 +28,6 @@ const rotationController = {
                 this.rotating = true;
                 this.degPerFr = -1;
             }
-            const menuEl = document.querySelector('#menu-world');
-            loadItems(menuEl, 'button-4', 0, googlePoly.lastPageToken);
         });
 
         listeningEl.addEventListener('thumbend', (event) => {

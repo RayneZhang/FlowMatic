@@ -88,9 +88,8 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         loadItems(menuEl, 'button-4');
 
         // Event Listener to open and close menu.
-        // this.el.object3D.visible = false;
-        const listeningEl = document.querySelector('#leftHand');
-        listeningEl.addEventListener('xbuttondown', (event) => {
+        this.el.object3D.visible = false;
+        this.el.addEventListener('showcanvas', (event) => {
             this.el.object3D.visible = !this.el.object3D.visible;
             const edges: any = document.querySelector('#edges');
             edges.object3D.visible = this.el.object3D.visible;

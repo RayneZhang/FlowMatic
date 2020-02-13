@@ -36,7 +36,7 @@ It appears that the first way alone is not satisfying for FlowMatic. Perhaps we 
   - [Low Priority] Drawing
   - [Low Priority] Eye dropper
   - [Low Priority] Painting
-  - [Low Priority] Text
+  - :heavy_check_mark: [Low Priority] Text
   - [Low Priority] Camera
 
 

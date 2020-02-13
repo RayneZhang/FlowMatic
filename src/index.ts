@@ -19,7 +19,7 @@ import * as HAPTICS from 'aframe-haptics-component';
 HAPTICS;
 
 import rightTriggerListener from './components/controllers/right-trigger-listener';
-import rotationController from './components/controllers/rotation-controller';
+import rotationController from './components/controllers/right-thumb-controller';
 import scaleController from './components/controllers/scale-controller';
 
 import { rightAButtonListener } from './components/controllers/right-abutton-listener';

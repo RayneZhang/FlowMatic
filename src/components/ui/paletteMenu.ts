@@ -385,9 +385,13 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         else {
             this.data.selectedToolList.push(toolName);
             const selectedTool: any = document.querySelector(`#${toolName}`);
-            selectedTool.setAttribute('material', 'color', 'yellow');
+            selectedTool.setAttribute('material', 'color', 'yellow'); 
         }
-        
+
+        if (toolName === 'diagram') {
+            const canvasEl: any = document.querySelector('#canvas');
+            canvasEl.emit('showcanvas');
+        }    
     }
 });
 

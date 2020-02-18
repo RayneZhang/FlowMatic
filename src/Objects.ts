@@ -13,6 +13,7 @@ export const CREATE = 'create';
 export const DESTROY = 'destroy';
 export const TRANSLATE = 'translate';
 export const COLLIDE = 'collide';
+export const EVENT2SIGNAL = 'Event2Signal';
 
 
 export const COLLISION_DETECTOR = 'Collision Detector';
@@ -222,6 +223,17 @@ export const objects = {
             ],
             outputs: [
                 {name: "output", type: "any", behavior: "event"}
+            ]
+        },
+        {
+            name: EVENT2SIGNAL,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "event", type: "any", behavior: "event"},
+            ],
+            outputs: [
+                {name: "signal", type: "any", behavior: "signal"}
             ]
         },
         {

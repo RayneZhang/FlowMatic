@@ -15,14 +15,14 @@ const scaleController = {
         const listeningEl: any = document.querySelector("#" + this.data.hand + "Hand");
         listeningEl.addEventListener('thumbupstart', (event) => {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
-            if (this.targetEntity) {
+            if (this.targetEntity && !this.targetEntity.classList.contains('canvasObj')) {
                 this.scaling = true;
                 this.scalePerFr = 0.025;
             }
         });
         listeningEl.addEventListener('thumbdownstart', (event) => {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
-            if (this.targetEntity) {
+            if (this.targetEntity && !this.targetEntity.classList.contains('canvasObj')) {
                 this.scaling = true;
                 this.scalePerFr = -0.025;
             }

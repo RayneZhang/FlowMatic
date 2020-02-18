@@ -21,6 +21,7 @@ HAPTICS;
 import rightTriggerListener from './components/controllers/right-trigger-listener';
 import rotationController from './components/controllers/right-thumb-controller';
 import scaleController from './components/controllers/scale-controller';
+import absorbController from './components/controllers/absorb-controller';
 
 import { rightAButtonListener } from './components/controllers/right-abutton-listener';
 rightAButtonListener;
@@ -96,6 +97,7 @@ rightController;
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
 AFRAME.registerComponent('scale-controller', scaleController);
+AFRAME.registerComponent('absorb-controller', absorbController);
 AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);

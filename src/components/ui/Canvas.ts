@@ -136,6 +136,8 @@ function initCanvasBg(canvasEl: any, parentEl: any): void {
         color: canvasColor.background
     });
 
+    canvasEl.classList.add('ui');
+
     parentEl.appendChild(canvasEl);
 }
 

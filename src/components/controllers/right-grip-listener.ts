@@ -108,9 +108,15 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
                 canvasWorld.object3D.updateMatrixWorld();
                 const localCanvasPosition: any = canvasWorld.object3D.worldToLocal(updatedTargetPosition);
                 // console.log(localCanvasPosition);
-                followingEl.object3D.position.set(THREEMath.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
+                if (followingEl.classList.contains('container')) {
+                    followingEl.object3D.position.copy(localCanvasPosition.clone());
+                }
+                else {
+                    followingEl.object3D.position.set(THREEMath.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
                     THREEMath.clamp(localCanvasPosition.y, canvasConstraint.negy, canvasConstraint.posy), 
                     canvasConstraint.constz);
+                }
+                
             }
             else {
                 followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);

@@ -57,10 +57,16 @@ const absorbController = {
                         to: {x: localToPos.x, y: localToPos.y, z: localToPos.z},
                         dur: 2000
                     });
+                    this.targetEntity.setAttribute('animation__2', {
+                        property: "scale",
+                        from: {x: 1, y: 1, z: 1},
+                        to: {x: 0.3, y: 0.3, z: 0.3},
+                        dur: 2000
+                    });
                 }
                 else {
                     const localFromPos = this.targetEntity.object3D.position.clone();
-                    const offset = this.originPos.clone().sub(localFromPos);
+                    const offset = localFromPos.clone().sub(this.originPos);
 
                     rightHand.object3D.updateMatrix();
                     rightHand.object3D.updateWorldMatrix();
@@ -70,7 +76,13 @@ const absorbController = {
                     this.targetEntity.setAttribute('animation', {
                         property: "position",
                         from: {x: localFromPos.x, y: localFromPos.y, z: localFromPos.z},
-                        to: {x: localToPos.x + offset.x, y: localToPos.y + offset.y, z: localToPos.z + offset.z},
+                        to: {x: localToPos.x + offset.x / 4, y: localToPos.y + offset.y / 4, z: localToPos.z + offset.z / 4},
+                        dur: 2000
+                    });
+                    this.targetEntity.setAttribute('animation__2', {
+                        property: "scale",
+                        from: {x: 1, y: 1, z: 1},
+                        to: {x: 0.3, y: 0.3, z: 0.3},
                         dur: 2000
                     });
                 }

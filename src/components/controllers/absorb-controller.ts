@@ -10,6 +10,7 @@ const absorbController = {
         this.originEl = null;
         this.originPos = null;
         this.targetEntity = null;
+        this.container = null;
 
         const rightHand: any = document.querySelector("#rightHand");
         this.el.addEventListener('thumbupstart', (event) => {
@@ -46,7 +47,6 @@ const absorbController = {
                     rightHand.object3D.updateMatrix();
                     rightHand.object3D.updateWorldMatrix();
                     const toPos: any = rightHand.object3D.localToWorld(new THREEVector3(0, 0, 0));
-
                     const localToPos = this.targetEntity.parentNode.object3D.worldToLocal(toPos);
                     console.log(fromPos);
                     console.log(toPos);
@@ -62,6 +62,29 @@ const absorbController = {
                         from: {x: 1, y: 1, z: 1},
                         to: {x: 0.3, y: 0.3, z: 0.3},
                         dur: 2000
+                    });
+
+                    this.targetEntity.classList.remove('canvasObj');
+                    this.targetEntity.classList.remove('movable');
+
+                    this.container = document.createElement("a-entity");
+                    this.targetEntity.parentNode.appendChild(this.container);
+                    this.container.setAttribute('geometry', {
+                        primitive: 'box',
+                        width: 0.5,
+                        height: 0.3,
+                        depth: 0.1
+                    });
+                    this.container.setAttribute('material', {
+                        color: '#FCA044',
+                        transparent: true,
+                        opacity: 0.5
+                    });
+                    this.container.object3D.position.copy(localToPos.clone());
+                    this.container.classList.add('container');
+                    this.container.classList.add('movable');
+                    this.targetEntity.addEventListener('animationcomplete', (event) => {
+                        // this.container.attach(this.targetEntity);
                     });
                 }
                 else {
@@ -85,6 +108,13 @@ const absorbController = {
                         to: {x: 0.3, y: 0.3, z: 0.3},
                         dur: 2000
                     });
+                    this.targetEntity.classList.remove('canvasObj');
+                    this.targetEntity.classList.remove('movable');
+
+                    this.targetEntity.addEventListener('animationcomplete', (event) => {
+                        // this.container.appendChild(this.targetEntity);
+                    });
+
                 }
             }
         });

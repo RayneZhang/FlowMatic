@@ -2,6 +2,8 @@ import { Vector3 as THREEVector3 } from 'three';
 import { canvasConstraint, itemSize } from '../ui/Canvas';
 declare const THREE:any;
 
+const offsetScale: number = 4;
+
 const absorbController = {
     schema: {
         hand: {type: 'string', default: ''}
@@ -31,14 +33,14 @@ const absorbController = {
                     dur: 2000
                 });
 
-                this.containerList.forEach((el: any) => {
+                this.containerList.forEach((el: any, i: number) => {
                     el.object3D.updateMatrix();
                     el.object3D.updateWorldMatrix();
                     const fromPos = el.object3D.position.clone();
                     el.setAttribute('animation__3', {
                         property: "position",
                         from: {x: fromPos.x, y: fromPos.y, z: fromPos.z},
-                        to: {x: this.originPos.x, y: this.originPos.y, z: this.originPos.z},
+                        to: {x: this.originPos.x + this.offsets[i].x / offsetScale, y: this.originPos.y + this.offsets[i].y / offsetScale, z: this.originPos.z + this.offsets[i].z / offsetScale},
                         dur: 2000
                     });
                 });
@@ -137,7 +139,7 @@ const absorbController = {
                     this.targetEntity.setAttribute('animation', {
                         property: "position",
                         from: {x: localFromPos.x, y: localFromPos.y, z: localFromPos.z},
-                        to: {x: localToPos.x + offset.x / 4, y: localToPos.y + offset.y / 4, z: localToPos.z + offset.z / 4},
+                        to: {x: localToPos.x + offset.x / offsetScale, y: localToPos.y + offset.y / offsetScale, z: localToPos.z + offset.z / offsetScale},
                         dur: 2000
                     });
                     this.targetEntity.setAttribute('animation__2', {

@@ -1,5 +1,4 @@
 import { Vector3 as THREEVector3 } from 'three';
-import { canvasConstraint, itemSize } from '../ui/Canvas';
 declare const THREE:any;
 
 const offsetScale: number = 4;
@@ -119,6 +118,8 @@ const absorbController = {
                         opacity: 0.5
                     });
                     this.container.object3D.position.copy(localToPos.clone());
+
+                    this.container.setAttribute('op-container', null);
                     this.container.classList.add('container');
                     this.container.classList.add('canvasObj');
                     this.container.classList.add('movable');
@@ -158,11 +159,11 @@ const absorbController = {
                 }
             }
         });
-
-        this.el.addEventListener('thumbend', (event) => {
-            
-        });
     }
+}
+
+export function updateInOut(): void {
+    
 }
 
 export default absorbController;

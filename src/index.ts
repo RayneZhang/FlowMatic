@@ -119,6 +119,8 @@ import { avatarNodeUpdate } from './components/frp/AvatarNodeUpdate';
 avatarNodeUpdate;
 import { opNodeUpdate } from './components/frp/OpNodeUpdate';
 opNodeUpdate;
+import { opContainer } from './components/frp/operators/container';
+opContainer;
 
 import {primitiveVal} from './components/dataflow/primitives/pmtVal';
 primitiveVal;

@@ -85,8 +85,6 @@ const absorbController = {
                     rightHand.object3D.updateWorldMatrix();
                     const toPos: any = rightHand.object3D.localToWorld(new THREEVector3(0, 0, 0));
                     const localToPos = this.targetEntity.parentNode.object3D.worldToLocal(toPos);
-                    console.log(fromPos);
-                    console.log(toPos);
                     // Start moving
                     this.targetEntity.setAttribute('animation', {
                         property: "position",
@@ -162,8 +160,23 @@ const absorbController = {
     }
 }
 
-export function updateInOut(): void {
-    
+export function updateInOut(el: any): void {
+    const incomingEdges = el.getAttribute('stored-edges') ? el.getAttribute('stored-edges').incomingEdges : [];
+        incomingEdges.forEach((edgeID: string) => {
+            const edge: any = document.querySelector('#' + edgeID);
+            if (edge) {
+                // If all the edges are coming from within the container, then omit this port.
+            }
+        });
+
+        const outgoingEdges = el.getAttribute('stored-edges') ? el.getAttribute('stored-edges').outgoingEdges : [];
+        outgoingEdges.forEach((edgeID: string) => {
+            const edge: any = document.querySelector('#' + edgeID);
+            if (edge) {
+                // If all the edges are going to within the container, then omit this port.
+            }
+        });
+
 }
 
 export default absorbController;

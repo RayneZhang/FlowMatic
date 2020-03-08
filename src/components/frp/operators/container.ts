@@ -1,13 +1,15 @@
 import * as AFRAME from 'aframe';
 
+export interface Port {
+    name: string,
+    type: string,
+    behavior: string
+}
+
 export const opContainer = AFRAME.registerComponent('op-container', {
     schema: {
-        inName: {type: 'array', default: []},
-        inType: {type: 'array', default: []},
-        inBehavior: {type: 'array', default: []},
-        outName: {type: 'array', default: []},
-        outType: {type: 'array', default: []},
-        outBehavior: {type: 'array', default: []},
+        inPorts: {type: 'array', default: []},
+        outPorts: {type: 'array', default: []},
         opList: {type: 'array', default: []}
     },
 

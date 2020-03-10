@@ -58,7 +58,7 @@ const absorbController = {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity && this.targetEntity.classList.contains('canvasObj')) {
                 this.containerList.push(this.targetEntity);
-                // Start absorbing
+                // Start absorbing with the first operator
                 if (!this.originEl) {
                     this.targetEntity.object3D.updateMatrix();
                     this.targetEntity.object3D.updateWorldMatrix();
@@ -118,10 +118,13 @@ const absorbController = {
                     this.container.object3D.position.copy(localToPos.clone());
 
                     this.container.setAttribute('op-container', null);
+                    const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
+                    opList.push(this.targetEntity.getAttribute('id'));
+                    this.container.setAttribute('op-container', 'opList', opList);
+                    this.container.emit('opList-update');
                     this.container.classList.add('container');
                     this.container.classList.add('canvasObj');
                     this.container.classList.add('movable');
-                    updateInOut(this.targetEntity, this.container);
                     this.targetEntity.addEventListener('animationcomplete', (event) => {
                         // this.container.attach(this.targetEntity);
                     });
@@ -150,7 +153,10 @@ const absorbController = {
                     });
                     this.targetEntity.classList.remove('canvasObj');
                     this.targetEntity.classList.remove('movable');
-
+                    const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
+                    opList.push(this.targetEntity.getAttribute('id'));
+                    this.container.setAttribute('op-container', 'opList', opList);
+                    this.container.emit('opList-update');
                     this.targetEntity.addEventListener('animationcomplete', (event) => {
                         // this.container.appendChild(this.targetEntity);
                     });
@@ -159,40 +165,6 @@ const absorbController = {
             }
         });
     }
-}
-
-export function updateInOut(el: any, container: any): void {
-    const incomingEdges = el.getAttribute('stored-edges') ? el.getAttribute('stored-edges').incomingEdges : [];
-    incomingEdges.forEach((edgeID: string) => {
-        const edge: any = document.querySelector('#' + edgeID);
-        if (edge) {
-            // If all the edges are coming from within the container, then omit this port.
-
-            // For each edge we can retrieve the line-component from the edge, but we also need to tranverse the ports of the entity
-            // To traverse the ports of the entity, we can fetch the operator model from the op.
-            const inNames = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionInputs : [];
-            const outNames = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionOutputs : [];
-            const inBvrs = el.getAttribute('operator-model') ? el.getAttribute('operator-model').behaviorInputs : [];
-            const outBvrs = el.getAttribute('operator-model') ? el.getAttribute('operator-model').behaviorOutputs : [];
-            const inTypes = el.getAttribute('operator-model') ? el.getAttribute('operator-model').typeInputs : [];
-            const outTypes = el.getAttribute('operator-model') ? el.getAttribute('operator-model').typeOutputs : [];
-
-            // Next we retrieve the ops that exsit in the container already.
-            const opList = container.getAttribute('op-container') ? container.getAttribute('op-container').opList: [];
-
-            //
-        }
-    });
-
-    const outgoingEdges = el.getAttribute('stored-edges') ? el.getAttribute('stored-edges').outgoingEdges : [];
-    outgoingEdges.forEach((edgeID: string) => {
-        const edge: any = document.querySelector('#' + edgeID);
-        if (edge) {
-            // If all the edges are going to within the container, then omit this port.
-            console.log(edge);
-        }
-    });
-
 }
 
 export default absorbController;

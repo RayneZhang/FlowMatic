@@ -19,14 +19,6 @@ export const opContainer = AFRAME.registerComponent('op-container', {
         this.el.addEventListener('opList-update', (event) => {
             console.log(this.data.opList);
         });
-    },
-
-    tick: function(time, timeDelta): void {
-        
-    },
-
-    update: function (oldData): void {
-        console.log(oldData);
     }
 });
 

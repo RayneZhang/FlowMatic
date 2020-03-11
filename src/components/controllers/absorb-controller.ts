@@ -124,7 +124,7 @@ const absorbController = {
                     this.container.classList.add('container');
                     this.container.classList.add('canvasObj');
                     this.container.classList.add('movable');
-                    this.container.emit('opList-update');
+                    this.container.emit('opList-update', {el: this.targetEntity});
                 }
                 else {
                     const localFromPos = this.targetEntity.object3D.position.clone();
@@ -153,7 +153,7 @@ const absorbController = {
                     const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
                     opList.push(this.targetEntity.getAttribute('id'));
                     this.container.setAttribute('op-container', 'opList', opList);
-                    this.container.emit('opList-update');
+                    this.container.emit('opList-update', {el: this.targetEntity});
                 }
             }
         });

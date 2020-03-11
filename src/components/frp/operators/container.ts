@@ -18,6 +18,13 @@ export const opContainer = AFRAME.registerComponent('op-container', {
         console.log("op-container initiated.");
         this.el.addEventListener('opList-update', (event) => {
             console.log(this.data.opList);
+            const currentNode: any = event.detail.el;
+            updateInOut(currentNode, this.el);
+        });
+
+        this.el.addEventListener('port-update', (event) => {
+            console.log(this.data.inPorts);
+            console.log(this.data.outPorts);
         });
     }
 });
@@ -92,4 +99,8 @@ export function updateInOut(el: any, container: any): void {
         }
     });
 
+    // After the four rounds, we can finally pass inPorts and outPorts back to op-container.
+    container.setAttribute('op-container', 'inPorts', inPorts);
+    container.setAttribute('op-container', 'outPorts', outPorts);
+    container.emit('port-update');
 }

@@ -25,9 +25,9 @@ export const opContainer = AFRAME.registerComponent('op-container', {
         });
 
         this.el.addEventListener('port-update', (event) => {
-            console.log(this.data.inNames);
+            // console.log(this.data.inNames);
             console.log(this.data.inPorts);
-            console.log(this.data.outNames);
+            // console.log(this.data.outNames);
             console.log(this.data.outPorts);
         });
     }
@@ -80,7 +80,14 @@ export function updateInOut(el: any, container: any): void {
                 inPorts.splice(idx, 1);
 
                 // 2. Omit the outPort of the source entity (which might have been omitted).
-
+                const srcIdx: number = ctnOutNames.indexOf(srcProp);
+                if (srcIdx != -1) {
+                    ctnOutNames.splice(srcIdx, 1);
+                    outPorts.splice(srcIdx, 1);
+                }
+                else {
+                    // When the outPort has already been omitted.
+                }
             }
         }
     });
@@ -104,7 +111,14 @@ export function updateInOut(el: any, container: any): void {
                 outPorts.splice(idx, 1);
 
                 // 2. Omit the inPort of the target entity (which might have been omitted).
-
+                const tgtIdx: number = ctnInNames.indexOf(tgtProp);
+                if (tgtIdx != -1) {
+                    ctnInNames.splice(tgtIdx, 1);
+                    inPorts.splice(tgtIdx, 1);
+                }
+                else {
+                    // When the outPort has already been omitted.
+                }
             }
         }
     });

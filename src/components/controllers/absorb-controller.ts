@@ -128,7 +128,7 @@ const absorbController = {
                         const targetEl: any = this.targetEntity;
                         function fetchAttribute() {
                             if (containerEl.getAttribute('op-container')) {
-                                console.log(`Container component got!`);
+                                // console.log(`Container component got!`);
                                 containerEl.emit('opList-update', {el: targetEl}, false);
                                 resolver();
                             }

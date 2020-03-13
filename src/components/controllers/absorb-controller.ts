@@ -121,10 +121,30 @@ const absorbController = {
                     const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
                     opList.push(this.targetEntity.getAttribute('id'));
                     this.container.setAttribute('op-container', 'opList', opList);
+
+                    const promise = new Promise( resolver => {
+                        const start_time: number = Date.now();
+                        const containerEl: any = this.container;
+                        const targetEl: any = this.targetEntity;
+                        function fetchAttribute() {
+                            if (containerEl.getAttribute('op-container')) {
+                                console.log(`Container component got!`);
+                                containerEl.emit('opList-update', {el: targetEl}, false);
+                                resolver();
+                            }
+                            else if (Date.now() > start_time + 3000) {
+                                console.log(`Time out fetching the container component`);
+                            }
+                            else {
+                                setTimeout(fetchAttribute, 1000);
+                            }
+                        };
+                        fetchAttribute();
+                    });
+
                     this.container.classList.add('container');
                     this.container.classList.add('canvasObj');
                     this.container.classList.add('movable');
-                    this.container.emit('opList-update', {el: this.targetEntity});
                 }
                 else {
                     const localFromPos = this.targetEntity.object3D.position.clone();
@@ -153,7 +173,7 @@ const absorbController = {
                     const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
                     opList.push(this.targetEntity.getAttribute('id'));
                     this.container.setAttribute('op-container', 'opList', opList);
-                    this.container.emit('opList-update', {el: this.targetEntity});
+                    this.container.emit('opList-update', {el: this.targetEntity}, false);
                 }
             }
         });

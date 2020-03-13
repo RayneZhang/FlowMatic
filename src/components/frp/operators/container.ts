@@ -8,7 +8,9 @@ export interface Port {
 
 export const opContainer = AFRAME.registerComponent('op-container', {
     schema: {
+        inNames: {type: 'array', default: []},
         inPorts: {type: 'array', default: []},
+        outNames: {type: 'array', default: []},
         outPorts: {type: 'array', default: []},
         opList: {type: 'array', default: []}
     },
@@ -23,34 +25,40 @@ export const opContainer = AFRAME.registerComponent('op-container', {
         });
 
         this.el.addEventListener('port-update', (event) => {
+            console.log(this.data.inNames);
             console.log(this.data.inPorts);
+            console.log(this.data.outNames);
             console.log(this.data.outPorts);
         });
     }
 });
 
 export function updateInOut(el: any, container: any): void {
-    const inNames: Array<string> = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionInputs : [];
-    const outNames = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionOutputs : [];
-    const inBvrs = el.getAttribute('operator-model') ? el.getAttribute('operator-model').behaviorInputs : [];
-    const outBvrs = el.getAttribute('operator-model') ? el.getAttribute('operator-model').behaviorOutputs : [];
-    const inTypes = el.getAttribute('operator-model') ? el.getAttribute('operator-model').typeInputs : [];
-    const outTypes = el.getAttribute('operator-model') ? el.getAttribute('operator-model').typeOutputs : [];
+    const opInNames: Array<string> = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionInputs : [];
+    const opOutNames = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionOutputs : [];
+    const opInBvrs = el.getAttribute('operator-model') ? el.getAttribute('operator-model').behaviorInputs : [];
+    const opOutBvrs = el.getAttribute('operator-model') ? el.getAttribute('operator-model').behaviorOutputs : [];
+    const opInTypes = el.getAttribute('operator-model') ? el.getAttribute('operator-model').typeInputs : [];
+    const opOutTypes = el.getAttribute('operator-model') ? el.getAttribute('operator-model').typeOutputs : [];
 
     const opList = container.getAttribute('op-container') ? container.getAttribute('op-container').opList: [];
     const inPorts = container.getAttribute('op-container') ? container.getAttribute('op-container').inPorts: [];
     const outPorts = container.getAttribute('op-container') ? container.getAttribute('op-container').outPorts: [];
+    const ctnInNames = container.getAttribute('op-container') ? container.getAttribute('op-container').inNames: [];
+    const ctnOutNames = container.getAttribute('op-container') ? container.getAttribute('op-container').outNames: [];
 
     // For each input port of the operator, add it to the container temporarily.
-    inNames.forEach((inName: string, i: number) => {
-        const p: Port = {name: inName, type: inTypes[i], behavior: inBvrs[i]};
+    opInNames.forEach((inName: string, i: number) => {
+        const p: Port = {name: inName, type: opInTypes[i], behavior: opInBvrs[i]};
         inPorts.push(p);
+        ctnInNames.push(inName);
     });
 
     // For each output port of the operator, add it to the container temporarily.
-    outNames.forEach((outName: string, i: number) => {
-        const p: Port = {name: outName, type: outTypes[i], behavior: outBvrs[i]};
+    opOutNames.forEach((outName: string, i: number) => {
+        const p: Port = {name: outName, type: opOutTypes[i], behavior: opOutBvrs[i]};
         outPorts.push(p);
+        ctnOutNames.push(outName);
     });
 
     const incomingEdges = el.getAttribute('stored-edges') ? el.getAttribute('stored-edges').incomingEdges : [];
@@ -67,7 +75,8 @@ export function updateInOut(el: any, container: any): void {
                 const tgtProp: string = edgeEl.getAttribute('line-component').targetProp;
 
                 // 1. Omit the inPort of the target entity.
-                const idx: number = inNames.indexOf(tgtProp);
+                const idx: number = ctnInNames.indexOf(tgtProp);
+                ctnInNames.splice(idx, 1);
                 inPorts.splice(idx, 1);
 
                 // 2. Omit the outPort of the source entity (which might have been omitted).
@@ -90,7 +99,8 @@ export function updateInOut(el: any, container: any): void {
                 const tgtProp: string = edgeEl.getAttribute('line-component').targetProp;
 
                 // 1. Omit the outPort of the source entity.
-                const idx: number = outNames.indexOf(srcProp);
+                const idx: number = ctnOutNames.indexOf(srcProp);
+                ctnOutNames.splice(idx, 1);
                 outPorts.splice(idx, 1);
 
                 // 2. Omit the inPort of the target entity (which might have been omitted).
@@ -102,5 +112,7 @@ export function updateInOut(el: any, container: any): void {
     // After the four rounds, we can finally pass inPorts and outPorts back to op-container.
     container.setAttribute('op-container', 'inPorts', inPorts);
     container.setAttribute('op-container', 'outPorts', outPorts);
+    container.setAttribute('op-container', 'inNames', ctnInNames);
+    container.setAttribute('op-container', 'outNames', ctnOutNames);
     container.emit('port-update');
 }

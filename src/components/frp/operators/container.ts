@@ -86,7 +86,7 @@ export function updateInOut(el: any, container: any): void {
                     outPorts.splice(srcIdx, 1);
                 }
                 else {
-                    // When the outPort has already been omitted.
+                    // When the outPort has already been omitted, we do nothing.
                 }
             }
         }
@@ -117,7 +117,7 @@ export function updateInOut(el: any, container: any): void {
                     inPorts.splice(tgtIdx, 1);
                 }
                 else {
-                    // When the outPort has already been omitted.
+                    // When the outPort has already been omitted, we do nothing.
                 }
             }
         }

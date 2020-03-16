@@ -1,19 +1,18 @@
 import { Vector3 as THREEVector3 } from 'three';
-declare const THREE:any;
+import * as AFRAME from 'aframe';
 
 const offsetScale: number = 4;
 
-const absorbController = {
+export const absorbController = AFRAME.registerComponent('absorb-controller', {
     schema: {
-        hand: {type: 'string', default: ''}
+
     },
 
     init: function(): void {
-        this.originEl = null;
         this.originPos = null;
         this.targetEntity = null;
-        this.container = null;
-        this.containerList = [];
+        this.containerEl = null;
+        this.containList = [];
         this.offsets = [];
 
         const rightHand: any = document.querySelector("#rightHand");
@@ -32,7 +31,7 @@ const absorbController = {
                     dur: 2000
                 });
 
-                this.containerList.forEach((el: any, i: number) => {
+                this.containList.forEach((el: any, i: number) => {
                     el.object3D.updateMatrix();
                     el.object3D.updateWorldMatrix();
                     const fromPos = el.object3D.position.clone();
@@ -45,53 +44,41 @@ const absorbController = {
                 });
 
                 this.targetEntity.addEventListener('animationcomplete', (event) => {
-                    this.originEl = null;
                     this.originPos = null;
                     this.targetEntity = null;
-                    this.container = null;
-                    this.containerList = [];
+                    this.containerEl = null;
+                    this.containList = [];
                     this.offsets = [];
                 });
             }
         });
+
         this.el.addEventListener('thumbdownstart', (event) => {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity && this.targetEntity.classList.contains('canvasObj')) {
-                this.containerList.push(this.targetEntity);
+                // this.containList is used for pushing back.
+                this.containList.push(this.targetEntity);
+                
                 // Start absorbing with the first operator
-                if (!this.originEl) {
-                    this.targetEntity.object3D.updateMatrix();
-                    this.targetEntity.object3D.updateWorldMatrix();
-                    const fromPos = this.targetEntity.object3D.localToWorld(new THREEVector3(0, 0, 0));
+                if (!this.containerEl) {
                     const localFromPos = this.targetEntity.object3D.position.clone();
                     this.originPos = localFromPos.clone();
-                    this.originEl = document.createElement('a-entity');
-                    this.el.sceneEl.appendChild(this.originEl);
-                    this.originEl.setAttribute('position', {
-                        x: fromPos.x,
-                        y: fromPos.y,
-                        z: fromPos.z
-                    });
                     this.offsets.push({x: 0, y: 0, z: 0});
-                    // this.targetEntity.parentNode.removeChild(this.targetEntity);
-                    // this.originEl.appendChild(this.targetEntity);
-                    // this.targetEntity.setAttribute('position', {
-                    //     x: 0,
-                    //     y: 0,
-                    //     z: 0
-                    // });
 
+                    // Get the end position - the right hand.
                     rightHand.object3D.updateMatrix();
                     rightHand.object3D.updateWorldMatrix();
-                    const toPos: any = rightHand.object3D.localToWorld(new THREEVector3(0, 0, 0));
-                    const localToPos = this.targetEntity.parentNode.object3D.worldToLocal(toPos);
-                    // Start moving
+                    const worldToPos: any = rightHand.object3D.localToWorld(new THREEVector3(0, 0, 0));
+                    const localToPos = this.targetEntity.parentNode.object3D.worldToLocal(worldToPos);
+
+                    // Start moving.
                     this.targetEntity.setAttribute('animation', {
                         property: "position",
                         from: {x: localFromPos.x, y: localFromPos.y, z: localFromPos.z},
                         to: {x: localToPos.x, y: localToPos.y, z: localToPos.z},
                         dur: 2000
                     });
+                    // Start scaling.
                     this.targetEntity.setAttribute('animation__2', {
                         property: "scale",
                         from: {x: 1, y: 1, z: 1},
@@ -102,29 +89,30 @@ const absorbController = {
                     this.targetEntity.classList.remove('canvasObj');
                     this.targetEntity.classList.remove('movable');
 
-                    this.container = document.createElement("a-entity");
-                    this.targetEntity.parentNode.appendChild(this.container);
-                    this.container.setAttribute('geometry', {
+                    this.containerEl = document.createElement("a-entity");
+                    this.targetEntity.parentNode.appendChild(this.containerEl);
+                    this.containerEl.setAttribute('geometry', {
                         primitive: 'box',
                         width: 0.5,
                         height: 0.3,
                         depth: 0.1
                     });
-                    this.container.setAttribute('material', {
+                    this.containerEl.setAttribute('material', {
                         color: '#FCA044',
                         transparent: true,
                         opacity: 0.5
                     });
-                    this.container.object3D.position.copy(localToPos.clone());
+                    this.containerEl.object3D.position.copy(localToPos.clone());
 
-                    this.container.setAttribute('op-container', null);
-                    const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
+                    // Set opList in the op-container.
+                    this.containerEl.setAttribute('op-container', null);
+                    const opList = this.containerEl.getAttribute('op-container') ? this.containerEl.getAttribute('op-container').opList: [];
                     opList.push(this.targetEntity.getAttribute('id'));
-                    this.container.setAttribute('op-container', 'opList', opList);
+                    this.containerEl.setAttribute('op-container', 'opList', opList);
 
                     const promise = new Promise( resolver => {
                         const start_time: number = Date.now();
-                        const containerEl: any = this.container;
+                        const containerEl: any = this.containerEl;
                         const targetEl: any = this.targetEntity;
                         function fetchAttribute() {
                             if (containerEl.getAttribute('op-container')) {
@@ -142,10 +130,11 @@ const absorbController = {
                         fetchAttribute();
                     });
 
-                    this.container.classList.add('container');
-                    this.container.classList.add('canvasObj');
-                    this.container.classList.add('movable');
+                    this.containerEl.classList.add('container');
+                    this.containerEl.classList.add('canvasObj');
+                    this.containerEl.classList.add('movable');
                 }
+                // Start absorbing the next operator
                 else {
                     const localFromPos = this.targetEntity.object3D.position.clone();
                     const offset = localFromPos.clone().sub(this.originPos);
@@ -155,6 +144,7 @@ const absorbController = {
                     rightHand.object3D.updateWorldMatrix();
                     const toPos: any = rightHand.object3D.localToWorld(new THREEVector3(0, 0, 0));
                     const localToPos = this.targetEntity.parentNode.object3D.worldToLocal(toPos);
+
                     // Start moving
                     this.targetEntity.setAttribute('animation', {
                         property: "position",
@@ -162,22 +152,23 @@ const absorbController = {
                         to: {x: localToPos.x + offset.x / offsetScale, y: localToPos.y + offset.y / offsetScale, z: localToPos.z + offset.z / offsetScale},
                         dur: 2000
                     });
+                    // Start scaling
                     this.targetEntity.setAttribute('animation__2', {
                         property: "scale",
                         from: {x: 1, y: 1, z: 1},
                         to: {x: 0.3, y: 0.3, z: 0.3},
                         dur: 2000
                     });
+
                     this.targetEntity.classList.remove('canvasObj');
                     this.targetEntity.classList.remove('movable');
-                    const opList = this.container.getAttribute('op-container') ? this.container.getAttribute('op-container').opList: [];
+
+                    const opList = this.containerEl.getAttribute('op-container') ? this.containerEl.getAttribute('op-container').opList: [];
                     opList.push(this.targetEntity.getAttribute('id'));
-                    this.container.setAttribute('op-container', 'opList', opList);
-                    this.container.emit('opList-update', {el: this.targetEntity}, false);
+                    this.containerEl.setAttribute('op-container', 'opList', opList);
+                    this.containerEl.emit('opList-update', {el: this.targetEntity}, false);
                 }
             }
         });
     }
-}
-
-export default absorbController;
+});

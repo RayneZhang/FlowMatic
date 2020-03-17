@@ -41,7 +41,7 @@ export const operatorModel = AFRAME.registerComponent('operator-model', {
         for (const inputName of this.data.functionInputs) {
             const behavior: string = this.data.behaviorInputs[i];
             const type: string = this.data.typeInputs[i];
-            createOnePlug(inputName, type, behavior, this.boxHeight/2 - this.lineHeight*(i+0.5), true, this.el);
+            createOnePlug(inputName, type, behavior, -boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), true, this.el);
             if (this.data.functionInputs.length >= 1)
                 this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
             i++;
@@ -52,7 +52,7 @@ export const operatorModel = AFRAME.registerComponent('operator-model', {
         for (const outputName of this.data.functionOutputs) {
             const behavior: string = this.data.behaviorOutputs[j];
             const type: string = this.data.typeOutputs[j];
-            createOnePlug(outputName, type, behavior, this.boxHeight/2 - this.lineHeight*(j+0.5), false, this.el);
+            createOnePlug(outputName, type, behavior, boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), false, this.el);
             if (this.data.functionOutputs.length >= 1)
                 this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), 0));
             j++;
@@ -113,7 +113,7 @@ export const operatorModel = AFRAME.registerComponent('operator-model', {
 
 });
 
-export function createOnePlug(_inputName: string, _type: string, _behavior: string,  _yOffset: number, _input: boolean, operatorEl: any): void {
+export function createOnePlug(_inputName: string, _type: string, _behavior: string, _xOffset: number, _yOffset: number, _input: boolean, operatorEl: any): void {
     // Create a plug first.
     const plug: any = document.createElement('a-entity');
     operatorEl.appendChild(plug);
@@ -181,10 +181,7 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
         plug.setAttribute('material', 'color', updatedUnselectedColor);
     });
     // Set up plug position.
-    if (_input)
-        plug.object3D.position.set(-boxWidth/2, _yOffset, 0);
-    else
-        plug.object3D.position.set(boxWidth/2, _yOffset, 0);
+    plug.object3D.position.set(_xOffset, _yOffset, 0);
 
     // Create plug description.
     const plugDescription: any = document.createElement('a-entity');

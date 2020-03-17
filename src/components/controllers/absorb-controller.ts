@@ -1,5 +1,6 @@
 import { Vector3 as THREEVector3 } from 'three';
 import * as AFRAME from 'aframe';
+import { ctnWidth, ctnDepth } from '../frp/operators/container';
 
 const offsetScale: number = 4;
 
@@ -93,9 +94,9 @@ export const absorbController = AFRAME.registerComponent('absorb-controller', {
                     this.targetEntity.parentNode.appendChild(this.containerEl);
                     this.containerEl.setAttribute('geometry', {
                         primitive: 'box',
-                        width: 0.5,
+                        width: ctnWidth,
                         height: 0.3,
-                        depth: 0.1
+                        depth: ctnDepth
                     });
                     this.containerEl.setAttribute('material', {
                         color: '#FCA044',

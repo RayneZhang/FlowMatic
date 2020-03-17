@@ -7,6 +7,9 @@ export interface Port {
     behavior: string
 }
 
+export const ctnWidth: number = 0.5;
+export const ctnDepth: number = 0.1;
+
 export const opContainer = AFRAME.registerComponent('op-container', {
     schema: {
         inNames: {type: 'array', default: []},
@@ -143,14 +146,13 @@ export function updateInOut(el: any, container: any): void {
 export function updateShape(inPorts: Array<any>, outPorts: Array<any>, containerEl: any): void {
     const lineHeight: number = 0.1;
     const ctnHeight: number = lineHeight * Math.max(inPorts.length, outPorts.length);
-    const ctnWidth: number = 0.3;
 
     // Set the overall geometry of the container
     containerEl.setAttribute('geometry', {
         primitive: 'box',
         width: ctnWidth,
         height: ctnHeight,
-        depth: 0.1
+        depth: ctnDepth
     });
 
     // Delete all the old ports first.
@@ -162,7 +164,7 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const name: string = inPort.name;
         const type: string = inPort.type;
         const behavior: string = inPort.behavior;
-        createOnePlug(name, type, behavior, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
+        createOnePlug(name, type, behavior, -ctnWidth/2, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
         i++;
     }
 
@@ -172,7 +174,7 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const name: string = outPort.name;
         const type: string = outPort.type;
         const behavior: string = outPort.behavior;
-        createOnePlug(name, type, behavior, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
+        createOnePlug(name, type, behavior, ctnWidth/2, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
         j++;
     }
 

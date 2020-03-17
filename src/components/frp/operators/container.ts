@@ -1,4 +1,5 @@
 import * as AFRAME from 'aframe';
+import { createOnePlug } from '../../utils/operatorModel';
 
 export interface Port {
     name: string,
@@ -20,19 +21,21 @@ export const opContainer = AFRAME.registerComponent('op-container', {
         console.log("op-container initiated.");
         this.el.addEventListener('opList-update', (event) => {
             console.log(this.data.opList);
-            const currentNode: any = event.detail.el;
-            updateInOut(currentNode, this.el);
+            const newNode: any = event.detail.el;
+            updateInOut(newNode, this.el);
         });
 
         this.el.addEventListener('port-update', (event) => {
-            // console.log(this.data.inNames);
-            console.log(this.data.inPorts);
-            // console.log(this.data.outNames);
-            console.log(this.data.outPorts);
+            updateShape(this.data.inPorts, this.data.outPorts, this.el);
         });
     }
 });
 
+/**
+ * Update the input ports and output ports of the container.
+ * @param el The newly added entity
+ * @param container The container entity
+ */
 export function updateInOut(el: any, container: any): void {
     const opInNames: Array<string> = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionInputs : [];
     const opOutNames = el.getAttribute('operator-model') ? el.getAttribute('operator-model').functionOutputs : [];
@@ -129,4 +132,66 @@ export function updateInOut(el: any, container: any): void {
     container.setAttribute('op-container', 'inNames', ctnInNames);
     container.setAttribute('op-container', 'outNames', ctnOutNames);
     container.emit('port-update');
+}
+
+/**
+ * Update the shape of the container.
+ * @param inPorts An array of inputs
+ * @param outPorts An Array of outputs
+ * @param containerEl The container whose shape is operated on
+ */
+export function updateShape(inPorts: Array<any>, outPorts: Array<any>, containerEl: any): void {
+    const lineHeight: number = 0.1;
+    const ctnHeight: number = lineHeight * Math.max(inPorts.length, outPorts.length);
+    const ctnWidth: number = 0.3;
+
+    // Set the overall geometry of the container
+    containerEl.setAttribute('geometry', {
+        primitive: 'box',
+        width: ctnWidth,
+        height: ctnHeight,
+        depth: 0.1
+    });
+
+    // Delete all the old ports first.
+    deleteAllPorts(containerEl);
+
+    // Initiate inputs.
+    let i: number = 0;
+    for (const inPort of inPorts) {
+        const name: string = inPort.name;
+        const type: string = inPort.type;
+        const behavior: string = inPort.behavior;
+        createOnePlug(name, type, behavior, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
+        i++;
+    }
+
+    // Initiate output.
+    let j: number = 0;
+    for (const outPort of outPorts) {
+        const name: string = outPort.name;
+        const type: string = outPort.type;
+        const behavior: string = outPort.behavior;
+        createOnePlug(name, type, behavior, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
+        j++;
+    }
+
+    // Initiate operator name.
+    // const textEntity: any = document.createElement('a-entity');
+    // this.el.appendChild(textEntity);
+    // this.createTextEntity(textEntity, this.data.functionName, new THREE.Vector3(0, this.boxHeight/2 + 0.05, 0));
+}
+
+export function deleteAllPorts(operatorEl: any): void {
+    // console.log(operatorEl.children); // Returns an object
+    // console.log(operatorEl.childNodes); // Returns an array
+    const childNodes: Array<any> = operatorEl.childNodes;
+    
+    childNodes.forEach((childNode: any, i: number) => {
+        console.log(childNode);
+        console.log(i);
+        if (childNode.classList.contains('connectable')) {
+            operatorEl.removeChild(childNode);
+        }
+    });
 }

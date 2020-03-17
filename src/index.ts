@@ -82,7 +82,7 @@ import swtch from './components/utils/swtch'
 swtch;
 import slider from './components/utils/slider'
 slider;
-import operatorModel from './components/utils/operatorModel'
+import {operatorModel} from './components/utils/operatorModel'
 operatorModel;
 import spotLight from './components/lights/spotlight'
 spotLight;

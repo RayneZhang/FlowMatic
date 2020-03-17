@@ -187,11 +187,12 @@ export function deleteAllPorts(operatorEl: any): void {
     // console.log(operatorEl.childNodes); // Returns an array
     const childNodes: Array<any> = operatorEl.childNodes;
     
-    childNodes.forEach((childNode: any, i: number) => {
-        console.log(childNode);
-        console.log(i);
-        if (childNode.classList.contains('connectable')) {
+    let i: number = 0;
+    for (; i < childNodes.length; ) {
+        const childNode = childNodes[i];
+        if (childNode.classList.contains('connectable')) 
             operatorEl.removeChild(childNode);
-        }
-    });
+        else 
+            i++;
+    }
 }

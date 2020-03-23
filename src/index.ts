@@ -70,8 +70,8 @@ conditionLarger;
 
 import lineComponent from './components/lines/LineComponent';
 lineComponent;
-import { storedEdges } from './components/lines/StoredEdges';
-storedEdges;
+import { curveComponent } from './components/lines/Curve'; curveComponent;
+import { storedEdges } from './components/lines/StoredEdges'; storedEdges;
 
 import stateBinding from './state-binding/index'
 stateBinding;

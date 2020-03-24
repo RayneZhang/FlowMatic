@@ -1,5 +1,4 @@
 import * as AFRAME from 'aframe';
-declare const THREE:any;
 
 export const curveComponent = AFRAME.registerComponent('curve', {
     schema: {

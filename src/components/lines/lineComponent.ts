@@ -78,9 +78,23 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         
         this.setPositions();
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-        const ctlPoint1 = new THREE.Vector3(startPoint.x + 0.5, startPoint.y, startPoint.z);
+        let ctlPoint1 = startPoint.clone();
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const ctlPoint2 = new THREE.Vector3(endPoint.x - 0.5, endPoint.y, endPoint.z);
+        let ctlPoint2 = endPoint.clone();
+
+        if (this.data.sourceEntity) {
+            const srcEl = this.data.sourceEntity;
+            srcEl.object3D.updateMatrix();
+            srcEl.object3D.updateWorldMatrix();
+            ctlPoint1 = srcEl.object3D.localToWorld(new THREE.Vector3(0.3, 0, 0));
+        }
+
+        if (this.data.targetEntity) {
+            const tgtEl = this.data.targetEntity;
+            tgtEl.object3D.updateMatrix();
+            tgtEl.object3D.updateWorldMatrix();
+            ctlPoint2 = tgtEl.object3D.localToWorld(new THREE.Vector3(-0.3, 0, 0));
+        }
 
         const path = new THREE.CatmullRomCurve3([
             startPoint,

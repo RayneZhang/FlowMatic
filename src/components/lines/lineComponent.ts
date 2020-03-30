@@ -149,7 +149,15 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
 
         // Set arrow position.
-        const dir = endPoint.clone().sub(startPoint).normalize();
+        let dir = endPoint.clone().sub(startPoint).normalize();
+        if (this.data.targetEntity) {
+            const tgtEl = this.data.targetEntity;
+            tgtEl.object3D.updateMatrix();
+            tgtEl.object3D.updateWorldMatrix();
+            const ctlPoint2 = tgtEl.object3D.localToWorld(new THREE.Vector3(-0.3, 0, 0));
+            dir = endPoint.clone().sub(ctlPoint2).normalize();
+        }
+
         const arrowPos = endPoint.clone().sub(dir.multiplyScalar(0.03));
         const localPosition: any = this.el.object3D.worldToLocal(arrowPos);
         this.arrow.object3D.position.copy(localPosition);

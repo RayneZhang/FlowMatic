@@ -10,6 +10,9 @@ export interface Port {
 export const ctnWidth: number = 0.5;
 export const ctnDepth: number = 0.1;
 
+let tmpInEdges: Array<string> = new Array<string>();
+let tmpOutEdges: Array<string> = new Array<string>();
+
 export const opContainer = AFRAME.registerComponent('op-container', {
     schema: {
         inNames: {type: 'array', default: []},
@@ -77,6 +80,8 @@ export function updateInOut(el: any, container: any): void {
 
             // If the src entity id is in the opList of the container, then we should omit both ports
             if (opList.indexOf(srcId) != -1) {
+                edgeEl.object3D.scale.set(0.3, 0.3, 0.3);
+
                 const srcProp: string = edgeEl.getAttribute('line-component').sourceProp;
                 const tgtProp: string = edgeEl.getAttribute('line-component').targetProp;
 
@@ -94,6 +99,10 @@ export function updateInOut(el: any, container: any): void {
                 else {
                     // When the outPort has already been omitted, we do nothing.
                 }
+            }
+            // If the src entity id is not in the opList, then we should re-connect the edge
+            else {
+                tmpInEdges.push(edgeID);
             }
         }
     });
@@ -126,6 +135,9 @@ export function updateInOut(el: any, container: any): void {
                     // When the outPort has already been omitted, we do nothing.
                 }
             }
+            else {
+                tmpOutEdges.push(edgeID);
+            }
         }
     });
 
@@ -146,6 +158,10 @@ export function updateInOut(el: any, container: any): void {
 export function updateShape(inPorts: Array<any>, outPorts: Array<any>, containerEl: any): void {
     const lineHeight: number = 0.1;
     const ctnHeight: number = lineHeight * Math.max(inPorts.length, outPorts.length);
+    const inPlugs: Array<any> = new Array<any>();
+    const outPlugs: Array<any> = new Array<any>();
+    const ctnInNames = containerEl.getAttribute('op-container') ? containerEl.getAttribute('op-container').inNames: [];
+    const ctnOutNames = containerEl.getAttribute('op-container') ? containerEl.getAttribute('op-container').outNames: [];
 
     // Set the overall geometry of the container
     containerEl.setAttribute('geometry', {
@@ -164,7 +180,8 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const name: string = inPort.name;
         const type: string = inPort.type;
         const behavior: string = inPort.behavior;
-        createOnePlug(name, type, behavior, -ctnWidth/2, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
+        const plug: any = createOnePlug(name, type, behavior, -ctnWidth/2, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
+        inPlugs.push(plug);
         i++;
     }
 
@@ -174,10 +191,34 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const name: string = outPort.name;
         const type: string = outPort.type;
         const behavior: string = outPort.behavior;
-        createOnePlug(name, type, behavior, ctnWidth/2, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
+        const plug: any = createOnePlug(name, type, behavior, ctnWidth/2, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
+        outPlugs.push(plug);
         j++;
     }
 
+    tmpInEdges.forEach((edgeID: string) => {
+        const edgeEl: any = document.getElementById(edgeID);
+        if (edgeEl) {
+            const targetProp: string = edgeEl.getAttribute('line-component').targetProp;
+            const idx: number = ctnInNames.indexOf(targetProp);
+            edgeEl.setAttribute('line-component', {
+                targetEntity: containerEl,
+                targetPropEl: inPlugs[idx], 
+            });
+        }
+    });
+
+    tmpOutEdges.forEach((edgeID: string) => {
+        const edgeEl: any = document.getElementById(edgeID);
+        if (edgeEl) {
+            const sourceProp: string = edgeEl.getAttribute('line-component').sourceProp;
+            const idx: number = ctnOutNames.indexOf(sourceProp);
+            edgeEl.setAttribute('line-component', {
+                sourceEntity: containerEl,
+                sourcePropEl: outPlugs[idx], 
+            });
+        }
+    });
     // Initiate operator name.
     // const textEntity: any = document.createElement('a-entity');
     // this.el.appendChild(textEntity);

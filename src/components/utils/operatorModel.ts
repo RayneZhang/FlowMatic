@@ -113,7 +113,7 @@ export const operatorModel = AFRAME.registerComponent('operator-model', {
 
 });
 
-export function createOnePlug(_inputName: string, _type: string, _behavior: string, _xOffset: number, _yOffset: number, _input: boolean, operatorEl: any): void {
+export function createOnePlug(_inputName: string, _type: string, _behavior: string, _xOffset: number, _yOffset: number, _input: boolean, operatorEl: any): any {
     // Create a plug first.
     const plug: any = document.createElement('a-entity');
     operatorEl.appendChild(plug);
@@ -209,4 +209,6 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
             plugDescription.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
         }
     }
+
+    return plug;
 }

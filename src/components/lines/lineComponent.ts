@@ -78,24 +78,25 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         
         this.setPositions();
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
+        const ctlPoint1 = new THREE.Vector3(startPoint.x + 0.5, startPoint.y, startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-        const bodyHeight: number = startPoint.distanceTo(endPoint);
-        this.lineBody.setAttribute('geometry', {
-            primitive: 'cylinder',
-            height: bodyHeight,
-            radius: 0.005
-        });
-        this.lineBody.setAttribute('material', {
-            transparent: true,
-            opacity: 0.7
-        });
-        const dir = endPoint.clone().sub(startPoint).normalize();
-        const bodyPos = endPoint.clone().add(startPoint).multiplyScalar(0.5);
-        this.lineBody.object3D.position.copy(bodyPos);
+        const ctlPoint2 = new THREE.Vector3(endPoint.x - 0.5, endPoint.y, endPoint.z);
 
-        // Set line rotation.
-        this.lineBody.object3D.lookAt(endPoint.add(dir));
-        this.lineBody.object3D.rotateX(THREE.Math.degToRad(90));
+        const path = new THREE.CatmullRomCurve3([
+            startPoint,
+            ctlPoint1,
+            ctlPoint2,
+            endPoint
+        ]);
+
+        const tubularSegments = 20;
+        const radius = 0.01;
+        const radialSegments = 8;
+        const closed = false;
+        const geometry = new THREE.TubeBufferGeometry(path, tubularSegments, radius, radialSegments, closed);
+
+        const mesh = new THREE.Mesh(geometry);
+        this.lineBody.setObject3D('mesh', mesh);
 
         this.setArrow();
     },

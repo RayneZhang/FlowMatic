@@ -15,7 +15,7 @@ export const curveComponent = AFRAME.registerComponent('curve', {
           new THREE.Vector3( 10, 0, 10 )
         ] );
         const tubularSegments = 20;
-        const radius = 1;
+        const radius = 0.01;
         const radialSegments = 8;
         const closed = false;
         const geometry = new THREE.TubeBufferGeometry(path, tubularSegments, radius, radialSegments, closed);

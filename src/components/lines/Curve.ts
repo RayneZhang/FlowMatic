@@ -6,7 +6,14 @@ export const curveComponent = AFRAME.registerComponent('curve', {
     },
 
     init: function(): void {
-        const path = new CustomSinCurve(4);
+        // const path = new CustomSinCurve(4);
+        const path = new THREE.CatmullRomCurve3( [
+          new THREE.Vector3( -10, 0, 10 ),
+          new THREE.Vector3( -5, 5, 5 ),
+          new THREE.Vector3( 0, 0, 0 ),
+          new THREE.Vector3( 5, -5, 5 ),
+          new THREE.Vector3( 10, 0, 10 )
+        ] );
         const tubularSegments = 20;
         const radius = 1;
         const radialSegments = 8;

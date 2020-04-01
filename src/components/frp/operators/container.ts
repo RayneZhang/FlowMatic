@@ -96,9 +96,13 @@ export function updateInOut(el: any, container: any): void {
                     ctnOutNames.splice(srcIdx, 1);
                     outPorts.splice(srcIdx, 1);
                 }
-                else {
-                    // When the outPort has already been omitted, we do nothing.
-                }
+
+                // 3. Reset the sourcePropEl so that the edge will start from inner operator.
+                const srcPropEl: any = document.getElementById(srcId + '-' + srcProp + '-out');
+                if (!srcPropEl) console.warn('Cannot find the property element when updateInOut in container.ts');
+                edgeEl.setAttribute('line-component', {
+                    sourcePropEl: srcPropEl
+                });
             }
             // If the src entity id is not in the opList, then we should re-connect the edge
             else {
@@ -131,9 +135,13 @@ export function updateInOut(el: any, container: any): void {
                     ctnInNames.splice(tgtIdx, 1);
                     inPorts.splice(tgtIdx, 1);
                 }
-                else {
-                    // When the outPort has already been omitted, we do nothing.
-                }
+
+                // 3. Reset the targetPropEl so that the edge will end at inner operator.
+                const tgtPropEl: any = document.getElementById(tgtId + '-' + tgtProp + '-in');
+                if (!tgtPropEl) console.warn('Cannot find the property element when updateInOut in container.ts');
+                edgeEl.setAttribute('line-component', {
+                    targetPropEl: tgtPropEl
+                });
             }
             else {
                 tmpOutEdges.push(edgeID);
@@ -180,6 +188,7 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const name: string = inPort.name;
         const type: string = inPort.type;
         const behavior: string = inPort.behavior;
+        // Create a plug and then save it into the array.
         const plug: any = createOnePlug(name, type, behavior, -ctnWidth/2, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
         inPlugs.push(plug);
         i++;
@@ -191,18 +200,21 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const name: string = outPort.name;
         const type: string = outPort.type;
         const behavior: string = outPort.behavior;
+        // Create a plug and then save it tinto the array.
         const plug: any = createOnePlug(name, type, behavior, ctnWidth/2, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
         outPlugs.push(plug);
         j++;
     }
 
+
     tmpInEdges.forEach((edgeID: string) => {
         const edgeEl: any = document.getElementById(edgeID);
         if (edgeEl) {
             const targetProp: string = edgeEl.getAttribute('line-component').targetProp;
+            // inNames and inPlugs should have the same index.
             const idx: number = ctnInNames.indexOf(targetProp);
             edgeEl.setAttribute('line-component', {
-                targetEntity: containerEl,
+                // targetEntity: containerEl,
                 targetPropEl: inPlugs[idx], 
             });
         }
@@ -212,13 +224,16 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         const edgeEl: any = document.getElementById(edgeID);
         if (edgeEl) {
             const sourceProp: string = edgeEl.getAttribute('line-component').sourceProp;
+            // outNames and outPlugs should have the same index.
             const idx: number = ctnOutNames.indexOf(sourceProp);
             edgeEl.setAttribute('line-component', {
-                sourceEntity: containerEl,
+                // sourceEntity: containerEl,
                 sourcePropEl: outPlugs[idx], 
             });
         }
     });
+    tmpInEdges = new Array<string>();
+    tmpOutEdges = new Array<string>()
     // Initiate operator name.
     // const textEntity: any = document.createElement('a-entity');
     // this.el.appendChild(textEntity);

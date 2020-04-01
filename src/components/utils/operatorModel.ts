@@ -117,6 +117,9 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
     // Create a plug first.
     const plug: any = document.createElement('a-entity');
     operatorEl.appendChild(plug);
+    const operatorId: string = operatorEl.getAttribute('id');
+    const inout: string = _input ? 'in' : 'out';
+    plug.setAttribute('id', operatorId+'-'+_inputName+'-'+inout);
     plug.classList.add('connectable');
 
     if (_behavior === 'signal') {

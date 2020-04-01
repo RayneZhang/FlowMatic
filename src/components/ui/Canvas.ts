@@ -350,6 +350,13 @@ function instantiateOp(item: Item): void {
     const canvas: any = document.querySelector('#canvas-world');
     canvas.appendChild(opEl);
 
+    // Add a new node into the scene and assign the id to the entity
+    opEl.setAttribute('op-node-update', {
+        name: item.name,
+        inputs: item.inputs,
+        outputs: item.outputs
+    });
+
     // Initiate `operator-model` component
     const functionInputs: Array<string> = new Array<string>();
     const behaviorInputs: Array<string> = new Array<string>();
@@ -381,13 +388,6 @@ function instantiateOp(item: Item): void {
     // Resize the model into item size
     opEl.addEventListener('model-loaded', () => {
         resize(opEl, itemSize.width);
-    });
-
-    // Add a new node into the scene and assign the id to the entity
-    opEl.setAttribute('op-node-update', {
-        name: item.name,
-        inputs: item.inputs,
-        outputs: item.outputs
     });
 
     // Place the model

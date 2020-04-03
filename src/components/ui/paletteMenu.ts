@@ -4,14 +4,25 @@ import { objects } from '../../Objects';
 import { Item } from './Canvas';
 import { resize } from '../../utils/SizeConstraints';
 import { setAppStatus } from '../../utils/App';
-declare const THREE:any;
 
-// The sub-menu elements' names in the 3D obj.
-const subEntitiesNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text', 'search-text', 'search-button'];
+export const runActiveColor: string = '#00B800';
+export const runInactiveColor: string = '#22313f';
+export const stopActiveColor: string = '#F10310';
+export const stopInactiveColor: string = '#22313f';
+
+export const inactiveColor: string = '#22313f';
+export const hoverColor: string = '#22a7f0';
+export const activeColor: string = '';
+
+export const toolActiveColor: string = 'yellow';
+export const toolHoverColor: string = 'yellow';
+
+// The menu elements' names in the gltf model.
+const pieceNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text', 'search-text', 'search-button'];
+
+const toolNames: string[] = ['prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text'];
 
 const noneReactiveUIs: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
-
-const toolUIs: string[] = ['prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text'];
 
 const iconSize = {
     width: 0.033,
@@ -38,8 +49,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         menuEntity.object3D.position.set(0, 0, -0.15);
         
         this.createSubEntity();
-        this.initTextLabel();
-        this.initInstanceDescription();
+        this.initRunStopLabel();
+        this.initItemDescription();
         this.loadItems(0);
 
         // Event Listener to open and close menu.
@@ -47,29 +58,36 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         listeningEl.addEventListener('xbuttondown', this.onXButtonDown.bind(this));
     },
 
-    // Create sub entities, setting geometry and material. 
-    createSubEntity(): void {
-        for (const subEntityName of subEntitiesNames) {
-            // Create sub-menu entity.
-            const subMenuEl: any = document.createElement('a-entity');
-            this.menuEl.appendChild(subMenuEl);
-            subMenuEl.setAttribute('id', subEntityName);
+    // The listener when x-button on the left controller is down.
+    onXButtonDown(event): void {
+        this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
+    },
 
-            // Add class UI so that these subentities can be interacted.
-            subMenuEl.classList.add('ui');
-            if (toolUIs.indexOf(subEntityName) != -1) subMenuEl.classList.add('toolUI');
+    // Create entities, setting their geometry and material. 
+    createSubEntity(): void {
+        for (const pieceName of pieceNames) {
+            // Create sub-menu entity.
+            const pieceEl: any = document.createElement('a-entity');
+            this.menuEl.appendChild(pieceEl);
+            pieceEl.setAttribute('id', pieceName);
+
+            // Add class ui so that these subentities can be interacted.
+            pieceEl.classList.add('ui');
+
+            // Add one more tool class for button reactions.
+            if (toolNames.indexOf(pieceName) != -1) pieceEl.classList.add('tool');
 
             // Set the gltf model to the entity.
-            subMenuEl.setAttribute('gltf-part', {
+            pieceEl.setAttribute('gltf-part', {
                 src: '#palette-menu-gltf',
-                part: subEntityName
+                part: pieceName
             });
 
             
             // Initiate material according to widget name.
-            switch (subEntityName) {
+            switch (pieceName) {
                 case 'currentcolor': {
-                    subMenuEl.setAttribute('material', {
+                    pieceEl.setAttribute('material', {
                         color: '#ffffff',
                         flatShading: true,
                         shader: 'flat',
@@ -79,7 +97,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
 
                 case 'huecursor': {
-                    subMenuEl.setAttribute('material', {
+                    pieceEl.setAttribute('material', {
                         color: '#ffffff',
                         flatShading: true,
                         shader: 'flat',
@@ -90,22 +108,22 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
 
                 case 'hue': {
-                    subMenuEl.addEventListener('object3dset', (event) => {
-                        initColorWheel(subMenuEl);
+                    pieceEl.addEventListener('object3dset', (event) => {
+                        initColorWheel(pieceEl);
                     });
                     break;
                 }
 
                 case 'stop': {
-                    subMenuEl.setAttribute('material', 'color', '#F10310');
+                    pieceEl.setAttribute('material', 'color', stopInactiveColor);
 
-                    subMenuEl.addEventListener('clicked', () => {
+                    pieceEl.addEventListener('clicked', () => {
                         // When run button is clicked
-                        subMenuEl.setAttribute('material', 'color', '#F10310');
+                        pieceEl.setAttribute('material', 'color', stopActiveColor);
 
                         // Set run button back to normal
-                        const runEl: any = document.querySelector('#run');
-                        runEl.setAttribute('material', 'color', '#22313f');
+                        const runEl: any = document.getElementById('run');
+                        runEl.setAttribute('material', 'color', runInactiveColor);
 
                         // Set App status
                         setAppStatus(false);
@@ -114,15 +132,15 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
 
                 case 'run': {
-                    subMenuEl.setAttribute('material', 'color', '#22313f');
+                    pieceEl.setAttribute('material', 'color', runInactiveColor);
 
-                    subMenuEl.addEventListener('clicked', () => {
+                    pieceEl.addEventListener('clicked', () => {
                         // When run button is clicked
-                        subMenuEl.setAttribute('material', 'color', '#00B800');
+                        pieceEl.setAttribute('material', 'color', runActiveColor);
 
                         // Set stop button back to normal
-                        const stopEl: any = document.querySelector('#stop');
-                        stopEl.setAttribute('material', 'color', '#22313f');
+                        const stopEl: any = document.getElementById('stop');
+                        stopEl.setAttribute('material', 'color', stopInactiveColor);
 
                         // Set App status
                         setAppStatus(true);
@@ -130,94 +148,90 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     break;
                 }
 
-                // For subentities that come with an icons, set the icons here.
-                case 'prev': case 'next': case 'primitive': case 'sketchfab': case 'diagram': case 'text': {
-                    const icon: any = document.createElement('a-image');
-                    subMenuEl.appendChild(icon);
-                    icon.setAttribute('src', `#${subEntityName}_icon`);
-                    icon.setAttribute('geometry', {
+                // For pieces that come with an icons, set the icons here.
+                case 'prev': case 'next': case 'primitive': case 'sketchfab': case 'diagram': case 'text': case 'search': {
+                    const iconEl: any = document.createElement('a-image');
+                    pieceEl.appendChild(iconEl);
+                    iconEl.setAttribute('src', `#${pieceName}_icon`);
+                    iconEl.setAttribute('geometry', {
                         width: 0.8 * iconSize.width,
                         height: 0.8 * iconSize.height
                     });
-                    if (subEntityName == 'prev')
-                        icon.object3D.position.set(-0.225, 0.0031, -0.091);
-                    else if (subEntityName == 'next')
-                        icon.object3D.position.set(-0.11,0.0031, -0.091);
-                    else if (subEntityName == 'primitive')
-                        icon.object3D.position.set(-0.275, 0.0031, -0.091);
-                    else if (subEntityName == 'sketchfab')
-                        icon.object3D.position.set(-0.275, 0.0031, -0.058);
-                    else if (subEntityName == 'diagram')
-                        icon.object3D.position.set(-0.275, 0.0031, -0.025);
-                    else if (subEntityName == 'text')
-                        icon.object3D.position.set(-0.275, 0.0031, 0.008);
-                    
-                    icon.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
-                    subMenuEl.setAttribute('material', 'color', '#22313f');
 
-                    subMenuEl.addEventListener('clicked', (event) => {
-                        event.stopPropagation();
-                        subMenuEl.setAttribute('material', 'color', '#22a7f0');
-                        if (subEntityName == 'text') {
-                            const rightHand: any = document.querySelector('#rightHand');
-                            rightHand.setAttribute('right-abutton-listener', 'targetModel', subEntityName);
-                        }
-                    });
+                    // Set positions of the icons since we have a centralized origin.
+                    if (pieceName == 'prev')
+                        iconEl.object3D.position.set(-0.225, 0.0031, -0.091);
+                    else if (pieceName == 'next')
+                        iconEl.object3D.position.set(-0.11,0.0031, -0.091);
+                    else if (pieceName == 'primitive')
+                        iconEl.object3D.position.set(-0.275, 0.0031, -0.091);
+                    else if (pieceName == 'sketchfab')
+                        iconEl.object3D.position.set(-0.275, 0.0031, -0.058);
+                    else if (pieceName == 'diagram')
+                        iconEl.object3D.position.set(-0.275, 0.0031, -0.025);
+                    else if (pieceName == 'text')
+                        iconEl.object3D.position.set(-0.275, 0.0031, 0.008);
+                    
+                    iconEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                    pieceEl.setAttribute('material', 'color', inactiveColor);
                     break;
                 }
+
                 default: {
-                    subMenuEl.setAttribute('material', 'color', '#22313f');
+                    pieceEl.setAttribute('material', 'color', inactiveColor);
                     break;
                 }
             };
             
-            // Set up interactions for the subentities.
-            subMenuEl.addEventListener('raycaster-intersected', (event) => {
+            // Set up interactions for the pieces.
+            pieceEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
-                
-                if (noneReactiveUIs.indexOf(subEntityName) === -1) {
-                    // Set responsive color.
-                    subMenuEl.setAttribute('material', 'color', '#22a7f0'); 
-                    // Set description value.
-                    if (subEntityName.indexOf('button') != -1) {
-                        const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
-                        this.setInstanceDescription(buttonId);
+                // If the piece is reactive...
+                if (noneReactiveUIs.indexOf(pieceName) === -1) {
+                    // If the user clicks on items.
+                    if (pieceName.indexOf('button') != -1) {
+                        // Set responsive color.
+                        pieceEl.setAttribute('material', 'color', hoverColor); 
+                        const buttonId: number = Number(pieceName.substr(-1, 1)) - 1;
+                        this.setItemDescription(buttonId);
                     }
-                    else if (subMenuEl.classList.contains('toolUI')) {
-                        subMenuEl.setAttribute('material', 'color', 'yellow'); 
-                        this.setToolDescription(subEntityName);
+                    else if (pieceEl.classList.contains('tool')) {
+                        pieceEl.setAttribute('material', 'color', toolHoverColor); 
+                        this.setToolDescription(pieceName);
+                    }
+                    else {
+                        pieceEl.setAttribute('material', 'color', hoverColor); 
                     }
                 }
             });
 
-            subMenuEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            pieceEl.addEventListener('raycaster-intersected-cleared', (event) => {
                 event.stopPropagation();
-                
                 // If the subentity is not in nonReactiveUI AND it is not the selectedButton AND it is not in selectedToolList, then recover its color.
                 const selectedButtonId: number = this.data.selectedButtonId;
                 const selectedToolList: any = this.data.selectedToolList;
-                if (noneReactiveUIs.indexOf(subEntityName) === -1 && subEntityName != 'button' + String(selectedButtonId+1) && selectedToolList.indexOf(subEntityName) ===  -1) {
-                    subMenuEl.setAttribute('material', 'color', '#22313f');
-                    this.setInstanceDescription(selectedButtonId);
+                if (noneReactiveUIs.indexOf(pieceName) === -1 && pieceName != 'button' + String(selectedButtonId+1) && selectedToolList.indexOf(pieceName) ===  -1) {
+                    pieceEl.setAttribute('material', 'color', inactiveColor);
+                    this.setItemDescription(selectedButtonId);
                 }
             });
 
-            subMenuEl.addEventListener('clicked', (event) => {
+            pieceEl.addEventListener('clicked', (event) => {
                 // Define when a button is clicked
-                if (subEntityName.indexOf('button') != -1) {
-                    const buttonId: number = Number(subEntityName.substr(-1, 1)) - 1;
+                if (pieceName.indexOf('button') != -1) {
+                    const buttonId: number = Number(pieceName.substr(-1, 1)) - 1;
                     this.setSelectedButtonId(buttonId);
                 }
-                // Define when a toolUI is clicked
-                else if (toolUIs.indexOf(subEntityName) != -1) {
-                    this.onToolClicked(subEntityName);
+                // Define when a tool is clicked
+                else if (toolNames.indexOf(pieceName) != -1) {
+                    this.onToolClicked(pieceName);
                 }
             });
         }
     },
 
     // Load description of run & stop button.
-    initTextLabel(): void {
+    initRunStopLabel(): void {
         const runLabel: any = document.createElement('a-entity');
         const runEl: any = document.querySelector("#run");
         const stopLabel: any = document.createElement('a-entity');
@@ -246,13 +260,13 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         stopLabel.object3D.position.set(-0.125, 0, 0.1);
     },
 
-    // Load description of thumbnails panel.
-    initInstanceDescription(): void {
+    // Load description of thumbnails.
+    initItemDescription(): void {
         // Create thumbnail description entity.
         const descripText: any = document.createElement('a-entity');
         const descripEl: any = document.querySelector("#description");
         descripEl.appendChild(descripText);
-        descripText.setAttribute('id', "description_text");
+        descripText.setAttribute('id', "description-text");
 
         // Initiate tht panel content.
         descripText.setAttribute('text', {
@@ -267,7 +281,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         descripText.object3D.position.set(-0.167, 0, -0.1);
 
         // Set the value of the description.
-        this.setInstanceDescription(this.data.selectedButtonId);
+        this.setItemDescription(this.data.selectedButtonId);
     },
 
     // Load the thumbnails of the items to chose from.
@@ -326,26 +340,21 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         });
     },
 
-    // The listener when x-button is down.
-    onXButtonDown(event): void {
-        this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
-    },
-
     // Set description of the panel.
     setToolDescription(toolName: string): void {
-        const thumbDescripEl: any = document.querySelector('#description_text');
+        const thumbDescripEl: any = document.querySelector('#description-text');
         thumbDescripEl.setAttribute('text', 'value', toolName);
     },
 
     // Set description of the panel.
-    setInstanceDescription(_buttonId: number): void {
-        const thumbDescripEl: any = document.querySelector('#description_text');
-        const instance: Item = objects['Models'][_buttonId + this.data.pageNumber];
-        if (!instance) {
+    setItemDescription(_buttonId: number): void {
+        const thumbDescripEl: any = document.querySelector('#description-text');
+        const item: Item = objects['Models'][_buttonId + this.data.pageNumber];
+        if (!item) {
             return;
         }
         else
-            thumbDescripEl.setAttribute('text', 'value', instance.name);
+            thumbDescripEl.setAttribute('text', 'value', item.name);
     },
     
     // Set the selected button id.
@@ -361,7 +370,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             lastSelectedButton.setAttribute('material', 'color', '#22313f');
         }
         this.data.selectedButtonId = _buttonId;
-        this.setInstanceDescription(_buttonId);
+        this.setItemDescription(_buttonId);
         
         // Add responsive color to the button.
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
@@ -374,24 +383,28 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     },
 
     onToolClicked: function(toolName: string): void {
-        // If it is unselecting the tool
         const idx: number = this.data.selectedToolList.indexOf(toolName);
+        // If it is unselecting the tool
         if (idx != -1) {
             this.data.selectedToolList.splice(idx, 1);
             const deselectedTool: any = document.querySelector(`#${toolName}`);
-            deselectedTool.setAttribute('material', 'color', '#22313f');
+            deselectedTool.setAttribute('material', 'color', inactiveColor);
         }
         // If it is selecting the tool
         else {
             this.data.selectedToolList.push(toolName);
             const selectedTool: any = document.querySelector(`#${toolName}`);
-            selectedTool.setAttribute('material', 'color', 'yellow'); 
+            selectedTool.setAttribute('material', 'color', toolActiveColor); 
         }
 
         if (toolName === 'diagram') {
             const canvasEl: any = document.querySelector('#canvas');
             canvasEl.emit('showcanvas');
-        }    
+        }
+        else if (toolName == 'text') {
+            const rightHand: any = document.querySelector('#rightHand');
+            rightHand.setAttribute('right-abutton-listener', 'targetModel', toolName);
+        }
     }
 });
 

@@ -381,13 +381,14 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         }
     },
     
-    // Set the selected button id.
+    // Set the selected button id AND deal with logic about clicking the button.
     setSelectedButtonId: function(_buttonId: number): void {
         // Check if selected button id is out of range.
-        if (this.data.pageNumber == objects['Models'].length/9 && _buttonId >= objects['Models'].length%9) {
+        if (itemType == ItemType.Primitive && this.data.pageNumber == objects['Models'].length/9 && _buttonId >= objects['Models'].length%9) {
             return;
         }
 
+        console.log("We tried setting button id");
         if (this.data.selectedButtonId >= 0) {
             // Manually raycaster intersected cleared.
             const lastSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
@@ -400,10 +401,15 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
         currentSelectedButton.setAttribute('material', 'color', activeColor);
 
-        // Pass the id for left hand to create the corresponding object.
-        const instance: Item = objects['Models'][this.data.pageNumber * 9 + _buttonId];
-        const rightHand: any = document.querySelector('#rightHand');
-        rightHand.setAttribute('right-abutton-listener', 'targetModel', instance.name);
+        if (itemType == ItemType.Primitive) {
+            // Pass the id for left hand to create the corresponding object.
+            const instance: Item = objects['Models'][this.data.pageNumber * 9 + _buttonId];
+            const rightHand: any = document.querySelector('#rightHand');
+            rightHand.setAttribute('right-abutton-listener', 'targetModel', instance.name);
+        }
+        else if (itemType == ItemType.Sketchfab) {
+            // sketchfab.getGLTFUrl(sketchfabUids[_buttonId]);
+        }
     },
 
     onToolClicked: function(toolName: string): void {
@@ -431,7 +437,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set item type.
             itemType = ItemType.Sketchfab;
 
-            loadSketchfab(this.menuEl);
+            this.loadSketchfab();
         }
         else if (toolName == 'diagram') {
             const canvasEl: any = document.querySelector('#canvas');
@@ -441,6 +447,87 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             const rightHand: any = document.querySelector('#rightHand');
             rightHand.setAttribute('right-abutton-listener', 'targetModel', toolName);
         }
+    },
+
+    loadSketchfab: function(): void {
+        // Remove previous items.
+        let listEl: any = document.querySelector('#items-list');
+        if (listEl) {
+            listEl.parentNode.removeChild(listEl);
+            listEl.destroy();
+        }
+    
+        // Empty the array.
+        sketchfabNames = [];
+        sketchfabUids = [];
+    
+        // Put all items under one entity for the sake of deleting and regenerating.
+        listEl = document.createElement('a-entity');
+        this.menuEl.appendChild(listEl);
+        listEl.setAttribute('id', "items-list");
+    
+        const itemOffset = {x: -0.217, y: 0.002, z: -0.05};
+    
+        const param: object = {
+            type: 'models',
+            q: '',
+            file_format: 'gltf',
+            downloadable: true,
+            animated: true,
+            count: 9
+        };
+
+        const el = this.el;
+
+        $.get(sketchfab.getUrl(), param, function (data, status, xhr) {
+            if (status == 'success') {
+                // cursors: {next, previous}, next: url, previous: url, results: []
+                const results = data.results;
+                console.log(data);
+    
+                results.forEach((asset, i: number)=>{
+                    const itemEl: any = document.createElement('a-entity');
+                    itemEl.setAttribute('id', 'sketchfab'+i);
+                    listEl.appendChild(itemEl);
+    
+                    itemEl.setAttribute('geometry', {
+                        primitive: 'plane',
+                        width: buttonSize.width,
+                        height: buttonSize.height
+                    });
+                    const len: number = asset.thumbnails.images.length;
+                    itemEl.setAttribute('material', {
+                        src: asset.thumbnails.images[len - 1].url
+                    });
+    
+                    // Place the item
+                    itemEl.object3D.position.set(itemOffset.x +  (i%3) * buttonSize.width, itemOffset.y, -itemOffset.z + itemOffset.z * Math.floor(i/3));
+                    itemEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+    
+                    // Add reaction to the item.
+                    itemEl.classList.add('ui');
+                    itemEl.addEventListener('raycaster-intersected', (event) => {
+                        itemEl.setAttribute('material', 'color', hoverColor);
+                        // setDescription(asset.name);
+                    });
+    
+                    itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                        itemEl.setAttribute('material', 'color', 'white');
+                    });
+    
+                    itemEl.addEventListener('clicked', (event) => {
+                        itemEl.setAttribute('material', 'color', activeColor);
+                        el.components['palette-menu'].setSelectedButtonId(i);
+                        sketchfab.getGLTFUrl(asset.uid);
+                    });
+    
+                    sketchfabNames.push(asset.name);
+                    sketchfabUids.push(asset.uid);
+                });
+            }
+        });
+    
+        return;
     }
 });
 
@@ -568,83 +655,6 @@ function setCurrentColor(_color: string): void {
         if (ins)
             ins.setAttribute('material', 'color', _color);
     }
-}
-
-export function loadSketchfab(menuEl: any): void {
-    // Remove previous items.
-    let listEl: any = document.querySelector('#items-list');
-    if (listEl) {
-        listEl.parentNode.removeChild(listEl);
-        listEl.destroy();
-    }
-
-    // Empty the array.
-    sketchfabNames = [];
-    sketchfabUids = [];
-
-    // Put all items under one entity for the sake of deleting and regenerating.
-    listEl = document.createElement('a-entity');
-    menuEl.appendChild(listEl);
-    listEl.setAttribute('id', "items-list");
-
-    const itemOffset = {x: -0.217, y: 0.002, z: -0.05};
-
-    const param: object = {
-        type: 'models',
-        q: '',
-        file_format: 'gltf',
-        downloadable: true,
-        animated: true,
-        count: 9
-    }
-    $.get(sketchfab.getUrl(), param, function (data, status, xhr) {
-        if (status == 'success') {
-            // cursors: {next, previous}, next: url, previous: url, results: []
-            const results = data.results;
-            console.log(data);
-
-            results.forEach((asset, i: number)=>{
-                const itemEl: any = document.createElement('a-entity');
-                itemEl.setAttribute('id', 'sketchfab'+i);
-                listEl.appendChild(itemEl);
-
-                itemEl.setAttribute('geometry', {
-                    primitive: 'plane',
-                    width: buttonSize.width,
-                    height: buttonSize.height
-                });
-                const len: number = asset.thumbnails.images.length;
-                itemEl.setAttribute('material', {
-                    src: asset.thumbnails.images[len - 1].url
-                });
-
-                // Place the item
-                itemEl.object3D.position.set(itemOffset.x +  (i%3) * buttonSize.width, itemOffset.y, -itemOffset.z + itemOffset.z * Math.floor(i/3));
-                itemEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
-
-                // Add reaction to the item.
-                itemEl.classList.add('ui');
-                itemEl.addEventListener('raycaster-intersected', (event) => {
-                    itemEl.setAttribute('material', 'color', hoverColor);
-                    // setDescription(asset.name);
-                });
-
-                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', inactiveColor);
-                });
-
-                itemEl.addEventListener('clicked', (event) => {
-                    itemEl.setAttribute('material', 'color', activeColor);
-                    sketchfab.getGLTFUrl(asset.uid);
-                });
-
-                sketchfabNames.push(asset.name);
-                sketchfabUids.push(asset.uid);
-            });
-        }
-    });
-
-    return;
 }
 
 export default paletteMenu;

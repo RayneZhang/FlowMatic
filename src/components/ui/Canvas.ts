@@ -5,7 +5,6 @@ import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
 import { googlePoly } from '../../utils/GooglePoly';
-import { loadSketchfab } from './paletteMenu';
 
 export const canvasSize = {
     width: 1.6, 

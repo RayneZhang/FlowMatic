@@ -7,22 +7,22 @@ import { resize } from '../../utils/SizeConstraints';
 import { setAppStatus } from '../../utils/App';
 import { sketchfab } from '../../utils/SketchFab';
 
-export const inactiveColor: string = '#22313f';
-export const hoverColor: string = '#22a7f0';
-export const activeColor: string = '#22a7f0';
-
-export const runActiveColor: string = '#00B800';
-export const stopActiveColor: string = '#F10310';
-
-export const toolHoverColor: string = 'yellow';
-export const toolActiveColor: string = 'yellow';
-
 // The menu elements' names in the gltf model.
 const pieceNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text', 'search-text', 'search-button'];
 
 const toolNames: string[] = ['primitive', 'sketchfab', 'diagram', 'text'];
 
 const noneReactiveUIs: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
+
+enum ItemType {
+    Primitive,
+    Sketchfab
+}
+
+let itemType: ItemType = ItemType.Primitive; 
+
+let sketchfabNames: string[];
+let sketchfabUids: string[];
 
 const iconSize = {
     width: 0.033,
@@ -33,6 +33,16 @@ const buttonSize = {
     width: 0.05,
     height: 0.05
 }
+
+export const inactiveColor: string = '#22313f';
+export const hoverColor: string = '#22a7f0';
+export const activeColor: string = '#22a7f0';
+
+export const runActiveColor: string = '#00B800';
+export const stopActiveColor: string = '#F10310';
+
+export const toolHoverColor: string = 'yellow';
+export const toolActiveColor: string = 'yellow';
 
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
     schema: {
@@ -355,13 +365,20 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
     // Set description of the panel.
     setItemDescription(_buttonId: number): void {
+        let itemName: string = '';
         const thumbDescripEl: any = document.querySelector('#description-text');
-        const item: Item = objects['Models'][_buttonId + this.data.pageNumber];
-        if (!item) {
-            return;
+
+        if (itemType == ItemType.Primitive) {
+            const item: Item = objects['Models'][_buttonId + this.data.pageNumber];
+            if (!item) {
+                return;
+            }
+            else
+                thumbDescripEl.setAttribute('text', 'value', item.name);
         }
-        else
-            thumbDescripEl.setAttribute('text', 'value', item.name);
+        else if (itemType == ItemType.Sketchfab) {
+            thumbDescripEl.setAttribute('text', 'value', sketchfabNames[_buttonId]);
+        }
     },
     
     // Set the selected button id.
@@ -405,9 +422,15 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         }
 
         if (toolName == 'primitive') {
+            // Set item type.
+            itemType = ItemType.Primitive;
+
             this.loadPrimitives(this.data.pageNumber);
         }
         else if (toolName == "sketchfab") {
+            // Set item type.
+            itemType = ItemType.Sketchfab;
+
             loadSketchfab(this.menuEl);
         }
         else if (toolName == 'diagram') {
@@ -555,6 +578,10 @@ export function loadSketchfab(menuEl: any): void {
         listEl.destroy();
     }
 
+    // Empty the array.
+    sketchfabNames = [];
+    sketchfabUids = [];
+
     // Put all items under one entity for the sake of deleting and regenerating.
     listEl = document.createElement('a-entity');
     menuEl.appendChild(listEl);
@@ -610,6 +637,9 @@ export function loadSketchfab(menuEl: any): void {
                     itemEl.setAttribute('material', 'color', activeColor);
                     sketchfab.getGLTFUrl(asset.uid);
                 });
+
+                sketchfabNames.push(asset.name);
+                sketchfabUids.push(asset.uid);
             });
         }
     });

@@ -5,17 +5,15 @@ import { Item } from './Canvas';
 import { resize } from '../../utils/SizeConstraints';
 import { setAppStatus } from '../../utils/App';
 
-export const runActiveColor: string = '#00B800';
-export const runInactiveColor: string = '#22313f';
-export const stopActiveColor: string = '#F10310';
-export const stopInactiveColor: string = '#22313f';
-
 export const inactiveColor: string = '#22313f';
 export const hoverColor: string = '#22a7f0';
 export const activeColor: string = '';
 
-export const toolActiveColor: string = 'yellow';
+export const runActiveColor: string = '#00B800';
+export const stopActiveColor: string = '#F10310';
+
 export const toolHoverColor: string = 'yellow';
+export const toolActiveColor: string = 'yellow';
 
 // The menu elements' names in the gltf model.
 const pieceNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text', 'search-text', 'search-button'];
@@ -48,7 +46,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         // Adjust the position offset of the palette menu.
         menuEntity.object3D.position.set(0, 0, -0.15);
         
-        this.createSubEntity();
+        this.createPieces();
         this.initRunStopLabel();
         this.initItemDescription();
         this.loadItems(0);
@@ -63,8 +61,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.menuEl.object3D.visible = !this.menuEl.object3D.visible;
     },
 
-    // Create entities, setting their geometry and material. 
-    createSubEntity(): void {
+    // Create pieces, setting their geometry and material. 
+    createPieces(): void {
         for (const pieceName of pieceNames) {
             // Create sub-menu entity.
             const pieceEl: any = document.createElement('a-entity');
@@ -115,7 +113,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
 
                 case 'stop': {
-                    pieceEl.setAttribute('material', 'color', stopInactiveColor);
+                    pieceEl.setAttribute('material', 'color', inactiveColor);
 
                     pieceEl.addEventListener('clicked', () => {
                         // When run button is clicked
@@ -123,7 +121,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
                         // Set run button back to normal
                         const runEl: any = document.getElementById('run');
-                        runEl.setAttribute('material', 'color', runInactiveColor);
+                        runEl.setAttribute('material', 'color', inactiveColor);
 
                         // Set App status
                         setAppStatus(false);
@@ -132,7 +130,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
 
                 case 'run': {
-                    pieceEl.setAttribute('material', 'color', runInactiveColor);
+                    pieceEl.setAttribute('material', 'color', inactiveColor);
 
                     pieceEl.addEventListener('clicked', () => {
                         // When run button is clicked
@@ -140,7 +138,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
                         // Set stop button back to normal
                         const stopEl: any = document.getElementById('stop');
-                        stopEl.setAttribute('material', 'color', stopInactiveColor);
+                        stopEl.setAttribute('material', 'color', inactiveColor);
 
                         // Set App status
                         setAppStatus(true);
@@ -149,7 +147,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 }
 
                 // For pieces that come with an icons, set the icons here.
-                case 'prev': case 'next': case 'primitive': case 'sketchfab': case 'diagram': case 'text': case 'search': {
+                case 'prev': case 'next': case 'primitive': case 'sketchfab': case 'diagram': case 'text': case 'search-button': {
                     const iconEl: any = document.createElement('a-image');
                     pieceEl.appendChild(iconEl);
                     iconEl.setAttribute('src', `#${pieceName}_icon`);
@@ -171,6 +169,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         iconEl.object3D.position.set(-0.275, 0.0031, -0.025);
                     else if (pieceName == 'text')
                         iconEl.object3D.position.set(-0.275, 0.0031, 0.008);
+                    else if (pieceName == 'search-button')
+                        iconEl.object3D.position.set(0.06, 0.0031, -0.091);
                     
                     iconEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                     pieceEl.setAttribute('material', 'color', inactiveColor);

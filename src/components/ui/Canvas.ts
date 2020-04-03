@@ -1,11 +1,11 @@
 import * as AFRAME from 'aframe';
+import * as $ from 'jquery';
 import { objects, VECTOR } from '../../Objects';
 import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
-import * as $ from 'jquery';
 import { googlePoly } from '../../utils/GooglePoly';
-import { sketchfab } from '../../utils/SketchFab';
+import { loadSketchfab } from './paletteMenu';
 
 export const canvasSize = {
     width: 1.6, 
@@ -85,7 +85,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initCanvasBg(canvasEl, this.el);
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
-        loadItems(menuEl, 'button-4');
+        loadItems(menuEl, 'button-0');
 
         // Event Listener to open and close menu.
         this.el.object3D.visible = false;
@@ -244,7 +244,7 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
 
     if (submenuID == 4) {
         // loadPoly(itemList, pageToken);
-        loadSketchfab(itemList);
+        // loadSketchfab(itemList);
     }
 
     for (let i = 0; i < itemLimit; i++) {
@@ -720,65 +720,6 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             break;
                         }
                     }
-                });
-
-                itemEl.addEventListener('clicked-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.unselected);
-                });
-            });
-        }
-    });
-
-    return;
-}
-
-export function loadSketchfab(itemList: any): void {
-    const param: object = {
-        type: 'models',
-        q: '',
-        file_format: 'gltf',
-        downloadable: true,
-        animated: true,
-        count: 9
-    }
-    $.get(sketchfab.getUrl(), param, function (data, status, xhr) {
-        if (status == 'success') {
-            // cursors: {next, previous}, next: url, previous: url, results: []
-            const results = data.results;
-            console.log(data);
-
-            results.forEach((asset, i: number)=>{
-                const itemEl: any = document.createElement('a-entity');
-                itemEl.setAttribute('id', 'sketchfab'+i);
-                itemList.appendChild(itemEl);
-
-                itemEl.setAttribute('geometry', {
-                    primitive: 'plane',
-                    width: itemSize.width,
-                    height: itemSize.height
-                });
-                const len: number = asset.thumbnails.images.length;
-                itemEl.setAttribute('material', {
-                    src: asset.thumbnails.images[len - 1].url
-                });
-
-                // Place the item
-                itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, menuSize.depth + 0.001);
-
-                // Add reaction to the item.
-                itemEl.classList.add('ui');
-                itemEl.addEventListener('raycaster-intersected', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.hovered);
-                    setDescription(asset.name);
-                });
-
-                itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.unselected);
-                });
-
-                itemEl.addEventListener('clicked', (event) => {
-                    itemEl.setAttribute('material', 'color', itemColor.selected);
-                    sketchfab.getGLTFUrl(asset.uid);
                 });
 
                 itemEl.addEventListener('clicked-cleared', (event) => {

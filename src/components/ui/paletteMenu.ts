@@ -501,7 +501,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     });
     
                     // Place the item
-                    itemEl.object3D.position.set(itemOffset.x +  (i%3) * buttonSize.width, itemOffset.y, -itemOffset.z + itemOffset.z * Math.floor(i/3));
+                    itemEl.object3D.position.set(itemOffset.x +  (i%3) * buttonSize.width, itemOffset.y, itemOffset.z - itemOffset.z * Math.floor(i/3));
                     itemEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
     
                     // Add reaction to the item.

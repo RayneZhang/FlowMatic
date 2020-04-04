@@ -66,7 +66,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.createPieces();
         this.initRunStopLabel();
         this.initItemDescription();
-        this.loadPrimitives(0);
+        this.onToolClicked('primitive');
 
         // Event Listener to open and close menu.
         const listeningEl = document.querySelector('#leftHand');
@@ -431,11 +431,37 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set item type.
             itemType = ItemType.Primitive;
 
+            // Set panel's visibility
+            const searchButtonEl: any = document.getElementById('search-button');
+            const searchTextEl: any = document.getElementById('search-text');
+            searchButtonEl.object3D.visible = false;
+            searchTextEl.object3D.visible = false;
+
+            const hurCursorEl: any = document.getElementById('huecursor');
+            const hueEl: any = document.getElementById('hue');
+            const currentColorEl: any = document.getElementById('currentcolor');
+            hurCursorEl.object3D.visible = true;
+            hueEl.object3D.visible = true;
+            currentColorEl.object3D.visible = true;
+
             this.loadPrimitives(this.data.pageNumber);
         }
         else if (toolName == "sketchfab") {
             // Set item type.
             itemType = ItemType.Sketchfab;
+
+            // Set panel's visibility
+            const searchButtonEl: any = document.getElementById('search-button');
+            const searchTextEl: any = document.getElementById('search-text');
+            searchButtonEl.object3D.visible = true;
+            searchTextEl.object3D.visible = true;
+
+            const hurCursorEl: any = document.getElementById('huecursor');
+            const hueEl: any = document.getElementById('hue');
+            const currentColorEl: any = document.getElementById('currentcolor');
+            hurCursorEl.object3D.visible = false;
+            hueEl.object3D.visible = false;
+            currentColorEl.object3D.visible = false;
 
             this.loadSketchfab();
         }

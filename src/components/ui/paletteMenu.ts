@@ -583,6 +583,11 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.menuEl.appendChild(preBoxEl);
         preBoxEl.setAttribute('id', "preview-box");
 
+        // Create empty model entity first.
+        const preModelEl: any = document.createElement('a-entity');
+        preBoxEl.appendChild(preModelEl);
+        preModelEl.setAttribute('id', 'preview-model');
+
         // Set geometry
         preBoxEl.setAttribute('geometry', {
             primitive: 'box',

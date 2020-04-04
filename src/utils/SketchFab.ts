@@ -8,6 +8,10 @@ declare const zip: any;
  *status - contains the status of the request ("success", "notmodified", "error", "timeout", or "parsererror")
  *xhr - contains the XMLHttpRequest object
 */
+
+let updatedUrl: string = '';
+let animationList: Array<string> = new Array<string>();
+
 class SketchFab {
     url: string = '';
 
@@ -59,6 +63,8 @@ export function downloadArchive(url: string): void {
 
 export function ParseContent(entries: Array<any>): void {
 
+    updatedUrl = '';
+    animationList = [];
     let content: any;
     let fileUrls: Object = {};
     entries.forEach((entry: any, i: number) => {
@@ -95,24 +101,40 @@ export function ParseContent(entries: Array<any>): void {
                 
                 var updatedSceneFileContent = JSON.stringify(json, null, 2);
                 var updatedBlob = new Blob([updatedSceneFileContent], { type: 'text/plain' });
-                var updatedUrl = window.URL.createObjectURL(updatedBlob);
+                updatedUrl = window.URL.createObjectURL(updatedBlob);
                 // console.log(updatedUrl);
                 // console.log(json);
 
                 // Fetch animations
                 const animations: Array<any> = json.animations;
-                const animationList: Array<string> = [];
                 animations.forEach((animation: any) => {
                     const animation_name: string = animation.name;
                     animationList.push(animation_name);
                 });
 
-                CreateGLTFModel(updatedUrl, animationList);
+                CreatePreview();
+                // CreateGLTFModel(updatedUrl, animationList);
             }
         });
     });
     
 };
+
+export function CreatePreview(): void {
+    const preModelEl: any = document.getElementById('preview-model');
+    if (!preModelEl) {
+        console.warn('Cannot find preview element when creating model preview.');
+        return;
+    }
+
+    preModelEl.setAttribute('gltf-model', `url(${updatedUrl})`);
+
+    // Resize the model.
+    preModelEl.addEventListener('model-loaded', () => {
+        recenter(preModelEl);
+        resize(preModelEl, 0.12);
+    });
+}
 
 export function CreateGLTFModel(url: string, animationList: Array<string>): void {
     const polyEl: any = document.createElement('a-entity');

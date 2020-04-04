@@ -12,7 +12,7 @@ const pieceNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description',
 
 const toolNames: string[] = ['primitive', 'sketchfab', 'diagram', 'text'];
 
-const noneReactiveUIs: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
+const nonReactPieces: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
 
 enum ItemType {
     Primitive,
@@ -66,6 +66,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.createPieces();
         this.initRunStopLabel();
         this.initItemDescription();
+        this.initPreviewBox();
         this.onToolClicked('primitive');
 
         // Event Listener to open and close menu.
@@ -204,7 +205,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             pieceEl.addEventListener('raycaster-intersected', (event) => {
                 event.stopPropagation();
                 // If the piece is reactive...
-                if (noneReactiveUIs.indexOf(pieceName) === -1) {
+                if (nonReactPieces.indexOf(pieceName) === -1) {
                     // If the user clicks on items.
                     if (pieceName.indexOf('button') != -1) {
                         // Set responsive color.
@@ -227,7 +228,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 // If the subentity is not in nonReactiveUI AND it is not the selectedButton AND it is not in selectedToolList, then recover its color.
                 const selectedButtonId: number = this.data.selectedButtonId;
                 const selectedToolList: any = this.data.selectedToolList;
-                if (noneReactiveUIs.indexOf(pieceName) === -1 && pieceName != 'button' + String(selectedButtonId+1) && selectedToolList.indexOf(pieceName) ===  -1) {
+                if (nonReactPieces.indexOf(pieceName) === -1 && pieceName != 'button' + String(selectedButtonId+1) && selectedToolList.indexOf(pieceName) ===  -1) {
                     pieceEl.setAttribute('material', 'color', inactiveColor);
                     this.setItemDescription(selectedButtonId);
                 }
@@ -434,8 +435,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
             const searchTextEl: any = document.getElementById('search-text');
+            const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = false;
             searchTextEl.object3D.visible = false;
+            preBoxEl.object3D.visible = false;
 
             const hurCursorEl: any = document.getElementById('huecursor');
             const hueEl: any = document.getElementById('hue');
@@ -453,8 +456,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
             const searchTextEl: any = document.getElementById('search-text');
+            const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = true;
             searchTextEl.object3D.visible = true;
+            preBoxEl.object3D.visible = true;
 
             const hurCursorEl: any = document.getElementById('huecursor');
             const hueEl: any = document.getElementById('hue');
@@ -554,6 +559,30 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         });
     
         return;
+    },
+
+    initPreviewBox: function(): void {
+        // Create entity of preview box.
+        const preBoxEl: any = document.createElement('a-entity');
+        this.menuEl.appendChild(preBoxEl);
+        preBoxEl.setAttribute('id', "preview-box");
+
+        // Set geometry
+        preBoxEl.setAttribute('geometry', {
+            primitive: 'box',
+            width: 0.12,
+            height: 0.12,
+            depth: 0.12
+        });
+
+        // Set material
+        preBoxEl.setAttribute('material', {
+            transparent: true,
+            opacity: 0.2
+        });
+
+        // Set position
+        preBoxEl.object3D.position.set(0, 0, 0);
     }
 });
 

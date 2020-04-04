@@ -415,8 +415,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
     onToolClicked: function(toolName: string): void {
         const idx: number = this.data.selectedToolList.indexOf(toolName);
-        // If it is unselecting the tool
-        if (idx != -1) {
+        // If it is unselecting the tool BUT the user cannot unselect primitive/sketchfab
+        if (idx != -1 && toolName != 'primitive' && toolName != 'sketchfab') {
             this.data.selectedToolList.splice(idx, 1);
             const deselectedTool: any = document.querySelector(`#${toolName}`);
             deselectedTool.setAttribute('material', 'color', inactiveColor);
@@ -431,6 +431,14 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         if (toolName == 'primitive') {
             // Set item type.
             itemType = ItemType.Primitive;
+
+            // Kick sketchfab out of selectedTool
+            const sfIdx: number = this.data.selectedToolList.indexOf('sketchfab');
+            if (sfIdx != -1) {
+                this.data.selectedToolList.splice(sfIdx, 1);
+                const sfBtn: any = document.getElementById('sketchfab');
+                sfBtn.setAttribute('material', 'color', inactiveColor);
+            }
 
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
@@ -452,6 +460,14 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         else if (toolName == "sketchfab") {
             // Set item type.
             itemType = ItemType.Sketchfab;
+
+            // Kick primitive out of selectedTool
+            const pmIdx: number = this.data.selectedToolList.indexOf('primitive');
+            if (pmIdx != -1) {
+                this.data.selectedToolList.splice(pmIdx, 1);
+                const pmBtn: any = document.getElementById('primitive');
+                pmBtn.setAttribute('material', 'color', inactiveColor);
+            }
 
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');

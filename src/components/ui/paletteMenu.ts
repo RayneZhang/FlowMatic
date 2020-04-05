@@ -20,6 +20,7 @@ enum ItemType {
 }
 
 let itemType: ItemType = ItemType.Primitive; 
+let cursor: number = 0;
 
 let sketchfabNames: string[];
 let sketchfabUids: string[];
@@ -243,6 +244,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 // Define when a tool is clicked
                 else if (toolNames.indexOf(pieceName) != -1) {
                     this.onToolClicked(pieceName);
+                }
+                // Define when next is clicked
+                else if (pieceName == 'next') {
+                    this.onNextClicked();
                 }
             });
         }
@@ -496,7 +501,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         }
     },
 
-    loadSketchfab: function(): void {
+    loadSketchfab: function(cur: number = 0): void {
         // Remove previous items.
         let listEl: any = document.querySelector('#items-list');
         if (listEl) {
@@ -521,7 +526,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             file_format: 'gltf',
             downloadable: true,
             animated: true,
-            count: 9
+            count: 9,
+            cursor: cur
         };
 
         const el = this.el;
@@ -604,6 +610,20 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
         // Set position
         preBoxEl.object3D.position.set(0, 0, 0);
+    },
+
+    onNextClicked: function(): void {
+        if (itemType == ItemType.Sketchfab) {
+            cursor += 9;
+            this.loadSketchfab(cursor);
+        }
+    },
+
+    onPreviousClicked: function(): void {
+        if (itemType == ItemType.Sketchfab) {
+            cursor = (cursor == 0) ? 0 : cursor-9;
+            this.loadSketchfab(cursor);
+        }
     }
 });
 

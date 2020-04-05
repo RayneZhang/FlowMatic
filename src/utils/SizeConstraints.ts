@@ -29,12 +29,21 @@ export const recenter = (entity: any): void => {
 
     const box: Box3 = new Box3().setFromObject(mesh);
     const centerPoint = new Vector3();
+
     // centerPoint is the world position.
     box.getCenter(centerPoint);
-    mesh.position.sub(centerPoint);
-    // 0 -----> entityPos
+
+    console.log(centerPoint);
+    console.log(entity.object3D.position);
+    console.log(mesh.position);
+
+    entity.object3D.updateMatrix();
+    entity.object3D.updateWorldMatrix();
+    const entityWorldPos: any = entity.object3D.localToWorld(new THREE.Vector3(0, 0, 0));
+
+    const meshOffset = centerPoint.clone().sub(entityWorldPos);
+    // 0 -----> entityWorldPos
     // 0 ---------------------->centerPoint
     //          0-------------->meshOffset
-    const entityPos = entity.object3D.position;
-    mesh.position.add(entityPos);
+    mesh.position.add(meshOffset);
 }

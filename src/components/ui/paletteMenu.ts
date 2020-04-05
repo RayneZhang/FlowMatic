@@ -389,7 +389,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             return;
         }
 
-        console.log("We tried setting button id");
+        // console.log("We tried setting button id");
         if (this.data.selectedButtonId >= 0) {
             // Manually raycaster intersected cleared.
             const lastSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));

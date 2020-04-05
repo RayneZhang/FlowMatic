@@ -127,12 +127,13 @@ export function CreatePreview(): void {
         return;
     }
 
+    preModelEl.removeAttribute('gltf-model');
     preModelEl.setAttribute('gltf-model', `url(${updatedUrl})`);
 
     // Resize the model.
     preModelEl.addEventListener('model-loaded', () => {
-        recenter(preModelEl);
         resize(preModelEl, 0.12);
+        recenter(preModelEl);
     });
 }
 

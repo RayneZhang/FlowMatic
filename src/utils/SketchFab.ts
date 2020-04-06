@@ -128,13 +128,8 @@ export function CreatePreview(): void {
     }
 
     preModelEl.removeAttribute('gltf-model');
+    preModelEl.removeObject3D('mesh');
     preModelEl.setAttribute('gltf-model', `url(${updatedUrl})`);
-
-    // Resize the model.
-    preModelEl.addEventListener('model-loaded', () => {
-        resize(preModelEl, 0.12);
-        recenter(preModelEl);
-    });
 }
 
 export function CreateGLTFModel(url: string, animationList: Array<string>): void {

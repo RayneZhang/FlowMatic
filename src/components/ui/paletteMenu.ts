@@ -3,7 +3,7 @@ import * as $ from 'jquery';
 import { Math as THREEMath, ShaderMaterial, Mesh, TextureLoader } from 'three';
 import { objects } from '../../Objects';
 import { Item } from './Canvas';
-import { resize } from '../../utils/SizeConstraints';
+import { resize, recenter } from '../../utils/SizeConstraints';
 import { setAppStatus } from '../../utils/App';
 import { sketchfab } from '../../utils/SketchFab';
 
@@ -593,6 +593,12 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         const preModelEl: any = document.createElement('a-entity');
         preBoxEl.appendChild(preModelEl);
         preModelEl.setAttribute('id', 'preview-model');
+
+        // Resize the model everytime it is loaded.
+        preModelEl.addEventListener('model-loaded', () => {
+            resize(preModelEl, 0.12);
+            recenter(preModelEl);
+        });
 
         // Set geometry
         preBoxEl.setAttribute('geometry', {

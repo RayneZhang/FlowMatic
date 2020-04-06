@@ -4,9 +4,11 @@ export const resize = (entity: any, constraint: number) => {
     const mesh: Object3D = entity.getObject3D('mesh');
     if (!mesh) {return;}
 
+    console.log(mesh);
     const box: Box3 = new Box3().setFromObject(mesh);
     const objectSize = new Vector3();
     box.getSize(objectSize);
+    console.log(objectSize);
     const maxLength: number = Math.max(objectSize.x, objectSize.y, objectSize.z);
     mesh.scale.set(0.8*constraint/maxLength, 0.8*constraint/maxLength, 0.8*constraint/maxLength);
 };
@@ -24,7 +26,6 @@ export const getRadius = (entity: any): number => {
 
 export const recenter = (entity: any): void => {
     const mesh: Object3D = entity.getObject3D('mesh');
-    console.log(mesh);
     if (!mesh) {return;}
 
     const box: Box3 = new Box3().setFromObject(mesh);

@@ -1,6 +1,6 @@
 import { Vector3 as THREEVector3 } from 'three';
 import * as AFRAME from 'aframe';
-import { ctnWidth, ctnDepth } from '../frp/operators/container';
+import { ctnWidth, ctnDepth, saveContainer } from '../frp/operators/container';
 
 const offsetScale: number = 4; // Scale down the offset between two operators.
 
@@ -18,6 +18,8 @@ export const absorbController = AFRAME.registerComponent('absorb-controller', {
         this.el.addEventListener('thumbupstart', (event) => {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity && this.targetEntity.classList.contains('container')) {
+                saveContainer();
+
                 // Move back
                 this.targetEntity.object3D.updateMatrix();
                 this.targetEntity.object3D.updateWorldMatrix();

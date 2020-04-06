@@ -5,6 +5,9 @@ import { Vector3, Math as THREEMath, Euler } from 'three';
 import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
 import { googlePoly } from '../../utils/GooglePoly';
+import { containerID } from '../controllers/absorb-controller';
+import { savedContainerId, instantiateContainer, ctnWidth, ctnDepth, savedInPorts, savedOutPorts } from '../frp/operators/container';
+import { createOnePlug } from '../utils/operatorModel';
 
 export const canvasSize = {
     width: 1.6, 
@@ -246,7 +249,8 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
         // loadSketchfab(itemList);
     }
 
-    for (let i = 0; i < itemLimit; i++) {
+    let i = 0;
+    for (; i < itemLimit; i++) {
         if (itemIndex + i >= objects[submenuName].length) break;
 
         // Fetch the Item from objects
@@ -329,6 +333,52 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
             itemEl.setAttribute('material', 'color', itemColor.unselected);
         });
     }
+
+    if (i < itemLimit && submenuID == 2) {
+        if (savedContainerId > 0) {
+            const itemEl: any = document.createElement('a-entity');
+            itemEl.setAttribute('id', 'op-container-0');
+            // Place the item
+            itemList.appendChild(itemEl);
+    
+            itemEl.setAttribute('obj-model', {
+                obj: "#processor-obj"
+            });
+            itemEl.setAttribute('material', {
+                color: itemColor.unselected,
+                transparent: true,
+                opacity: 0.8
+            });
+    
+            // Resize the model into item size
+            itemEl.addEventListener('model-loaded', () => {
+                resize(itemEl, itemSize.width);
+            });
+            
+            // Place the model.
+            itemEl.object3D.position.set(itemOffset.x +  (i%3) * itemSize.width, itemOffset.y - Math.floor(i/3) * itemSize.height, itemOffset.z);
+
+             // Add reaction to the item.
+            itemEl.classList.add('ui');
+            itemEl.addEventListener('raycaster-intersected', (event) => {
+                itemEl.setAttribute('material', 'color', itemColor.hovered);
+                setDescription('op-container-0');
+            });
+
+            itemEl.addEventListener('raycaster-intersected-cleared', (event) => {
+                itemEl.setAttribute('material', 'color', itemColor.unselected);
+            });
+
+            itemEl.addEventListener('clicked', (event) => {
+                itemEl.setAttribute('material', 'color', itemColor.selected);
+                instantiateCtn();
+            });
+
+            itemEl.addEventListener('clicked-cleared', (event) => {
+                itemEl.setAttribute('material', 'color', itemColor.unselected);
+            });
+        }
+    }
 }
 
 /**
@@ -338,6 +388,65 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
 function setDescription(des: string): void {
     const desEl: any = document.querySelector('#description-world');
     desEl.setAttribute('text', 'value', des);
+}
+
+function instantiateCtn(): void {
+    const opEl: any = document.createElement('a-entity');
+    const canvas: any = document.querySelector('#canvas-world');
+    canvas.appendChild(opEl);
+
+    // Add a new node into the scene and assign the id to the entity
+    // opEl.setAttribute('op-node-update', {
+    //     name: item.name,
+    //     inputs: item.inputs,
+    //     outputs: item.outputs
+    // });
+
+    // Initiate `operator-model` component
+    opEl.setAttribute('geometry', {
+        primitive: 'box',
+        width: ctnWidth,
+        height: 0.3,
+        depth: ctnDepth
+    });
+    opEl.setAttribute('material', {
+        color: '#FCA044',
+        transparent: true,
+        opacity: 0.5
+    });
+
+    // Place the model
+    opEl.object3D.position.set(canvasConstraint.negx + itemSize.width/2, canvasConstraint.posy - itemSize.height/2, itemSize.width/2);
+
+    // Initiate inputs.
+    const lineHeight: number = 0.1;
+    const ctnHeight: number = lineHeight * Math.max(savedInPorts.length, savedOutPorts.length);
+    let i: number = 0;
+    for (const inPort of savedInPorts) {
+        const name: string = inPort.name;
+        const type: string = inPort.type;
+        const behavior: string = inPort.behavior;
+        // Create a plug and then save it into the array.
+        const plug: any = createOnePlug(name, type, behavior, -ctnWidth/2, ctnHeight/2 - lineHeight*(i+0.5), true, opEl);
+        i++;
+    }
+
+    // Initiate output.
+    let j: number = 0;
+    for (const outPort of savedOutPorts) {
+        const name: string = outPort.name;
+        const type: string = outPort.type;
+        const behavior: string = outPort.behavior;
+        // Create a plug and then save it tinto the array.
+        const plug: any = createOnePlug(name, type, behavior, ctnWidth/2, ctnHeight/2 - lineHeight*(j+0.5), false, opEl);
+        j++;
+    }
+
+    // Add reactions when gripping
+    opEl.classList.add('canvasObj');
+    opEl.classList.add('movable');
+    // Add class for identifying operators
+    opEl.classList.add('operator');
 }
 
 /**

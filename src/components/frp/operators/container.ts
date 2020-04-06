@@ -1,6 +1,10 @@
 import * as AFRAME from 'aframe';
 import { createOnePlug } from '../../utils/operatorModel';
 
+export let savedContainerId: number = 0;
+export let savedInPorts: Array<Port> = new Array<Port>();
+export let savedOutPorts: Array<Port> = new Array<Port>();
+
 export interface Port {
     name: string,
     type: string,
@@ -24,7 +28,6 @@ export const opContainer = AFRAME.registerComponent('op-container', {
 
     init: function(): void {
         // Add to the entity's class list.
-        console.log("op-container initiated.");
         this.el.addEventListener('opList-update', (event) => {
             console.log(this.data.opList);
             const newNode: any = event.detail.el;
@@ -173,6 +176,8 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
     const outPlugs: Array<any> = new Array<any>();
     const ctnInNames = containerEl.getAttribute('op-container') ? containerEl.getAttribute('op-container').inNames: [];
     const ctnOutNames = containerEl.getAttribute('op-container') ? containerEl.getAttribute('op-container').outNames: [];
+    savedInPorts = [];
+    savedOutPorts = [];
 
     // Set the overall geometry of the container
     containerEl.setAttribute('geometry', {
@@ -194,6 +199,7 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         // Create a plug and then save it into the array.
         const plug: any = createOnePlug(name, type, behavior, -ctnWidth/2, ctnHeight/2 - lineHeight*(i+0.5), true, containerEl);
         inPlugs.push(plug);
+        savedInPorts.push(inPort);
         i++;
     }
 
@@ -206,6 +212,7 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
         // Create a plug and then save it tinto the array.
         const plug: any = createOnePlug(name, type, behavior, ctnWidth/2, ctnHeight/2 - lineHeight*(j+0.5), false, containerEl);
         outPlugs.push(plug);
+        savedOutPorts.push(outPort);
         j++;
     }
 
@@ -256,4 +263,17 @@ export function deleteAllPorts(operatorEl: any): void {
         else 
             i++;
     }
+}
+
+export function saveContainer(): void {
+    // 1. Save the container as an operator in the tool bar.
+
+    // 2. Add event listener when the operator is clicked.
+
+    // 3. Recreate the container.
+    savedContainerId++;
+}
+
+export function instantiateContainer(): void {
+
 }

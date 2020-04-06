@@ -132,11 +132,11 @@ export function CreatePreview(): void {
     preModelEl.setAttribute('gltf-model', `url(${updatedUrl})`);
 }
 
-export function CreateGLTFModel(url: string, animationList: Array<string>): void {
+export function CreateGLTFModel(): void {
     const polyEl: any = document.createElement('a-entity');
 
     // Attach the gltf model.
-    polyEl.setAttribute('gltf-model', 'url(' + url + ')');
+    polyEl.setAttribute('gltf-model', 'url(' + updatedUrl + ')');
 
     const redux: any = document.querySelector('#redux');
     redux.appendChild(polyEl);

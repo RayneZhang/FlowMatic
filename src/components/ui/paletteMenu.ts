@@ -249,6 +249,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 else if (pieceName == 'next') {
                     this.onNextClicked();
                 }
+                // Define when previous is clicked
+                else if (pieceName == 'prev') {
+                    this.onPreviousClicked();
+                }
             });
         }
     },

@@ -4,11 +4,9 @@ export const resize = (entity: any, constraint: number) => {
     const mesh: Object3D = entity.getObject3D('mesh');
     if (!mesh) {return;}
 
-    console.log(mesh);
     const box: Box3 = new Box3().setFromObject(mesh);
     const objectSize = new Vector3();
     box.getSize(objectSize);
-    console.log(objectSize);
     const maxLength: number = Math.max(objectSize.x, objectSize.y, objectSize.z);
     mesh.scale.set(0.8*constraint/maxLength, 0.8*constraint/maxLength, 0.8*constraint/maxLength);
 };
@@ -42,9 +40,9 @@ export const recenter = (entity: any): void => {
     entity.object3D.updateWorldMatrix();
     const entityWorldPos: any = entity.object3D.localToWorld(new THREE.Vector3(0, 0, 0));
 
-    const meshOffset = centerPoint.clone().sub(entityWorldPos);
+    const meshOffset = entityWorldPos.clone().sub(centerPoint);
     // 0 -----> entityWorldPos
     // 0 ---------------------->centerPoint
     //          0-------------->meshOffset
-    mesh.position.add(meshOffset);
+    mesh.position.copy(meshOffset);
 }

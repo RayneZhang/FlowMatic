@@ -28,6 +28,9 @@ export const opContainer = AFRAME.registerComponent('op-container', {
         this.el.addEventListener('opList-update', (event) => {
             console.log(this.data.opList);
             const newNode: any = event.detail.el;
+            newNode.setAttribute('entity-follow', {
+                targetEntity: this.el
+            });
             updateInOut(newNode, this.el);
         });
 

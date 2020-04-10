@@ -14,12 +14,12 @@ const toolNames: string[] = ['primitive', 'sketchfab', 'diagram', 'text'];
 
 const nonReactPieces: string[] = ["hue", "huecursor", "currentcolor", "menu", "description", "run", "stop"];
 
-enum ItemType {
+export enum ItemType {
     Primitive,
     Sketchfab
 }
 
-let itemType: ItemType = ItemType.Primitive; 
+export let itemType: ItemType = ItemType.Primitive; 
 let cursor: number = 0;
 
 let sketchfabNames: string[];
@@ -398,13 +398,17 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             return;
         }
 
-        // console.log("We tried setting button id");
+        // If there is previous selected button id...
         if (this.data.selectedButtonId >= 0) {
             // Manually raycaster intersected cleared.
             const lastSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
             lastSelectedButton.setAttribute('material', 'color', inactiveColor);
         }
+
+        // Set new button id.
         this.data.selectedButtonId = _buttonId;
+        
+        // Set description.
         this.setItemDescription(_buttonId);
         
         // Add responsive color to the button.
@@ -412,13 +416,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         currentSelectedButton.setAttribute('material', 'color', activeColor);
 
         if (itemType == ItemType.Primitive) {
-            // Pass the id for left hand to create the corresponding object.
+            // Pass the id for right hand to create the corresponding object.
             const instance: Item = objects['Models'][this.data.pageNumber * 9 + _buttonId];
             const rightHand: any = document.querySelector('#rightHand');
             rightHand.setAttribute('right-abutton-listener', 'targetModel', instance.name);
-        }
-        else if (itemType == ItemType.Sketchfab) {
-            // sketchfab.getGLTFUrl(sketchfabUids[_buttonId]);
         }
     },
 

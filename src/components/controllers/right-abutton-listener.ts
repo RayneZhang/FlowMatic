@@ -2,6 +2,8 @@ import store from '../../store'
 import { addObj } from '../../actions'
 import * as AFRAME from 'aframe'
 import { Vector3 } from 'three'
+import { ItemType, itemType } from '../ui/palette-menu';
+import { CreateGLTFModel } from '../../utils/SketchFab';
 
 export const rightAButtonListener = AFRAME.registerComponent('right-abutton-listener', {
     schema: {
@@ -16,8 +18,11 @@ export const rightAButtonListener = AFRAME.registerComponent('right-abutton-list
             this.el.object3D.updateMatrixWorld();
             const position = this.el.object3D.localToWorld(new Vector3(0, -0.4, -0.5));
 
-            // Dispatch a task to reducer
-            store.dispatch(addObj(this.data.targetModel, position, this.data.color));
+            if (itemType == ItemType.Primitive) 
+                // Dispatch a task to reducer
+                store.dispatch(addObj(this.data.targetModel, position, this.data.color));
+            else if (itemType == ItemType.Sketchfab)
+                CreateGLTFModel();
         });
     },
 

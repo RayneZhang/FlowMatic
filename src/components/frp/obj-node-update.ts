@@ -21,6 +21,7 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         this.timeInterval = 0;
         this.tipOffset = new Vector3(0.22, 0.05, 0);
         this.shootDirection = new Vector3(1, 0, 0);
+        // Update the behaviors when there is an input.
         switch (this.data.name) {
             case LIGHT: {
                 this.light_direction = new Vector3();
@@ -43,7 +44,6 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
 
                 break;
             }
-
             // All Sketchfab objects are named anime.
             case 'anime': {
                 const animeList: Array<string> = this.data.animeList;
@@ -67,6 +67,7 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     tick: function(time, timeDelta): void {
         this.el.object3D.updateMatrix();
         this.el.object3D.updateMatrixWorld();
+        // Update the attributes that have default values in every frame.
         if (run) {
             this.node.update('position', this.el.object3D.position.clone());
             switch (this.data.name) {

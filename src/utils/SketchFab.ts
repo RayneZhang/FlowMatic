@@ -145,7 +145,6 @@ export function CreateGLTFModel(): void {
     polyEl.addEventListener('model-loaded', () => {
         resize(polyEl, 1.0);
         recenter(polyEl);
-        // resize(polyEl, 1.0);
     });
 
     // Set the position of the model.

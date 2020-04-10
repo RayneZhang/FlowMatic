@@ -7,12 +7,12 @@ import * as PHYSICS from 'aframe-physics-system';
 PHYSICS;
 import * as EXTRAS from 'aframe-extras';
 EXTRAS;
-import * as PHYSICSEx from 'aframe-physics-extras';
-PHYSICSEx;
-import * as cubemap from 'aframe-cubemap-component';
-cubemap;
-import * as gltfpart from 'aframe-gltf-part-component';
-gltfpart;
+import * as PHYSICSEX from 'aframe-physics-extras';
+PHYSICSEX;
+import * as CUBEMAP from 'aframe-cubemap-component';
+CUBEMAP;
+import * as GLTFPART from 'aframe-gltf-part-component';
+GLTFPART;
 import * as KEYBOARD from 'aframe-super-keyboard';
 KEYBOARD;
 import * as HAPTICS from 'aframe-haptics-component';
@@ -42,12 +42,9 @@ cameraRotation;
 
 import paletteMenu from './components/ui/palette-menu';
 paletteMenu;
-import objAttrList from './components/ui/objAttr-list';
+import objAttrList from './components/ui/obj-attr-list';
 objAttrList;
 
-import dataSource from './components/dataflow/dataSource';
-import dataFilter from './components/dataflow/dataFilter';
-import dataReceiver from './components/dataflow/dataReceiver';
 import vectorSource from './components/dataflow/vectorSource'
 vectorSource;
 import switchSource from './components/dataflow/switchSource'
@@ -98,9 +95,6 @@ rightController;
 AFRAME.registerComponent('right-trigger-listener', rightTriggerListener);
 AFRAME.registerComponent('rotation-controller', rotationController);
 AFRAME.registerComponent('scale-controller', scaleController);
-AFRAME.registerComponent('data-source', dataSource);
-AFRAME.registerComponent('data-filter', dataFilter);
-AFRAME.registerComponent('data-receiver', dataReceiver);
 
 import collisionDetector from './components/frp/operators/collision-detector';
 collisionDetector;

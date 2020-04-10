@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe';
-import { createOnePlug } from '../../utils/operatorModel';
+import { createOnePlug } from '../../utils/operator-model';
 
 export let savedContainerId: number = 0;
 export let savedInPorts: Array<Port> = new Array<Port>();

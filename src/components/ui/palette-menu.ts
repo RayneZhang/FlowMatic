@@ -2,7 +2,7 @@ import * as AFRAME from 'aframe';
 import * as $ from 'jquery';
 import { Math as THREEMath, ShaderMaterial, Mesh, TextureLoader } from 'three';
 import { objects } from '../../Objects';
-import { Item } from './Canvas';
+import { Item } from './canvas';
 import { resize, recenter } from '../../utils/SizeConstraints';
 import { setAppStatus } from '../../utils/App';
 import { sketchfab } from '../../utils/SketchFab';

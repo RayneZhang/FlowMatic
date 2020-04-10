@@ -7,7 +7,7 @@ import { scene, Node, ObjNode } from 'frp-backend';
 import { googlePoly } from '../../utils/GooglePoly';
 import { containerID } from '../controllers/absorb-controller';
 import { savedContainerId, instantiateContainer, ctnWidth, ctnDepth, savedInPorts, savedOutPorts } from '../frp/operators/container';
-import { createOnePlug } from '../utils/operatorModel';
+import { createOnePlug } from '../utils/operator-model';
 
 export const canvasSize = {
     width: 1.6, 

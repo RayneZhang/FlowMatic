@@ -33,16 +33,16 @@ rightGripListener;
 
 import controllerMaterial from './components/controllers/controller-material';
 controllerMaterial;
-import entityFollow from './components/utils/entityFollow';
+import entityFollow from './components/utils/entity-follow';
 entityFollow;
 import { colliderController } from './components/controllers/collider-controller';
 colliderController;
 import {cameraRotation} from './components/controllers/camera-rotation';
 cameraRotation;
 
-import paletteMenu from './components/ui/paletteMenu';
+import paletteMenu from './components/ui/palette-menu';
 paletteMenu;
-import objAttrList from './components/ui/objAttrList';
+import objAttrList from './components/ui/objAttr-list';
 objAttrList;
 
 import dataSource from './components/dataflow/dataSource';
@@ -68,10 +68,10 @@ conditionBool;
 import conditionLarger from './components/dataflow/operators/conditionLarger'
 conditionLarger;
 
-import lineComponent from './components/lines/LineComponent';
+import lineComponent from './components/lines/line-component';
 lineComponent;
-import { curveComponent } from './components/lines/Curve'; curveComponent;
-import { storedEdges } from './components/lines/StoredEdges'; storedEdges;
+import { curveComponent } from './components/lines/curve'; curveComponent;
+import { storedEdges } from './components/lines/stored-edges'; storedEdges;
 
 import stateBinding from './state-binding/index'
 stateBinding;
@@ -82,11 +82,11 @@ import swtch from './components/utils/swtch'
 swtch;
 import slider from './components/utils/slider'
 slider;
-import {operatorModel} from './components/utils/operatorModel'
+import {operatorModel} from './components/utils/operator-model'
 operatorModel;
-import spotLight from './components/lights/spotlight'
+import spotLight from './components/lights/spot-light'
 spotLight;
-import { objInit } from './components/Utils/ObjInit';
+import { objInit } from './components/utils/obj-init';
 objInit;
 
 import headset from './components/avatars/headset'
@@ -102,22 +102,22 @@ AFRAME.registerComponent('data-source', dataSource);
 AFRAME.registerComponent('data-filter', dataFilter);
 AFRAME.registerComponent('data-receiver', dataReceiver);
 
-import collisionDetector from './components/frp/operators/collisionDetector';
+import collisionDetector from './components/frp/operators/collision-detector';
 collisionDetector;
-import conditionalEvent from './components/frp/operators/conditionalEvent';
+import conditionalEvent from './components/frp/operators/conditional-event';
 conditionalEvent;
-import eventReceiver from './components/frp/eventReceiver';
+import eventReceiver from './components/frp/event-receiver';
 eventReceiver;
 
-import mtlLighting from './components/Utils/mtlLighting';
+import mtlLighting from './components/utils/mtl-lighting';
 mtlLighting;
-import { canvasGenerator } from './components/ui/Canvas';
+import { canvasGenerator } from './components/ui/canvas';
 canvasGenerator;
-import { objNodeUpdate } from './components/frp/ObjNodeUpdate';
+import { objNodeUpdate } from './components/frp/obj-node-update';
 objNodeUpdate;
-import { avatarNodeUpdate } from './components/frp/AvatarNodeUpdate';
+import { avatarNodeUpdate } from './components/frp/avatar-node-update';
 avatarNodeUpdate;
-import { opNodeUpdate } from './components/frp/OpNodeUpdate';
+import { opNodeUpdate } from './components/frp/op-node-update';
 opNodeUpdate;
 import { opContainer } from './components/frp/operators/container';
 opContainer;

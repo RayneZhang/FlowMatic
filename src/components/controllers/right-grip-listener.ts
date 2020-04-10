@@ -1,6 +1,6 @@
 import { getIntersectedEl, getIntersections } from '../../utils/raycast';
 import { Object3D, Mesh, Math as THREEMath, Vector3 } from 'three';
-import { canvasConstraint } from '../ui/Canvas';
+import { canvasConstraint } from '../ui/canvas';
 import * as AFRAME from 'aframe';
 import { getRadius } from '../../utils/SizeConstraints';
 
@@ -51,7 +51,7 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
             // Set the intersected object as the following object.
             this.data.grabbedEl = intersectedEl;
 
-            // Check if the intersected object is a movable object.
+            // Check if the intersected object is a movable object, and set description.
             if (intersectedEl.classList.contains('movable')) {
                 const rotateScaleTip: any = document.querySelector('#rotate-scale-tip');
                 grabbingTips.setAttribute('visible', true);
@@ -95,31 +95,31 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
 
     tick(time, timeDelta): void {
         const gripping = this.data.gripping;
-        const followingEl = this.data.grabbedEl;
+        const grabbedEl = this.data.grabbedEl;
 
-        if (gripping && followingEl) {
+        if (gripping && grabbedEl) {
             this.el.object3D.updateMatrix();
             this.el.object3D.updateMatrixWorld();
             const updatedTargetPosition: any = this.el.object3D.localToWorld(this.localPosition.clone());
 
-            if (followingEl.classList.contains('canvasObj')) {
+            if (grabbedEl.classList.contains('canvasObj')) {
                 const canvasWorld: any = document.querySelector('#canvas-world');
                 canvasWorld.object3D.updateMatrix();
                 canvasWorld.object3D.updateMatrixWorld();
                 const localCanvasPosition: any = canvasWorld.object3D.worldToLocal(updatedTargetPosition);
                 // console.log(localCanvasPosition);
-                if (followingEl.classList.contains('container')) {
-                    followingEl.object3D.position.copy(localCanvasPosition.clone());
+                if (grabbedEl.classList.contains('container')) {
+                    grabbedEl.object3D.position.copy(localCanvasPosition.clone());
                 }
                 else {
-                    followingEl.object3D.position.set(THREEMath.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
+                    grabbedEl.object3D.position.set(THREEMath.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
                     THREEMath.clamp(localCanvasPosition.y, canvasConstraint.negy, canvasConstraint.posy), 
                     canvasConstraint.constz);
                 }
                 
             }
             else {
-                followingEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
+                grabbedEl.object3D.position.set(updatedTargetPosition.x, updatedTargetPosition.y, updatedTargetPosition.z);
             }       
         }
 

@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe';
 declare const THREE:any;
-import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../Utils/typeVis'
+import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../../utils/TypeVis'
 
 const lineHeight: number = 0.1;
 const boxWidth: number = 0.3;

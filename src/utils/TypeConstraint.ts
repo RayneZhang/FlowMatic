@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe'
 import { Vector3 } from 'three'
-import { getTypeByColor, getBehaviorByShape } from './typeVis';
+import { getTypeByColor, getBehaviorByShape } from './TypeVis';
 
 const interval: number = 0.1;
 

@@ -25,8 +25,6 @@ const entityFollow = AFRAME.registerComponent('entity-follow', {
                 this.el.object3D.rotateZ(THREE.Math.degToRad(45));
             }
         }
-        // else
-        //     console.log("Target empty!");
     }
 });
 

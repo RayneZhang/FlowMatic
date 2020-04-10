@@ -1,4 +1,4 @@
-import { loadItems } from '../ui/Canvas'
+import { loadItems } from '../ui/canvas'
 import { googlePoly } from '../../utils/GooglePoly';
 declare const THREE:any;
 

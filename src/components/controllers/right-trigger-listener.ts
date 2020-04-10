@@ -3,16 +3,12 @@ import { scene } from 'frp-backend'
 import { Node } from 'frp-backend'
 import { getIntersectedEl, getIntersections } from '../../utils/raycast'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../Utils/typeVis'
-import { disableConnectors, enableConnectors } from '../Utils/typeConstraint'
-import { onHueDown } from '../ui/paletteMenu'
+import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../../utils/TypeVis'
+import { disableConnectors, enableConnectors } from '../../utils/TypeConstraint'
+import { onHueDown } from '../ui/palette-menu'
 declare const THREE:any;
 
 const rightTriggerListener = {
-    schema: {
-        
-    },
-
     init: function(): void {
         this.triggering = false;
         this.hueDown = false;
@@ -23,7 +19,6 @@ const rightTriggerListener = {
         this.line = null;
         this.lineId = 0;
         this.curEdgeEntity = null;
-
         this.clickedEntity = null;
 
         // Handle trigger down.
@@ -228,8 +223,8 @@ const rightTriggerListener = {
     },
 
     addEdge: function(fromEntity: any, fromProp: string, toEntity: any, toProp: string): void {
-        console.log(fromEntity.getAttribute('id'));
-        console.log(toEntity.getAttribute('id'));
+        // console.log(fromEntity.getAttribute('id'));
+        // console.log(toEntity.getAttribute('id'));
         const fromNode: Node = scene.getNode(fromEntity.getAttribute('id'));
         const toNode: Node = scene.getNode(toEntity.getAttribute('id'));
         scene.addEdge({node: fromNode, prop: fromProp}, {node: toNode, prop: toProp});

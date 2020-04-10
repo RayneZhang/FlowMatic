@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe';
-import { itemColor } from '../../ui/Canvas';
+import { itemColor } from '../../ui/canvas';
 import { STR, NUM, VECTOR, BOOL } from '../../../Objects';
 
 export const primitiveVal = AFRAME.registerComponent('pmt-val', {

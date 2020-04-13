@@ -97,9 +97,11 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             });
         }
         else {
-            const opNode: OpNode = scene.addOp(this.data.name);
-            this.el.setAttribute('id', opNode.getID());
-            opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+
+            // const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', pupNode.getID());
+            // opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         
     },

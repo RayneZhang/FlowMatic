@@ -60,7 +60,8 @@ export const objects = {
             outputs: [
                 {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
-                {name: "position", type: "vector3", behavior: "signal"}
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "range", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -71,7 +72,8 @@ export const objects = {
             outputs: [
                 {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
-                {name: "position", type: "vector3", behavior: "signal"}
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "range", type: "vector3", behavior: "signal"}
             ]
         },
         {
@@ -285,6 +287,17 @@ export const objects = {
             outputs: [
                 {name: "collision-start", type: "boolean", behavior: "event"},
                 {name: "collision-end", type: "boolean", behavior: "event"}
+            ]
+        },
+        {
+            name: 'Random (Vector3)',
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "range", type: "vector3", behavior: "signal"},
+            ],
+            outputs: [
+                {name: "vector3", type: "vector3", behavior: "signal"}
             ]
         }
     ],

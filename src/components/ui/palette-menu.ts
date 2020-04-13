@@ -196,6 +196,15 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     break;
                 }
 
+                case 'search-text': {
+                    pieceEl.setAttribute('text', {
+                        align: 'center',
+                        width: 0.6,
+                        wrapCount: 12,
+                        value: 'Hello World!'
+                    });
+                }
+
                 default: {
                     pieceEl.setAttribute('material', 'color', inactiveColor);
                     break;
@@ -252,6 +261,11 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 // Define when previous is clicked
                 else if (pieceName == 'prev') {
                     this.onPreviousClicked();
+                }
+                else if (pieceName == 'search-text') {
+                    this.el.setAttribute('palette-keyboard', {
+                        targetEl: pieceEl
+                    });
                 }
             });
         }

@@ -116,5 +116,6 @@ opNodeUpdate;
 import { opContainer } from './components/frp/operators/container';
 opContainer;
 
-import {primitiveVal} from './components/dataflow/primitives/pmtVal';
-primitiveVal;
+import {primitiveVal} from './components/dataflow/primitives/pmtVal'; primitiveVal;
+
+import { paletteKb } from './components/controllers/palette-keyboard'; paletteKb;

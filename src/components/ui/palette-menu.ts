@@ -8,7 +8,7 @@ import { setAppStatus } from '../../utils/App';
 import { sketchfab } from '../../utils/SketchFab';
 
 // The menu elements' names in the gltf model.
-const pieceNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text', 'search-text', 'search-button'];
+const pieceNames: string[] = ['huecursor', 'hue', 'currentcolor', 'description', 'button1', 'button2', 'button3', 'button4', 'button5', 'button6', 'button7', 'button8', 'button9', 'run', 'stop', 'prev', 'next', 'primitive', 'sketchfab', 'diagram', 'text', 'search-panel', 'search-button'];
 
 const toolNames: string[] = ['primitive', 'sketchfab', 'diagram', 'text'];
 
@@ -196,13 +196,19 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     break;
                 }
 
-                case 'search-text': {
-                    pieceEl.setAttribute('text', {
+                case 'search-panel': {
+                    const searchTextEl: any = document.createElement('a-entity');
+                    pieceEl.appendChild(searchTextEl);
+                    searchTextEl.setAttribute('id', 'search-text');
+                    searchTextEl.setAttribute('text', {
                         align: 'center',
                         width: 0.6,
                         wrapCount: 12,
                         value: 'Hello World!'
                     });
+                    searchTextEl.object3D.position.set(-0.01, 0.001, -0.09);
+                    searchTextEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                    searchTextEl.object3D.scale.set(0.2, 0.2, 0.2);
                 }
 
                 default: {
@@ -262,7 +268,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 else if (pieceName == 'prev') {
                     this.onPreviousClicked();
                 }
-                else if (pieceName == 'search-text') {
+                else if (pieceName == 'search-panel') {
                     this.el.setAttribute('palette-keyboard', {
                         targetEl: pieceEl
                     });
@@ -466,10 +472,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
-            const searchTextEl: any = document.getElementById('search-text');
+            const searchPanelEl: any = document.getElementById('search-panel');
             const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = false;
-            searchTextEl.object3D.visible = false;
+            searchPanelEl.object3D.visible = false;
             preBoxEl.object3D.visible = false;
 
             const hurCursorEl: any = document.getElementById('huecursor');
@@ -495,10 +501,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
 
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
-            const searchTextEl: any = document.getElementById('search-text');
+            const searchPanelEl: any = document.getElementById('search-panel');
             const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = true;
-            searchTextEl.object3D.visible = true;
+            searchPanelEl.object3D.visible = true;
             preBoxEl.object3D.visible = true;
 
             const hurCursorEl: any = document.getElementById('huecursor');

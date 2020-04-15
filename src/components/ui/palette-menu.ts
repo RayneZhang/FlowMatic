@@ -209,6 +209,10 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     searchTextEl.object3D.position.set(-0.01, 0.001, -0.09);
                     searchTextEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                     searchTextEl.object3D.scale.set(0.2, 0.2, 0.2);
+                    searchTextEl.classList.add('ui');
+
+                    pieceEl.addEventListener('clicked', this.onSearchClicked.bind(this));
+                    searchTextEl.addEventListener('clicked', this.onSearchClicked.bind(this));
                 }
 
                 default: {
@@ -267,11 +271,6 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 // Define when previous is clicked
                 else if (pieceName == 'prev') {
                     this.onPreviousClicked();
-                }
-                else if (pieceName == 'search-panel') {
-                    this.el.setAttribute('palette-keyboard', {
-                        targetEl: pieceEl
-                    });
                 }
             });
         }
@@ -473,10 +472,16 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
             const searchPanelEl: any = document.getElementById('search-panel');
+            const searchTextEl: any = document.getElementById('search-text');
             const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = false;
             searchPanelEl.object3D.visible = false;
+            searchTextEl.object3D.visible = false;
             preBoxEl.object3D.visible = false;
+            searchButtonEl.classList.remove('ui');
+            searchPanelEl.classList.remove('ui');
+            searchTextEl.classList.remove('ui');
+            preBoxEl.classList.remove('ui');
 
             const hurCursorEl: any = document.getElementById('huecursor');
             const hueEl: any = document.getElementById('hue');
@@ -484,6 +489,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             hurCursorEl.object3D.visible = true;
             hueEl.object3D.visible = true;
             currentColorEl.object3D.visible = true;
+            hurCursorEl.classList.add('ui');
+            hueEl.classList.add('ui');
 
             this.loadPrimitives(this.data.pageNumber);
         }
@@ -502,10 +509,16 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
             const searchPanelEl: any = document.getElementById('search-panel');
+            const searchTextEl: any = document.getElementById('search-text');
             const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = true;
             searchPanelEl.object3D.visible = true;
+            searchTextEl.object3D.visible = true;
             preBoxEl.object3D.visible = true;
+            searchButtonEl.classList.add('ui');
+            searchPanelEl.classList.add('ui');
+            searchTextEl.classList.add('ui');
+            preBoxEl.classList.add('ui');
 
             const hurCursorEl: any = document.getElementById('huecursor');
             const hueEl: any = document.getElementById('hue');
@@ -513,6 +526,9 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             hurCursorEl.object3D.visible = false;
             hueEl.object3D.visible = false;
             currentColorEl.object3D.visible = false;
+            hurCursorEl.classList.remove('ui');
+            hueEl.classList.remove('ui');
+            currentColorEl.classList.remove('ui');
 
             this.loadSketchfab();
         }
@@ -655,6 +671,16 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             cursor = (cursor == 0) ? 0 : cursor-9;
             this.loadSketchfab(cursor);
         }
+    },
+
+    onSearchClicked: function(event): void {
+        const kbEl: any = document.getElementById('palette-keyboard');
+        const searchTextEl: any = document.getElementById('search-text');
+        kbEl.setAttribute('palette-keyboard', {
+            targetEl: searchTextEl
+        });
+        // console.log('serach text/panel is clicked');
+        kbEl.emit('palette-keyboard-visible', {}, false);
     }
 });
 

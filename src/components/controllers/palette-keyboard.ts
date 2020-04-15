@@ -5,47 +5,44 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
         targetEl: {type: 'selector', default: null}
     },
 
-    init: function(): void {        
-        // Create a keyboard.
-        const kbEl: any = this.kbEl = document.createElement('a-entity');
-        this.el.appendChild(kbEl);
-        kbEl.setAttribute('id', 'palette-keyboard');
-        kbEl.object3D.visible = false;
-        this.visible = false;
+    init: function(): void {
+        this.el.object3D.visible = false;
 
         // Place the keyboard.
-        kbEl.object3D.position.set(0.26, 0, -0.15);
-        kbEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
-        kbEl.object3D.scale.set(0.4, 0.4, 0.4);
+        this.el.object3D.position.set(0.26, 0, -0.15);
+        this.el.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+        this.el.object3D.scale.set(0.4, 0.4, 0.4);
 
         // Add super-keyboard component
-        kbEl.setAttribute('super-keyboard', {
+        this.el.setAttribute('super-keyboard', {
             hand: '#rightHand',
             imagePath: 'assets/images/'
         });
 
         // Avoid creating multiple keyboards.
-        kbEl.addEventListener('clicked', (event) => {
+        this.el.addEventListener('clicked', (event) => {
             event.stopPropagation();
         });
-        kbEl.addEventListener('superkeyboardchange', (event) => {
+        this.el.addEventListener('superkeyboardchange', (event) => {
             event.stopPropagation();
-            const changedVal: string = kbEl.getAttribute('super-keyboard').value;
+            const changedVal: string = this.el.getAttribute('super-keyboard').value;
             if (this.data.targetEl)
                 this.data.targetEl.setAttribute('text', 'value', changedVal);
         });
-        kbEl.addEventListener('superkeyboarddismiss', (event) => {
-            kbEl.parentNode.removeChild(kbEl);
+        this.el.addEventListener('superkeyboarddismiss', (event) => {
+            this.el.parentNode.removeChild(this.el);
         });
-        kbEl.addEventListener('superkeyboardinput', (event) => {
-            kbEl.parentNode.removeChild(kbEl);
+        this.el.addEventListener('superkeyboardinput', (event) => {
+            this.el.parentNode.removeChild(this.el);
+        });
+
+        this.el.addEventListener('palette-keyboard-visible', (event)=>{
+            // console.log('palette-keyboard-visible received');
+            this.el.object3D.visible = !this.el.object3D.visible;
         });
     },
 
     update: function(): void {
-        if (!this.data.targetEl) this.visible = false;
-        else this.visible = !this.visible;
-
-        this.kbEl.object3D.visible = this.visible;
+        
     }
 });

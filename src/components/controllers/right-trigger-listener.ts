@@ -33,6 +33,7 @@ const rightTriggerListener = {
             // Emit a "clicked" event on target entity.
             intersectedEl.emit('clicked');
             this.clickedEntity = intersectedEl;
+            // console.log(intersectedEl);
 
             // Check if the intersected object is ui.
             if (intersectedEl.classList.contains('ui')) {

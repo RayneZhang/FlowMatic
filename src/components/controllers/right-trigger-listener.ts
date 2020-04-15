@@ -1,7 +1,7 @@
 import store from '../../store'
 import { scene } from 'frp-backend'
 import { Node } from 'frp-backend'
-import { getIntersectedEl, getIntersections } from '../../utils/raycast'
+import { getIntersectedEl, getIntersections } from '../../utils/Raycast'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import { getTypeByColor, getBehaviorByShape, getColorsByType } from '../../utils/TypeVis'
 import { disableConnectors, enableConnectors } from '../../utils/TypeConstraint'
@@ -220,6 +220,11 @@ const rightTriggerListener = {
 
             // Add an edge in frp-backend
             this.addEdge(fromEntity, fromProp, toEntity, toProp);
+        });
+
+        this.el.addEventListener('raycaster-intersection', (event) => {
+            const firstIntersectedEl: any = getIntersectedEl(this.el);
+            firstIntersectedEl.emit('raycaster-intersected-first', {}, false);
         });
     },
 

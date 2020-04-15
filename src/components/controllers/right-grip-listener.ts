@@ -1,4 +1,4 @@
-import { getIntersectedEl, getIntersections } from '../../utils/raycast';
+import { getIntersectedEl, getIntersections } from '../../utils/Raycast';
 import { Object3D, Mesh, Math as THREEMath, Vector3 } from 'three';
 import { canvasConstraint } from '../ui/canvas';
 import * as AFRAME from 'aframe';

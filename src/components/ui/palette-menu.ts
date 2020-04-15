@@ -20,8 +20,8 @@ export enum ItemType {
 }
 
 export let itemType: ItemType = ItemType.Primitive; 
-let cursor: number = 0;
 
+let cursor: number = 0;
 let sketchfabNames: string[];
 let sketchfabUids: string[];
 
@@ -44,6 +44,8 @@ export const stopActiveColor: string = '#F10310';
 
 export const toolHoverColor: string = 'yellow';
 export const toolActiveColor: string = 'yellow';
+
+let hoveredEl: any = null;
 
 const paletteMenu = AFRAME.registerComponent('palette-menu', {
     schema: {
@@ -209,10 +211,8 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     searchTextEl.object3D.position.set(-0.01, 0.001, -0.09);
                     searchTextEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                     searchTextEl.object3D.scale.set(0.2, 0.2, 0.2);
-                    searchTextEl.classList.add('ui');
 
                     pieceEl.addEventListener('clicked', this.onSearchClicked.bind(this));
-                    searchTextEl.addEventListener('clicked', this.onSearchClicked.bind(this));
                 }
 
                 default: {
@@ -222,8 +222,9 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             };
             
             // Set up interactions for the pieces.
-            pieceEl.addEventListener('raycaster-intersected', (event) => {
+            pieceEl.addEventListener('raycaster-intersected-first', (event) => {
                 event.stopPropagation();
+
                 // If the piece is reactive...
                 if (nonReactPieces.indexOf(pieceName) === -1) {
                     // If the user clicks on items.
@@ -232,12 +233,21 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         pieceEl.setAttribute('material', 'color', hoverColor); 
                         const buttonId: number = Number(pieceName.substr(-1, 1)) - 1;
                         this.setItemDescription(buttonId);
+
+                        // Update the hoveredEl so that we can hover one button at a time.
+                        if (hoveredEl)
+                            hoveredEl.setAttribute('material', 'color', inactiveColor);
+                        hoveredEl = pieceEl;
                     }
                     else if (pieceEl.classList.contains('tool')) {
                         pieceEl.setAttribute('material', 'color', toolHoverColor); 
                         this.setToolDescription(pieceName);
                     }
                     else {
+                        // Update the hoveredEl so that we can hover one button at a time.
+                        if (hoveredEl)
+                            hoveredEl.setAttribute('material', 'color', inactiveColor);
+                        hoveredEl = pieceEl;
                         pieceEl.setAttribute('material', 'color', hoverColor); 
                     }
                 }
@@ -255,6 +265,9 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             });
 
             pieceEl.addEventListener('clicked', (event) => {
+                // Reset the hoveredEl so that it won't be affected by hovering.
+                hoveredEl = null;
+
                 // Define when a button is clicked
                 if (pieceName.indexOf('button') != -1) {
                     const buttonId: number = Number(pieceName.substr(-1, 1)) - 1;
@@ -431,6 +444,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.setItemDescription(_buttonId);
         
         // Add responsive color to the button.
+        console.log(this.data.selectedButtonId);
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
         currentSelectedButton.setAttribute('material', 'color', activeColor);
 
@@ -472,15 +486,12 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
             const searchPanelEl: any = document.getElementById('search-panel');
-            const searchTextEl: any = document.getElementById('search-text');
             const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = false;
             searchPanelEl.object3D.visible = false;
-            searchTextEl.object3D.visible = false;
             preBoxEl.object3D.visible = false;
             searchButtonEl.classList.remove('ui');
             searchPanelEl.classList.remove('ui');
-            searchTextEl.classList.remove('ui');
             preBoxEl.classList.remove('ui');
 
             const hurCursorEl: any = document.getElementById('huecursor');
@@ -509,15 +520,12 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
             // Set panel's visibility
             const searchButtonEl: any = document.getElementById('search-button');
             const searchPanelEl: any = document.getElementById('search-panel');
-            const searchTextEl: any = document.getElementById('search-text');
             const preBoxEl: any = document.getElementById('preview-box');
             searchButtonEl.object3D.visible = true;
             searchPanelEl.object3D.visible = true;
-            searchTextEl.object3D.visible = true;
             preBoxEl.object3D.visible = true;
             searchButtonEl.classList.add('ui');
             searchPanelEl.classList.add('ui');
-            searchTextEl.classList.add('ui');
             preBoxEl.classList.add('ui');
 
             const hurCursorEl: any = document.getElementById('huecursor');

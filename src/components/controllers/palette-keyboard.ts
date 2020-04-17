@@ -17,7 +17,9 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
             imagePath: 'assets/images/'
         });
 
-        this.el.object3D.visible = false;
+        this.el.setAttribute('super-keyboard', {
+            show: false
+        });
 
         // Avoid creating multiple keyboards.
         this.el.addEventListener('clicked', (event) => {
@@ -30,8 +32,10 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
                 this.data.targetEl.setAttribute('text', 'value', changedVal);
         });
         this.el.addEventListener('palette-keyboard-visible', (event)=>{
-            // console.log('palette-keyboard-visible received');
-            this.el.object3D.visible = !this.el.object3D.visible;
+            this.el.object3D.visible = true;
+            this.el.setAttribute('super-keyboard', {
+                show: true
+            });
         });
     },
 

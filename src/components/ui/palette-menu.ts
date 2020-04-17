@@ -211,8 +211,6 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     searchTextEl.object3D.position.set(-0.01, 0.001, -0.09);
                     searchTextEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
                     searchTextEl.object3D.scale.set(0.2, 0.2, 0.2);
-
-                    pieceEl.addEventListener('clicked', this.onSearchClicked.bind(this));
                 }
 
                 default: {
@@ -284,6 +282,12 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 // Define when previous is clicked
                 else if (pieceName == 'prev') {
                     this.onPreviousClicked();
+                }
+                else if (pieceName == 'search-panel') {
+                    this.onSearchPanelClicked();
+                }
+                else if (pieceName == 'search-button') {
+                    this.onSearchButtonClicked();
                 }
             });
         }
@@ -549,7 +553,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         }
     },
 
-    loadSketchfab: function(cur: number = 0): void {
+    loadSketchfab: function(cur: number = 0, query: string = ''): void {
         // Remove previous items.
         let listEl: any = document.querySelector('#items-list');
         if (listEl) {
@@ -570,12 +574,12 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     
         const param: object = {
             type: 'models',
-            q: '',
-            file_format: 'gltf',
+            q: query,
             downloadable: true,
             animated: true,
             count: 9,
-            cursor: cur
+            cursor: cur,
+            sort_by: '-viewCount'
         };
 
         const el = this.el;
@@ -680,7 +684,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         }
     },
 
-    onSearchClicked: function(event): void {
+    onSearchPanelClicked: function(): void {
         const kbEl: any = document.getElementById('palette-keyboard');
         const searchTextEl: any = document.getElementById('search-text');
         kbEl.setAttribute('palette-keyboard', {
@@ -688,6 +692,13 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         });
         // console.log('serach text/panel is clicked');
         kbEl.emit('palette-keyboard-visible', {}, false);
+    },
+
+    onSearchButtonClicked: function(): void {
+        const searchTextEl: any = document.getElementById('search-text');
+        const query: string = searchTextEl.getAttribute('text').value;
+
+        this.loadSketchfab(cursor, query);
     }
 });
 

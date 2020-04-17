@@ -6,8 +6,6 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
     },
 
     init: function(): void {
-        this.el.object3D.visible = false;
-
         // Place the keyboard.
         this.el.object3D.position.set(0.26, 0, -0.15);
         this.el.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
@@ -19,6 +17,8 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
             imagePath: 'assets/images/'
         });
 
+        this.el.object3D.visible = false;
+
         // Avoid creating multiple keyboards.
         this.el.addEventListener('clicked', (event) => {
             event.stopPropagation();
@@ -29,13 +29,6 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
             if (this.data.targetEl)
                 this.data.targetEl.setAttribute('text', 'value', changedVal);
         });
-        this.el.addEventListener('superkeyboarddismiss', (event) => {
-            this.el.parentNode.removeChild(this.el);
-        });
-        this.el.addEventListener('superkeyboardinput', (event) => {
-            this.el.parentNode.removeChild(this.el);
-        });
-
         this.el.addEventListener('palette-keyboard-visible', (event)=>{
             // console.log('palette-keyboard-visible received');
             this.el.object3D.visible = !this.el.object3D.visible;

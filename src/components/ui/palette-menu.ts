@@ -228,7 +228,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 // If the piece is reactive...
                 if (nonReactPieces.indexOf(pieceName) === -1) {
                     // If the user clicks on items.
-                    if (pieceName.indexOf('button') != -1) {
+                    if (pieceName.indexOf('button') == 0) {
                         // Set responsive color.
                         pieceEl.setAttribute('material', 'color', hoverColor); 
                         const buttonId: number = Number(pieceName.substr(-1, 1)) - 1;
@@ -269,7 +269,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                 hoveredEl = null;
 
                 // Define when a button is clicked
-                if (pieceName.indexOf('button') != -1) {
+                if (pieceName.indexOf('button') == 0) {
                     const buttonId: number = Number(pieceName.substr(-1, 1)) - 1;
                     this.setSelectedButtonId(buttonId);
                 }
@@ -444,7 +444,6 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
         this.setItemDescription(_buttonId);
         
         // Add responsive color to the button.
-        console.log(this.data.selectedButtonId);
         const currentSelectedButton: any = document.querySelector('#button' + String(this.data.selectedButtonId+1));
         currentSelectedButton.setAttribute('material', 'color', activeColor);
 

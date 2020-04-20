@@ -65,7 +65,7 @@ export interface Item {
     outputs?: {name: string, type: string, behavior: string}[]
 }
 
-export const itemLimit: number = 9;
+export const itemLimit: number = 12;
 export const itemOffset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width + itemSize.width/2, menuSize.height/2 - buttonSize.height - itemSize.height/2, itemSize.width/2);
 
 
@@ -244,11 +244,6 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
     itemList.setAttribute('id', 'item-list');
     menuEl.appendChild(itemList);
 
-    if (submenuID == 4) {
-        // loadPoly(itemList, pageToken);
-        // loadSketchfab(itemList);
-    }
-
     let i = 0;
     for (; i < itemLimit; i++) {
         if (itemIndex + i >= objects[submenuName].length) break;
@@ -334,7 +329,7 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
         });
     }
 
-    if (i < itemLimit && submenuID == 2) {
+    if (submenuID == 4) {
         if (savedContainerId > 0) {
             const itemEl: any = document.createElement('a-entity');
             itemEl.setAttribute('id', 'op-container-0');

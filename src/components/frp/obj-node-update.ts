@@ -3,7 +3,7 @@ import { scene, Node, ObjNode } from 'frp-backend'
 import { Vector3, Vector } from 'three';
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
-import { GUN, LIGHT } from '../../Objects';
+import { GUN, LIGHT, BOX } from '../../Objects';
 
 export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
@@ -71,6 +71,12 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         if (run) {
             this.node.update('position', this.el.object3D.position.clone());
             switch (this.data.name) {
+                case BOX: {
+                    this.node.update('width', this.el.getAttribute('geometry').width * this.el.object3D.scale.x);
+                    this.node.update('height', this.el.getAttribute('geometry').height * this.el.object3D.scale.y);
+                    this.node.update('depth', this.el.getAttribute('geometry').depth * this.el.object3D.scale.z);
+                    break;
+                }
                 case GUN: {
                     this.node.update('tip_position', this.el.object3D.localToWorld(this.tipOffset.clone()));
                     this.node.update('gun_direction', this.el.object3D.localToWorld(this.shootDirection.clone()).sub(this.el.object3D.position));
@@ -81,8 +87,7 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
                     this.node.update('light_color', this.el.getAttribute('spotlight').color);
                     break;
                 }
-            }
-            
+            }         
         }
         
         // Edge Visual Effect

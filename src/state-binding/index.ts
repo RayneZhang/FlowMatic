@@ -51,18 +51,27 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         newEntity.object3D.scale.set(0.1, 0.1, 0.1);
 
                         // Create a node in frp-backend
-                        const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
-
+                        const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }, {name: 'color', default: color }];
+                        objects.Models[i].outputs.forEach((o) => {
+                            if (o.name != 'object' && o.name != 'position' && o.name != 'color') {
+                                o['default'] = ''; 
+                                props.push(o);
+                            }
+                        });
+                        const objNode = scene.addObj(targetObjName, props);
                         newEntity.setAttribute('id', objNode.getID());
+                        newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
+                        // newEntity.setAttribute('obj-init', 'name', targetObjName);
+
                         objNode.pluckOutput('color').subscribe((value) => {
-                        console.log(`${objNode.getLabel()} color is now: ${value}`);
-                        // Handle color change.
-                        const objEntity: any = document.querySelector(`#${objNode.getID()}`);
-                        objEntity.setAttribute('material', 'color', value);
+                            // console.log(`${objNode.getLabel()} color is now: ${value}`);
+                            // Handle color change.
+                            const objEntity: any = document.querySelector(`#${objNode.getID()}`);
+                            objEntity.setAttribute('material', 'color', value);
                         });
                         break;
                     }
-                    if (objects.Models[i].type === 'gltf') {
+                    else if (objects.Models[i].type === 'gltf') {
                         newEntity.setAttribute('gltf-model', objects.Models[i].url);
 
                         // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
@@ -80,7 +89,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
                         newEntity.setAttribute('obj-init', 'name', targetObjName);
 
-                    break;
+                        break;
                     }
                 }
             }
@@ -110,15 +119,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
                 // Create a node in frp-backend
                 const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
-                
                 newEntity.setAttribute('id', objNode.getID());
-                objNode.pluckOutput('color').subscribe((value) => {
-                    console.log(`${objNode.getLabel()} color is now: ${value}`);
-                    // Handle color change.
-                    const objEntity: any = document.querySelector(`#${objNode.getID()}`);
-                    objEntity.setAttribute('material', 'color', value);
-                });
-
                 newEntity.addEventListener('clicked', (event) => {
                     event.stopPropagation();
                     const kb: any = document.querySelector('#' + objNode.getID() + '_keyboard');

@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
@@ -96,12 +96,52 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 pupNode.pluckOutput(output.name).subscribe((val: any) => {dataTransmit(this.el, val)});
             });
         }
-        else {
+        else if (this.data.name === INTERVAL) {
             const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
-
-            // const opNode: OpNode = scene.addOp(this.data.name);
             this.el.setAttribute('id', pupNode.getID());
-            // opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
+
+            this.startTime = Date.now();
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    const signal: string = input[0];
+                    const interval: number = input[1];
+                    if (Date.now() - this.startTime >= interval) {
+                        this.startTime = Date.now();
+                        pupNode.updateOutput('event', signal);
+                    }
+                }
+            });
+        }
+        else if (this.data.name === RANDOM_POS_CUBE) {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.worldRandPos = new Vector3();
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    const object: string = input[0];
+                    const width: number = input[1];
+                    const height: number = input[2];
+                    const depth: number = input[3];
+
+                    const randWidth: number = (Math.random() - 0.5) * width;
+                    const randHeight: number = (Math.random() - 0.5) * height;
+                    const randDepth: number = (Math.random() - 0.5) * depth;
+
+                    const localRandPos: Vector3 = new Vector3(randWidth, randHeight, randDepth);
+                    const cubeEl: any = document.getElementById(object);
+                    cubeEl.object3D.updateMatrix();
+                    cubeEl.object3D.updateWorldMatrix();
+                    const worldRandPos: Vector3 = cubeEl.object3D.localToWorld(localRandPos);
+                    if (!this.worldRandPos.equals(worldRandPos)) {
+                        pupNode.updateOutput('vector3', worldRandPos.clone());
+                        this.worldRandPos = worldRandPos.clone();
+                    }
+                }
+            });
+        }
+        else {
+            const opNode: OpNode = scene.addOp(this.data.name);
+            this.el.setAttribute('id', opNode.getID());
         }
         
     },

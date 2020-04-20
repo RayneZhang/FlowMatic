@@ -13,7 +13,9 @@ export const CREATE = 'create';
 export const DESTROY = 'destroy';
 export const TRANSLATE = 'translate';
 export const COLLIDE = 'collide';
+export const INTERVAL = 'interval';
 export const EVENT2SIGNAL = 'Event2Signal';
+export const RANDOM_POS_CUBE = 'Random Position (Cube)';
 
 
 export const COLLISION_DETECTOR = 'Collision Detector';
@@ -58,10 +60,14 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", behavior: "event"},
+                {name: "width", type: "number", behavior: "signal"},
+                {name: "height", type: "number", behavior: "signal"},
+                {name: "depth", type: "number", behavior: "signal"},
                 {name: "color", type: "string", behavior: "signal"}, 
+                {name: "scale", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "range", type: "vector3", behavior: "signal"}
+                {name: "object", type: "object", behavior: "event"}
             ]
         },
         {
@@ -290,11 +296,26 @@ export const objects = {
             ]
         },
         {
-            name: 'Random (Vector3)',
+            name: INTERVAL,
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "range", type: "vector3", behavior: "signal"},
+                {name: "signal", type: "any", behavior: "signal"},
+                {name: "period", type: "number", behavior: "signal", default: 3000}
+            ],
+            outputs: [
+                {name: "event", type: "any", behavior: "event"}
+            ]
+        },
+        {
+            name: RANDOM_POS_CUBE,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "object", type: "object", behavior: "event"},
+                {name: "width", type: "number", behavior: "signal"},
+                {name: "height", type: "number", behavior: "signal"},
+                {name: "depth", type: "number", behavior: "signal"},
             ],
             outputs: [
                 {name: "vector3", type: "vector3", behavior: "signal"}

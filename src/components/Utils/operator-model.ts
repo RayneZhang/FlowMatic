@@ -126,7 +126,7 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
         plug.setAttribute('geometry', {
             primitive: 'cone',
             height: 0.05,
-            radiusTop: 0,
+            radiusTop: 0.015,
             radiusBottom: 0.03
         });
         if (_input)

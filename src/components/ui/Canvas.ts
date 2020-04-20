@@ -677,7 +677,7 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
         outCon.setAttribute('geometry', {
             primitive: 'cone',
             height: 0.05,
-            radiusTop: 0,
+            radiusTop: 0.015,
             radiusBottom: 0.03
         });
         outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));

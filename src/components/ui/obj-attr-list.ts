@@ -131,7 +131,7 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
             curDot.setAttribute('geometry', {
                 primitive: 'cone',
                 height: 0.15,
-                radiusTop: 0,
+                radiusTop: 0.045,
                 radiusBottom: 0.09
             });
             curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));

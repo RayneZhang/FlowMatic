@@ -8,7 +8,7 @@ const scaleController = {
 
     init: function(): void {
         this.scaling = false;
-        this.scalePerFr = 0.025;
+        this.scalePerFr = 1.1;
         this.targetEntity = null;
 
         const rightHand: any = document.querySelector("#rightHand");
@@ -17,14 +17,14 @@ const scaleController = {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity && !this.targetEntity.classList.contains('canvasObj')) {
                 this.scaling = true;
-                this.scalePerFr = 0.025;
+                this.scalePerFr = 1.01;
             }
         });
         listeningEl.addEventListener('thumbdownstart', (event) => {
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity && !this.targetEntity.classList.contains('canvasObj')) {
                 this.scaling = true;
-                this.scalePerFr = -0.025;
+                this.scalePerFr = 0.99;
             }
         });
 
@@ -35,9 +35,9 @@ const scaleController = {
 
     tick: function(time, timeDelta): void {
         if (this.scaling) {
-            this.targetEntity.object3D.scale.x += this.scalePerFr * this.data.speed;
-            this.targetEntity.object3D.scale.y += this.scalePerFr * this.data.speed;
-            this.targetEntity.object3D.scale.z += this.scalePerFr * this.data.speed;
+            this.targetEntity.object3D.scale.x *= this.scalePerFr;
+            this.targetEntity.object3D.scale.y *= this.scalePerFr;
+            this.targetEntity.object3D.scale.z *= this.scalePerFr;
         }
     }
 }

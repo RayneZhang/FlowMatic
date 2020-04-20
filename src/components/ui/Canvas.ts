@@ -111,12 +111,22 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
                 els.forEach((el: any) => {
                     el.object3D.visible = true;
                 });
+
+                const el2s = document.querySelectorAll('.assist-obj');
+                el2s.forEach((el2: any) => {
+                    el2.object3D.visible = true;
+                });
             }
             else {
                 // Hide all the attributes
                 const els = document.querySelectorAll('.obj-attr-list');
                 els.forEach((el: any) => {
                     el.object3D.visible = false;
+                });
+
+                const el2s = document.querySelectorAll('.assist-obj');
+                el2s.forEach((el2: any) => {
+                    el2.object3D.visible = false;
                 });
             }
         });

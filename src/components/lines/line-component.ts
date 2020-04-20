@@ -82,18 +82,24 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
         let ctlPoint2 = endPoint.clone();
 
-        if (this.data.sourceEntity) {
+        if (this.data.sourceEntity && this.data.sourcePropEl) {
             const srcEl = this.data.sourceEntity;
+            const srcPropEl = this.data.sourcePropEl;
             srcEl.object3D.updateMatrix();
             srcEl.object3D.updateWorldMatrix();
-            ctlPoint1 = srcEl.object3D.localToWorld(new THREE.Vector3(0.3, 0, 0));
+
+            const propLocalPos = srcEl.object3D.worldToLocal(srcPropEl.object3D.getWorldPosition().clone());
+            ctlPoint1 = srcEl.object3D.localToWorld(propLocalPos.add(new THREE.Vector3(0.1, 0, 0)));
         }
 
-        if (this.data.targetEntity) {
+        if (this.data.targetEntity && this.data.targetPropEl) {
             const tgtEl = this.data.targetEntity;
+            const tgtPropEl = this.data.targetPropEl;
             tgtEl.object3D.updateMatrix();
             tgtEl.object3D.updateWorldMatrix();
-            ctlPoint2 = tgtEl.object3D.localToWorld(new THREE.Vector3(-0.3, 0, 0));
+
+            const propLocalPos = tgtEl.object3D.worldToLocal(tgtPropEl.object3D.getWorldPosition().clone());
+            ctlPoint2 = tgtEl.object3D.localToWorld(propLocalPos.add(new THREE.Vector3(-0.1, 0, 0)));
         }
 
         const path = new THREE.CatmullRomCurve3([

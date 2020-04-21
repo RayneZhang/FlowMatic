@@ -1,6 +1,7 @@
 declare const THREE:any;
 import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
+import { getColorsByType } from '../../utils/TypeVis';
 
 const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
     schema: {
@@ -145,34 +146,8 @@ const objAttrList = AFRAME.registerComponent('obj-attributes-list', {
             
         }
 
-        let unselectedColor: string = 'white';
-        let hoveredColor: string = 'yellow';
-        switch (type) {
-            case 'boolean': {
-                unselectedColor = '#78C13B';
-                hoveredColor = '#3A940E';
-                break;
-            }
-            case 'object': {
-                unselectedColor = '#FC7391';
-                hoveredColor = '#FB3862';
-                break;
-            }
-            case 'vector3': {
-                unselectedColor = '#D85C1F';
-                hoveredColor = '#D8431F';
-                break;
-            }
-            case 'number': {
-                unselectedColor = '#68E4E5';
-                hoveredColor = '#68E5D5';
-                break;
-            }
-            case 'any': {
-                break;
-            }
-        }
-
+        let unselectedColor: string = getColorsByType(type)[0];
+        let hoveredColor: string = getColorsByType(type)[1];
         curDot.setAttribute('material', 'color', unselectedColor);
         curDot.addEventListener('raycaster-intersected', (event) => {
             curDot.setAttribute('material', 'color', hoveredColor);

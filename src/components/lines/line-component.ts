@@ -88,7 +88,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             srcEl.object3D.updateMatrix();
             srcEl.object3D.updateWorldMatrix();
 
-            const propLocalPos = srcEl.object3D.worldToLocal(srcPropEl.object3D.getWorldPosition().clone());
+            const propLocalPos = srcEl.object3D.worldToLocal(srcPropEl.object3D.getWorldPosition(new Vector3()).clone());
             ctlPoint1 = srcEl.object3D.localToWorld(propLocalPos.add(new THREE.Vector3(0.1, 0, 0)));
         }
 
@@ -98,7 +98,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             tgtEl.object3D.updateMatrix();
             tgtEl.object3D.updateWorldMatrix();
 
-            const propLocalPos = tgtEl.object3D.worldToLocal(tgtPropEl.object3D.getWorldPosition().clone());
+            const propLocalPos = tgtEl.object3D.worldToLocal(tgtPropEl.object3D.getWorldPosition(new Vector3()).clone());
             ctlPoint2 = tgtEl.object3D.localToWorld(propLocalPos.add(new THREE.Vector3(-0.1, 0, 0)));
         }
 

@@ -12,6 +12,9 @@ export const getTypeByColor = (color: string) => {
         case '#68E4E5': case '#68E5D5':{
             return 'number';
         }
+        case '#f5d76e': case '#f4d03f':{
+            return 'class';
+        }
         default: {
             return 'any';
         }
@@ -40,6 +43,11 @@ export const getColorsByType = (type: string) => {
         case 'number': {
             unselectedColor = '#68E4E5';
             hoveredColor = '#68E5D5';
+            break;
+        }
+        case 'class': {
+            unselectedColor = '#f5d76e';
+            hoveredColor = '#f4d03f';
             break;
         }
         case 'any': {

@@ -67,7 +67,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "class", type: "class", behavior: "event"}
             ]
         },
         {
@@ -76,10 +77,12 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
+                {name: "scale", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "range", type: "vector3", behavior: "signal"}
+                {name: "object", type: "object", behavior: "event"},
+                {name: "class", type: "class", behavior: "event"}
             ]
         },
         {
@@ -249,8 +252,10 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "object", type: "object", behavior: "event"},
-                {name: "position", type: "vector3", behavior: "event"}
+                {name: "class", type: "class", behavior: "event"},
+                {name: "position", type: "vector3", behavior: "event"},
+                {name: "rotation", type: "vector3", behavior: "event"},
+                {name: "scale", type: "vector3", behavior: "event"}
             ],
             outputs: [
                 {name: "object", type: "object", behavior: "event"}

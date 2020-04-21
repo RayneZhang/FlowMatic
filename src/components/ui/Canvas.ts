@@ -8,6 +8,7 @@ import { googlePoly } from '../../utils/GooglePoly';
 import { containerID } from '../controllers/absorb-controller';
 import { savedContainerId, instantiateContainer, ctnWidth, ctnDepth, savedInPorts, savedOutPorts } from '../frp/operators/container';
 import { createOnePlug } from '../utils/operator-model';
+import { getColorsByType } from '../../utils/TypeVis';
 
 export const canvasSize = {
     width: 1.6, 
@@ -700,34 +701,8 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
         });
     }
 
-    let unselectedColor: string = 'white';
-    let hoveredColor: string = 'yellow';
-    switch (type) {
-        case 'boolean': {
-            unselectedColor = '#78C13B';
-            hoveredColor = '#3A940E';
-            break;
-        }
-        case 'object': {
-            unselectedColor = '#FC7391';
-            hoveredColor = '#FB3862';
-            break;
-        }
-        case 'vector3': {
-            unselectedColor = '#D85C1F';
-            hoveredColor = '#D8431F';
-            break;
-        }
-        case 'number': {
-            unselectedColor = '#68E4E5';
-            hoveredColor = '#68E5D5';
-            break;
-        }
-        case 'any': {
-            break;
-        }
-    }
-
+    let unselectedColor: string = getColorsByType(type)[0];
+    let hoveredColor: string = getColorsByType(type)[1];
     outCon.setAttribute('material', 'color', unselectedColor);
 
     outCon.addEventListener('raycaster-intersected', (event) => {

@@ -19,18 +19,18 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         this.el.setAttribute('stored-edges', null);
         
         if (this.data.name === CREATE) {
-            const opNode: OpNode = scene.addOp(this.data.name);
-            this.el.setAttribute('id', opNode.getID());
-            this.subscription = opNode.pluckInputs().subscribe((input) => {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log(input);
-                    const object: string = input[0];
-                    const pos: any = input[1];
-                    create(object, pos, opNode);
+                    const _class: string = input[0];
+                    const position: any = input[1];
+                    const rotation: any = input[2];
+                    const scale: any = input[3];
+                    create(_class, position, rotation, scale, pupNode);
                 }
             });
-
-            opNode.pluckOutput('object').subscribe((val: any) => {dataTransmit(this.el, val)});
         }
         else if (this.data.name === TRANSLATE) {
             const opNode: OpNode = scene.addOp(this.data.name);
@@ -239,8 +239,8 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
     });
 }
 
-function create(object: string, pos: any, opNode: OpNode): void {
-    const createdNode = scene.addObj(object, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: pos}]);
+function create(_class: string, position: any, rotation: any, scale: any, pupNode: PupNode): void {
+    const createdNode = scene.addObj(_class, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}]);
     const el: any = document.createElement('a-entity');
     el.setAttribute('id', createdNode.getID());
     el.classList.add('dynamic-create');
@@ -248,24 +248,17 @@ function create(object: string, pos: any, opNode: OpNode): void {
     parentEl.appendChild(el);
 
     // Set up geometry and material
-    el.setAttribute('geometry', 'primitive', object);
+    el.setAttribute('geometry', 'primitive', _class);
 
     // Set up position, rotation, and scale
-    el.object3D.position.copy(pos);
-    if (object == 'box') {
-        el.addEventListener('loaded', () => {
-            resize(el, 0.1);
-        });
-    }
-    else {
-        el.addEventListener('loaded', () => {
-            resize(el, 0.05);
-        });
-    }
+    el.object3D.position.copy(position);
+    el.addEventListener('loaded', () => {
+        resize(el, 0.05);
+    });
     
 
     // After creating both the node and the entity, emit the nodeID as output
-    opNode.updateOutput('object', createdNode.getID());
+    pupNode.updateOutput('object', createdNode.getID());
     // opNode.pluckOutput('object').subscribe((val) => {
     //     console.log("Create output is ", val);
     // });

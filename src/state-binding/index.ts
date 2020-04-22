@@ -43,7 +43,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
             // Models that exist in the objects store.
             for (let i = 0; i < objects.Models.length; i++) {
                 if (objects.Models[i].name === targetObjName) {
-                    newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
+                    newEntity.setAttribute('attribute-list', 'targetModelName', targetObjName);
                     newEntity.classList.add('data-receiver');
 
                     if (objects.Models[i].type === 'primitive') {
@@ -107,7 +107,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     opacity: 0.2,
                     side: 'double'
                 });
-                newEntity.setAttribute('obj-attributes-list', 'targetModelName', targetObjName);
+                newEntity.setAttribute('attribute-list', 'targetModelName', targetObjName);
                 newEntity.classList.add('data-receiver');
 
                 newEntity.setAttribute('text', {

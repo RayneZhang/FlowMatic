@@ -108,7 +108,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
                 this.el.object3D.position.set(position.x, camPosition.y - 0.5, position.z);
 
                 // Show all the attributes
-                const els = document.querySelectorAll('.obj-attr-list');
+                const els = document.querySelectorAll('.attribute');
                 els.forEach((el: any) => {
                     el.object3D.visible = true;
                 });
@@ -120,7 +120,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
             }
             else {
                 // Hide all the attributes
-                const els = document.querySelectorAll('.obj-attr-list');
+                const els = document.querySelectorAll('.attribute');
                 els.forEach((el: any) => {
                     el.object3D.visible = false;
                 });
@@ -791,7 +791,7 @@ export function loadPoly(itemList: any, pageToken: string): void {
                             polyEl.object3D.position.copy(position.clone());
                             polyEl.classList.add('movable');
 
-                            polyEl.setAttribute('obj-attributes-list', {
+                            polyEl.setAttribute('attribute-list', {
                                 attrList: ['position', 'rotation'],
                                 behaviorList: ['signal', 'signal'],
                                 typeList: ['vector3', 'vector3']

@@ -42,8 +42,7 @@ cameraRotation;
 
 import paletteMenu from './components/ui/palette-menu';
 paletteMenu;
-import objAttrList from './components/ui/obj-attr-list';
-objAttrList;
+import { attributeList } from './components/ui/attribute-list'; attributeList;
 
 import vectorSource from './components/dataflow/vectorSource'
 vectorSource;

@@ -179,7 +179,7 @@ export function CreateGLTFModel(): void {
     const objNode = scene.addObj(`node-${Node.getNodeCount()}`, props);
     polyEl.setAttribute('id', objNode.getID()); // Set up node ID
     
-    polyEl.setAttribute('obj-attributes-list', {
+    polyEl.setAttribute('attribute-list', {
         attrList: attrList,
         behaviorList: behaviorList,
         typeList: typeList

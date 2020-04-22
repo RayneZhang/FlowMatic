@@ -1,6 +1,7 @@
 import * as AFRAME from 'aframe';
 import { objects } from '../../Objects';
 import { getColorsByType } from '../../utils/TypeVis';
+import { body } from './dmm';
 
 export const attributeList = AFRAME.registerComponent('attribute-list', {
     schema: {
@@ -46,7 +47,7 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
         }
 
         // layout offset of the attributes.
-        let offset: number = 0.35;
+        let offset: number = 1.5 * body;
         let currentY: number = 0;
          
         // Create list of attributes elements.
@@ -58,8 +59,8 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
             curEntity.setAttribute('id', this.el.getAttribute('id') + '_' + attrName);
             curEntity.setAttribute('geometry', {
                 primitive: 'plane', 
-                width: 0.5,
-                height: 0.3
+                width: 2 * body,
+                height: body
             });
 
             // Initiate the panel color.
@@ -74,7 +75,7 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
             curEntity.setAttribute('text', {
                 value: attrName,
                 side: 'double',
-                wrapCount: 10,
+                wrapCount: 7,
                 align: 'center'
             });
 
@@ -82,9 +83,8 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
             curEntity.object3D.position.set(0, currentY, 0);
             currentY += offset;
 
-            // Creat dots for each obj attr.
-            const posOffset = new THREE.Vector3(0.35, 0, 0);
-
+            // Creat connectors for each obj attr.
+            const posOffset = new THREE.Vector3(1.5 * body, 0, 0);
             this.createDotEntity(curEntity, 'right', this.data.behaviorList[j], this.data.typeList[j], posOffset.clone());
             j++;
         }
@@ -96,6 +96,7 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
             this.listEntity.object3D.position.set(width, 0, 0);
             this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
         }
+
         else {
             this.el.addEventListener('model-loaded', this.onModelLoaded.bind(this));
             this.el.addEventListener('loaded', this.onModelLoaded.bind(this));
@@ -107,7 +108,7 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
         // Set position of the listEntity.
         let width: number = this.calWidth(this.el);
         this.listEntity.object3D.scale.set(width, width, width);
-        this.listEntity.object3D.position.set(width, 0, 0);
+        this.listEntity.object3D.position.set(width, -width/2, 0);
         this.listEntity.setAttribute('id', this.el.getAttribute('id') + '_' + 'attributes');
     },
 

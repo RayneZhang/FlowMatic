@@ -16,11 +16,6 @@ const lineComponent = AFRAME.registerComponent('line-component', {
     },
 
     init: function(): void {
-        this.divisions = 20;
-        const positionSize: number = ( this.divisions + 1) * 3;
-        // Position and Color Data
-        this.positions = new Array<number>(positionSize);
-
         this.sourcePosition = new Vector3(0, 0, 0);
         this.targetPosition = new Vector3(0, 0, 0);
         this.arrow = null;
@@ -76,7 +71,6 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             this.el.appendChild(arrow);
         }
         
-        this.setPositions();
         const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         let ctlPoint1 = startPoint.clone();
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
@@ -121,29 +115,6 @@ const lineComponent = AFRAME.registerComponent('line-component', {
         this.setArrow();
     },
 
-    setPositions: function(): void {
-        const curvePoints = this.getCurvePoints();
-        for (let i = 0; i <  this.divisions + 1; i++) {
-            const {x, y, z} = curvePoints[i];
-            this.positions[i * 3] = x;
-            this.positions[i * 3 + 1] = y;
-            this.positions[i * 3 + 2] = z;
-        }
-    },
-
-    // Set curve points using built-in THREE.CatmullRomCurve3.
-    getCurvePoints: function(): Array<number> {
-        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
-        const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
-
-        const curve = new THREE.CatmullRomCurve3([
-            startPoint,
-            endPoint
-        ]);
-
-        return curve.getPoints( this.divisions);
-    },
-
     // Draw the arrow at the end of the line indicating the dataflow direction.
     setArrow: function(): void {
         if (!this.arrow) {
@@ -151,16 +122,18 @@ const lineComponent = AFRAME.registerComponent('line-component', {
             return;
         }
 
-        const startPoint = new THREE.Vector3(this.data.startPoint.x, this.data.startPoint.y, this.data.startPoint.z);
         const endPoint = new THREE.Vector3(this.data.endPoint.x, this.data.endPoint.y, this.data.endPoint.z);
 
         // Set arrow position.
-        let dir = endPoint.clone().sub(startPoint).normalize();
-        if (this.data.targetEntity) {
+        let dir = new THREE.Vector3();
+        if (this.data.targetEntity && this.data.targetPropEl) {
             const tgtEl = this.data.targetEntity;
+            const tgtPropEl = this.data.targetPropEl;
             tgtEl.object3D.updateMatrix();
             tgtEl.object3D.updateWorldMatrix();
-            const ctlPoint2 = tgtEl.object3D.localToWorld(new THREE.Vector3(-0.3, 0, 0));
+
+            const propLocalPos = tgtEl.object3D.worldToLocal(tgtPropEl.object3D.getWorldPosition(new Vector3()).clone());
+            const ctlPoint2 = tgtEl.object3D.localToWorld(propLocalPos.add(new THREE.Vector3(-0.1, 0, 0)));
             dir = endPoint.clone().sub(ctlPoint2).normalize();
         }
 

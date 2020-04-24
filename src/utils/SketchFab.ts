@@ -187,13 +187,17 @@ export function CreateGLTFModel(): void {
     const objNode = scene.addObj(`node-${Node.getNodeCount()}`, props);
     polyEl.setAttribute('id', objNode.getID()); // Set up node ID
     
+    // Add list of attributes next to the model.
     polyEl.setAttribute('attribute-list', {
         attrList: attrList,
         behaviorList: behaviorList,
         typeList: typeList
     });
+
+    // For edge drawing.
     polyEl.classList.add('data-receiver');
-    // Set up node update for frp
+
+    // Set up update for input/output when there is stream updates.
     polyEl.setAttribute('obj-node-update', {
         name: 'anime',
         animeList: animationList

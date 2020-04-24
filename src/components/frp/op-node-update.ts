@@ -242,10 +242,10 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
 function create(_class: string, position: any, rotation: any, scale: any, pupNode: PupNode): void {
     const createdNode = scene.addObj(_class, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}]);
     const el: any = document.createElement('a-entity');
-    el.setAttribute('id', createdNode.getID());
-    el.classList.add('dynamic-create');
     const parentEl: any = document.querySelector('#redux');
     parentEl.appendChild(el);
+    el.setAttribute('id', createdNode.getID());
+    el.classList.add('dynamic-create');
 
     // Set up geometry and material
     el.setAttribute('geometry', 'primitive', _class);
@@ -256,7 +256,6 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
         resize(el, 0.05);
     });
     
-
     // After creating both the node and the entity, emit the nodeID as output
     pupNode.updateOutput('object', createdNode.getID());
     // opNode.pluckOutput('object').subscribe((val) => {

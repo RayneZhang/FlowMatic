@@ -157,12 +157,20 @@ export function CreateGLTFModel(): void {
     // Set movable of the model.
     polyEl.classList.add('movable');
 
-    const attrList: Array<string> = ['object', 'position', 'rotation'];
-    const behaviorList: Array<string> = ['event', 'signal', 'signal'];
-    const typeList: Array<string> = ['object', 'vector3', 'vector3'];
+    const attrList: Array<string> = ['class', 'object', 'position', 'rotation', 'scale'];
+    const typeList: Array<string> = ['class', 'object', 'vector3', 'vector3', 'vector3'];
+    const behaviorList: Array<string> = ['event', 'event', 'signal', 'signal', 'signal'];
     
     // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
-    const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }];
+    const props: any = [{ name: 'class', default: updatedUrl }, { name: 'object', default: `node-${Node.getNodeCount()}` }];
+    for (let i = 2; i < attrList.length; i++) {
+        const attr: object = {};
+        attr['name'] = attrList[i];
+        attr['type'] = behaviorList[i];
+        attr['behavior'] = behaviorList[i];
+        attr['default'] = '';
+        props.push(attr);
+    }
     animationList.forEach((animationName: string) => {
         const attr: object = {};
         attr['name'] = animationName;
@@ -185,10 +193,11 @@ export function CreateGLTFModel(): void {
         typeList: typeList
     });
     polyEl.classList.add('data-receiver');
+    // Set up node update for frp
     polyEl.setAttribute('obj-node-update', {
         name: 'anime',
         animeList: animationList
-    }); // Set up node update for frp
+    }); 
 };
 
 export const sketchfab = new SketchFab();

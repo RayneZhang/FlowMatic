@@ -131,9 +131,9 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
         if (behavior === 'signal') {
             curDot.setAttribute('geometry', {
                 primitive: 'cone',
-                height: 0.15,
-                radiusTop: 0.045,
-                radiusBottom: 0.09
+                height: 0.12,
+                radiusTop: 0.04,
+                radiusBottom: 0.08
             });
             curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
         }

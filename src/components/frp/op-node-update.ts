@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
 import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass } from '../../Objects';
-import { resize, recenter } from '../../utils/SizeConstraints';
+import { resize, recenter, getRadius } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
@@ -30,7 +30,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const scale: any = input[3];
                     const event: boolean = input[4];
                     if (event) {
-                        console.log(input);
+                        // console.log(input);
                         create(_class, position, rotation, scale, pupNode);
                     }
                 }
@@ -160,8 +160,8 @@ let obj1set: Array<string> = [];
 let obj2set: Array<string> = [];
 
 function collision(object1: string, object2: string, pupNode: PupNode): void {
-    console.log(object1);
-    console.log(object2);
+    // console.log(object1);
+    // console.log(object2);
     // First set bounding box for these two objects.
     const entity1: any = document.querySelector('#' + object1);
     const entity2: any = document.querySelector('#' + object2);
@@ -172,59 +172,67 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
     obj1set.push(object1);
     obj2set.push(object2);
 
-    if (entity1.getAttribute('geometry') != undefined) {
-        const primitiveName: string = entity1.getAttribute('geometry').primitive;
-        if (primitiveName == 'sphere') {
-            const radius: number = entity1.getAttribute('geometry').radius;
-            entity1.setAttribute('static-body', {
-                shape: 'sphere',
-                sphereRadius: 0.04
-            })
-        }
-        else if (primitiveName == 'box') {
-            const width: number = entity1.getAttribute('geometry').width;
-            const height: number = entity1.getAttribute('geometry').height;
-            const depth: number = entity1.getAttribute('geometry').depth;
-            entity1.setAttribute('static-body', {
-                shape: 'sphere',
-                sphereRadius: 0.04
-            })
-        }
-    }
-    else {
-        entity1.setAttribute('static-body', {
-            shape: 'sphere',
-            sphereRadius: 0.04
-        })
-    }
-    
+    // if (entity1.getAttribute('geometry') != undefined) {
+    //     const primitiveName: string = entity1.getAttribute('geometry').primitive;
+    //     if (primitiveName == 'sphere') {
+    //         const radius: number = entity1.getAttribute('geometry').radius;
+    //         entity1.setAttribute('static-body', {
+    //             shape: 'sphere',
+    //             sphereRadius: 0.04
+    //         })
+    //     }
+    //     else if (primitiveName == 'box') {
+    //         const width: number = entity1.getAttribute('geometry').width;
+    //         const height: number = entity1.getAttribute('geometry').height;
+    //         const depth: number = entity1.getAttribute('geometry').depth;
+    //         entity1.setAttribute('static-body', {
+    //             shape: 'sphere',
+    //             sphereRadius: 0.04
+    //         })
+    //     }
+    // }
+    // else {
+    //     entity1.setAttribute('static-body', {
+    //         shape: 'sphere',
+    //         sphereRadius: 0.04
+    //     })
+    // }
+    const radius1: number = getRadius(entity1);
+    entity1.setAttribute('static-body', {
+        shape: 'sphere',
+        sphereRadius: radius1
+    })
     entity1.setAttribute('physics-collider', 'ignoreSleep', true);
     entity1.setAttribute('collision-filter', 'collisionForces', false);
 
-    if (entity2.getAttribute('geometry') != undefined) {
-        const primitiveName: string = entity2.getAttribute('geometry').primitive;
-        if (primitiveName == 'sphere') {
-            const radius: number = entity2.getAttribute('geometry').radius;
-            entity2.setAttribute('static-body', {
-                shape: 'sphere',
-                sphereRadius: 0.08
-            })
-        }
-        else if (primitiveName == 'box') {
-            const scale: number = entity2.object3D.scale.x;
-            entity2.setAttribute('static-body', {
-                shape: 'sphere',
-                sphereRadius: 0.08,
-            })
-        }
-    }
-    else {
-        entity2.setAttribute('static-body', {
-            shape: 'sphere',
-            sphereRadius: 0.08
-        })
-    }
-    
+    // if (entity2.getAttribute('geometry') != undefined) {
+    //     const primitiveName: string = entity2.getAttribute('geometry').primitive;
+    //     if (primitiveName == 'sphere') {
+    //         const radius: number = entity2.getAttribute('geometry').radius;
+    //         entity2.setAttribute('static-body', {
+    //             shape: 'sphere',
+    //             sphereRadius: 0.08
+    //         })
+    //     }
+    //     else if (primitiveName == 'box') {
+    //         const scale: number = entity2.object3D.scale.x;
+    //         entity2.setAttribute('static-body', {
+    //             shape: 'sphere',
+    //             sphereRadius: 0.08,
+    //         })
+    //     }
+    // }
+    // else {
+    //     entity2.setAttribute('static-body', {
+    //         shape: 'sphere',
+    //         sphereRadius: 0.08
+    //     })
+    // }
+    const radius2: number = getRadius(entity2);
+    entity2.setAttribute('static-body', {
+        shape: 'sphere',
+        sphereRadius: radius2
+    })
     entity2.setAttribute('physics-collider', 'ignoreSleep', true);
     entity2.setAttribute('collision-filter', 'collisionForces', false);
 
@@ -239,7 +247,7 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
                 }
             });
         }
-        console.log(e.detail.clearedEls);
+        // console.log(e.detail.clearedEls);
     });
 }
 

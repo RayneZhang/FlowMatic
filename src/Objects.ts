@@ -91,9 +91,12 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
-                {name: "position", type: "vector3", behavior: "signal"}
+                {name: "scale", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "object", type: "object", behavior: "event"},
+                {name: "class", type: "class", behavior: "event"}
             ]
         },
         {
@@ -102,9 +105,12 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
-                {name: "position", type: "vector3", behavior: "signal"}
+                {name: "scale", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "object", type: "object", behavior: "event"},
+                {name: "class", type: "class", behavior: "event"}
             ]
         },
         {
@@ -113,9 +119,12 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
-                {name: "position", type: "vector3", behavior: "signal"}
+                {name: "scale", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "object", type: "object", behavior: "event"},
+                {name: "class", type: "class", behavior: "event"}
             ]
         },
         {
@@ -124,9 +133,12 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
-                {name: "object", type: "object", behavior: "event"},
                 {name: "color", type: "string", behavior: "signal"}, 
-                {name: "position", type: "vector3", behavior: "signal"}
+                {name: "scale", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "object", type: "object", behavior: "event"},
+                {name: "class", type: "class", behavior: "event"}
             ]
         },
         {
@@ -254,8 +266,8 @@ export const objects = {
             inputs: [
                 {name: "class", type: "class", behavior: "event"},
                 {name: "position", type: "vector3", behavior: "event"},
-                {name: "rotation", type: "vector3", behavior: "event"},
-                {name: "scale", type: "vector3", behavior: "event"}
+                {name: "rotation", type: "vector3", behavior: "event", default: new THREE.Vector3(0, 0, 0)},
+                {name: "scale", type: "vector3", behavior: "event", default: new THREE.Vector3(1, 1, 1)}
             ],
             outputs: [
                 {name: "object", type: "object", behavior: "event"}

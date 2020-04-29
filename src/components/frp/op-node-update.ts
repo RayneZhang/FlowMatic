@@ -1,11 +1,13 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, BOX, SPHERE, CONE, CYLINDER, CIRCLE, PLANE } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
 import { destroyObj } from '../controllers/right-bbutton-listener';
+
+const primitiveClass: Array<string> = [BOX, SPHERE, CONE, CYLINDER, CIRCLE, PLANE];
 
 // This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
@@ -23,7 +25,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             this.el.setAttribute('id', pupNode.getID());
             this.subscription = pupNode.pluckInputs().subscribe((input) => {
                 if (run) {
-                    // console.log(input);
+                    console.log(input);
                     const _class: string = input[0];
                     const position: any = input[1];
                     const rotation: any = input[2];
@@ -247,14 +249,18 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
     el.setAttribute('id', createdNode.getID());
     el.classList.add('dynamic-create');
 
-    // Set up geometry and material
-    el.setAttribute('geometry', 'primitive', _class);
+    // If we are creating a primitive shape
+    if (primitiveClass.indexOf(_class) != -1) {
+        // Set up geometry and material
+        el.setAttribute('geometry', 'primitive', _class);
 
-    // Set up position, rotation, and scale
-    el.object3D.position.copy(position);
-    el.addEventListener('loaded', () => {
-        resize(el, 0.05);
-    });
+        // Set up position, rotation, and scale
+        el.object3D.position.copy(position);
+        el.addEventListener('loaded', () => {
+            resize(el, 0.05);
+        });
+    }
+    
     
     // After creating both the node and the entity, emit the nodeID as output
     pupNode.updateOutput('object', createdNode.getID());

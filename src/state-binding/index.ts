@@ -39,29 +39,30 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
 
             newEntity.object3D.position.set(position.x, position.y, position.z);
             newEntity.classList.add("movable");
+            newEntity.classList.add('data-receiver');
 
             // Models that exist in the objects store.
             for (let i = 0; i < objects.Models.length; i++) {
                 if (objects.Models[i].name === targetObjName) {
                     newEntity.setAttribute('attribute-list', 'targetModelName', targetObjName);
-                    newEntity.classList.add('data-receiver');
 
                     if (objects.Models[i].type === 'primitive') {
                         newEntity.setAttribute('geometry', 'primitive', targetObjName);
                         newEntity.object3D.scale.set(0.1, 0.1, 0.1);
 
                         // Create a node in frp-backend
-                        const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'position', default: position }, {name: 'color', default: color }];
+                        // For props, type and behavior are not supported yet.
+                        const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'class', default: targetObjName }, {name: 'color', default: color }];
                         objects.Models[i].outputs.forEach((o) => {
-                            if (o.name != 'object' && o.name != 'position' && o.name != 'color') {
+                            if (o.name != 'object' && o.name != 'class' && o.name != 'color') {
                                 o['default'] = ''; 
                                 props.push(o);
                             }
                         });
+
                         const objNode = scene.addObj(targetObjName, props);
                         newEntity.setAttribute('id', objNode.getID());
                         newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
-                        // newEntity.setAttribute('obj-init', 'name', targetObjName);
 
                         objNode.pluckOutput('color').subscribe((value) => {
                             // console.log(`${objNode.getLabel()} color is now: ${value}`);
@@ -86,6 +87,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         // Using JSON does not seem efficient
                         const objNode = scene.addObj(targetObjName, props);
                         newEntity.setAttribute('id', objNode.getID()); // Set up node ID
+
                         newEntity.setAttribute('obj-node-update', 'name', targetObjName); // Set up node update for frp
                         newEntity.setAttribute('obj-init', 'name', targetObjName);
 
@@ -108,7 +110,6 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     side: 'double'
                 });
                 newEntity.setAttribute('attribute-list', 'targetModelName', targetObjName);
-                newEntity.classList.add('data-receiver');
 
                 newEntity.setAttribute('text', {
                     align: 'center',

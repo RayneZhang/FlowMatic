@@ -60,6 +60,8 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
                         });
                     });
                 });
+
+                break;
             }
         }
     },

@@ -67,8 +67,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"},
-                {name: "class", type: "class", behavior: "event"}
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "class", type: "class", behavior: "signal"}
             ]
         },
         {
@@ -81,8 +81,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"},
-                {name: "class", type: "class", behavior: "event"}
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "class", type: "class", behavior: "signal"}
             ]
         },
         {
@@ -95,8 +95,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"},
-                {name: "class", type: "class", behavior: "event"}
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "class", type: "class", behavior: "signal"}
             ]
         },
         {
@@ -109,8 +109,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"},
-                {name: "class", type: "class", behavior: "event"}
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "class", type: "class", behavior: "signal"}
             ]
         },
         {
@@ -123,8 +123,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"},
-                {name: "class", type: "class", behavior: "event"}
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "class", type: "class", behavior: "signal"}
             ]
         },
         {
@@ -137,8 +137,8 @@ export const objects = {
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
-                {name: "object", type: "object", behavior: "event"},
-                {name: "class", type: "class", behavior: "event"}
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "class", type: "class", behavior: "signal"}
             ]
         },
         {
@@ -264,10 +264,11 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "class", type: "class", behavior: "event"},
-                {name: "position", type: "vector3", behavior: "event"},
-                {name: "rotation", type: "vector3", behavior: "event", default: new THREE.Vector3(0, 0, 0)},
-                {name: "scale", type: "vector3", behavior: "event", default: new THREE.Vector3(1, 1, 1)}
+                {name: "class", type: "class", behavior: "signal"},
+                {name: "position", type: "vector3", behavior: "signal"},
+                {name: "rotation", type: "vector3", behavior: "signal", default: new THREE.Vector3(0, 0, 0)},
+                {name: "scale", type: "vector3", behavior: "signal", default: new THREE.Vector3(1, 1, 1)},
+                {name: "event", type: "boolean", behavior: "event"}
             ],
             outputs: [
                 {name: "object", type: "object", behavior: "event"}

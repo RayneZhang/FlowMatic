@@ -25,12 +25,15 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             this.el.setAttribute('id', pupNode.getID());
             this.subscription = pupNode.pluckInputs().subscribe((input) => {
                 if (run) {
-                    console.log(input);
                     const _class: string = input[0];
                     const position: any = input[1];
                     const rotation: any = input[2];
                     const scale: any = input[3];
-                    create(_class, position, rotation, scale, pupNode);
+                    const event: boolean = input[4];
+                    if (event) {
+                        // console.log(input);
+                        create(_class, position, rotation, scale, pupNode);
+                    }
                 }
             });
         }

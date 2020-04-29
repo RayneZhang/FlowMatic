@@ -33,6 +33,7 @@ export const CONE = 'cone';
 export const CYLINDER = 'cylinder';
 export const CIRCLE = 'circle';
 export const PLANE = 'plane';
+export const primitiveClass: Array<string> = [BOX, SPHERE, CONE, CYLINDER, CIRCLE, PLANE];
 
 // Values
 export const VECTOR = 'Vector';

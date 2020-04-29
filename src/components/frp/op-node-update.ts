@@ -1,13 +1,12 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, BOX, SPHERE, CONE, CYLINDER, CIRCLE, PLANE } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass } from '../../Objects';
 import { resize } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
 import { destroyObj } from '../controllers/right-bbutton-listener';
 
-const primitiveClass: Array<string> = [BOX, SPHERE, CONE, CYLINDER, CIRCLE, PLANE];
 
 // This component is used for conducting operations on the front-end (if needed).
 export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
@@ -31,7 +30,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const scale: any = input[3];
                     const event: boolean = input[4];
                     if (event) {
-                        // console.log(input);
+                        console.log(input);
                         create(_class, position, rotation, scale, pupNode);
                     }
                 }
@@ -245,7 +244,7 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
 }
 
 function create(_class: string, position: any, rotation: any, scale: any, pupNode: PupNode): void {
-    const createdNode = scene.addObj(_class, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}]);
+    const createdNode = scene.addObj(_class, [{name: 'object', default: `node-${Node.getNodeCount()}`}]);
     const el: any = document.createElement('a-entity');
     const parentEl: any = document.querySelector('#redux');
     parentEl.appendChild(el);
@@ -259,9 +258,8 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
 
         // Set up position, rotation, and scale
         el.object3D.position.copy(position);
-        el.addEventListener('loaded', () => {
-            resize(el, 0.05);
-        });
+        el.object3D.rotation.copy(rotation);
+        el.object3D.scale.copy(scale);
     }
     
     

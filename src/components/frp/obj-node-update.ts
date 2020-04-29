@@ -72,6 +72,8 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         // Update the attributes that have default values in every frame.
         if (run) {
             this.node.update('position', this.el.object3D.position.clone());
+            this.node.update('rotation', this.el.object3D.rotation.clone());
+            this.node.update('scale', this.el.object3D.scale.clone());
             switch (this.data.name) {
                 case BOX: {
                     this.node.update('width', this.el.getAttribute('geometry').width * this.el.object3D.scale.x);

@@ -30,7 +30,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const scale: any = input[3];
                     const event: boolean = input[4];
                     if (event) {
-                        // console.log(input);
+                        console.log(input);
                         create(_class, position, rotation, scale, pupNode);
                     }
                 }
@@ -266,12 +266,12 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
         // Attach the gltf model.
         el.setAttribute('gltf-model', 'url(' + _class + ')');
         // Resize the model.
-        el.object3D.position.copy(position);
-        el.object3D.rotation.copy(rotation);
         el.addEventListener('model-loaded', () => {
             resize(el, 1.0);
             recenter(el);
             el.object3D.scale.copy(scale);
+            el.object3D.position.copy(position);
+            el.object3D.rotation.copy(rotation);
         });
     }
     

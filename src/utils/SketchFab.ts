@@ -159,7 +159,7 @@ export function CreateGLTFModel(): void {
 
     const attrList: Array<string> = ['class', 'object', 'position', 'rotation', 'scale'];
     const typeList: Array<string> = ['class', 'object', 'vector3', 'vector3', 'vector3'];
-    const behaviorList: Array<string> = ['event', 'event', 'signal', 'signal', 'signal'];
+    const behaviorList: Array<string> = ['signal', 'signal', 'signal', 'signal', 'signal'];
     
     // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
     const props: any = [{ name: 'class', default: updatedUrl }, { name: 'object', default: `node-${Node.getNodeCount()}` }];

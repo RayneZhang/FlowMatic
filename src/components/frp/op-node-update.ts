@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
 import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass } from '../../Objects';
-import { resize } from '../../utils/SizeConstraints';
+import { resize, recenter } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
@@ -30,7 +30,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const scale: any = input[3];
                     const event: boolean = input[4];
                     if (event) {
-                        console.log(input);
+                        // console.log(input);
                         create(_class, position, rotation, scale, pupNode);
                     }
                 }
@@ -261,7 +261,19 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
         el.object3D.rotation.copy(rotation);
         el.object3D.scale.copy(scale);
     }
-    
+    // If we are creating a sketchfab object
+    else {
+        // Attach the gltf model.
+        el.setAttribute('gltf-model', 'url(' + _class + ')');
+        // Resize the model.
+        el.object3D.position.copy(position);
+        el.object3D.rotation.copy(rotation);
+        el.addEventListener('model-loaded', () => {
+            resize(el, 1.0);
+            recenter(el);
+            el.object3D.scale.copy(scale);
+        });
+    }
     
     // After creating both the node and the entity, emit the nodeID as output
     pupNode.updateOutput('object', createdNode.getID());

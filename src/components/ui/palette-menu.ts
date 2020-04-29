@@ -673,14 +673,20 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     onNextClicked: function(): void {
         if (itemType == ItemType.Sketchfab) {
             cursor += 9;
-            this.loadSketchfab(cursor);
+            const searchTextEl: any = document.getElementById('search-text');
+            const query: string = searchTextEl.getAttribute('text').value;
+    
+            this.loadSketchfab(cursor, query);        
         }
     },
 
     onPreviousClicked: function(): void {
         if (itemType == ItemType.Sketchfab) {
             cursor = (cursor == 0) ? 0 : cursor-9;
-            this.loadSketchfab(cursor);
+            const searchTextEl: any = document.getElementById('search-text');
+            const query: string = searchTextEl.getAttribute('text').value;
+    
+            this.loadSketchfab(cursor, query);        
         }
     },
 

@@ -22,6 +22,17 @@ export const getRadius = (entity: any): number => {
     return maxLength;
 };
 
+export const getBox = (entity: any): {x: number, y: number, z: number} => {
+    const mesh: Object3D = entity.getObject3D('mesh');
+    if (!mesh) {return;}
+
+    const box: Box3 = new Box3().setFromObject(mesh);
+    const objectSize = new Vector3();
+    box.getSize(objectSize);
+    const result = {x: objectSize.x, y: objectSize.y, z: objectSize.z};
+    return result;
+};
+
 export const recenter = (entity: any): void => {
     const mesh: Object3D = entity.getObject3D('mesh');
     if (!mesh) {return;}

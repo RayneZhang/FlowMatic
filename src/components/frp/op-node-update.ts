@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
 import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass } from '../../Objects';
-import { resize, recenter, getRadius, getBox } from '../../utils/SizeConstraints';
+import { resize, recenter, getRadius, getBox, getBoxWithoutChildren } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
@@ -166,18 +166,18 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
     obj1set.push(object1);
     obj2set.push(object2);
 
-    const radius1: number = getRadius(entity1);
+    const boxSize1 = getBox(entity1);
     entity1.setAttribute('static-body', {
         shape: 'sphere',
-        sphereRadius: radius1
+        sphereRadius: boxSize1.z / 2
     })
     entity1.setAttribute('physics-collider', 'ignoreSleep', true);
     entity1.setAttribute('collision-filter', 'collisionForces', false);
 
-    const boxSize = getBox(entity2);
+    const boxSize2 = getBox(entity2);
     entity2.setAttribute('static-body', {
-        shape: 'box',
-        halfExtents: {x: boxSize.x, y: boxSize.y, z: boxSize.z}
+        shape: 'sphere',
+        sphereRadius: boxSize2.z / 2
     })
     entity2.setAttribute('physics-collider', 'ignoreSleep', true);
     entity2.setAttribute('collision-filter', 'collisionForces', false);

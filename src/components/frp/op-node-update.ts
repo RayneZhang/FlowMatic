@@ -188,8 +188,11 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
         if (e.detail.els.length > 0) {
             e.detail.els.forEach((el: any) => {
                 if (obj2set.indexOf(el.getAttribute('id')) != -1) {
-                    destroyObj(entity1);
-                    destroyObj(el);
+                    pupNode.updateOutput('collision-start', true);
+                    pupNode.updateOutput('collision-start', false);
+
+                    pupNode.updateOutput('collided-object1', entity1.getAttribute('id'));
+                    pupNode.updateOutput('collided-object2', el.getAttribute('id'));
                 }
             });
         }
@@ -261,12 +264,13 @@ function translate(object: string, from: THREEVector3, to: THREEVector3, speed: 
 function destroy(object: string, event: any): void {
     // console.log(event);
     if (!event) return;
-    const targetEl: any = document.querySelector(`#${object}`);
+    // console.log(object);
+    const targetEl: any = document.getElementById(object);
     if (!targetEl) {
-        // console.log('Cannot find the target entity at destroy operation.');
+        console.warn('Cannot find the target entity at destroy operation.');
         return
     }
-    targetEl.parentNode.removeChild(targetEl);
+    destroyObj(targetEl);
 }
 
 function dataTransmit(el: any, val: any): void {

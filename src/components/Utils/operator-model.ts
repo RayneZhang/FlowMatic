@@ -42,8 +42,8 @@ export const operatorModel = AFRAME.registerComponent('operator-model', {
             const behavior: string = this.data.behaviorInputs[i];
             const type: string = this.data.typeInputs[i];
             createOnePlug(inputName, type, behavior, -boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), true, this.el);
-            if (this.data.functionInputs.length >= 1)
-                this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
+            //if (this.data.functionInputs.length >= 1)
+            //    this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(i+0.5), 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0));
             i++;
         }
 
@@ -53,8 +53,8 @@ export const operatorModel = AFRAME.registerComponent('operator-model', {
             const behavior: string = this.data.behaviorOutputs[j];
             const type: string = this.data.typeOutputs[j];
             createOnePlug(outputName, type, behavior, boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), false, this.el);
-            if (this.data.functionOutputs.length >= 1)
-                this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), 0));
+            //if (this.data.functionOutputs.length >= 1)
+            //    this.createPipe(new THREE.Vector3(-this.boxWidth/2, this.boxHeight/2 - this.lineHeight/2, 0), new THREE.Vector3(this.boxWidth/2, this.boxHeight/2 - this.lineHeight*(j+0.5), 0));
             j++;
         }
 

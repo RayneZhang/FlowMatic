@@ -250,17 +250,6 @@ export const objects = {
             ]
         },
         {
-            name: EVENT2SIGNAL,
-            type: "obj",
-            itemUrl: "#processor-obj",
-            inputs: [
-                {name: "event", type: "any", behavior: "event"},
-            ],
-            outputs: [
-                {name: "signal", type: "any", behavior: "signal"}
-            ]
-        },
-        {
             name: CREATE,
             type: "obj",
             itemUrl: "#processor-obj",
@@ -306,12 +295,14 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "object-1", type: "object", behavior: "event"},
-                {name: "object-2", type: "object", behavior: "event"}
+                {name: "object1", type: "object", behavior: "event"},
+                {name: "object2", type: "object", behavior: "event"}
             ],
             outputs: [
                 {name: "collision-start", type: "boolean", behavior: "event"},
-                {name: "collision-end", type: "boolean", behavior: "event"}
+                {name: "collision-end", type: "boolean", behavior: "event"},
+                {name: "collided-object1", type: "object", behavior: "event"},
+                {name: "collided-object2", type: "object", behavior: "event"}
             ]
         },
         {

@@ -31,21 +31,6 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
             }
         }
 
-        if (this.data.targetModelName == 'text') {
-            this.data.attrList.push('object');
-            this.data.behaviorList.push('event');
-            this.data.typeList.push('object');
-            this.data.attrList.push('position');
-            this.data.behaviorList.push('signal');
-            this.data.typeList.push('vector3');
-            this.data.attrList.push('color');
-            this.data.behaviorList.push('signal');
-            this.data.typeList.push('string');
-            this.data.attrList.push('value');
-            this.data.behaviorList.push('signal');
-            this.data.typeList.push('string');
-        }
-
         // layout offset of the attributes.
         let offset: number = 1.5 * body;
         let currentY: number = 0;

@@ -96,7 +96,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 }
             }
 
-            // Generate Text.
+            // Text for UI in the world.
             if (targetObjName == 'text') {
                 // newEntity(plane) -> textEntity
                 newEntity.setAttribute('geometry', {
@@ -106,10 +106,9 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 });
                 newEntity.setAttribute('material', {
                     transparent: true,
-                    opacity: 0.2,
+                    opacity: 0.1,
                     side: 'double'
                 });
-                newEntity.setAttribute('attribute-list', 'targetModelName', targetObjName);
 
                 newEntity.setAttribute('text', {
                     align: 'center',
@@ -119,8 +118,29 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                 });
 
                 // Create a node in frp-backend
-                const objNode = scene.addObj(targetObjName, [{name: 'object', default: `node-${Node.getNodeCount()}`}, {name: 'position', default: position}, {name: 'color', default: color}]);
+                const attrList: Array<string> = ['class', 'object', 'position', 'rotation', 'scale', 'text'];
+                const typeList: Array<string> = ['class', 'object', 'vector3', 'vector3', 'vector3', 'string'];
+                const behaviorList: Array<string> = ['signal', 'event', 'signal', 'signal', 'signal', 'signal'];
+                
+                // Create a object node in frp-backend, attribute updates are front-end driven. Also extract all properties from object file
+                const props: any = [{ name: 'class', default: 'text' }, { name: 'object', default: `node-${Node.getNodeCount()}` }];
+                for (let i = 2; i < attrList.length; i++) {
+                    const attr: object = {};
+                    attr['name'] = attrList[i];
+                    attr['type'] = behaviorList[i];
+                    attr['behavior'] = behaviorList[i];
+                    attr['default'] = '';
+                    props.push(attr);
+                }
+                const objNode = scene.addObj(targetObjName, props);
                 newEntity.setAttribute('id', objNode.getID());
+                
+                // Add list of attributes next to the model.
+                newEntity.setAttribute('attribute-list', {
+                    attrList: attrList,
+                    behaviorList: behaviorList,
+                    typeList: typeList
+                });
                 newEntity.addEventListener('clicked', (event) => {
                     event.stopPropagation();
                     const kb: any = document.querySelector('#' + objNode.getID() + '_keyboard');

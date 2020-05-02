@@ -41,7 +41,7 @@ export const canvasConstraint = {
 }
 
 export const canvasColor = {
-    background: '#292827',
+    background: '#ececec',
     unselected: '#ffffff',
     hovered: '#19b5fe',
     selected: '#0078d4'
@@ -67,14 +67,12 @@ export interface Item {
 }
 
 export const itemLimit: number = 12;
+
 export const itemOffset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width + itemSize.width/2, menuSize.height/2 - buttonSize.height - itemSize.height/2, itemSize.width/2);
 
+const toolBox = ['Operators', 'Data', 'Avatars'];
 
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
-    schema: {
-        
-    },
-
     init: function(): void {
         this.mainCam = document.querySelector('#head');
 
@@ -146,7 +144,9 @@ function initCanvasBg(canvasEl: any, parentEl: any): void {
     });
 
     canvasEl.setAttribute('material', {
-        color: canvasColor.background
+        color: canvasColor.background,
+        transparent: true,
+        opacity: 0.3
     });
 
     canvasEl.classList.add('ui');
@@ -166,7 +166,9 @@ function initMenu(menuEl: any, parentEl: any): void {
         depth: menuSize.depth
     });
     menuEl.setAttribute('material', {
-        color: canvasColor.background
+        color: canvasColor.background,
+        transparent: true,
+        opacity: 0.3
     });
     const offset: number = canvasSize.width/2 + menuSize.width/2 + 0.1;
     menuEl.object3D.position.set(-offset, 0, 0);
@@ -181,7 +183,7 @@ function initMenu(menuEl: any, parentEl: any): void {
  */
 function initButtons(menuEl: any): void {
     const offset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width/2, menuSize.height/2 - buttonSize.height/2, menuSize.depth + 0.001);
-    Object.keys(objects).forEach((key: string, i: number) => {
+    toolBox.forEach((key: string, i: number) => {
         const bnEl: any = document.createElement('a-entity');
         bnEl.setAttribute('id', `button-${i}`);
         bnEl.setAttribute('geometry', {
@@ -249,7 +251,7 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
 
     // Extract submenu's name based on buttonID
     const submenuID: number = Number(buttonID.split('-')[1]);
-    const submenuName: string = Object.keys(objects)[submenuID];
+    const submenuName: string = toolBox[submenuID];
 
     const itemList: any = document.createElement('a-entity');
     itemList.setAttribute('id', 'item-list');
@@ -326,12 +328,12 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
         itemEl.addEventListener('clicked', (event) => {
             itemEl.setAttribute('material', 'color', itemColor.selected);
             // Use different methods of visualization when the item is an operator
-            // 0: Models; 1: Data; 2: Operators; 3: Avatars
-            if (submenuID == 1) // 1: Data
-                instantiateData(item);
-            else if (submenuID == 2) // 2: Operators
+            // 0: Operators; 1: Data; 2: Avatars;
+            if (submenuID == 0) // 1: Data
                 instantiateOp(item);
-            else // 0: Models & 3: Avatars
+            else if (submenuID == 1)
+                instantiateData(item);
+            else // 2: Avatars
                 instantiateObj(item, submenuID);
         });
 

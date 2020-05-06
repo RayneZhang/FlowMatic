@@ -23,6 +23,8 @@ export const getRadius = (entity: any): number => {
 };
 
 export const getBox = (entity: any): {x: number, y: number, z: number} => {
+    if (entity.getAttribute('geometry'))
+        return {x: 0, y: 0, z: 0.05};
     const mesh: Object3D = entity.getObject3D('mesh');
     if (!mesh) {return;}
 

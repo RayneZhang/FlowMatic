@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass, ANIMATION, EVENT2SIGNAL, STR2NUM, NUM2STR } from '../../Objects';
 import { resize, recenter, getRadius, getBox, getBoxWithoutChildren } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
@@ -22,6 +22,9 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         if (this.data.name === CREATE) {
             const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
             this.el.setAttribute('id', pupNode.getID());
+
+            this.startTime = Date.now();
+            const interval: number = 1000;
             this.subscription = pupNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     const _class: string = input[0];
@@ -29,7 +32,8 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const rotation: any = input[2];
                     const scale: any = input[3];
                     const event: boolean = input[4];
-                    if (event) {
+                    if (event && (Date.now() - this.startTime >= interval)) {
+                        this.startTime = Date.now();
                         create(_class, position, rotation, scale, pupNode);
                     }
                 }
@@ -38,6 +42,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
         else if (this.data.name === TRANSLATE) {
             const opNode: OpNode = scene.addOp(this.data.name);
             this.el.setAttribute('id', opNode.getID());
+            this.object = null;
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
                     // console.log("Translate start", input);
@@ -45,8 +50,10 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const from: THREEVector3 = input[1];
                     const to: THREEVector3 = input[2];
                     const speed: number = input[3];
-                    // TODO: Translate runs three times when object, from, and to are updated
-                    translate(object, from, to, speed, opNode);
+                    if (object !== this.object) {
+                        this.object = object;
+                        translate(object, from, to, speed, opNode);
+                    }
                 }
             });
 
@@ -57,7 +64,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             this.el.setAttribute('id', opNode.getID());
             this.subscription = opNode.pluckInputs().subscribe((input) => {
                 if (run) {
-                    // console.log("Destroy start", input);
+                    console.log("Destroy start", input);
                     const object: string = input[0];
                     const event: any = input[1];
                     destroy(object, event);
@@ -138,6 +145,50 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 }
             });
         }
+        else if (this.data.name === ANIMATION) {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.startTime = Date.now();
+            const interval: number = 1000;
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    console.log("Animation start", input);
+                    const object: string = input[0];
+                    const animation: string = input[1];
+                    if (Date.now() - this.startTime > interval) {
+                        this.startTime = Date.now();
+                        animate(object, animation);
+                    }
+                }
+            });
+        }
+        else if (this.data.name === EVENT2SIGNAL) {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    pupNode.updateOutput('signal', input[0]);
+                }
+            });
+        }
+        else if (this.data.name === STR2NUM) {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    pupNode.updateOutput('number', Number(input[0]));
+                }
+            });
+        }
+        else if (this.data.name === NUM2STR) {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    pupNode.updateOutput('string', String(input[0]));
+                }
+            });
+        }
         else {
             const opNode: OpNode = scene.addOp(this.data.name);
             this.el.setAttribute('id', opNode.getID());
@@ -187,11 +238,14 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
         if (e.detail.els.length > 0) {
             e.detail.els.forEach((el: any) => {
                 if (obj2set.indexOf(el.getAttribute('id')) != -1) {
-                    pupNode.updateOutput('collision-start', true);
-                    pupNode.updateOutput('collision-start', false);
+                    // pupNode.updateOutput('collision-start', true);
+                    // pupNode.updateOutput('collision-start', false);
 
-                    pupNode.updateOutput('collided-object1', entity1.getAttribute('id'));
-                    pupNode.updateOutput('collided-object2', el.getAttribute('id'));
+                    // pupNode.updateOutput('collided-object1', entity1.getAttribute('id'));
+                    // pupNode.updateOutput('collided-object2', el.getAttribute('id'));
+                    destroyObj(entity1);
+                    destroyObj(el);
+
                 }
             });
         }
@@ -240,9 +294,9 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
     }
     
     
-    // opNode.pluckOutput('object').subscribe((val) => {
-    //     console.log("Create output is ", val);
-    // });
+    createdNode.pluckOutput('object').subscribe((val) => {
+        console.log("Create output is ", val);
+    });
 }
 
 function translate(object: string, from: THREEVector3, to: THREEVector3, speed: number, opNode: OpNode): void {
@@ -274,9 +328,24 @@ function destroy(object: string, event: any): void {
     const targetEl: any = document.getElementById(object);
     if (!targetEl) {
         console.warn('Cannot find the target entity at destroy operation.');
-        return
+        return;
     }
     destroyObj(targetEl);
+}
+
+function animate(object: string, animation: string): void {
+    const targetEl: any = document.getElementById(object);
+    if (!targetEl) {
+        console.warn('Cannot find the target entity at animate operation.');
+        return;
+    }
+    if (targetEl.hasAttribute('animation-mixer'))
+        targetEl.removeAttribute('animation-mixer');
+    targetEl.setAttribute('animation-mixer', {
+        clip: animation,
+        loop: 'once',
+        timeScale: 0.5
+    });
 }
 
 function dataTransmit(el: any, val: any): void {

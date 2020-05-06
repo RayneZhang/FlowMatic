@@ -75,6 +75,10 @@ const rightTriggerListener = {
                         fromProp = intersectedEl.firstChild.getAttribute('text').value;
                     }
                 }
+                if (intersectedEl.parentNode && intersectedEl.parentNode.classList.contains('data-receiver')) {
+                    fromEntity = intersectedEl.parentNode;
+                    fromProp = 'text';
+                }
                 // Dot -> prompt -> bottle. For data sources such as bottles.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
                     fromEntity = intersectedEl.parentNode.parentNode;
@@ -198,7 +202,8 @@ const rightTriggerListener = {
                 const connectors = toEntity.querySelectorAll('.connectable');
                 connectors.forEach((connector: any) => {
                     if (getTypeByColor(connector.getAttribute('material').color) == 'any') {
-                        connector.setAttribute('material', 'color', unselectedColor);
+                        if (connector.classList.contains('output'))
+                            connector.setAttribute('material', 'color', unselectedColor);
                     }
                 });
             }

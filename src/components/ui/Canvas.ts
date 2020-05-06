@@ -72,6 +72,8 @@ export const itemOffset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.wi
 
 const toolBox = ['Operators', 'Data', 'Avatars'];
 
+let pageIdx: number = 0;
+
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
     init: function(): void {
         this.mainCam = document.querySelector('#head');
@@ -222,6 +224,87 @@ function initButtons(menuEl: any): void {
             bnEl.setAttribute('material', 'color', canvasColor.unselected);
         });
     });
+
+    const prevEl: any = document.createElement('a-entity');
+    prevEl.setAttribute('id', `canvas-prev`);
+    prevEl.setAttribute('geometry', {
+            primitive: 'plane',
+            width: buttonSize.width * 0.9,
+            height: buttonSize.height * 0.9
+        });
+        prevEl.setAttribute('material', {
+            src: `#prev_icon`,
+            color: canvasColor.unselected,
+            side: 'double',
+            transparent: true
+        });
+
+        // Place the button
+        menuEl.appendChild(prevEl);
+        prevEl.object3D.position.set(offset.x + buttonSize.width, offset.y, offset.z);
+
+        // Add reactions to the button
+        prevEl.classList.add('ui');
+        prevEl.addEventListener('raycaster-intersected', (event) => {
+            prevEl.setAttribute('material', 'color', canvasColor.hovered);
+            setDescription('last page');
+        });
+
+        prevEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            prevEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
+
+        prevEl.addEventListener('clicked', (event) => {
+            prevEl.setAttribute('material', 'color', canvasColor.selected);
+            if (pageIdx == 0)
+                loadItems(menuEl, 'button-0', pageIdx);
+            else
+                loadItems(menuEl, 'button-0', (--pageIdx) * 12);
+
+        });
+
+        prevEl.addEventListener('clicked-cleared', (event) => {
+            prevEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
+
+        const nextEl: any = document.createElement('a-entity');
+        nextEl.setAttribute('id', `canvas-next`);
+        nextEl.setAttribute('geometry', {
+            primitive: 'plane',
+            width: buttonSize.width * 0.9,
+            height: buttonSize.height * 0.9
+        });
+        nextEl.setAttribute('material', {
+            src: `#next_icon`,
+            color: canvasColor.unselected,
+            side: 'double',
+            transparent: true
+        });
+
+        // Place the button
+        menuEl.appendChild(nextEl);
+        nextEl.object3D.position.set(menuSize.width / 2 - buttonSize.width, offset.y, offset.z);
+
+        // Add reactions to the button
+        nextEl.classList.add('ui');
+        nextEl.addEventListener('raycaster-intersected', (event) => {
+            nextEl.setAttribute('material', 'color', canvasColor.hovered);
+            setDescription('next page');
+        });
+
+        nextEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            nextEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
+
+        nextEl.addEventListener('clicked', (event) => {
+            nextEl.setAttribute('material', 'color', canvasColor.selected);
+            loadItems(menuEl, 'button-0', (++pageIdx) * 12);
+
+        });
+
+        nextEl.addEventListener('clicked-cleared', (event) => {
+            nextEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
 }
 
 /**
@@ -281,13 +364,18 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
             });
         }
         else if (item.type === 'data') {
-            itemEl.setAttribute('geometry', 'primitive', 'plane');
+            itemEl.setAttribute('geometry', {
+                primitive: 'cone',
+                height: 0.06,
+                radiusTop: 0.02,
+                radiusBottom: 0.04
+            });
             itemEl.setAttribute('material', {
                 color: itemColor.unselected,
                 transparent: true,
                 opacity: 0.8
             });
-
+            
             // Resize the model into item size
             itemEl.addEventListener('loaded', () => {
                 resize(itemEl, itemSize.width);
@@ -532,10 +620,16 @@ function instantiateData(item: Item): void {
         height: 0.08
     });
     instanceEl.setAttribute('material', {
-        color: itemColor.unselected,
+        color: 'white',
         transparent: true,
         roughness: 1,
         opacity: 0.8
+    });
+    instanceEl.setAttribute('text', {
+        align: 'center',
+        width: 0.6,
+        wrapCount: 12,
+        value: '0'
     });
 
     instanceEl.setAttribute('pmt-val', 'name', item.name);
@@ -550,12 +644,12 @@ function instantiateData(item: Item): void {
     instanceEl.classList.add('data-receiver');
 
     instanceEl.addEventListener('raycaster-intersected', (event) => {
-        instanceEl.setAttribute('material', 'color', objColor.hovered);
-        setDescription(item.name);
+        // instanceEl.setAttribute('material', 'color', objColor.hovered);
+        // setDescription(item.name);
     });
 
     instanceEl.addEventListener('raycaster-intersected-cleared', (event) => {
-        instanceEl.setAttribute('material', 'color', objColor.unselected);
+        // instanceEl.setAttribute('material', 'color', objColor.unselected);
     });
 }
 
@@ -679,9 +773,9 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
     if (behavior === 'signal') {
         outCon.setAttribute('geometry', {
             primitive: 'cone',
-            height: 0.05,
-            radiusTop: 0.015,
-            radiusBottom: 0.03
+            height: 0.04,
+            radiusTop: 0.01,
+            radiusBottom: 0.02
         });
         outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
     }

@@ -23,7 +23,8 @@ class SketchFab {
         let options: RequestInit = {
             method: 'GET',
             headers: {
-                Authorization: `Token 7378591d3b564fb796e4d0976749e59e`,
+                //Authorization: `Token 7378591d3b564fb796e4d0976749e59e`,
+                Authorization: `Token d0ab706ba114416bb2fa36c216489d9c`,
             },
             mode: 'cors'
         };
@@ -174,13 +175,13 @@ export function CreateGLTFModel(): void {
     animationList.forEach((animationName: string) => {
         const attr: object = {};
         attr['name'] = animationName;
-        attr['type'] = 'boolean';
-        attr['behavior'] = 'event';
-        attr['default'] = ''; 
+        attr['type'] = 'string';
+        attr['behavior'] = 'signal';
+        attr['default'] = animationName; 
         props.push(attr);
         attrList.push(animationName);
-        behaviorList.push('event');
-        typeList.push('boolean');
+        behaviorList.push('signal');
+        typeList.push('string');
     });
 
     // Using JSON does not seem efficient

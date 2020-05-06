@@ -1,6 +1,8 @@
 import * as AFRAME from 'aframe';
 import { itemColor } from '../../ui/canvas';
 import { STR, NUM, VECTOR, BOOL } from '../../../Objects';
+import { getColorsByType } from '../../../utils/TypeVis';
+import { scene, Node } from 'frp-backend';
 
 export const primitiveVal = AFRAME.registerComponent('pmt-val', {
     schema: {
@@ -26,11 +28,44 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
         });
 
         // Place the model
-        expandEl.object3D.position.set(-0.16, 0, 0);
+        expandEl.object3D.position.set(-0.15, 0, 0);
         expandEl.classList.add('ui');
         expandEl.addEventListener('clicked', (event) => {
             expandOnClick(this.data.name, this.el);
         });
+
+        // Create dot entity and append it to the prompt of the bottle.
+        const curDot: any = document.createElement('a-entity');
+        this.el.appendChild(curDot);
+        curDot.setAttribute('id', this.el.getAttribute('id') + '-' + 'right' + '-dot');
+        curDot.classList.add('connectable');
+
+        curDot.object3D.position.x += 0.17;
+
+        // Set color of the sphere to white.
+        curDot.setAttribute('geometry', {
+            primitive: 'cone',
+            height: 0.06,
+            radiusTop: 0.02,
+            radiusBottom: 0.04
+        });
+        curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+
+        let unselectedColor: string = getColorsByType('number')[0];
+        let hoveredColor: string = getColorsByType('number')[1];
+        curDot.setAttribute('material', 'color', unselectedColor);
+        curDot.addEventListener('raycaster-intersected', (event) => {
+            curDot.setAttribute('material', 'color', hoveredColor);
+        });
+
+        curDot.addEventListener('raycaster-intersected-cleared', (event) => {
+            curDot.setAttribute('material', 'color', unselectedColor);
+        });
+
+        const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'text', default: this.el.getAttribute('text').value }];
+        const objNode = scene.addObj('source', props);
+        this.el.setAttribute('id', objNode.getID());
+        this.el.setAttribute('obj-node-update', 'name', 'source'); // Set up node update for frp
     },
 });
 
@@ -53,6 +88,22 @@ function expandOnClick(name: string, el: any): void {
                 imagePath: 'assets/images/'
             });
             kbEl.object3D.position.set(0, -0.25, 0);
+
+            // Avoid creating multiple keyboards.
+            kbEl.addEventListener('clicked', (event) => {
+                event.stopPropagation();
+            });
+            kbEl.addEventListener('superkeyboardchange', (event) => {
+                event.stopPropagation();
+                const changedVal: string = kbEl.getAttribute('super-keyboard').value;
+                el.setAttribute('text', 'value', changedVal);
+            });
+            kbEl.addEventListener('superkeyboarddismiss', (event) => {
+                kbEl.parentNode.removeChild(kbEl);
+            });
+            kbEl.addEventListener('superkeyboardinput', (event) => {
+                kbEl.parentNode.removeChild(kbEl);
+            });
         }
     }
     else if (name == VECTOR) {

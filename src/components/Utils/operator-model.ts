@@ -121,6 +121,8 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
     const inout: string = _input ? 'in' : 'out';
     plug.setAttribute('id', operatorId+'-'+_inputName+'-'+inout);
     plug.classList.add('connectable');
+    if (_input) plug.classList.add('input');
+    else plug.classList.add('output');
 
     if (_behavior === 'signal') {
         plug.setAttribute('geometry', {

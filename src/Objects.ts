@@ -16,6 +16,10 @@ export const COLLIDE = 'collide';
 export const INTERVAL = 'interval';
 export const EVENT2SIGNAL = 'Event2Signal';
 export const RANDOM_POS_CUBE = 'Random Position (Cube)';
+export const ANIMATION = 'animation';
+export const SIGNAL2EVENTINIT = 'Signal2Event (Init Value)';
+export const STR2NUM = 'str2num';
+export const NUM2STR = 'num2str';
 
 
 export const COLLISION_DETECTOR = 'Collision Detector';
@@ -36,12 +40,12 @@ export const PLANE = 'plane';
 export const primitiveClass: Array<string> = [BOX, SPHERE, CONE, CYLINDER, CIRCLE, PLANE];
 
 // Values
-export const VECTOR = 'Vector';
-export const SWITCH = 'Switch';
-export const SLIDER = 'Slider';
-export const NUM = 'Number';
-export const STR = 'String';
-export const BOOL = 'Boolean';
+export const VECTOR = 'vector3';
+// export const SWITCH = 'Switch';
+// export const SLIDER = 'Slider';
+export const NUM = 'number';
+export const STR = 'string';
+export const BOOL = 'boolean';
 
 // Models
 export const LIGHT = 'Light';
@@ -243,7 +247,7 @@ export const objects = {
             itemUrl: "#processor-obj",
             inputs: [
                 {name: "signal", type: "any", behavior: "signal"},
-                {name: "event", type: "boolean", behavior: "event"}
+                {name: "event", type: "any", behavior: "event"}
             ],
             outputs: [
                 {name: "output", type: "any", behavior: "event"}
@@ -273,7 +277,7 @@ export const objects = {
                 {name: "event", type: "boolean", behavior: "event"}
             ],
             outputs: [
-                {name: "end", type: "object", behavior: "event"}
+                {name: "end", type: "boolean", behavior: "event"}
             ]
         },
         {
@@ -282,9 +286,9 @@ export const objects = {
             itemUrl: "#processor-obj",
             inputs: [
                 {name: "object", type: "object", behavior: "event"},
-                {name: "from", type: "vector3", behavior: "event"},
-                {name: "to", type: "vector3", behavior: "event"},
-                {name: "speed", type: "number", behavior: "event"}
+                {name: "from", type: "vector3", behavior: "signal"},
+                {name: "to", type: "vector3", behavior: "signal"},
+                {name: "speed", type: "number", behavior: "signal"}
             ],
             outputs: [
                 {name: "end", type: "boolean", behavior: "event"}
@@ -303,6 +307,18 @@ export const objects = {
                 {name: "collision-end", type: "boolean", behavior: "event"},
                 {name: "collided-object1", type: "object", behavior: "event"},
                 {name: "collided-object2", type: "object", behavior: "event"}
+            ]
+        },
+        {
+            name: ANIMATION,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "object", type: "object", behavior: "event"},
+                {name: "animation", type: "string", behavior: "event"},
+            ],
+            outputs: [
+                {name: "end", type: "boolean", behavior: "event"}
             ]
         },
         {
@@ -329,6 +345,101 @@ export const objects = {
             ],
             outputs: [
                 {name: "vector3", type: "vector3", behavior: "signal"}
+            ]
+        },
+        // {
+        //     name: SIGNAL2EVENTINIT,
+        //     type: "obj",
+        //     itemUrl: "#processor-obj",
+        //     inputs: [
+        //         {name: "signal", type: "any", behavior: "signal"},
+        //     ],
+        //     outputs: [
+        //         {name: "event", type: "any", behavior: "event"}
+        //     ]
+        // },
+        {
+            name: EVENT2SIGNAL,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "event", type: "any", behavior: "event"}
+
+            ],
+            outputs: [
+                {name: "signal", type: "any", behavior: "signal"},
+            ]
+        },
+        {
+            name: STR2NUM,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "string", type: "string", behavior: "signal"}
+
+            ],
+            outputs: [
+                {name: "number", type: "number", behavior: "signal"},
+            ]
+        },
+        {
+            name: NUM2STR,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "number", type: "number", behavior: "signal"}
+
+            ],
+            outputs: [
+                {name: "string", type: "string", behavior: "signal"},
+            ]
+        },
+        {
+            name: '+ (number)',
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "input", type: "number", behavior: "signal"}
+
+            ],
+            outputs: [
+                {name: "output", type: "number", behavior: "signal"},
+            ]
+        },
+        {
+            name: '- (number)',
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "input", type: "number", behavior: "signal"}
+
+            ],
+            outputs: [
+                {name: "output", type: "number", behavior: "signal"},
+            ]
+        },
+        {
+            name: '* (number)',
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "input", type: "number", behavior: "signal"}
+
+            ],
+            outputs: [
+                {name: "output", type: "number", behavior: "signal"},
+            ]
+        },
+        {
+            name: '/ (number)',
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "input", type: "number", behavior: "signal"}
+
+            ],
+            outputs: [
+                {name: "output", type: "number", behavior: "signal"},
             ]
         }
     ],
@@ -362,9 +473,17 @@ export const objects = {
             inputs: [],
             outputs: [
                 {name: "object", type: "object", behavior: "event" },
-                {name: "triggerup", type: "boolean", default: false, behavior: "event" }, 
-                {name: "triggerdown", type: "boolean", default: false, behavior: "event"},
-                {name: "position", type: "vector3", behavior: "signal" }
+                {name: "triggerup", type: "boolean", default: false, behavior: "event" },
+                {name: "triggerdown", type: "boolean", default: false, behavior: "event" },
+                {name: "gripup", type: "boolean", default: false, behavior: "event" },
+                {name: "gripdown", type: "boolean", default: false, behavior: "event" },
+                {name: "thumbstickup", type: "boolean", default: false, behavior: "event" },
+                {name: "thumbstickdown", type: "boolean", default: false, behavior: "event" },
+                {name: "thumbstickleft", type: "boolean", default: false, behavior: "event" },
+                {name: "thumbstickright", type: "boolean", default: false, behavior: "event" },
+                {name: "position", type: "vector3", behavior: "signal" },
+                {name: "rotation", type: "vector3", behavior: "signal" },
+                {name: "scale", type: "vector3", behavior: "signal" }
             ]
         }
     ],

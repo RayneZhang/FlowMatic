@@ -97,11 +97,11 @@ export function updateInOut(el: any, container: any): void {
                 inPorts.splice(idx, 1);
 
                 // 2. Omit the outPort of the source entity (which might have been omitted).
-                const srcIdx: number = ctnOutNames.indexOf(srcProp);
-                if (srcIdx != -1) {
-                    ctnOutNames.splice(srcIdx, 1);
-                    outPorts.splice(srcIdx, 1);
-                }
+                // const srcIdx: number = ctnOutNames.indexOf(srcProp);
+                // if (srcIdx != -1) {
+                //     ctnOutNames.splice(srcIdx, 1);
+                //     outPorts.splice(srcIdx, 1);
+                // }
 
                 // 3. Reset the sourcePropEl so that the edge will start from inner operator.
                 const srcPropEl: any = document.getElementById(srcId + '-' + srcProp + '-out');
@@ -136,11 +136,11 @@ export function updateInOut(el: any, container: any): void {
                 outPorts.splice(idx, 1);
 
                 // 2. Omit the inPort of the target entity (which might have been omitted).
-                const tgtIdx: number = ctnInNames.indexOf(tgtProp);
-                if (tgtIdx != -1) {
-                    ctnInNames.splice(tgtIdx, 1);
-                    inPorts.splice(tgtIdx, 1);
-                }
+                // const tgtIdx: number = ctnInNames.indexOf(tgtProp);
+                // if (tgtIdx != -1) {
+                //     ctnInNames.splice(tgtIdx, 1);
+                //     inPorts.splice(tgtIdx, 1);
+                // }
 
                 // 3. Reset the targetPropEl so that the edge will end at inner operator.
                 const tgtPropEl: any = document.getElementById(tgtId + '-' + tgtProp + '-in');
@@ -242,8 +242,8 @@ export function updateShape(inPorts: Array<any>, outPorts: Array<any>, container
             });
         }
     });
-    tmpInEdges = new Array<string>();
-    tmpOutEdges = new Array<string>()
+    // tmpInEdges = new Array<string>();
+    // tmpOutEdges = new Array<string>()
     // Initiate operator name.
     // const textEntity: any = document.createElement('a-entity');
     // this.el.appendChild(textEntity);

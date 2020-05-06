@@ -44,25 +44,36 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
 
                 break;
             }
-            // All Sketchfab objects are named anime.
-            case 'anime': {
-                const animeList: Array<string> = this.data.animeList;
-
-                animeList.forEach((animeName: string) => {
-                    this.node.pluckOutput(animeName).subscribe((value: boolean) => {
-                        if (!value) return;
-                        if (this.el.hasAttribute('animation-mixer'))
-                            this.el.removeAttribute('animation-mixer');
-                        this.el.setAttribute('animation-mixer', {
-                            clip: animeName,
-                            loop: 'once',
-                            timeScale: 0.5
-                        });
-                    });
+            case 'text': {
+                this.latest_text = 'Hello World!';
+                this.node.pluckOutput('text').subscribe((value: string) => {
+                    if (!value) return;
+                    if (value == this.latest_text) return;
+                    this.latest_text = value;
+                    this.setAttribute('text', 'value', value);
                 });
 
                 break;
             }
+            // All Sketchfab objects are named anime.
+            // case 'anime': {
+            //     const animeList: Array<string> = this.data.animeList;
+
+            //     animeList.forEach((animeName: string) => {
+            //         this.node.pluckOutput(animeName).subscribe((value: boolean) => {
+            //             if (!value) return;
+            //             if (this.el.hasAttribute('animation-mixer'))
+            //                 this.el.removeAttribute('animation-mixer');
+            //             this.el.setAttribute('animation-mixer', {
+            //                 clip: animeName,
+            //                 loop: 'once',
+            //                 timeScale: 0.5
+            //             });
+            //         });
+            //     });
+
+            //     break;
+            // }
         }
     },
 
@@ -89,6 +100,14 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
                 case LIGHT: {
                     // this.node.update('light_direction', this.el.getAttribute('spotlight').direction);
                     this.node.update('light_color', this.el.getAttribute('spotlight').color);
+                    break;
+                }
+                case 'text': {
+                    // this.node.update('text', this.el.getAttribute('text').value);
+                    break;
+                }
+                case 'source': {
+                    this.node.update('text', this.el.getAttribute('text').value);
                     break;
                 }
             }         

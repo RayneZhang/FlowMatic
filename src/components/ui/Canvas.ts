@@ -597,8 +597,8 @@ function instantiateObj(item: Item, submenuID: number): void {
         });
     }
     
-    // 0: Models; 1: Data; 2: Operators; 3: Avatars
-    if ( submenuID === 3 )  {
+    // 0: Operators; 1: Data; 2: Avatars
+    if ( submenuID === 2 )  {
         instanceEl.setAttribute('avatar-node-update', 'name', item.name);
         // Visualize attributes for objects as well as connectors
         const attrHeight: number = itemSize.height / item.outputs.length;
@@ -606,16 +606,6 @@ function instantiateObj(item: Item, submenuID: number): void {
         item.outputs.forEach((output: {name: string, type: string, behavior: string}, i: number) => {
             createAttr(instanceEl, output.name, output.behavior, output.type, attrHeight, attrWidth, itemSize.height/2 - attrHeight/2 - (i*attrHeight));
         });
-    }
-    // When the node is Generic Models/Data/
-    else {
-        // Create a generic object node in frp-backend.
-        const genericNode = scene.addObj(item.name, [{name: 'object', default: item.name}]);
-        instanceEl.setAttribute('id', genericNode.getID());
-
-        const attrHeight: number = itemSize.height / item.outputs.length;
-        const attrWidth: number = 0.08;
-        createAttr(instanceEl, "object", "event", "object", attrHeight, attrWidth);
     }
 
     // Place the model

@@ -25,7 +25,7 @@
         <script src="vendor/inflate.js"></script>
     </head>
     <body>
-        <a-scene physics="gravity: 0; debug: true; driver: local;">
+        <a-scene physics="gravity: 0; debug: false; driver: local;">
             <!-- Assets -->
             <a-assets>
                 <!-- <a-asset-item id="western-gltf" src="assets/models/scenes/western/scene.gltf"></a-asset-item>
@@ -115,7 +115,7 @@
                 <a-entity id="head" camera look-controls></a-entity>
 
                 <!-- Controllers. -->
-                <a-entity id="rightHand" collider-controller laser-controls="hand: right" controller-material haptics
+                <a-entity id="rightHand"  laser-controls="hand: right" controller-material haptics
                 thumb-controls="hand: right" raycaster="objects: .movable, .ui, .line, .canvasObj, .connectable, .Arrow, .Switch, .Slider;"
                 absorb-controller right-trigger-listener right-grip-listener right-abutton-listener right-bbutton-listener scale-controller="hand: right" rotation-controller="hand: right">
                     <a-entity id="rightTooltips" class="oculus-tooltips" visible="true">
@@ -145,7 +145,7 @@
                     </a-entity>
                 </a-entity>
 
-                <a-entity id="leftHand" collider-controller oculus-touch-controls="hand: left" controller-material haptics
+                <a-entity id="leftHand"  oculus-touch-controls="hand: left" controller-material haptics
                 thumb-controls="hand: left" camera-rotation teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: ybutton">
                     <a-entity id="menu" palette-menu>
                         <a-entity id="palette-keyboard" palette-keyboard></a-entity>
@@ -195,16 +195,16 @@
             <a-entity id="sword" event-receiver class="movable weapon sword" body="type: static; shape: none" shape__main="shape: cylinder; height: 10; radiusTop: 1; radiusBottom: 1; orientation: 0 0 -0.3 1" physics-collider="ignoreSleep: true" collision-filter="collisionForces: false" scale="0.1 0.1 0.1" position="0 0 -2" attribute-list="attrNames: Collider" gltf-model="#sword-gltf"></a-entity> -->          
 
             <!-- Scene #3 -->
-            <!-- <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.8; type: hemisphere"></a-entity>
+            <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.8; type: hemisphere"></a-entity>
             <a-entity light="type: directional; color: #ffffff; intensity: 0.4;" position="31 80 -50"></a-entity>
             <a-entity id="skybox" cubemap="ext:png; folder: /assets/images/blue/"></a-entity>
             <a-entity id="cruise" scale="15 15 15" gltf-model="#cruise-gltf" mtl-lighting></a-entity>
-            <a-entity id="platform" position="0 0 -10" scale="0.01 0.01 0.01" gltf-model="#platform-gltf" mtl-lighting></a-entity> --> -->
+            <a-entity id="platform" position="0 0 -10" scale="0.01 0.01 0.01" gltf-model="#platform-gltf" mtl-lighting></a-entity> -->
             
             <!-- Experiment Scene -->
-            <a-entity id="env" environment="preset: default; lighting: none; fog: 0" mtl-lighting></a-entity>
+            <!-- <a-entity id="env" environment="preset: default; lighting: none; fog: 0" mtl-lighting></a-entity>
             <a-entity light="color: #ffffff; groundColor: #79a8bb; intensity: 0.6; type: hemisphere"></a-entity>
-            <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity>
+            <a-entity light="type: directional; color: #ffffff; intensity: 0.15;" position="31 80 50"></a-entity> -->
 
             <!-- Utils -->
             <a-entity id="canvas" canvas-generator></a-entity>

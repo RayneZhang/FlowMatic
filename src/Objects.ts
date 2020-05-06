@@ -257,7 +257,7 @@ export const objects = {
                 {name: "class", type: "class", behavior: "signal"},
                 {name: "position", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal", default: new THREE.Vector3(0, 0, 0)},
-                {name: "scale", type: "vector3", behavior: "signal", default: new THREE.Vector3(1, 1, 1)},
+                {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "event", type: "boolean", behavior: "event"}
             ],
             outputs: [

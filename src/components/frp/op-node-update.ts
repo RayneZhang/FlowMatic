@@ -30,7 +30,6 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                     const scale: any = input[3];
                     const event: boolean = input[4];
                     if (event) {
-                        // console.log(input);
                         create(_class, position, rotation, scale, pupNode);
                     }
                 }
@@ -91,7 +90,7 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
             this.el.setAttribute('id', pupNode.getID());
             this.subscription = pupNode.pluckInputs().subscribe((input) => {
                 if (run) {
-                    // console.log(input);
+                    console.log(input);
                     collision(input[0], input[1], pupNode);
                 }
             });
@@ -213,10 +212,15 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
         // Set up geometry and material
         el.setAttribute('geometry', 'primitive', _class);
 
-        // Set up position, rotation, and scale
-        el.object3D.position.copy(position);
-        el.object3D.rotation.copy(rotation);
-        el.object3D.scale.copy(scale);
+        el.addEventListener('loaded', () => {
+            // Set up position, rotation, and scale
+            el.object3D.position.copy(position);
+            el.object3D.rotation.copy(rotation);
+            el.object3D.scale.copy(scale);
+
+            // After creating both the node and the entity, emit the nodeID as output
+            pupNode.updateOutput('object', createdNode.getID());
+        });
     }
     // If we are creating a sketchfab object
     else {
@@ -229,11 +233,13 @@ function create(_class: string, position: any, rotation: any, scale: any, pupNod
             el.object3D.scale.copy(scale);
             el.object3D.position.copy(position);
             el.object3D.rotation.copy(rotation);
+
+            // After creating both the node and the entity, emit the nodeID as output
+            pupNode.updateOutput('object', createdNode.getID());
         });
     }
     
-    // After creating both the node and the entity, emit the nodeID as output
-    pupNode.updateOutput('object', createdNode.getID());
+    
     // opNode.pluckOutput('object').subscribe((val) => {
     //     console.log("Create output is ", val);
     // });
@@ -280,7 +286,7 @@ function dataTransmit(el: any, val: any): void {
     edges.forEach((edgeID: string) => {
         const edgeEl: any = document.querySelector('#'+edgeID);
         if (edgeEl) {
-            emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
+            // emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
         }
     });
 }

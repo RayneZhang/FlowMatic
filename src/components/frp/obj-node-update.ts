@@ -103,7 +103,7 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
             edges.forEach((edgeID: string) => {
                 const edgeEl: any = document.querySelector('#'+edgeID);
                 if (edgeEl) {
-                    emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
+                   // emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
                 }
             });
         }

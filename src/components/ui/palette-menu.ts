@@ -827,7 +827,7 @@ function hsv2rgb(hsv) {
 function setCurrentColor(_color: string): void {
     const currentColor: any = document.querySelector('#currentcolor');
     currentColor.setAttribute('material', 'color', _color);
-    for (let i: number = 0; i < 6; i++) {
+    for (let i: number = 0; i < 9; i++) {
         const ins: any = document.querySelector('#instance-'+i);
         if (ins)
             ins.setAttribute('material', 'color', _color);

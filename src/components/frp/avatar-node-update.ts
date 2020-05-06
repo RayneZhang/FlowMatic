@@ -45,7 +45,7 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
                     edges.forEach((edgeID: string) => {
                         const edgeEl: any = document.querySelector('#'+edgeID);
                         if (edgeEl && edgeEl.getAttribute('line-component').sourceProp == 'triggerdown') {
-                            emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
+                            // emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
                         }
                     });
                 }
@@ -61,7 +61,7 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
                     edges.forEach((edgeID: string) => {
                         const edgeEl: any = document.querySelector('#'+edgeID);
                         if (edgeEl && edgeEl.getAttribute('line-component').sourceProp == 'triggerup') {
-                            emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
+                            // emitData(edgeEl, edgeEl.getAttribute('line-component').startPoint, edgeEl.getAttribute('line-component').endPoint);
                         }
                     });
                 }

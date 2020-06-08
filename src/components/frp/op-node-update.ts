@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe'
 import { scene, Node, ObjNode, OpNode, PupNode } from 'frp-backend'
-import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass, ANIMATION, EVENT2SIGNAL, STR2NUM, NUM2STR } from '../../Objects';
+import { objects, CREATE, TRANSLATE, DESTROY, SNAPSHOT, SUB, COLLIDE, INTERVAL, RANDOM_POS_CUBE, primitiveClass, ANIMATION, EVENT2SIGNAL, STR2NUM, NUM2STR, RANDOM_POS_PLANE } from '../../Objects';
 import { resize, recenter, getRadius, getBox, getBoxWithoutChildren } from '../../utils/SizeConstraints';
 import { Vector3 as THREEVector3, Vector3} from 'three'
 import { emitData } from '../../utils/EdgeVisualEffect';
@@ -145,6 +145,31 @@ export const opNodeUpdate = AFRAME.registerComponent('op-node-update', {
                 }
             });
         }
+        else if (this.data.name === RANDOM_POS_PLANE) {
+            const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
+            this.el.setAttribute('id', pupNode.getID());
+            this.worldRandPos = new Vector3();
+            this.subscription = pupNode.pluckInputs().subscribe((input) => {
+                if (run) {
+                    const object: string = input[0];
+                    const width: number = input[1];
+                    const height: number = input[2];
+
+                    const randWidth: number = (Math.random() - 0.5) * width;
+                    const randHeight: number = (Math.random() - 0.5) * height;
+
+                    const localRandPos: Vector3 = new Vector3(randWidth, randHeight, 0);
+                    const planeEl: any = document.getElementById(object);
+                    planeEl.object3D.updateMatrix();
+                    planeEl.object3D.updateWorldMatrix();
+                    const worldRandPos: Vector3 = planeEl.object3D.localToWorld(localRandPos);
+                    if (!this.worldRandPos.equals(worldRandPos)) {
+                        pupNode.updateOutput('vector3', worldRandPos.clone());
+                        this.worldRandPos = worldRandPos.clone();
+                    }
+                }
+            });
+        }
         else if (this.data.name === ANIMATION) {
             const pupNode: PupNode = scene.addPuppet(this.data.name, this.data.inputs, this.data.outputs);
             this.el.setAttribute('id', pupNode.getID());
@@ -244,8 +269,20 @@ function collision(object1: string, object2: string, pupNode: PupNode): void {
                     // pupNode.updateOutput('collided-object1', entity1.getAttribute('id'));
                     // pupNode.updateOutput('collided-object2', el.getAttribute('id'));
                     destroyObj(entity1);
-                    destroyObj(el);
-
+                    // destroyObj(el);
+                    const scores = document.querySelectorAll('.scoreTxt');
+                    scores.forEach((score: any) => {
+                        const val: string = score.getAttribute('text').value;
+                        let valNum: number = 0;
+                        if (Number(val) >= 3)
+                            valNum = Number(val) + 2;
+                        else
+                            valNum = Number(val) + 1;
+                        
+                        score.setAttribute('text', {
+                            value: String(valNum)
+                        });
+                    });
                 }
             });
         }

@@ -24,7 +24,7 @@ class SketchFab {
             method: 'GET',
             headers: {
                 //Authorization: `Token 7378591d3b564fb796e4d0976749e59e`,
-                Authorization: `Token d0ab706ba114416bb2fa36c216489d9c`,
+                Authorization: `Token 24d1ea04e3dd4a2a9d6cf2b8e3aee942`,
             },
             mode: 'cors'
         };

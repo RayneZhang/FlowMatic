@@ -10,7 +10,7 @@ import { savedContainerId, instantiateContainer, ctnWidth, ctnDepth, savedInPort
 import { createOnePlug } from '../utils/operator-model';
 import { getColorsByType } from '../../utils/TypeVis';
 
-export const canvasSize = {
+export let canvasSize = {
     width: 1.6, 
     height: 1,
     depth: 0.02
@@ -32,7 +32,7 @@ export const itemSize = {
     height: 0.2
 }
 
-export const canvasConstraint = {
+export let canvasConstraint = {
     negx: -canvasSize.width/2,
     posx: canvasSize.width/2,
     negy: -canvasSize.height/2,
@@ -152,8 +152,61 @@ function initCanvasBg(canvasEl: any, parentEl: any): void {
     });
 
     canvasEl.classList.add('ui');
-
     parentEl.appendChild(canvasEl);
+
+    const expandEl: any = document.createElement('a-entity');
+    expandEl.setAttribute('id', `canvas-expand`);
+    expandEl.setAttribute('geometry', {
+            primitive: 'plane',
+            width: buttonSize.width * 0.9,
+            height: buttonSize.height * 0.9
+        });
+        expandEl.setAttribute('material', {
+            src: `#expand_icon`,
+            color: canvasColor.unselected,
+            side: 'double',
+            transparent: true
+        });
+
+        // Place the button
+        canvasEl.appendChild(expandEl);
+        expandEl.object3D.position.set(canvasSize.width / 2 - buttonSize.width / 2, canvasSize.height / 2 - buttonSize.height / 2, canvasSize.depth / 2 + 0.001);
+
+        // Add reactions to the button
+        expandEl.classList.add('ui');
+        expandEl.addEventListener('raycaster-intersected', (event) => {
+            expandEl.setAttribute('material', 'color', canvasColor.hovered);
+            setDescription('expand canvas');
+        });
+
+        expandEl.addEventListener('raycaster-intersected-cleared', (event) => {
+            expandEl.setAttribute('material', 'color', canvasColor.unselected);
+        });
+
+        expandEl.addEventListener('clicked', (event) => {
+            expandEl.setAttribute('material', 'color', canvasColor.selected);
+            canvasEl.object3D.position.set(canvasEl.object3D.position.x + canvasSize.width / 2, 0, 0);
+            canvasSize.width *= 2;
+            canvasSize.height *= 2;
+            canvasEl.setAttribute('geometry', {
+                primitive: 'box',
+                width: canvasSize.width,
+                height: canvasSize.height,
+                depth: canvasSize.depth
+            });
+            canvasConstraint = {
+                negx: -canvasSize.width/2,
+                posx: canvasSize.width/2,
+                negy: -canvasSize.height/2,
+                posy: canvasSize.height/2,
+                constz: itemSize.width/2
+            };
+            expandEl.object3D.position.set(canvasSize.width / 2 - buttonSize.width / 2, canvasSize.height / 2 - buttonSize.height / 2, canvasSize.depth / 2 + 0.001);
+        });
+
+        expandEl.addEventListener('clicked-cleared', (event) => {
+            expandEl.setAttribute('material', 'color', canvasColor.unselected);
+        });    
 }
 
 /**

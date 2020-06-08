@@ -3,7 +3,7 @@ import { scene, Node, ObjNode } from 'frp-backend'
 import { Vector3, Vector } from 'three';
 import { emitData } from '../../utils/EdgeVisualEffect';
 import { run } from '../../utils/App';
-import { GUN, LIGHT, BOX } from '../../Objects';
+import { GUN, LIGHT, BOX, PLANE } from '../../Objects';
 
 export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
     schema: {
@@ -20,7 +20,7 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
         this.timeSpam = 500;
         this.timeInterval = 0;
         this.tipOffset = new Vector3(0.22, 0.05, 0);
-        this.shootDirection = new Vector3(1, 0, 0);
+        this.shootDirection = new Vector3(5, 0, 0);
         // Update the behaviors when there is an input.
         switch (this.data.name) {
             case LIGHT: {
@@ -90,6 +90,11 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
                     this.node.update('width', this.el.getAttribute('geometry').width * this.el.object3D.scale.x);
                     this.node.update('height', this.el.getAttribute('geometry').height * this.el.object3D.scale.y);
                     this.node.update('depth', this.el.getAttribute('geometry').depth * this.el.object3D.scale.z);
+                    break;
+                }
+                case PLANE: {
+                    this.node.update('width', this.el.getAttribute('geometry').width * this.el.object3D.scale.x);
+                    this.node.update('height', this.el.getAttribute('geometry').height * this.el.object3D.scale.y);
                     break;
                 }
                 case GUN: {

@@ -13,9 +13,11 @@ export const CREATE = 'create';
 export const DESTROY = 'destroy';
 export const TRANSLATE = 'translate';
 export const COLLIDE = 'collide';
+export const COLLIDECLASS = 'collide (class)';
 export const INTERVAL = 'interval';
 export const EVENT2SIGNAL = 'Event2Signal';
 export const RANDOM_POS_CUBE = 'Random Position (Cube)';
+export const RANDOM_POS_PLANE = 'Random Position (Plane)';
 export const ANIMATION = 'animation';
 export const SIGNAL2EVENTINIT = 'Signal2Event (Init Value)';
 export const STR2NUM = 'str2num';
@@ -138,6 +140,8 @@ export const objects = {
             itemUrl: "",
             inputs: [],
             outputs: [
+                {name: "width", type: "number", behavior: "signal"},
+                {name: "height", type: "number", behavior: "signal"},
                 {name: "color", type: "string", behavior: "signal"}, 
                 {name: "scale", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal"},
@@ -262,7 +266,7 @@ export const objects = {
                 {name: "position", type: "vector3", behavior: "signal"},
                 {name: "rotation", type: "vector3", behavior: "signal", default: new THREE.Vector3(0, 0, 0)},
                 {name: "scale", type: "vector3", behavior: "signal"},
-                {name: "event", type: "boolean", behavior: "event"}
+                {name: "event", type: "any", behavior: "event"}
             ],
             outputs: [
                 {name: "object", type: "object", behavior: "event"}
@@ -310,6 +314,21 @@ export const objects = {
             ]
         },
         {
+            name: COLLIDECLASS,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "class1", type: "class", behavior: "signal"},
+                {name: "class2", type: "class", behavior: "signal"}
+            ],
+            outputs: [
+                {name: "collision-start", type: "boolean", behavior: "event"},
+                {name: "collision-end", type: "boolean", behavior: "event"},
+                {name: "collided-object1", type: "object", behavior: "event"},
+                {name: "collided-object2", type: "object", behavior: "event"}
+            ]
+        },
+        {
             name: ANIMATION,
             type: "obj",
             itemUrl: "#processor-obj",
@@ -327,7 +346,7 @@ export const objects = {
             itemUrl: "#processor-obj",
             inputs: [
                 {name: "signal", type: "any", behavior: "signal"},
-                {name: "period", type: "number", behavior: "signal", default: 3000}
+                {name: "period", type: "number", behavior: "signal", default: 50000}
             ],
             outputs: [
                 {name: "event", type: "any", behavior: "event"}
@@ -338,10 +357,23 @@ export const objects = {
             type: "obj",
             itemUrl: "#processor-obj",
             inputs: [
-                {name: "object", type: "object", behavior: "event"},
+                {name: "object", type: "object", behavior: "signal"},
                 {name: "width", type: "number", behavior: "signal"},
                 {name: "height", type: "number", behavior: "signal"},
                 {name: "depth", type: "number", behavior: "signal"},
+            ],
+            outputs: [
+                {name: "vector3", type: "vector3", behavior: "signal"}
+            ]
+        },
+        {
+            name: RANDOM_POS_PLANE,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "object", type: "object", behavior: "signal"},
+                {name: "width", type: "number", behavior: "signal"},
+                {name: "height", type: "number", behavior: "signal"}
             ],
             outputs: [
                 {name: "vector3", type: "vector3", behavior: "signal"}

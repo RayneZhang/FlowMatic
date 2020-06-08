@@ -3,7 +3,7 @@
 
 import * as AFRAME from 'aframe'
 import store from '../store'
-import { objects } from '../Objects'
+import { objects, PLANE } from '../Objects'
 import { scene, Node } from 'frp-backend'
 import { Vector3 } from 'three';
 const stateBinding = AFRAME.registerComponent('state-binding', {
@@ -49,6 +49,10 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                     if (objects.Models[i].type === 'primitive') {
                         newEntity.setAttribute('geometry', 'primitive', targetObjName);
                         newEntity.object3D.scale.set(0.1, 0.1, 0.1);
+
+                        if (targetObjName == PLANE) {
+                            newEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                        }
 
                         // Create a node in frp-backend
                         // For props, type and behavior are not supported yet.
@@ -172,7 +176,13 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                             kbEl.parentNode.removeChild(kbEl);
                         });
                         kbEl.addEventListener('superkeyboardinput', (event) => {
-                            kbEl.parentNode.removeChild(kbEl);
+                            // kbEl.parentNode.removeChild(kbEl);
+                            // console.log('superkeyboardinput');
+                            console.log(newEntity.getAttribute('text'));
+                            if (newEntity.getAttribute('text').value == '0') {
+                                console.log("Set text entity class");
+                                newEntity.classList.add('scoreTxt');
+                            }
                         });
                     }
                     

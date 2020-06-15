@@ -519,5 +519,21 @@ export const objects = {
             ]
         }
     ],
-    Poly:[]
+    Poly:[],
+    Canvas:[
+        {
+            name: 'Canvas#1',
+            type: "primitive",
+            itemUrl: "",
+            inputs: [],
+            outputs: []
+        },
+        {
+            name: 'Add a new canvas',
+            type: "img",
+            itemUrl: "#Plus_icon",
+            inputs: [],
+            outputs: []
+        },
+    ]
 }

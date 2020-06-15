@@ -70,7 +70,8 @@ export const itemLimit: number = 12;
 
 export const itemOffset: Vector3 = new Vector3(-menuSize.width/2 + buttonSize.width + itemSize.width/2, menuSize.height/2 - buttonSize.height - itemSize.height/2, itemSize.width/2);
 
-const toolBox = ['Operators', 'Data', 'Avatars'];
+const toolBox = ['Operators', 'Data', 'Avatars', 'Canvas'];
+let canvases = ['Canvas#1'];
 
 let pageIdx: number = 0;
 
@@ -252,7 +253,7 @@ function initButtons(menuEl: any): void {
             side: 'double',
             transparent: true
         });
-
+        console.log(`#${key}_icon`);
         // Place the button
         menuEl.appendChild(bnEl);
         bnEl.object3D.position.set(offset.x, offset.y - buttonSize.height * i, offset.z);
@@ -416,6 +417,21 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
                 resize(itemEl, itemSize.width);
             });
         }
+        else if (item.type === 'img') {
+            // Set up item geometry and material
+            itemEl.setAttribute('geometry', 'primitive', 'plane');
+            itemEl.setAttribute('material', {
+                src: `#Plus_icon`,
+                color: canvasColor.unselected,
+                side: 'double',
+                transparent: true
+            });
+
+            // Resize the model into item size
+            itemEl.addEventListener('loaded', () => {
+                resize(itemEl, itemSize.width);
+            });
+        }
         else if (item.type === 'data') {
             itemEl.setAttribute('geometry', {
                 primitive: 'cone',
@@ -470,17 +486,28 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
             itemEl.setAttribute('material', 'color', itemColor.selected);
             // Use different methods of visualization when the item is an operator
             // 0: Operators; 1: Data; 2: Avatars;
-            if (submenuID == 0) // 1: Data
+            if (submenuID == 0) // 0: Operators
                 instantiateOp(item);
-            else if (submenuID == 1)
+            else if (submenuID == 1) // 1: Data
                 instantiateData(item);
-            else // 2: Avatars
+            else if (submenuID == 2) // 2: Avatars
                 instantiateObj(item, submenuID);
+            else if (submenuID == 3 && item.type === 'img') {
+                const canvas2El: any = document.createElement('a-entity');
+                const canvas1El: any = document.getElementById('canvas-world');
+                const parent: any = document.getElementById('canvas');
+                initCanvasBg(canvas2El, parent);
+                canvas2El.object3D.position.set(canvas1El.object3D.position.x + canvasSize.width + 0.1, canvas1El.object3D.position.y, canvas1El.object3D.position.z);
+            }
         });
 
         itemEl.addEventListener('clicked-cleared', (event) => {
             itemEl.setAttribute('material', 'color', itemColor.unselected);
         });
+    }
+
+    if (submenuID == 3) {
+
     }
 
     if (submenuID == 4) {

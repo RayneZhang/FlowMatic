@@ -75,6 +75,8 @@ let canvases = ['Canvas#1'];
 
 let pageIdx: number = 0;
 
+let currentCanvas: string = 'canvas-world';
+
 export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
     init: function(): void {
         this.mainCam = document.querySelector('#head');
@@ -87,6 +89,12 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         desEl.setAttribute('id', 'description-world');
 
         initCanvasBg(canvasEl, this.el);
+        canvasEl.addEventListener('clicked', (event) => {
+            const canvas2El: any = document.getElementById('canvas-world-2');
+            canvas2El.object3D.position.set(canvas2El.object3D.position.x, canvas2El.object3D.position.y, canvasEl.object3D.position.z);
+            canvasEl.object3D.position.set(canvasEl.object3D.position.x, canvasEl.object3D.position.y, canvasEl.object3D.position.z + 0.2);
+            currentCanvas = 'canvas-world';
+        });
         initMenu(menuEl, this.el);
         initDes(desEl, menuEl);
         loadItems(menuEl, 'button-0');
@@ -494,10 +502,16 @@ export function loadItems(menuEl: any, buttonID: string, itemIndex: number = 0, 
                 instantiateObj(item, submenuID);
             else if (submenuID == 3 && item.type === 'img') {
                 const canvas2El: any = document.createElement('a-entity');
+                canvas2El.setAttribute('id', 'canvas-world-2');
                 const canvas1El: any = document.getElementById('canvas-world');
                 const parent: any = document.getElementById('canvas');
                 initCanvasBg(canvas2El, parent);
                 canvas2El.object3D.position.set(canvas1El.object3D.position.x + canvasSize.width + 0.1, canvas1El.object3D.position.y, canvas1El.object3D.position.z);
+                canvas2El.addEventListener('clicked', (event) => {
+                    canvas1El.object3D.position.set(canvas1El.object3D.position.x, canvas1El.object3D.position.y, canvas2El.object3D.position.z);
+                    canvas2El.object3D.position.set(canvas2El.object3D.position.x, canvas2El.object3D.position.y, canvas2El.object3D.position.z + 0.2);
+                    currentCanvas = 'canvas-world-2';
+                });
             }
         });
 
@@ -631,7 +645,7 @@ function instantiateCtn(): void {
  */
 function instantiateOp(item: Item): void {
     const opEl: any = document.createElement('a-entity');
-    const canvas: any = document.querySelector('#canvas-world');
+    const canvas: any = document.querySelector('#'+currentCanvas);
     canvas.appendChild(opEl);
 
     // Add a new node into the scene and assign the id to the entity

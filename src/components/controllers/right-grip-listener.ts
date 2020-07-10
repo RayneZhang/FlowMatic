@@ -20,6 +20,11 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
             
            // Fetch the intersected object and intersections
            const intersectedEl = getIntersectedEl(this.el);
+           if (!intersectedEl) return;
+           if (intersectedEl.getAttribute('id') == 'canvas-world' || intersectedEl.getAttribute('id') == 'canvas-world-2') {
+            this.data.grabbedEl = intersectedEl;
+            intersectedEl.setAttribute('visible', false);
+           }
            if (!intersectedEl || !intersectedEl.classList.contains('movable')) return;
 
             if (intersectedEl.classList.contains('weapon')) {
@@ -88,6 +93,9 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
                 }
             }
 
+            if (this.data.grabbedEl.getAttribute('id') == 'canvas-world' || this.data.grabbedEl.getAttribute('id') == 'canvas-world-2') {
+                this.data.grabbedEl.setAttribute('visible', true);
+            }
             
             this.el.setAttribute('right-grip-listener', {'gripping': false, 'grabbedEl': null, 'weaponEl': null});
         });
@@ -97,7 +105,7 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
         const gripping = this.data.gripping;
         const grabbedEl = this.data.grabbedEl;
 
-        if (gripping && grabbedEl) {
+        if (gripping && grabbedEl && grabbedEl.getAttribute('id') != 'canvas-world' && grabbedEl.getAttribute('id') != 'canvas-world-2') {
             this.el.object3D.updateMatrix();
             this.el.object3D.updateMatrixWorld();
             const updatedTargetPosition: any = this.el.object3D.localToWorld(this.localPosition.clone());

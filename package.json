@@ -41,7 +41,7 @@
     "tsc": "^1.20150623.0",
     "typescript": "^3.0.3",
     "webpack": "^4.19.1",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^4.15.1"
   },
   "devDependencies": {
     "webpack-cli": "^3.1.1"

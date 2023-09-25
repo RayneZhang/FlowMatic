@@ -1,0 +1,49 @@
+{
+  "name": "vrbehavior",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start:dev": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RayneZhang/VRBehavior.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RayneZhang/VRBehavior/issues"
+  },
+  "homepage": "https://github.com/RayneZhang/VRBehavior#readme",
+  "dependencies": {
+    "aframe": "^1.0.4",
+    "aframe-cubemap-component": "^1.0.0",
+    "aframe-environment-component": "^2.0.0",
+    "aframe-extras": "^6.0.0",
+    "aframe-gltf-part-component": "^1.2.0",
+    "aframe-haptics-component": "^1.5.1",
+    "aframe-physics-extras": "^0.1.3",
+    "aframe-physics-system": "^4.0.1",
+    "aframe-super-keyboard": "^2.0.2",
+    "aframe-teleport-controls": "^0.3.1",
+    "aframe-thumb-controls-component": "^1.1.0",
+    "frp-backend": "git+https://github.com/RayneZhang/frp-backend.git",
+    "jquery": "^3.4.1",
+    "redux": "^4.0.1",
+    "redux-undo": "^1.0.0-beta9-9-7",
+    "rxjs": "^6.5.2",
+    "three": "^0.112.1",
+    "three-to-cannon": "^2.0.0",
+    "ts-loader": "^5.2.0",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.0.3",
+    "webpack": "^4.19.1",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.1"
+  }
+}

@@ -13,7 +13,11 @@ If you found this work influential or helpful for your research, please consider
 ```
 
 ## Installation
-If you'd like to build from this repository, you must install [node.js](https://nodejs.org/en). Then, from inside the project source directory, run:
+If you'd like to build from this repository, you must install [node.js](https://nodejs.org/en). 
+
+Specifically, we recommend using the node version of ``v12.22.12``. You can use it via [nvm](https://github.com/nvm-sh/nvm).
+
+Then, from inside the project source directory, run:
 
 ```
 npm install .

@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RayneZhang/VRBehavior.git"
+    "url": "git+https://github.com/RayneZhang/FlowMatic.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RayneZhang/VRBehavior/issues"
+    "url": "https://github.com/RayneZhang/FlowMatic/issues"
   },
-  "homepage": "https://github.com/RayneZhang/VRBehavior#readme",
+  "homepage": "https://github.com/RayneZhang/FlowMatic#readme",
   "dependencies": {
-    "aframe": "^1.0.4",
+    "aframe": "1.0.4",
     "aframe-cubemap-component": "^1.0.0",
     "aframe-environment-component": "^2.0.0",
     "aframe-extras": "^6.0.0",
@@ -44,6 +44,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "devDependencies": {
+    "@types/node": "^17.0.41",
     "webpack-cli": "^3.1.1"
   }
 }

@@ -46,7 +46,7 @@ const slider = AFRAME.registerComponent('slider', {
             event.stopPropagation();
             _plug.setAttribute('material', 'color', 'white'); 
         })
-        _plug.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+        _plug.object3D.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
         _plug.object3D.scale.set(3, 3, 3);
     },
 

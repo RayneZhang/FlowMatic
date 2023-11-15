@@ -107,9 +107,9 @@ const vector = AFRAME.registerComponent('vector', {
         const magnitude = scaledVector.length();
         const plugOffset = 0.03;
         this.inputPlug.object3D.position.set(-0.12, magnitude + plugOffset, 0);
-        this.inputPlug.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+        this.inputPlug.object3D.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
         this.outputPlug.object3D.position.set(0.12, magnitude + plugOffset, 0);
-        this.outputPlug.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+        this.outputPlug.object3D.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
     },
 
     initPlug: function(_plug: any): void {
@@ -158,10 +158,10 @@ const vector = AFRAME.registerComponent('vector', {
         _latitude.object3D.lookAt(relativePosition);
         _longitude.object3D.lookAt(relativePosition);
 
-        _longitude.object3D.rotateY(THREE.Math.degToRad(90));
-        _longitude.object3D.rotateZ(THREE.Math.degToRad(90));
+        _longitude.object3D.rotateY(THREE.MathUtils.degToRad(90));
+        _longitude.object3D.rotateZ(THREE.MathUtils.degToRad(90));
 
-        _latitude.object3D.rotateX(THREE.Math.degToRad(90));
+        _latitude.object3D.rotateX(THREE.MathUtils.degToRad(90));
     },
 
     initTorus: function(_axis, _arrowUp, _arrowDown): void {
@@ -225,7 +225,7 @@ const vector = AFRAME.registerComponent('vector', {
         arrowDownHead.setAttribute('geometry', headGeometry);
         arrowDownHead.setAttribute('material', 'color', 'red');
         arrowDownHead.object3D.position.set(0.0866, 0.05, 0);
-        arrowDownHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(30));
+        arrowDownHead.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(30));
 
         // Set up two components of the up arrow.
         const arrowUpHead: any = document.createElement('a-entity');
@@ -256,14 +256,14 @@ const vector = AFRAME.registerComponent('vector', {
 
         arrowUpTail.setAttribute('geometry', tailGeometry);
         arrowUpTail.setAttribute('material', 'color', 'green');
-        arrowUpTail.object3D.rotation.set(0, 0, THREE.Math.degToRad(-25));
+        arrowUpTail.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(-25));
         arrowUpHead.setAttribute('geometry', headGeometry);
         arrowUpHead.setAttribute('material', 'color', 'green');
         arrowUpHead.object3D.position.set(0.0866, -0.05, 0);
-        arrowUpHead.object3D.rotation.set(0, 0, THREE.Math.degToRad(150));
+        arrowUpHead.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(150));
 
-        _arrowDown.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
-        _arrowUp.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+        _arrowDown.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
+        _arrowUp.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
     },
 
     setMagnitude: function(): void {
@@ -285,8 +285,8 @@ const vector = AFRAME.registerComponent('vector', {
         const relativePosition = new THREE.Vector3(worldPos.x + this.pointingPos.x, worldPos.y + this.pointingPos.y, worldPos.z + this.pointingPos.z);
         this.magnitudeUp.object3D.lookAt(relativePosition);
         this.magnitudeDown.object3D.lookAt(relativePosition);
-        this.magnitudeUp.object3D.rotateX(THREE.Math.degToRad(90));
-        this.magnitudeDown.object3D.rotateX(THREE.Math.degToRad(-90));
+        this.magnitudeUp.object3D.rotateX(THREE.MathUtils.degToRad(90));
+        this.magnitudeDown.object3D.rotateX(THREE.MathUtils.degToRad(-90));
 
         // Set up position.
         const pointingPos = new THREE.Vector3(this.pointingPos.x / 10, this.pointingPos.y / 10, this.pointingPos.z / 10);
@@ -340,7 +340,7 @@ const vector = AFRAME.registerComponent('vector', {
         const relativePosition = new THREE.Vector3(worldPos.x + _position.x, worldPos.y + _position.y, worldPos.z + _position.z);
         // lookAt function takes a vector in world space.
         _subEntityBody.object3D.lookAt(relativePosition);
-        _subEntityBody.object3D.rotateX(THREE.Math.degToRad(90));
+        _subEntityBody.object3D.rotateX(THREE.MathUtils.degToRad(90));
     },
 
     initVectorBody: function(_subEntityHead, _subEntityTail): void {
@@ -380,7 +380,7 @@ const vector = AFRAME.registerComponent('vector', {
         xAxis.setAttribute('geometry', axisGeometry);
         xAxis.setAttribute('material', 'color', 'blue');
         xAxis.object3D.position.set(0.05, 0, 0);
-        xAxis.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+        xAxis.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
 
         yAxis.setAttribute('geometry', axisGeometry);
         yAxis.setAttribute('material', 'color', 'green');
@@ -389,7 +389,7 @@ const vector = AFRAME.registerComponent('vector', {
         zAxis.setAttribute('geometry', axisGeometry);
         zAxis.setAttribute('material', 'color', 'red');
         zAxis.object3D.position.set(0, 0, 0.05);
-        zAxis.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+        zAxis.object3D.rotation.set(THREE.MathUtils.degToRad(90), 0, 0);
 
         const xLabel: any = document.createElement('a-entity');
         const yLabel: any = document.createElement('a-entity');
@@ -427,8 +427,8 @@ const vector = AFRAME.registerComponent('vector', {
         const times = 0.1 / 1000 * _timeDelta;
         const offsetVector = this.pointingPos.clone().normalize().multiplyScalar(times);
 
-        const angleRad = THREE.Math.degToRad(15 / 1000 * _timeDelta);
-        const reverseAngleRad = THREE.Math.degToRad(-15 / 1000 * _timeDelta);
+        const angleRad = THREE.MathUtils.degToRad(15 / 1000 * _timeDelta);
+        const reverseAngleRad = THREE.MathUtils.degToRad(-15 / 1000 * _timeDelta);
         switch (this.data.selectedArrow) {
             case 'left':
                 latitudeDir.applyQuaternion(latitude.object3D.quaternion);

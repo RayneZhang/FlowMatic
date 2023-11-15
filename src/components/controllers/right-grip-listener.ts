@@ -1,5 +1,5 @@
 import { getIntersectedEl, getIntersections } from '../../utils/Raycast';
-import { Object3D, Mesh, Math as THREEMath, Vector3 } from 'three';
+import { Object3D, Mesh, MathUtils, Vector3 } from 'three';
 import { canvasConstraint } from '../ui/canvas';
 import * as AFRAME from 'aframe';
 import { getRadius } from '../../utils/SizeConstraints';
@@ -120,8 +120,8 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
                     grabbedEl.object3D.position.copy(localCanvasPosition.clone());
                 }
                 else {
-                    grabbedEl.object3D.position.set(THREEMath.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
-                    THREEMath.clamp(localCanvasPosition.y, canvasConstraint.negy, canvasConstraint.posy), 
+                    grabbedEl.object3D.position.set(MathUtils.clamp(localCanvasPosition.x, canvasConstraint.negx, canvasConstraint.posx), 
+                    MathUtils.clamp(localCanvasPosition.y, canvasConstraint.negy, canvasConstraint.posy), 
                     canvasConstraint.constz);
                 }
                 
@@ -152,7 +152,7 @@ function showOrHideWireframe(targetEl: any, _show: boolean): void {
             radiusTubular: 0.001 / targetEl.object3D.scale.y,
             radius: outerRadius
         });
-        selectionRing.object3D.rotation.set(THREEMath.degToRad(-90), 0, 0);
+        selectionRing.object3D.rotation.set(MathUtils.degToRad(-90), 0, 0);
     }
     else {
         const selectionRing: any = document.querySelector('#selection-ring');

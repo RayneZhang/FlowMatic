@@ -21,8 +21,8 @@ const entityFollow = AFRAME.registerComponent('entity-follow', {
                 this.data.targetEntity.object3D.updateWorldMatrix();
                 const worldPos = this.data.targetEntity.object3D.localToWorld(new THREE.Vector3(0, 0, 0));
                 this.el.object3D.position.copy(worldPos.clone());
-                this.el.object3D.rotateX(THREE.Math.degToRad(-90));
-                this.el.object3D.rotateZ(THREE.Math.degToRad(45));
+                this.el.object3D.rotateX(THREE.MathUtils.degToRad(-90));
+                this.el.object3D.rotateZ(THREE.MathUtils.degToRad(45));
             }
         }
     }

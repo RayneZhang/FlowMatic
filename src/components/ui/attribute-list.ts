@@ -120,7 +120,7 @@ export const attributeList = AFRAME.registerComponent('attribute-list', {
                 radiusTop: 0.04,
                 radiusBottom: 0.08
             });
-            curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+            curDot.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(-90));
         }
             
         if (behavior === 'event') {

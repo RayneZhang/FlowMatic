@@ -49,7 +49,7 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
             radiusTop: 0.02,
             radiusBottom: 0.04
         });
-        curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+        curDot.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(-90));
 
         let unselectedColor: string = getColorsByType('number')[0];
         let hoveredColor: string = getColorsByType('number')[1];

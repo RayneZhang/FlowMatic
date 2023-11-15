@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe';
-import { Math } from 'three';
+import { MathUtils } from 'three';
 
 export const cameraRotation = AFRAME.registerComponent('camera-rotation', {
     
@@ -17,13 +17,13 @@ export const cameraRotation = AFRAME.registerComponent('camera-rotation', {
 
         this.el.addEventListener('thumbrightstart', (event) => {
             if (this.grabbing) {
-                cameraRig.object3D.rotateY(Math.degToRad(-45));
+                cameraRig.object3D.rotateY(MathUtils.degToRad(-45));
                 this.el.components.haptics.pulse(0.5, 100);
             }
         });
         this.el.addEventListener('thumbleftstart', (event) => {
             if (this.grabbing) {
-                cameraRig.object3D.rotateY(Math.degToRad(45));
+                cameraRig.object3D.rotateY(MathUtils.degToRad(45));
                 this.el.components.haptics.pulse(0.5, 100);
             }
         });

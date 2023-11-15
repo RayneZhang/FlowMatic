@@ -19,7 +19,7 @@ const swtch = AFRAME.registerComponent('swtch', {
         });
 
         // Initiate rotation of the swtich.
-        this.el.object3D.rotation.set(THREE.Math.degToRad(45), 0, 0);
+        this.el.object3D.rotation.set(THREE.MathUtils.degToRad(45), 0, 0);
     },
 
     // =====For external call.=====
@@ -31,10 +31,10 @@ const swtch = AFRAME.registerComponent('swtch', {
     switchClicked(): void {
         this.data.switchOn = !this.data.switchOn;
         if (this.data.switchOn) {
-            this.el.object3D.rotation.set(THREE.Math.degToRad(-45), 0, 0);
+            this.el.object3D.rotation.set(THREE.MathUtils.degToRad(-45), 0, 0);
         }
         else
-            this.el.object3D.rotation.set(THREE.Math.degToRad(45), 0, 0);
+            this.el.object3D.rotation.set(THREE.MathUtils.degToRad(45), 0, 0);
     }
 });
 

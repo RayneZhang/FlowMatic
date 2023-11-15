@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/RayneZhang/FlowMatic#readme",
   "dependencies": {
-    "aframe": "1.0.4",
+    "aframe": "1.1.0",
     "aframe-cubemap-component": "^1.0.0",
     "aframe-environment-component": "^2.0.0",
     "aframe-extras": "^6.0.0",
@@ -29,7 +29,7 @@
     "aframe-physics-system": "^4.0.1",
     "aframe-super-keyboard": "^2.0.2",
     "aframe-teleport-controls": "^0.3.1",
-    "aframe-thumb-controls-component": "^1.1.0",
+    "aframe-thumb-controls-component": "^2.0.3",
     "frp-backend": "git+https://github.com/RayneZhang/frp-backend.git",
     "jquery": "^3.4.1",
     "redux": "^4.0.1",

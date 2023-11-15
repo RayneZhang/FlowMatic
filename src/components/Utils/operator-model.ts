@@ -132,9 +132,9 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
             radiusBottom: 0.03
         });
         if (_input)
-            plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+            plug.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
         else 
-            plug.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+            plug.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(-90));
     }
         
     if (_behavior === 'event') {
@@ -178,14 +178,14 @@ export function createOnePlug(_inputName: string, _type: string, _behavior: stri
         plugDescription.object3D.position.set(0.06, 0, 0.05);
         if (_behavior === 'signal') {
             plugDescription.object3D.position.set(0, -0.06, 0.05);
-            plugDescription.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+            plugDescription.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(-90));
         }
     }
     else {
         plugDescription.object3D.position.set(-0.06, 0, 0.05);
         if (_behavior === 'signal') {
             plugDescription.object3D.position.set(0, -0.06, 0.05);
-            plugDescription.object3D.rotation.set(0, 0, THREE.Math.degToRad(90));
+            plugDescription.object3D.rotation.set(0, 0, THREE.MathUtils.degToRad(90));
         }
     }
 

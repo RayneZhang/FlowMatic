@@ -30,7 +30,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
                         const Dir = new THREE.Vector3().copy(dataValue);
                         Dir.add(this.el.object3D.position.clone());
                         this.el.object3D.lookAt(Dir);
-                        this.el.object3D.rotateX(THREE.Math.degToRad(15));
+                        this.el.object3D.rotateX(THREE.MathUtils.degToRad(15));
                     }
                 }
             }
@@ -68,7 +68,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         // Set up parameters.
         spotLightEntity.setAttribute('light', 'type', 'spot');
         spotLightEntity.setAttribute('light', 'angle', 15);
-        spotLightEntity.object3D.rotation.set(THREE.Math.degToRad(165), 0, 0);
+        spotLightEntity.object3D.rotation.set(THREE.MathUtils.degToRad(165), 0, 0);
 
         // Create light bulb entity.
         const lightBulbEntity: any = this.lightBulbEntity = document.createElement('a-entity');
@@ -85,7 +85,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
             shader: 'flat'
         });
         lightBulbEntity.object3D.position.set(0, 0.05, 0.1);
-        lightBulbEntity.object3D.rotation.set(THREE.Math.degToRad(70), 0, 0);
+        lightBulbEntity.object3D.rotation.set(THREE.MathUtils.degToRad(70), 0, 0);
         lightBulbEntity.object3D.scale.set(2.5, 2.5, 2.5);
 
         // Create a volumetric entity.
@@ -102,7 +102,7 @@ const spotLight = AFRAME.registerComponent('spotlight', {
         const {x, y, z} = this.el.getAttribute('position');
         material.uniforms.spotPosition.value = new THREE.Vector3(x, y + 0.02, z + 0.04);
         volumetricEntity.setObject3D('mesh', mesh);
-        volumetricEntity.object3D.rotation.set(THREE.Math.degToRad(-15), 0, 0);
+        volumetricEntity.object3D.rotation.set(THREE.MathUtils.degToRad(-15), 0, 0);
         this.setVolumetricLightColor('white');
         volumetricEntity.object3D.scale.set(2.5, 2.5, 2.5);
     },

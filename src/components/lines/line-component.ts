@@ -143,7 +143,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
 
         // Set arrow rotation.
         this.arrow.object3D.lookAt(endPoint.add(dir));
-        this.arrow.object3D.rotateX(THREE.Math.degToRad(90));
+        this.arrow.object3D.rotateX(THREE.MathUtils.degToRad(90));
     }
 
 });

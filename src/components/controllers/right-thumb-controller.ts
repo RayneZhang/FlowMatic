@@ -37,7 +37,7 @@ const rotationController = {
 
     tick: function(time, timeDelta): void {
         if (this.rotating) {
-            this.targetEntity.object3D.rotation.y += THREE.Math.degToRad(this.degPerFr * this.data.speed);
+            this.targetEntity.object3D.rotation.y += THREE.MathUtils.degToRad(this.degPerFr * this.data.speed);
         }
     }
 }

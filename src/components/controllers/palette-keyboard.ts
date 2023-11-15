@@ -8,7 +8,7 @@ export const paletteKb = AFRAME.registerComponent('palette-keyboard', {
     init: function(): void {
         // Place the keyboard.
         this.el.object3D.position.set(0.26, 0, -0.15);
-        this.el.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+        this.el.object3D.rotation.set(THREE.MathUtils.degToRad(-90), 0, 0);
         this.el.object3D.scale.set(0.4, 0.4, 0.4);
 
         // Add super-keyboard component

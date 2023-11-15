@@ -291,7 +291,7 @@ const rightTriggerListener = {
 
                 // Modify position at three.js level for better performance. (Better than setAttribute)
                 const valueRange: number = this.slidingEl.components['slider'].getValueRange();
-                this.slidingEl.object3D.position.set(THREE.Math.clamp(updatedTargetPosition.x, -valueRange, valueRange), 0, 0);
+                this.slidingEl.object3D.position.set(THREE.MathUtils.clamp(updatedTargetPosition.x, -valueRange, valueRange), 0, 0);
                 this.slidingEl.components['slider'].setSliderValueByPosX(this.slidingEl.object3D.position.x);
                 return;
             }

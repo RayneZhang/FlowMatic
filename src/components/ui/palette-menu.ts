@@ -1,6 +1,6 @@
 import * as AFRAME from 'aframe';
 import * as $ from 'jquery';
-import { Math as THREEMath, ShaderMaterial, Mesh, TextureLoader } from 'three';
+import { MathUtils as THREEMath, ShaderMaterial, Mesh, TextureLoader } from 'three';
 import { objects } from '../../Objects';
 import { Item } from './canvas';
 import { resize, recenter } from '../../utils/SizeConstraints';
@@ -193,7 +193,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                     else if (pieceName == 'search-button')
                         iconEl.object3D.position.set(0.06, 0.0031, -0.091);
                     
-                    iconEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                    iconEl.object3D.rotation.set(THREE.MathUtils.degToRad(-90), 0, 0);
                     pieceEl.setAttribute('material', 'color', inactiveColor);
                     break;
                 }
@@ -209,7 +209,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
                         value: 'Hello World!'
                     });
                     searchTextEl.object3D.position.set(-0.01, 0.001, -0.09);
-                    searchTextEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                    searchTextEl.object3D.rotation.set(THREE.MathUtils.degToRad(-90), 0, 0);
                     searchTextEl.object3D.scale.set(0.2, 0.2, 0.2);
                 }
 
@@ -607,7 +607,7 @@ const paletteMenu = AFRAME.registerComponent('palette-menu', {
     
                     // Place the item
                     itemEl.object3D.position.set(itemOffset.x +  (i%3) * buttonSize.width, itemOffset.y, itemOffset.z - itemOffset.z * Math.floor(i/3));
-                    itemEl.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                    itemEl.object3D.rotation.set(THREE.MathUtils.degToRad(-90), 0, 0);
     
                     // Add reaction to the item.
                     itemEl.classList.add('ui');
@@ -799,8 +799,8 @@ function updateColor(hsv) {
 
 function hsv2rgb(hsv) {
     var r, g, b, i, f, p, q, t;
-    var h = THREE.Math.clamp(hsv.h, 0, 1);
-    var s = THREE.Math.clamp(hsv.s, 0, 1);
+    var h = THREE.MathUtils.clamp(hsv.h, 0, 1);
+    var s = THREE.MathUtils.clamp(hsv.s, 0, 1);
     var v = hsv.v;
 
     i = Math.floor(h * 6);

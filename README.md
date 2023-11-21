@@ -15,7 +15,8 @@ If you found this work influential or helpful for your research, please consider
 ## Installation
 If you'd like to build from this repository, you must install [node.js](https://nodejs.org/en). 
 
-Specifically, we recommend using the node version of ``v12.22.12``. You can use it via [nvm](https://github.com/nvm-sh/nvm).
+The project was originally built in npm version ``6.13.7`` and node version ``v9.8.0`` in the year of 2020.
+As in 2023, we recommend using the node version of ``v12.22.12``. You can use it via [nvm](https://github.com/nvm-sh/nvm).
 
 Then, from inside the project source directory, run:
 

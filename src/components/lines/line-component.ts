@@ -1,5 +1,5 @@
 import * as AFRAME from 'aframe';
-import { Vector3 } from 'three';
+import { Vector3, MathUtils } from 'three';
 
 const lineComponent = AFRAME.registerComponent('line-component', {
     schema: {
@@ -143,7 +143,7 @@ const lineComponent = AFRAME.registerComponent('line-component', {
 
         // Set arrow rotation.
         this.arrow.object3D.lookAt(endPoint.add(dir));
-        this.arrow.object3D.rotateX(THREE.Math.degToRad(90));
+        this.arrow.object3D.rotateX(MathUtils.degToRad(90));
     }
 
 });

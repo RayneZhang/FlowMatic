@@ -1,6 +1,6 @@
 import { loadItems } from '../ui/canvas'
 import { googlePoly } from '../../utils/GooglePoly';
-declare const THREE:any;
+import { MathUtils } from 'three';
 
 const rotationController = {
     schema: {
@@ -37,7 +37,7 @@ const rotationController = {
 
     tick: function(time, timeDelta): void {
         if (this.rotating) {
-            this.targetEntity.object3D.rotation.y += THREE.Math.degToRad(this.degPerFr * this.data.speed);
+            this.targetEntity.object3D.rotation.y += MathUtils.degToRad(this.degPerFr * this.data.speed);
         }
     }
 }

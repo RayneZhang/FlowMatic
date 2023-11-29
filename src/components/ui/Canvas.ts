@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe';
 import * as $ from 'jquery';
 import { objects, VECTOR } from '../../Objects';
-import { Vector3, Math as THREEMath, Euler } from 'three';
+import { Vector3, MathUtils, Euler } from 'three';
 import { resize, recenter } from '../../utils/SizeConstraints';
 import { scene, Node, ObjNode } from 'frp-backend';
 import { googlePoly } from '../../utils/GooglePoly';
@@ -860,7 +860,7 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
     // Set connectors' positions and add reactions.
     attrEl.appendChild(outCon);
     outCon.object3D.position.set(0.8 * attrWidth, 0, 0);
-    outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
+    outCon.object3D.rotation.set(0, 0, MathUtils.degToRad(-90));
 
     outCon.classList.add('connectable');
 
@@ -871,7 +871,7 @@ function createAttr(instanceEl: any, name: string, behavior: string, type: strin
             radiusTop: 0.01,
             radiusBottom: 0.02
         });
-        outCon.object3D.rotation.set(0, 0, THREEMath.degToRad(-90));
+        outCon.object3D.rotation.set(0, 0, MathUtils.degToRad(-90));
     }
         
     if (behavior === 'event') {

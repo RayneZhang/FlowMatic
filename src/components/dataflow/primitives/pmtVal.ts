@@ -1,4 +1,5 @@
 import * as AFRAME from 'aframe';
+import { MathUtils } from 'three';
 import { itemColor } from '../../ui/canvas';
 import { STR, NUM, VECTOR, BOOL } from '../../../Objects';
 import { getColorsByType } from '../../../utils/TypeVis';
@@ -49,7 +50,7 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
             radiusTop: 0.02,
             radiusBottom: 0.04
         });
-        curDot.object3D.rotation.set(0, 0, THREE.Math.degToRad(-90));
+        curDot.object3D.rotation.set(0, 0, MathUtils.degToRad(-90));
 
         let unselectedColor: string = getColorsByType('number')[0];
         let hoveredColor: string = getColorsByType('number')[1];

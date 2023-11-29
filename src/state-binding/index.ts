@@ -5,7 +5,7 @@ import * as AFRAME from 'aframe'
 import store from '../store'
 import { objects, PLANE } from '../Objects'
 import { scene, Node } from 'frp-backend'
-import { Vector3 } from 'three';
+import { Vector3, MathUtils } from 'three';
 const stateBinding = AFRAME.registerComponent('state-binding', {
     schema: {
         objects: {type: 'array', default: []}
@@ -51,7 +51,7 @@ const stateBinding = AFRAME.registerComponent('state-binding', {
                         newEntity.object3D.scale.set(0.1, 0.1, 0.1);
 
                         if (targetObjName == PLANE) {
-                            newEntity.object3D.rotation.set(THREE.Math.degToRad(-90), 0, 0);
+                            newEntity.object3D.rotation.set(MathUtils.degToRad(-90), 0, 0);
                         }
 
                         // Create a node in frp-backend

@@ -1,4 +1,5 @@
 import * as AFRAME from 'aframe'
+import { MathUtils } from 'three';
 declare const THREE:any;
 
 const slider = AFRAME.registerComponent('slider', {
@@ -46,7 +47,7 @@ const slider = AFRAME.registerComponent('slider', {
             event.stopPropagation();
             _plug.setAttribute('material', 'color', 'white'); 
         })
-        _plug.object3D.rotation.set(THREE.Math.degToRad(90), 0, 0);
+        _plug.object3D.rotation.set(MathUtils.degToRad(90), 0, 0);
         _plug.object3D.scale.set(3, 3, 3);
     },
 

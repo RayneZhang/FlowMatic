@@ -111,6 +111,11 @@ export const objNodeUpdate = AFRAME.registerComponent('obj-node-update', {
                     // this.node.update('text', this.el.getAttribute('text').value);
                     break;
                 }
+                case 'number': {
+                    this.node.update('', Number(this.el.getAttribute('text').value));
+                    // console.log("emiting: " + Number(this.el.getAttribute('text').value));
+                    break;
+                }
                 case 'source': {
                     this.node.update('text', this.el.getAttribute('text').value);
                     break;

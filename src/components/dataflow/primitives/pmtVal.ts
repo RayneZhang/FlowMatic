@@ -63,10 +63,16 @@ export const primitiveVal = AFRAME.registerComponent('pmt-val', {
             curDot.setAttribute('material', 'color', unselectedColor);
         });
 
-        const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: 'text', default: this.el.getAttribute('text').value }];
-        const objNode = scene.addObj('source', props);
-        this.el.setAttribute('id', objNode.getID());
-        this.el.setAttribute('obj-node-update', 'name', 'source'); // Set up node update for frp
+        console.log(this.data.name);
+        console.log(this.el.getAttribute('text').value);
+
+        if (this.data.name == NUM) {
+            const props: any = [{ name: 'object', default: `node-${Node.getNodeCount()}` }, { name: '', default: 0 }];
+            const objNode = scene.addObj('source', props);
+            this.el.setAttribute('id', objNode.getID());
+            this.el.setAttribute('obj-node-update', 'name', 'number'); // Set up node update for frp
+        }
+        
     },
 });
 

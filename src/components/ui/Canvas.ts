@@ -91,6 +91,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
         initCanvasBg(canvasEl, this.el);
         canvasEl.addEventListener('clicked', (event) => {
             const canvas2El: any = document.getElementById('canvas-world-2');
+            if (!canvas2El) return;
             canvas2El.object3D.position.set(canvas2El.object3D.position.x, canvas2El.object3D.position.y, canvasEl.object3D.position.z);
             canvasEl.object3D.position.set(canvasEl.object3D.position.x, canvasEl.object3D.position.y, canvasEl.object3D.position.z + 0.2);
             currentCanvas = 'canvas-world';
@@ -110,7 +111,7 @@ export const canvasGenerator = AFRAME.registerComponent('canvas-generator', {
                 const position = this.mainCam.object3D.localToWorld(new Vector3(0, 0, -1.5));
                 const camPosition = this.mainCam.object3D.localToWorld(new Vector3(0, 0, 0));
                 const rotation = this.mainCam.object3D.rotation.y;
-                
+
                 this.el.object3D.position.copy(position);
                 this.el.object3D.setRotationFromEuler(new Euler(0, rotation, 0));
                 this.el.object3D.position.set(position.x, camPosition.y + 0.2, position.z);

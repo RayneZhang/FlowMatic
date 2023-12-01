@@ -77,7 +77,7 @@ const rightTriggerListener = {
                 }
                 if (intersectedEl.parentNode && intersectedEl.parentNode.classList.contains('data-receiver')) {
                     fromEntity = intersectedEl.parentNode;
-                    fromProp = 'text';
+                    fromProp = "";
                 }
                 // Dot -> prompt -> bottle. For data sources such as bottles.
                 if (intersectedEl.parentNode.parentNode && intersectedEl.parentNode.parentNode.classList.contains('data-source')) {
@@ -159,8 +159,6 @@ const rightTriggerListener = {
             const endP = {x: intersections[0].point.x, y: intersections[0].point.y, z: intersections[0].point.z};
             this.curEdgeEntity.setAttribute('line-component', 'endPoint', endP);
 
-            
-
             // Push the id into target entities.
             const fromEntity: any = this.curEdgeEntity.getAttribute('line-component').sourceEntity;
             const fromProp: string = this.curEdgeEntity.getAttribute('line-component').sourceProp;
@@ -223,6 +221,10 @@ const rightTriggerListener = {
             this.curEdgeEntity = null;
             this.lineId++;
 
+            console.log(fromEntity);
+            console.log(fromProp);
+            console.log(toEntity);
+            console.log(toProp);
             // Add an edge in frp-backend
             this.addEdge(fromEntity, fromProp, toEntity, toProp);
         });

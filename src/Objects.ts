@@ -22,7 +22,7 @@ export const ANIMATION = 'animation';
 export const SIGNAL2EVENTINIT = 'Signal2Event (Init Value)';
 export const STR2NUM = 'str2num';
 export const NUM2STR = 'num2str';
-
+export const DELAY = 'delay'
 
 export const COLLISION_DETECTOR = 'Collision Detector';
 export const CONDITIONAL_EVENT = 'Conditional Event';
@@ -252,6 +252,18 @@ export const objects = {
             inputs: [
                 {name: "signal", type: "any", behavior: "signal"},
                 {name: "event", type: "any", behavior: "event"}
+            ],
+            outputs: [
+                {name: "output", type: "any", behavior: "event"}
+            ]
+        },
+        {
+            name: DELAY,
+            type: "obj",
+            itemUrl: "#processor-obj",
+            inputs: [
+                {name: "delay", type: "number", behavior: "signal"},
+                {name: "stream", type: "any", behavior: "event"}
             ],
             outputs: [
                 {name: "output", type: "any", behavior: "event"}

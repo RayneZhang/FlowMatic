@@ -68,6 +68,20 @@ export const avatarNodeUpdate = AFRAME.registerComponent('avatar-node-update', {
                 
                 
             });
+
+            this.targetEntity.addEventListener('gripdown', (event) => {
+                if (run) {
+                    objNode.update('gripdown', true);
+                    objNode.update('gripdown', false);
+                }
+            });
+
+            this.targetEntity.addEventListener('gripup', (event) => {
+                if (run) {
+                    objNode.update('gripup', true);
+                    objNode.update('gripup', false);
+                }
+            });
         }
     },
 

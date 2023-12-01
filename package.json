@@ -29,7 +29,7 @@
     "aframe-physics-system": "^4.0.1",
     "aframe-super-keyboard": "^2.0.2",
     "aframe-teleport-controls": "^0.3.1",
-    "aframe-thumb-controls-component": "^1.1.0",
+    "aframe-thumb-controls-component": "^2.0.3",
     "frp-backend": "git+https://github.com/RayneZhang/frp-backend.git",
     "jquery": "^3.4.1",
     "redux": "^4.0.1",

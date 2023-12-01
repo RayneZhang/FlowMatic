@@ -14,6 +14,7 @@ const scaleController = {
         const rightHand: any = document.querySelector("#rightHand");
         const listeningEl: any = document.querySelector("#" + this.data.hand + "Hand");
         listeningEl.addEventListener('thumbupstart', (event) => {
+            console.log("thumbupstartthumbupstartthumbupstart");
             this.targetEntity = rightHand.components['right-grip-listener'].data.grabbedEl;
             if (this.targetEntity && !this.targetEntity.classList.contains('canvasObj')) {
                 this.scaling = true;

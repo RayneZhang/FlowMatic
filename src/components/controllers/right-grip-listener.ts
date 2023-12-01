@@ -93,7 +93,7 @@ export const rightGripListener = AFRAME.registerComponent('right-grip-listener',
                 }
             }
 
-            if (this.data.grabbedEl.getAttribute('id') == 'canvas-world' || this.data.grabbedEl.getAttribute('id') == 'canvas-world-2') {
+            if (this.data.grabbedEl && this.data.grabbedEl.getAttribute('id') == 'canvas-world' || this.data.grabbedEl.getAttribute('id') == 'canvas-world-2') {
                 this.data.grabbedEl.setAttribute('visible', true);
             }
             

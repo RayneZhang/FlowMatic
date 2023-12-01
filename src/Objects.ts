@@ -507,6 +507,8 @@ export const objects = {
                 {name: "object", type: "object", behavior: "event" },
                 {name: "triggerup", type: "boolean", default: false, behavior: "event" },
                 {name: "triggerdown", type: "boolean", default: false, behavior: "event" },
+                {name: "gripup", type: "boolean", default: false, behavior: "event" },
+                {name: "gripdown", type: "boolean", default: false, behavior: "event" },
                 {name: "position", type: "vector3", behavior: "signal" }
             ]
         },
@@ -521,13 +523,7 @@ export const objects = {
                 {name: "triggerdown", type: "boolean", default: false, behavior: "event" },
                 {name: "gripup", type: "boolean", default: false, behavior: "event" },
                 {name: "gripdown", type: "boolean", default: false, behavior: "event" },
-                {name: "thumbstickup", type: "boolean", default: false, behavior: "event" },
-                {name: "thumbstickdown", type: "boolean", default: false, behavior: "event" },
-                {name: "thumbstickleft", type: "boolean", default: false, behavior: "event" },
-                {name: "thumbstickright", type: "boolean", default: false, behavior: "event" },
                 {name: "position", type: "vector3", behavior: "signal" },
-                {name: "rotation", type: "vector3", behavior: "signal" },
-                {name: "scale", type: "vector3", behavior: "signal" }
             ]
         }
     ],
